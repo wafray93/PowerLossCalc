@@ -1064,6 +1064,55 @@ function calc(){
     waveformSimulator.drawWaveforms(waveforms, title);
   }, 100);
   
+  // Cost Analysis - compare current selection with alternatives
+  const currentCooling = document.getElementById('coolingType') ? document.getElementById('coolingType').value : 'medium_heatsink';
+  let costAnalysis = null;
+  
+  // Generate cost comparison if we have different technologies to compare
+  if (tech === 'Si') {
+    // Compare Si with SiC
+    const sicLosses = pCond * 0.7 + pSw * 0.3; // Estimate SiC would have lower losses
+    costAnalysis = costAnalyzer.compareAlternatives('Si', 'SiC', pTotal, sicLosses, currentCooling);
+  } else if (tech === 'SiC') {
+    // Compare SiC with GaN
+    const ganLosses = pCond * 0.8 + pSw * 0.2; // Estimate GaN would have lower switching losses
+    costAnalysis = costAnalyzer.compareAlternatives('SiC', 'GaN', pTotal, ganLosses, currentCooling);
+  }
+  
+  // Display cost analysis
+  if (costAnalysis) {
+    setTimeout(() => {
+      let costContainer = document.getElementById('costAnalysisContainer');
+      if (!costContainer) {
+        costContainer = document.createElement('div');
+        costContainer.id = 'costAnalysisContainer';
+        costContainer.style.marginTop = '20px';
+        const costReport = costAnalyzer.generateCostReport(costAnalysis);
+        
+        costContainer.innerHTML = `
+          <div style="background: linear-gradient(135deg, #fff3e0, #f1f8e9); border-radius: 8px; padding: 15px; border-left: 4px solid #ff9800;">
+            <h3 style="color: #ef6c00; margin-top: 0; margin-bottom: 15px;">
+              💰 ${currentLang === 'bg' ? 'Cost Analysis & ROI' : 'Cost Analysis & ROI'}
+            </h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin-bottom: 15px;">
+              <div><strong>${currentLang === 'bg' ? 'Upgrade' : 'Upgrade'}:</strong> ${costReport.summary.technology_upgrade}</div>
+              <div><strong>${currentLang === 'bg' ? 'Efficiency Gain' : 'Efficiency Gain'}:</strong> ${costReport.summary.efficiency_gain}</div>
+              <div><strong>${currentLang === 'bg' ? 'Additional Cost' : 'Additional Cost'}:</strong> ${costReport.summary.additional_hardware_cost}</div>
+              <div><strong>${currentLang === 'bg' ? 'Annual Savings' : 'Annual Savings'}:</strong> ${costReport.summary.annual_savings}</div>
+              <div><strong>${currentLang === 'bg' ? 'Payback Period' : 'Payback Period'}:</strong> ${costReport.summary.payback_period}</div>
+              <div><strong>${currentLang === 'bg' ? '5-Year ROI' : '5-Year ROI'}:</strong> ${costReport.summary.roi_5year}</div>
+            </div>
+            <div style="background: white; padding: 10px; border-radius: 5px; font-weight: bold;">
+              ${costReport.recommendation}
+            </div>
+          </div>
+        `;
+        
+        document.getElementById('results').parentNode.appendChild(costContainer);
+      }
+    }, 200);
+  }
+  
   let warnings = [];
   let recommendations = [];
   
@@ -3230,3 +3279,114 @@ class WaveformSimulator {
 }
 
 const waveformSimulator = new WaveformSimulator();
+
+// Cost Analysis и ROI Calculator за бизнес решения
+class CostAnalyzer {
+  constructor() {
+    this.componentPrices = {
+      Si: { low: 0.5, typical: 2.0, high: 8.0 },      // USD per unit
+      SiC: { low: 8.0, typical: 25.0, high: 80.0 },   // USD per unit
+      GaN: { low: 12.0, typical: 35.0, high: 120.0 }  // USD per unit
+    };
+    
+    this.systemCosts = {
+      cooling: {
+        natural: 0,
+        small_heatsink: 2,
+        medium_heatsink: 8,
+        large_heatsink: 25,
+        forced_air: 45,
+        liquid_cooling: 150
+      },
+      gate_driver: {
+        Si: 1.5,
+        SiC: 8.0,
+        GaN: 12.0
+      }
+    };
+  }
+  
+  calculateTotalCost(technology, powerLoss, coolingType, volume = 1000, efficiencyGain = 0) {
+    const componentCost = this.componentPrices[technology].typical;
+    const coolingSolutionCost = this.systemCosts.cooling[coolingType];
+    const gateDriverCost = this.systemCosts.gate_driver[technology];
+    
+    // Volume discount (economies of scale)
+    const volumeDiscount = volume > 10000 ? 0.3 : volume > 1000 ? 0.15 : 0;
+    const discountedComponentCost = componentCost * (1 - volumeDiscount);
+    
+    const totalHardwareCost = discountedComponentCost + coolingSolutionCost + gateDriverCost;
+    
+    // Operating cost savings от efficiency improvement
+    const annualEnergySavings = this.calculateEnergySavings(powerLoss, efficiencyGain);
+    
+    return {
+      componentCost: discountedComponentCost,
+      coolingSolutionCost: coolingSolutionCost,
+      gateDriverCost: gateDriverCost,
+      totalHardwareCost: totalHardwareCost,
+      annualEnergySavings: annualEnergySavings,
+      paybackPeriod: totalHardwareCost / Math.max(annualEnergySavings, 0.01),
+      roi5year: (annualEnergySavings * 5 - totalHardwareCost) / totalHardwareCost * 100
+    };
+  }
+  
+  calculateEnergySavings(powerLoss, efficiencyGainPercent, hoursPerYear = 8760, electricityPrice = 0.12) {
+    // kWh savings per year
+    const energySavingsKWh = (powerLoss * efficiencyGainPercent / 100) * hoursPerYear / 1000;
+    return energySavingsKWh * electricityPrice; // USD per year
+  }
+  
+  compareAlternatives(baselineTech, alternativeTech, baselineLoss, alternativeLoss, coolingType, volume = 1000) {
+    const baselineCost = this.calculateTotalCost(baselineTech, baselineLoss, coolingType, volume, 0);
+    const efficiencyGain = ((baselineLoss - alternativeLoss) / baselineLoss) * 100;
+    const alternativeCost = this.calculateTotalCost(alternativeTech, alternativeLoss, coolingType, volume, efficiencyGain);
+    
+    return {
+      baseline: { ...baselineCost, technology: baselineTech, powerLoss: baselineLoss },
+      alternative: { ...alternativeCost, technology: alternativeTech, powerLoss: alternativeLoss },
+      efficiencyGain: efficiencyGain,
+      additionalCost: alternativeCost.totalHardwareCost - baselineCost.totalHardwareCost,
+      recommendation: this.generateRecommendation(baselineCost, alternativeCost, efficiencyGain)
+    };
+  }
+  
+  generateRecommendation(baseline, alternative, efficiencyGain) {
+    const paybackYears = alternative.paybackPeriod;
+    const roi5year = alternative.roi5year;
+    
+    if (paybackYears < 2 && roi5year > 50) {
+      return currentLang === 'bg' ? 
+        '🟢 СИЛНО ПРЕПОРЪЧИТЕЛНО: Отлична инвестиция с бърз възврат' :
+        '🟢 HIGHLY RECOMMENDED: Excellent investment with fast payback';
+    } else if (paybackYears < 4 && roi5year > 20) {
+      return currentLang === 'bg' ? 
+        '🟡 ПРЕПОРЪЧИТЕЛНО: Добра инвестиция за дългосрочни проекти' :
+        '🟡 RECOMMENDED: Good investment for long-term projects';
+    } else if (paybackYears > 5 || roi5year < 10) {
+      return currentLang === 'bg' ? 
+        '🔴 НЕ СЕ ПРЕПОРЪЧВА: Високи разходи, нисък възврат' :
+        '🔴 NOT RECOMMENDED: High cost, low return';
+    } else {
+      return currentLang === 'bg' ? 
+        '🟡 ПОМИСЛЕТЕ: Анализирайте специфичните изисквания' :
+        '🟡 CONSIDER: Analyze specific requirements';
+    }
+  }
+  
+  generateCostReport(comparison) {
+    return {
+      summary: {
+        technology_upgrade: `${comparison.baseline.technology} → ${comparison.alternative.technology}`,
+        efficiency_gain: `+${comparison.efficiencyGain.toFixed(2)}%`,
+        additional_hardware_cost: `$${comparison.additionalCost.toFixed(2)}`,
+        annual_savings: `$${comparison.alternative.annualEnergySavings.toFixed(2)}`,
+        payback_period: `${comparison.alternative.paybackPeriod.toFixed(1)} years`,
+        roi_5year: `${comparison.alternative.roi5year.toFixed(1)}%`
+      },
+      recommendation: comparison.recommendation
+    };
+  }
+}
+
+const costAnalyzer = new CostAnalyzer();
