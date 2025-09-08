@@ -23,7 +23,18 @@ const LANGUAGES = {
     manufacturer: 'Производител',
     package: 'Корпус',
     applications: 'Приложения',
-    model: 'Модел'
+    model: 'Модел',
+    tooltips: {
+      technology: 'Изберете тип полупроводник: Si (силиций) за стандартни приложения, SiC (силициев карбид) за висока ефективност и температура, GaN (галиев нитрид) за високочестотни приложения.',
+      maxVoltage: 'Задайте максималното работно напрежение за вашето приложение. Транзисторът трябва да има VDS_max по-голямо от това значение с марж за безопасност (обикновено 1.5-2x).',
+      maxCurrent: 'Задайте максималния постоянен ток през транзистора. Транзисторът трябва да може да провежда поне този ток с добро охлаждане.',
+      concreteModel: 'Изберете конкретен транзистор от филтрираните по напрежение и ток. Всеки модел има реални параметри от datasheet-а на производителя.',
+      vdc: 'DC напрежение на шината (Bus voltage). Това е напрежението, което транзисторът превключва. Трябва да е по-малко от VDS_max на избрания транзистор.',
+      iload: 'RMS ток през товара. Това е ефективната стойност на тока, който преминава през транзистора по време на проводимост.',
+      fsw: 'Честота на превключване. По-високата честота намалява размера на компонентите, но увеличава загубите от превключване. Типични стойности: Si (10-50kHz), SiC (50-200kHz), GaN (100kHz-1MHz).',
+      temp: 'Температура на p-n съединението (Junction temperature). Влияе на съпротивлението RDS(on). Типични стойности: 25°C (стайна), 100°C (работна), 150°C (максимална).',
+      duty: 'Коефициент на запълване (Duty cycle) - отношението между времето ON и периода. 0.5 означава 50% от времето транзисторът е включен. Влияе на загубите от проводимост.'
+    }
   },
   en: {
     mainTitle: 'Calculator: Si / SiC / GaN Transistors',
@@ -48,7 +59,18 @@ const LANGUAGES = {
     manufacturer: 'Manufacturer',
     package: 'Package',
     applications: 'Applications',
-    model: 'Model'
+    model: 'Model',
+    tooltips: {
+      technology: 'Select semiconductor type: Si (silicon) for standard applications, SiC (silicon carbide) for high efficiency and temperature, GaN (gallium nitride) for high-frequency applications.',
+      maxVoltage: 'Set the maximum operating voltage for your application. The transistor must have VDS_max greater than this value with safety margin (typically 1.5-2x).',
+      maxCurrent: 'Set the maximum continuous current through the transistor. The transistor must be able to conduct at least this current with good cooling.',
+      concreteModel: 'Select a specific transistor from those filtered by voltage and current. Each model has real parameters from the manufacturer\'s datasheet.',
+      vdc: 'DC bus voltage. This is the voltage that the transistor switches. Must be less than VDS_max of the selected transistor.',
+      iload: 'RMS load current. This is the effective value of current flowing through the transistor during conduction.',
+      fsw: 'Switching frequency. Higher frequency reduces component size but increases switching losses. Typical values: Si (10-50kHz), SiC (50-200kHz), GaN (100kHz-1MHz).',
+      temp: 'Junction temperature. Affects RDS(on) resistance. Typical values: 25°C (room), 100°C (operating), 150°C (maximum).',
+      duty: 'Duty cycle - ratio between ON time and period. 0.5 means 50% of time the transistor is on. Affects conduction losses.'
+    }
   }
 };
 
@@ -973,6 +995,42 @@ function switchLanguage(lang) {
         element.textContent = langData[key];
       }
     });
+    
+    // Обновяваме tooltip съобщенията
+    if (langData.tooltips) {
+      const tooltips = document.querySelectorAll('.tooltip');
+      tooltips.forEach((tooltip, index) => {
+        switch(index) {
+          case 0: // Технология
+            tooltip.textContent = langData.tooltips.technology;
+            break;
+          case 1: // Максимално напрежение
+            tooltip.textContent = langData.tooltips.maxVoltage;
+            break;
+          case 2: // Максимален ток
+            tooltip.textContent = langData.tooltips.maxCurrent;
+            break;
+          case 3: // Конкретен модел
+            tooltip.textContent = langData.tooltips.concreteModel;
+            break;
+          case 4: // VDC
+            tooltip.textContent = langData.tooltips.vdc;
+            break;
+          case 5: // Iload
+            tooltip.textContent = langData.tooltips.iload;
+            break;
+          case 6: // fsw
+            tooltip.textContent = langData.tooltips.fsw;
+            break;
+          case 7: // temp
+            tooltip.textContent = langData.tooltips.temp;
+            break;
+          case 8: // duty
+            tooltip.textContent = langData.tooltips.duty;
+            break;
+        }
+      });
+    }
     
     // Обновяваме и транзисторния select
     filterTransistors();
