@@ -1690,17 +1690,59 @@ function calculateThermalParameters() {
   document.getElementById('thermalResistance').textContent = `${rth_ja.toFixed(2)} K/W`;
   document.getElementById('thermalMargin').textContent = `${thermalMargin.toFixed(1)}°C`;
   
+  // Цветово кодиране според термичния марж
+  const thermalStatusDiv = document.getElementById('thermalStatus');
+  const thermalResultsDiv = document.getElementById('thermalResults');
+  const thermalExplanation = document.getElementById('thermalExplanation');
+  
+  // Премахни всички съществуващи класове
+  thermalResultsDiv.classList.remove('thermal-good', 'thermal-warning', 'thermal-danger');
+  
+  let statusText = '';
+  let explanationText = '';
+  
+  if (thermalMargin > 50) {
+    // Отлично охлаждане
+    thermalResultsDiv.classList.add('thermal-good');
+    statusText = currentLang === 'bg' ? '✅ ОТЛИЧНО ОХЛАЖДАНЕ' : '✅ EXCELLENT COOLING';
+    explanationText = currentLang === 'bg' ? 
+      `Термичният марж от ${thermalMargin.toFixed(1)}°C е много добър. Транзисторът ще работи стабилно дори при повишени товари.` :
+      `Thermal margin of ${thermalMargin.toFixed(1)}°C is excellent. The transistor will operate stably even under increased loads.`;
+  } else if (thermalMargin > 25) {
+    // Добро охлаждане
+    thermalResultsDiv.classList.add('thermal-warning');
+    statusText = currentLang === 'bg' ? '⚠️ ДОБРО ОХЛАЖДАНЕ' : '⚠️ GOOD COOLING';
+    explanationText = currentLang === 'bg' ? 
+      `Термичният марж от ${thermalMargin.toFixed(1)}°C е приемлив, но внимавайте при пикови товари. Може да обмислите по-добро охлаждане.` :
+      `Thermal margin of ${thermalMargin.toFixed(1)}°C is acceptable, but be careful with peak loads. Consider better cooling.`;
+  } else {
+    // Опасно
+    thermalResultsDiv.classList.add('thermal-danger');
+    statusText = currentLang === 'bg' ? '🔥 ОПАСНО - НУЖНО ПО-ДОБРО ОХЛАЖДАНЕ' : '🔥 DANGEROUS - BETTER COOLING NEEDED';
+    explanationText = currentLang === 'bg' ? 
+      `Термичният марж от ${thermalMargin.toFixed(1)}°C е твърде малък! Транзисторът рискува от прегряване. Задължително използвайте по-добро охлаждане.` :
+      `Thermal margin of ${thermalMargin.toFixed(1)}°C is too small! The transistor risks overheating. Better cooling is mandatory.`;
+  }
+  
+  thermalStatusDiv.textContent = statusText;
+  thermalStatusDiv.style.display = 'block';
+  thermalExplanation.textContent = explanationText;
+  
   document.getElementById('thermalResults').style.display = 'block';
   
-  // Show warnings if necessary
+  // Show additional warnings if necessary
   const warningsDiv = document.getElementById('thermalWarnings');
   let warnings = '';
   
   if (junctionTemp > 125) {
-    warnings += `⚠️ Висока температура на съединението! Препоръчва се по-добро охлаждане.<br>`;
+    warnings += currentLang === 'bg' ? 
+      `⚠️ Температурата на съединението е над 125°C - това е близо до максималната граница!<br>` :
+      `⚠️ Junction temperature is above 125°C - this is close to maximum limit!<br>`;
   }
-  if (thermalMargin < 25) {
-    warnings += `⚠️ Малък термичен марж! Рискувате от прегряване при пикове.<br>`;
+  if (junctionTemp > 150) {
+    warnings += currentLang === 'bg' ? 
+      `🔥 КРИТИЧНА ТЕМПЕРАТУРА! Транзисторът може да се повреди!<br>` :
+      `🔥 CRITICAL TEMPERATURE! The transistor may be damaged!<br>`;
   }
   if (warnings) {
     warningsDiv.innerHTML = warnings;
