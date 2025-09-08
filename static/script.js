@@ -2,7 +2,7 @@
 const LANGUAGES = {
   bg: {
     mainTitle: 'Калкулатор: Si / SiC / GaN Транзистори',
-    subtitle: 'Сравни загуби, ефективност и научи защо има разлики.',
+    subtitle: 'Научно обяснение, формули и графики.',
     inputParams: 'Въведи параметри',
     technology: 'Технология',
     maxVoltage: 'Макс. напрежение (V)',
@@ -62,7 +62,7 @@ const LANGUAGES = {
   },
   en: {
     mainTitle: 'Calculator: Si / SiC / GaN Transistors',
-    subtitle: 'Compare losses, efficiency and learn why differences exist.',
+    subtitle: 'Scientific explanation, formulas and charts.',
     inputParams: 'Input Parameters',
     technology: 'Technology',
     maxVoltage: 'Max. Voltage (V)',
