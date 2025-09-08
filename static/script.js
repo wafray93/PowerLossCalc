@@ -1431,8 +1431,34 @@ function calculateAdvancedSwitchingLosses(vds, id, fsw_khz, temp, technology) {
   // Gate charge losses от разреждане на input капацитетите
   const E_gate = typical_Cgd * vgs_typical * vgs_typical * 0.5;
   
-  // Total switching losses включват Miller effects, gate charge, и output capacitance
-  const P_switching = (E_on + E_off + E_coss + E_miller + E_gate) * fsw * temp_factor;
+  // Dead-time загуби в PWM конвертори (критично за научна точност)
+  // Dead-time е времето между изключване на upper switch и включване на lower switch
+  let typical_dead_time_ns;
+  if (technology === 'Si') {
+    typical_dead_time_ns = 500; // 500ns за Si MOSFETs
+  } else if (technology === 'SiC') {
+    typical_dead_time_ns = 150; // 150ns за SiC MOSFETs
+  } else if (technology === 'GaN') {
+    typical_dead_time_ns = 50;  // 50ns за GaN HEMTs
+  }
+  
+  const dead_time_s = typical_dead_time_ns * 1e-9;
+  
+  // По време на dead-time, токът протича през body diode или reverse conduction
+  // P_deadtime = Vf * Id * deadtime * fsw * 2 (за горен и долен транзистор)
+  let forward_voltage; // Forward voltage на body diode
+  if (technology === 'Si') {
+    forward_voltage = 0.7; // 700mV за Si diode
+  } else if (technology === 'SiC') {
+    forward_voltage = 1.2; // 1200mV за SiC diode
+  } else if (technology === 'GaN') {
+    forward_voltage = 0.0; // GaN няма body diode - reverse conduction
+  }
+  
+  const P_deadtime = forward_voltage * id * dead_time_s * fsw * 2;
+  
+  // Total switching losses включват всички ефекти за пълна научна точност
+  const P_switching = (E_on + E_off + E_coss + E_miller + E_gate) * fsw * temp_factor + P_deadtime;
   
   return isNaN(P_switching) ? 0 : P_switching;
 }
@@ -1596,6 +1622,7 @@ function showEfficiencyInsights(frequencies, efficiencies, techType) {
         <div class="insight-item">
           <strong>🧮 Използвани научни модели:</strong><br>
           • <span class="clickable-term" data-term="coss">Output capacitance (Coss)</span>: ${(PHYSICS_CONSTANTS[techType].typical_Coss * 1e12).toFixed(1)} pF<br>
+          • <span class="clickable-term" data-term="cgd">Miller capacitance (Cgd)</span>: ${(PHYSICS_CONSTANTS[techType].typical_Cgd * 1e12).toFixed(1)} pF<br>
           • <span class="clickable-term" data-term="temp_coeff">Temperature coefficient</span>: ${(PHYSICS_CONSTANTS[techType].temp_coeff_rds * 100).toFixed(1)}%/°C<br>
           • <span class="clickable-term" data-term="bandgap">Bandgap energy</span>: ${PHYSICS_CONSTANTS[techType].bandgap} eV
         </div>
@@ -1618,6 +1645,7 @@ function showEfficiencyInsights(frequencies, efficiencies, techType) {
         <div class="insight-item">
           <strong>🧮 Scientific models used:</strong><br>
           • <span class="clickable-term" data-term="coss">Output capacitance (Coss)</span>: ${(PHYSICS_CONSTANTS[techType].typical_Coss * 1e12).toFixed(1)} pF<br>
+          • <span class="clickable-term" data-term="cgd">Miller capacitance (Cgd)</span>: ${(PHYSICS_CONSTANTS[techType].typical_Cgd * 1e12).toFixed(1)} pF<br>
           • <span class="clickable-term" data-term="temp_coeff">Temperature coefficient</span>: ${(PHYSICS_CONSTANTS[techType].temp_coeff_rds * 100).toFixed(1)}%/°C<br>
           • <span class="clickable-term" data-term="bandgap">Bandgap energy</span>: ${PHYSICS_CONSTANTS[techType].bandgap} eV
         </div>
