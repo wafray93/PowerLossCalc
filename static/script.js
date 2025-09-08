@@ -1212,28 +1212,22 @@ function switchLanguage(lang) {
           case 0: // Технология
             tooltip.textContent = langData.tooltips.technology;
             break;
-          case 1: // Максимално напрежение
-            tooltip.textContent = langData.tooltips.maxVoltage;
-            break;
-          case 2: // Максимален ток
-            tooltip.textContent = langData.tooltips.maxCurrent;
-            break;
-          case 3: // Конкретен модел
+          case 1: // Конкретен модел
             tooltip.textContent = langData.tooltips.concreteModel;
             break;
-          case 4: // VDC
+          case 2: // VDC
             tooltip.textContent = langData.tooltips.vdc;
             break;
-          case 5: // Iload
+          case 3: // Iload
             tooltip.textContent = langData.tooltips.iload;
             break;
-          case 6: // fsw
+          case 4: // fsw
             tooltip.textContent = langData.tooltips.fsw;
             break;
-          case 7: // temp
+          case 5: // temp
             tooltip.textContent = langData.tooltips.temp;
             break;
-          case 8: // duty
+          case 6: // duty
             tooltip.textContent = langData.tooltips.duty;
             break;
         }
@@ -1853,7 +1847,7 @@ document.getElementById('resetBtn').addEventListener('click',()=>{
 // стартирай при зареждане
 document.addEventListener('DOMContentLoaded', function() {
   // Проверяваме дали всички нужни елементи съществуват
-  const requiredElements = ['techSelect', 'maxVoltage', 'maxCurrent', 'transistorSelect', 'suggestBtn', 'calcBtn', 'resetBtn', 'langBG', 'langEN'];
+  const requiredElements = ['techSelect', 'transistorSelect', 'suggestBtn', 'calcBtn', 'resetBtn', 'langBG', 'langEN'];
   
   for (const elementId of requiredElements) {
     const element = document.getElementById(elementId);
@@ -1863,7 +1857,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
   
-  filterTransistors();
+  populateTransistors();
   
   // Първоначално disable на suggest бутона
   document.getElementById('suggestBtn').disabled = true;
