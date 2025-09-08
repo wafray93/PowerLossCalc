@@ -1348,16 +1348,22 @@ function regenerateChartsWithNewLanguage() {
 const PHYSICS_CONSTANTS = {
   Si: {
     typical_Coss: 800e-12,   // 800 pF output capacitance  
+    typical_Cgd: 120e-12,    // 120 pF Miller capacitance (Cgd)
+    typical_Cgs: 1200e-12,   // 1200 pF gate-source capacitance
     temp_coeff_rds: 0.006,   // 0.6%/°C RDS(on) temperature coefficient
     bandgap: 1.12            // eV
   },
   SiC: {
     typical_Coss: 180e-12,   // 180 pF output capacitance
+    typical_Cgd: 45e-12,     // 45 pF Miller capacitance (Cgd) - по-малка от Si
+    typical_Cgs: 800e-12,    // 800 pF gate-source capacitance
     temp_coeff_rds: 0.008,   // 0.8%/°C RDS(on) temperature coefficient
     bandgap: 3.3             // eV
   },
   GaN: {
     typical_Coss: 65e-12,    // 65 pF output capacitance
+    typical_Cgd: 15e-12,     // 15 pF Miller capacitance (Cgd) - най-малка
+    typical_Cgs: 400e-12,    // 400 pF gate-source capacitance
     temp_coeff_rds: 0.012,   // 1.2%/°C RDS(on) temperature coefficient
     bandgap: 3.4             // eV
   }
@@ -1404,11 +1410,29 @@ function calculateAdvancedSwitchingLosses(vds, id, fsw_khz, temp, technology) {
   const E_on = 0.5 * vds * id * t_rise * 0.3; // 30% ефективност на превключването
   const E_off = 0.5 * vds * id * t_fall * 0.3;
   
+  // Miller capacitance effects (Cgd) - критични за switching performance
+  let typical_Cgd; // Miller capacitance (pF)
+  if (technology === 'Si') {
+    typical_Cgd = 120e-12; // 120 pF typical за Si MOSFETs
+  } else if (technology === 'SiC') {
+    typical_Cgd = 45e-12;  // 45 pF typical за SiC MOSFETs - по-малка
+  } else if (technology === 'GaN') {
+    typical_Cgd = 15e-12;  // 15 pF typical за GaN HEMTs - най-малка
+  }
+  
+  // Miller plateau losses - gateway charge енергия загуби 
+  // P_miller = Vgs * Cgd * Vds * fsw (според IEEE standards)
+  const vgs_typical = 10; // Типично gate-source voltage
+  const E_miller = vgs_typical * typical_Cgd * vds * 0.7; // 70% efficiency factor
+  
   // Output capacitance losses (намалени за реалистичност)
   const E_coss = 0.5 * constants.typical_Coss * vds * vds * 0.5;
   
-  // Total switching losses including temperature effects
-  const P_switching = (E_on + E_off + E_coss) * fsw * temp_factor;
+  // Gate charge losses от разреждане на input капацитетите
+  const E_gate = typical_Cgd * vgs_typical * vgs_typical * 0.5;
+  
+  // Total switching losses включват Miller effects, gate charge, и output capacitance
+  const P_switching = (E_on + E_off + E_coss + E_miller + E_gate) * fsw * temp_factor;
   
   return isNaN(P_switching) ? 0 : P_switching;
 }
@@ -2543,6 +2567,57 @@ function calculateThermalParameters() {
   } else {
     warningsDiv.style.display = 'none';
   }
+}
+
+// Utility функция за показване на временни съобщения
+function showTemporaryMessage(message, type = 'info', duration = 4000) {
+  // Създаваме toast element ако не съществува
+  let toast = document.getElementById('toast-message');
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.id = 'toast-message';
+    toast.style.cssText = `
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      max-width: 400px;
+      padding: 15px 20px;
+      border-radius: 8px;
+      color: white;
+      font-weight: bold;
+      z-index: 9999;
+      opacity: 0;
+      transform: translateX(100%);
+      transition: all 0.3s ease-in-out;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      word-wrap: break-word;
+    `;
+    document.body.appendChild(toast);
+  }
+  
+  // Задаваме цвета според типа
+  const colors = {
+    success: '#4CAF50',
+    error: '#f44336',
+    warning: '#FF9800',
+    info: '#2196F3'
+  };
+  
+  toast.style.backgroundColor = colors[type] || colors.info;
+  toast.textContent = message;
+  
+  // Показваме съобщението
+  requestAnimationFrame(() => {
+    toast.style.opacity = '1';
+    toast.style.transform = 'translateX(0)';
+  });
+  
+  // Скриваме след време
+  setTimeout(() => {
+    toast.style.opacity = '0';
+    toast.style.transform = 'translateX(100%)';
+    setTimeout(() => toast.remove(), 300);
+  }, duration);
 }
 
 // Event listeners
