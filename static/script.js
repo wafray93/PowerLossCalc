@@ -2244,27 +2244,67 @@ async function copyChartToClipboard(chartId) {
       throw new Error('No active chart found');
     }
 
-    // Генерираме base64 изображение от графиката  
-    const base64Image = chartInstance.toBase64Image();
+    // Създаваме високо-качествен canvas за научни публикации (300 DPI)
+    const originalCanvas = chartInstance.canvas;
+    const scaleFactor = 3;
     
-    // Конвертираме base64 в blob
+    const highQualityCanvas = document.createElement('canvas');
+    const ctx = highQualityCanvas.getContext('2d');
+    
+    highQualityCanvas.width = originalCanvas.width * scaleFactor;
+    highQualityCanvas.height = originalCanvas.height * scaleFactor;
+    ctx.scale(scaleFactor, scaleFactor);
+    
+    // Бял фон за Office документи
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, originalCanvas.width, originalCanvas.height);
+    ctx.drawImage(originalCanvas, 0, 0);
+    
+    // Научен watermark
+    ctx.font = '12px Arial';
+    ctx.fillStyle = '#666666';
+    ctx.textAlign = 'right';
+    const watermark = currentLang === 'bg' 
+      ? 'Si/SiC/GaN Научен Калкулатор'
+      : 'Si/SiC/GaN Scientific Calculator';
+    ctx.fillText(watermark, originalCanvas.width - 10, 20);
+    
+    // Генерираме висококачествено PNG
+    const base64Image = highQualityCanvas.toDataURL('image/png', 1.0);
     const response = await fetch(base64Image);
     const blob = await response.blob();
     
-    // Създаваме ClipboardItem и копираме в clipboard
-    const clipboardItem = new ClipboardItem({ 'image/png': blob });
+    // Clipboard с HTML wrapper за центроване
+    const clipboardItem = new ClipboardItem({ 
+      'image/png': blob,
+      'text/html': new Blob([
+        `<div style="text-align: center; margin: 20px auto;">
+          <img src="${base64Image}" alt="Power Electronics Chart" style="max-width: 100%; height: auto; display: block; margin: 0 auto;" />
+          <p style="font-size: 10px; color: #666; text-align: center; margin-top: 5px;">${watermark}</p>
+        </div>`
+      ], { type: 'text/html' })
+    });
+    
     await navigator.clipboard.write([clipboardItem]);
     
-    // Показваме успешно съобщение
+    // Показваме успешно съобщение с инструкции
     const button = document.getElementById(chartId === 'lossChart' ? 'copyLossChart' : 'copyEfficiencyChart');
     const originalText = button.textContent;
-    button.textContent = currentLang === 'bg' ? '✅ Копирано!' : '✅ Copied!';
+    button.textContent = currentLang === 'bg' ? '✅ Копирано HQ!' : '✅ Copied HQ!';
     button.disabled = true;
+    
+    // Показваме toast съобщение
+    showTemporaryMessage(
+      currentLang === 'bg' 
+        ? '✅ Висококачествена графика копирана! В Word/PowerPoint: Ctrl+V за автоматично центриране.'
+        : '✅ High-quality chart copied! In Word/PowerPoint: Ctrl+V for automatic centering.',
+      'success'
+    );
     
     setTimeout(() => {
       button.textContent = originalText;
       button.disabled = false;
-    }, 2000);
+    }, 3000);
     
   } catch (error) {
     console.error('Error copying chart:', error);
