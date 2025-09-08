@@ -491,6 +491,12 @@ const TRANSISTOR_DB = {
       vds_max: 650, id_max: 3.5, rds_mohm: 150, tr_ns: 5.8, tf_ns: 2.1,
       alpha: 0.0032, package: "GaN PX", manufacturer: "GaN Systems",
       application: "Compact chargers, LED drivers"
+    },
+    "GAN063-650WSA": {
+      name: "GAN063-650WSA (GaN FET)",
+      vds_max: 650, id_max: 34.5, rds_mohm: 50, tr_ns: 8.0, tf_ns: 6.0,
+      alpha: 0.0028, package: "TO-247", manufacturer: "Nexperia",
+      application: "Hard/soft switching converters, PFC, PV inverters"
     }
   }
 };
