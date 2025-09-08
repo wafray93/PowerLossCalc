@@ -26,6 +26,24 @@
           </select>
         </label>
 
+        <label>Макс. напрежение (V):
+          <input id="maxVoltage" type="number" value="650" min="50" max="1500">
+        </label>
+
+        <label>Макс. ток (A):
+          <input id="maxCurrent" type="number" value="30" min="1" max="100">
+        </label>
+      </div>
+
+      <div class="row">
+        <label>Конкретен модел:
+          <select id="transistorSelect">
+            <option value="">Избери транзистор...</option>
+          </select>
+        </label>
+      </div>
+
+      <div class="row">
         <label>V<sub>DC</sub> (V):
           <input id="vdc" type="number" value="400">
         </label>
@@ -54,6 +72,18 @@
     </section>
 
     <section class="results">
+      <h2>Информация за транзистора</h2>
+      <div id="transistorInfo" class="transistor-info" style="display: none;">
+        <table>
+          <tr><td>Модел</td><td id="modelName">—</td></tr>
+          <tr><td>Производител</td><td id="manufacturer">—</td></tr>
+          <tr><td>Корпус</td><td id="package">—</td></tr>
+          <tr><td>V<sub>DS max</sub></td><td id="vdsMax">—</td></tr>
+          <tr><td>I<sub>D max</sub></td><td id="idMax">—</td></tr>
+          <tr><td>R<sub>DS(on)</sub></td><td id="rdsOn">—</td></tr>
+        </table>
+      </div>
+
       <h2>Резултати</h2>
       <table>
         <tr><td>Conduction losses</td><td id="pCond">—</td></tr>
