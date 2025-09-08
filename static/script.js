@@ -1402,10 +1402,10 @@ function calc(){
       // Collect all calculation data for export
       const exportData = dataExporter.exportCalculationData(
         {
-          pCond: pCond,
-          pSw: pSw,
-          totalLoss: pTotal,
-          efficiency: eff,
+          pCond: results.pCond,
+          pSw: results.pSw,
+          totalLoss: results.totalLoss,
+          efficiency: results.efficiency,
           junctionTemp: thermalResult?.tj
         },
         {
@@ -4739,3 +4739,164 @@ class ThermalAnalyzer {
 }
 
 const thermalAnalyzer = new ThermalAnalyzer();
+
+// Smart Component Selection Wizard с AI-powered ranking
+class ComponentSelector {
+  constructor() {
+    this.selectionCriteria = {
+      efficiency: { weight: 0.3, priority: 'high' },
+      cost: { weight: 0.2, priority: 'medium' },
+      thermal: { weight: 0.2, priority: 'high' },
+      reliability: { weight: 0.15, priority: 'medium' },
+      emi: { weight: 0.1, priority: 'low' },
+      availability: { weight: 0.05, priority: 'low' }
+    };
+  }
+  
+  analyzeAndRank(operatingConditions, applicationRequirements) {
+    const candidates = this.getAllCandidates();
+    const scoredCandidates = [];
+    
+    for (const candidate of candidates) {
+      const score = this.calculateOverallScore(candidate, operatingConditions, applicationRequirements);
+      scoredCandidates.push({ ...candidate, score: score });
+    }
+    
+    // Sort by score (highest first)
+    scoredCandidates.sort((a, b) => b.score.total - a.score.total);
+    
+    return {
+      recommendations: scoredCandidates.slice(0, 5), // Top 5
+      analysis: this.generateSelectionAnalysis(scoredCandidates[0]),
+      alternatives: this.suggestAlternatives(scoredCandidates)
+    };
+  }
+  
+  getAllCandidates() {
+    // Simplified candidate list with representative devices
+    return [
+      // Si MOSFETs
+      { name: 'IRFZ44N', technology: 'Si', vds_max: 55, id_max: 49, rds_mohm: 17.5, cost_factor: 1.0, availability: 'excellent' },
+      { name: 'IRLB8721', technology: 'Si', vds_max: 30, id_max: 62, rds_mohm: 4.3, cost_factor: 1.2, availability: 'excellent' },
+      
+      // SiC MOSFETs  
+      { name: 'C3M0075120K', technology: 'SiC', vds_max: 1200, id_max: 36, rds_mohm: 75, cost_factor: 8.0, availability: 'good' },
+      { name: 'SCT3120AL', technology: 'SiC', vds_max: 1200, id_max: 35, rds_mohm: 120, cost_factor: 6.5, availability: 'good' },
+      
+      // GaN HEMTs
+      { name: 'GS66508B', technology: 'GaN', vds_max: 650, id_max: 30, rds_mohm: 50, cost_factor: 12.0, availability: 'limited' },
+      { name: 'TPH3205WS', technology: 'GaN', vds_max: 650, id_max: 46, rds_mohm: 32, cost_factor: 15.0, availability: 'limited' }
+    ];
+  }
+  
+  calculateOverallScore(candidate, conditions, requirements) {
+    const scores = {};
+    
+    // Efficiency score
+    const efficiency = this.estimateEfficiency(candidate, conditions);
+    scores.efficiency = (efficiency - 85) / 15 * 100; // Scale 85-100% to 0-100 points
+    
+    // Cost score (inverse - lower cost = higher score)
+    scores.cost = Math.max(0, 100 - candidate.cost_factor * 10);
+    
+    // Thermal score
+    scores.thermal = this.calculateThermalScore(candidate, conditions);
+    
+    // Reliability score
+    scores.reliability = this.calculateReliabilityScore(candidate, conditions);
+    
+    // EMI score
+    scores.emi = this.calculateEMIScore(candidate);
+    
+    // Availability score
+    const availabilityMap = { 'excellent': 100, 'good': 75, 'limited': 40, 'poor': 10 };
+    scores.availability = availabilityMap[candidate.availability] || 50;
+    
+    // Calculate weighted total
+    let totalScore = 0;
+    for (const [criterion, weight] of Object.entries(this.selectionCriteria)) {
+      totalScore += (scores[criterion] || 0) * weight.weight;
+    }
+    
+    return { ...scores, total: totalScore };
+  }
+  
+  estimateEfficiency(candidate, conditions) {
+    // Simplified efficiency estimation
+    const rds = candidate.rds_mohm / 1000;
+    const pCond = conditions.current * conditions.current * rds * 0.5;
+    
+    const switchingTimes = {
+      Si: 25, SiC: 15, GaN: 5
+    };
+    const tr_ns = switchingTimes[candidate.technology];
+    const pSw = 0.5 * conditions.voltage * conditions.current * tr_ns * 1e-9 * conditions.frequency * 1000 * 2;
+    
+    const pOut = conditions.voltage * conditions.current * 0.5;
+    return (pOut / (pOut + pCond + pSw)) * 100;
+  }
+  
+  calculateThermalScore(candidate, conditions) {
+    // Thermal performance score based on losses
+    const efficiency = this.estimateEfficiency(candidate, conditions);
+    return Math.min(100, (efficiency - 85) * 5); // Higher efficiency = better thermal
+  }
+  
+  calculateReliabilityScore(candidate, conditions) {
+    // Technology-based reliability scoring
+    const reliabilityMap = { 'Si': 85, 'SiC': 75, 'GaN': 65 }; // Si most mature
+    const baseScore = reliabilityMap[candidate.technology] || 60;
+    
+    // Derating for high stress
+    const voltageStress = conditions.voltage / candidate.vds_max;
+    const currentStress = conditions.current / candidate.id_max;
+    const stressPenalty = Math.max(0, (voltageStress + currentStress - 1) * 20);
+    
+    return Math.max(0, baseScore - stressPenalty);
+  }
+  
+  calculateEMIScore(candidate) {
+    // EMI performance - faster switching = potentially more EMI
+    const emiMap = { 'Si': 90, 'SiC': 70, 'GaN': 50 };
+    return emiMap[candidate.technology] || 60;
+  }
+  
+  generateSelectionAnalysis(topCandidate) {
+    const strengths = [];
+    const considerations = [];
+    
+    if (topCandidate.score.efficiency > 80) {
+      strengths.push(currentLang === 'bg' ? '✅ Отлична ефективност' : '✅ Excellent efficiency');
+    }
+    
+    if (topCandidate.score.cost > 70) {
+      strengths.push(currentLang === 'bg' ? '💰 Добра цена/качество' : '💰 Good cost/performance');
+    }
+    
+    if (topCandidate.score.thermal > 75) {
+      strengths.push(currentLang === 'bg' ? '🌡️ Отлично термично поведение' : '🌡️ Excellent thermal performance');
+    }
+    
+    if (topCandidate.cost_factor > 5) {
+      considerations.push(currentLang === 'bg' ? '⚠️ Висока цена - оценете ROI' : '⚠️ High cost - evaluate ROI');
+    }
+    
+    if (topCandidate.availability === 'limited') {
+      considerations.push(currentLang === 'bg' ? '📦 Ограничена наличност - планирайте запаси' : '📦 Limited availability - plan inventory');
+    }
+    
+    return { strengths, considerations };
+  }
+  
+  suggestAlternatives(scoredCandidates) {
+    const alternatives = {};
+    
+    alternatives.cost_optimized = scoredCandidates.find(c => c.score.cost > 80);
+    alternatives.performance_optimized = scoredCandidates.find(c => c.score.efficiency > 90);
+    alternatives.reliability_optimized = scoredCandidates.find(c => c.score.reliability > 85);
+    
+    return alternatives;
+  }
+}
+
+const componentSelector = new ComponentSelector();
