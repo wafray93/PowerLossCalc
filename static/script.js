@@ -1102,27 +1102,106 @@ function calc(){
     recommendationsHtml = `<div class="parameter-suggestion">${recommendations.join('<br>')}</div>`;
   }
 
+  const comparisonSection = currentLang === 'en' ? `
+    <p><b>🔄 Why do different technologies have different losses?</b></p>
+    
+    <div class="tech-comparison">
+      <div class="tech-card">
+        <h4>🟡 Silicon (Si) - Classical Technology</h4>
+        <p><strong>Losses:</strong> Highest at high frequency</p>
+        <p><strong>Why:</strong> Large parasitic capacitances → slow switching → more switching losses</p>
+        <p><strong>Efficiency:</strong> 92-96% at low frequencies</p>
+        <p><strong>Best for:</strong> Low frequencies (under 50kHz), low cost</p>
+      </div>
+      
+      <div class="tech-card">
+        <h4>🟢 Silicon Carbide (SiC) - Balanced Technology</h4>
+        <p><strong>Losses:</strong> Medium, decrease with frequency</p>
+        <p><strong>Why:</strong> Smaller parasitic capacitances → faster switching</p>
+        <p><strong>Efficiency:</strong> 96-98% at medium frequencies</p>
+        <p><strong>Best for:</strong> Medium frequencies (50-200kHz), high temperature</p>
+      </div>
+      
+      <div class="tech-card">
+        <h4>🔵 Gallium Nitride (GaN) - Newest Technology</h4>
+        <p><strong>Losses:</strong> Lowest at high frequencies</p>
+        <p><strong>Why:</strong> Minimal parasitic capacitances → very fast switching</p>
+        <p><strong>Efficiency:</strong> 98-99%+ at high frequencies</p>
+        <p><strong>Best for:</strong> High frequencies (over 100kHz), compact devices</p>
+      </div>
+    </div>
+    
+    <p><b>💡 Key Principle:</b> The faster the transistor switches, the less time it spends in the mixed region (where there is both current and voltage) → lower switching losses.</p>
+  ` : `
+    <p><b>🔄 Защо различните технологии имат различни загуби?</b></p>
+    
+    <div class="tech-comparison">
+      <div class="tech-card">
+        <h4>🟡 Силиций (Si) - Класическа технология</h4>
+        <p><strong>Загуби:</strong> Най-високи при висока честота</p>
+        <p><strong>Защо:</strong> Големи паразитни капацитети → бавно превключване → повече switching загуби</p>
+        <p><strong>КПД:</strong> 92-96% при ниски честоти</p>
+        <p><strong>Най-добре за:</strong> Ниски честоти (под 50kHz), ниска цена</p>
+      </div>
+      
+      <div class="tech-card">
+        <h4>🟢 Силициев карбид (SiC) - Балансирана технология</h4>
+        <p><strong>Загуби:</strong> Средни, намаляват с честотата</p>
+        <p><strong>Защо:</strong> По-малки паразитни капацитети → по-бързо превключване</p>
+        <p><strong>КПД:</strong> 96-98% при средни честоти</p>
+        <p><strong>Най-добре за:</strong> Средни честоти (50-200kHz), висока температура</p>
+      </div>
+      
+      <div class="tech-card">
+        <h4>🔵 Галиев нитрид (GaN) - Най-нова технология</h4>
+        <p><strong>Загуби:</strong> Най-ниски при високи честоти</p>
+        <p><strong>Защо:</strong> Минимални паразитни капацитети → много бързо превключване</p>
+        <p><strong>КПД:</strong> 98-99%+ при високи честоти</p>
+        <p><strong>Най-добре за:</strong> Високи честоти (над 100kHz), компактни устройства</p>
+      </div>
+    </div>
+    
+    <p><b>💡 Ключовият принцип:</b> Колкото по-бързо превключва транзисторът, толкова по-малко време прекарва в смесената област (където има и ток, и напрежение) → по-малки switching загуби.</p>
+  `;
+
+  const basicLabels = currentLang === 'en' ? {
+    transistor: 'Transistor used',
+    application: 'Application',
+    lossAnalysis: 'Loss Analysis',
+    conductionLosses: 'Conduction losses',
+    switchingLosses: 'Switching losses',
+    totalLosses: 'Total losses',
+    efficiency: 'Overall efficiency',
+    formulas: 'Formulas'
+  } : {
+    transistor: 'Използван транзистор',
+    application: 'Приложение',
+    lossAnalysis: 'Анализ на загубите',
+    conductionLosses: 'Conduction losses',
+    switchingLosses: 'Switching losses',
+    totalLosses: 'от общите загуби',
+    efficiency: 'Общ КПД',
+    formulas: 'Формули'
+  };
+
   document.getElementById('explainText').innerHTML=`
-  <p><b>Използван транзистор:</b> ${selectedTransistor.name}</p>
-  <p><b>Приложение:</b> ${selectedTransistor.application}</p>
+  <p><b>${basicLabels.transistor}:</b> ${selectedTransistor.name}</p>
+  <p><b>${basicLabels.application}:</b> ${selectedTransistor.application}</p>
   ${warningsHtml}
   ${recommendationsHtml}
-  <p><b>Анализ на загубите:</b></p>
+  <p><b>${basicLabels.lossAnalysis}:</b></p>
   <ul>
-    <li>Conduction losses: ${condRatio.toFixed(1)}% от общите загуби</li>
-    <li>Switching losses: ${swRatio.toFixed(1)}% от общите загуби</li>
-    <li>Общ КПД: ${eff.toFixed(2)}%</li>
+    <li>${basicLabels.conductionLosses}: ${condRatio.toFixed(1)}% ${basicLabels.totalLosses}</li>
+    <li>${basicLabels.switchingLosses}: ${swRatio.toFixed(1)}% ${basicLabels.totalLosses}</li>
+    <li>${basicLabels.efficiency}: ${eff.toFixed(2)}%</li>
   </ul>
-  <p><b>Формули:</b></p>
+  <p><b>${basicLabels.formulas}:</b></p>
   <ul>
     <li>P<sub>cond</sub>=I²·R<sub>DS(on)</sub>·D = ${I}²·${rds.toFixed(4)}·${D} = ${pCond.toFixed(2)} W</li>
     <li>P<sub>sw</sub>=0.5·V<sub>DC</sub>·I·(t<sub>r</sub>+t<sub>f</sub>)·f<sub>sw</sub>·2 = ${pSw.toFixed(2)} W</li>
     <li>R(T)=R<sub>ref</sub>·(1+α·(T-25)) = ${rds0.toFixed(4)}·(1+${selectedTransistor.alpha}·(${T}-25)) = ${rds.toFixed(4)} Ω</li>
   </ul>
-  <p><b>Сравнение на технологиите:</b></p>
-  <p><u>Si:</u> Ниска цена, добра за ниски честоти (10-50kHz), по-високи загуби при висока температура.</p>
-  <p><u>SiC:</u> По-висока цена, отлична за средни честоти (50-200kHz), висока температурна стабилност, ниски загуби.</p>
-  <p><u>GaN:</u> Най-висока цена, най-добра за високи честоти (100kHz+), най-ниски загуби, но ограничения при много високи напрежения.</p>`;
+  ${comparisonSection}`;
 }
 
 // Функция за превключване на език
@@ -1223,7 +1302,7 @@ function switchLanguage(lang) {
         
         // Ако има избран транзистор, показваме информацията за него
         if (selectedTransistor) {
-          updateTransistorInfo();
+          showTransistorInfo(savedValues.transistorSelect);
         }
       }
     }, 50); // Малка забавка за да се зареди select-ът
