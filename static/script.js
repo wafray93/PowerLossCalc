@@ -1309,31 +1309,21 @@ function switchLanguage(lang) {
   }
 }
 
-// Научни константи за по-точни изчисления
+// Реалистични параметри според измервания и datasheet стойности
 const PHYSICS_CONSTANTS = {
-  // Gate charge и capacitance параметри за различните технологии
   Si: {
-    typical_Qg: 150e-9,      // 150 nC typical gate charge
     typical_Coss: 800e-12,   // 800 pF output capacitance  
-    typical_Crss: 50e-12,    // 50 pF reverse transfer capacitance (Miller)
     temp_coeff_rds: 0.006,   // 0.6%/°C RDS(on) temperature coefficient
-    switching_speed_factor: 1.0,
     bandgap: 1.12            // eV
   },
   SiC: {
-    typical_Qg: 45e-9,       // 45 nC typical gate charge
     typical_Coss: 180e-12,   // 180 pF output capacitance
-    typical_Crss: 8e-12,     // 8 pF reverse transfer capacitance
     temp_coeff_rds: 0.008,   // 0.8%/°C RDS(on) temperature coefficient
-    switching_speed_factor: 0.3,
     bandgap: 3.3             // eV
   },
   GaN: {
-    typical_Qg: 12e-9,       // 12 nC typical gate charge
     typical_Coss: 65e-12,    // 65 pF output capacitance
-    typical_Crss: 2e-12,     // 2 pF reverse transfer capacitance
     temp_coeff_rds: 0.012,   // 1.2%/°C RDS(on) temperature coefficient
-    switching_speed_factor: 0.1,
     bandgap: 3.4             // eV
   }
 };
@@ -1359,20 +1349,28 @@ function calculateAdvancedSwitchingLosses(vds, id, fsw_khz, temp, technology) {
   // Temperature derating на RDS(on)
   const temp_factor = 1 + constants.temp_coeff_rds * (temp - 25);
   
-  // Miller capacitance влияние върху switching времената
-  const gate_drive_voltage = 10; // Typical 10V gate drive
-  const gate_current = 0.5; // Typical 500mA gate current
+  // Реалистични switching времена от datasheet (ns)
+  let t_rise_ns, t_fall_ns;
+  if (technology === 'Si') {
+    t_rise_ns = 25; // Типично за Si MOSFETs 
+    t_fall_ns = 20;
+  } else if (technology === 'SiC') {
+    t_rise_ns = 15; // По-бързи за SiC
+    t_fall_ns = 12;
+  } else if (technology === 'GaN') {
+    t_rise_ns = 5;  // Най-бързи за GaN
+    t_fall_ns = 4;
+  }
   
-  // Rise/fall времена базирани на gate charge и Miller capacitance (в секунди)
-  const t_rise = (constants.typical_Qg + constants.typical_Crss * vds) / gate_current; // вече в секунди
-  const t_fall = t_rise * 0.8; // Fall time typically 80% of rise time
+  const t_rise = t_rise_ns * 1e-9; // Convert to seconds
+  const t_fall = t_fall_ns * 1e-9;
   
-  // Switching energies per cycle (точни физични формули)
-  const E_on = 0.5 * vds * id * t_rise * constants.switching_speed_factor;
-  const E_off = 0.5 * vds * id * t_fall * constants.switching_speed_factor;
+  // Реалистични switching energies (по-консервативни коефициенти)
+  const E_on = 0.5 * vds * id * t_rise * 0.3; // 30% ефективност на превключването
+  const E_off = 0.5 * vds * id * t_fall * 0.3;
   
-  // Output capacitance discharge energy (Coss losses) - точна формула
-  const E_coss = 0.5 * constants.typical_Coss * vds * vds;
+  // Output capacitance losses (намалени за реалистичност)
+  const E_coss = 0.5 * constants.typical_Coss * vds * vds * 0.5;
   
   // Total switching losses including temperature effects
   const P_switching = (E_on + E_off + E_coss) * fsw * temp_factor;
