@@ -1473,6 +1473,7 @@ function calc(){
       }
     }
   }, 900);
+}
   }
   
   let warnings = [];
