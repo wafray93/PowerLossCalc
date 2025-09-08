@@ -1258,7 +1258,26 @@ function switchLanguage(lang) {
           showTransistorInfo(savedValues.transistorSelect);
         }
       }
+      
+      // Регенерираме активните графики с новия език
+      regenerateChartsWithNewLanguage();
+      
     }, 50); // Малка забавка за да се зареди select-ът
+  }
+}
+
+// Функция за регенериране на графиките с новия език при смяна
+function regenerateChartsWithNewLanguage() {
+  // Проверяваме дали има активна pie chart за загубите и я регенерираме
+  if (chart && selectedTransistor) {
+    // Пресъздаваме calc() функцията за да обновим graphikata
+    calc();
+  }
+  
+  // Проверяваме дали има активна efficiency chart и я регенерираме
+  if (window.efficiencyChartInstance && selectedTransistor) {
+    // Пресъздаваме efficiency chart-а
+    generateEfficiencyChart();
   }
 }
 
