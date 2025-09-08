@@ -10,8 +10,12 @@
 </head>
 <body>
   <header>
-    <h1>Калкулатор: Si / SiC / GaN Транзистори</h1>
-    <p class="lead">Сравни загуби, ефективност и научи защо има разлики.</p>
+    <h1 id="mainTitle">Калкулатор: Si / SiC / GaN Транзистори</h1>
+    <p class="lead" id="subtitle">Сравни загуби, ефективност и научи защо има разлики.</p>
+    <div class="language-switcher">
+      <button id="langBG" class="lang-btn active">БГ</button>
+      <button id="langEN" class="lang-btn">EN</button>
+    </div>
   </header>
 
   <main>
@@ -20,7 +24,7 @@
       <div class="row">
         <label class="tooltip-label">Технология:
           <span class="tooltip-icon">?</span>
-          <div class="tooltip">Изберете тип полупроводник: Si (кремний) за стандартни приложения, SiC (силициев карбид) за висока ефективност и температура, GaN (галиев нитрид) за високочестотни приложения.</div>
+          <div class="tooltip">Изберете тип полупроводник: Si (силиций) за стандартни приложения, SiC (силициев карбид) за висока ефективност и температура, GaN (галиев нитрид) за високочестотни приложения.</div>
           <select id="techSelect">
             <option value="Si">Si MOSFET / IGBT</option>
             <option value="SiC" selected>SiC MOSFET</option>

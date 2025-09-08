@@ -1,3 +1,41 @@
+// Мултиезична поддръжка
+const LANGUAGES = {
+  bg: {
+    mainTitle: 'Калкулатор: Si / SiC / GaN Транзистори',
+    subtitle: 'Сравни загуби, ефективност и научи защо има разлики.',
+    inputParams: 'Въведи параметри',
+    technology: 'Технология',
+    maxVoltage: 'Макс. напрежение (V)',
+    maxCurrent: 'Макс. ток (A)',
+    concreteModel: 'Конкретен модел',
+    selectTransistor: 'Избери транзистор...',
+    calculate: 'Изчисли',
+    suggestOptimal: 'Предложи оптимални параметри',
+    reset: 'Възстанови стойности',
+    transistorInfo: 'Информация за транзистора',
+    results: 'Резултати',
+    // други преводи...
+  },
+  en: {
+    mainTitle: 'Calculator: Si / SiC / GaN Transistors',
+    subtitle: 'Compare losses, efficiency and learn why differences exist.',
+    inputParams: 'Input Parameters',
+    technology: 'Technology',
+    maxVoltage: 'Max. Voltage (V)',
+    maxCurrent: 'Max. Current (A)',
+    concreteModel: 'Specific Model',
+    selectTransistor: 'Select transistor...',
+    calculate: 'Calculate',
+    suggestOptimal: 'Suggest Optimal Parameters',
+    reset: 'Reset Values',
+    transistorInfo: 'Transistor Information',
+    results: 'Results',
+    // други преводи...
+  }
+};
+
+let currentLang = 'bg';
+
 // Разширена база данни с реални транзистори и техните характеристики
 const TRANSISTOR_DB = {
   Si: {
@@ -20,6 +58,18 @@ const TRANSISTOR_DB = {
       alpha: 0.006, package: "D2PAK", manufacturer: "STMicroelectronics",
       application: "Автомобилни приложения, синхронни конвертори"
     },
+    "IRF3205": {
+      name: "IRF3205 (Si MOSFET)",
+      vds_max: 55, id_max: 110, rds_mohm: 8, tr_ns: 12, tf_ns: 50,
+      alpha: 0.0065, package: "TO-220", manufacturer: "Infineon",
+      application: "Високо ток приложения, синхронни rectifiers"
+    },
+    "IRLB4132": {
+      name: "IRLB4132 (Si MOSFET)",
+      vds_max: 100, id_max: 30, rds_mohm: 10, tr_ns: 24, tf_ns: 12,
+      alpha: 0.0060, package: "TO-220AB", manufacturer: "Infineon",
+      application: "Logic level gate drive, DC-DC"
+    },
     
     // Средно напрежение Si MOSFETs (200V-600V)
     "IRF840": {
@@ -39,6 +89,18 @@ const TRANSISTOR_DB = {
       vds_max: 650, id_max: 57, rds_mohm: 65, tr_ns: 120, tf_ns: 95,
       alpha: 0.0075, package: "TO-247", manufacturer: "STMicroelectronics",
       application: "PFC, резонансни конвертори"
+    },
+    "IPW60R070C6": {
+      name: "IPW60R070C6 (Si MOSFET)",
+      vds_max: 600, id_max: 39, rds_mohm: 70, tr_ns: 38, tf_ns: 25,
+      alpha: 0.0070, package: "TO-247", manufacturer: "Infineon",
+      application: "PFC, hard switching"
+    },
+    "FCP190N60E": {
+      name: "FCP190N60E (Si MOSFET)",
+      vds_max: 600, id_max: 19, rds_mohm: 190, tr_ns: 45, tf_ns: 60,
+      alpha: 0.0075, package: "TO-220", manufacturer: "Fairchild",
+      application: "SMPS, UPS systems"
     },
     
     // Високо напрежение Si MOSFETs и IGBTs (600V+)
@@ -65,6 +127,12 @@ const TRANSISTOR_DB = {
       vds_max: 650, id_max: 40, rds_mohm: 40, tr_ns: 55, tf_ns: 180,
       alpha: 0.0048, package: "TO-247", manufacturer: "STMicroelectronics",
       application: "Фотоволтаици, мотор драйвери"
+    },
+    "IRGP50B60PD1": {
+      name: "IRGP50B60PD1 (Si IGBT)",
+      vds_max: 600, id_max: 75, rds_mohm: 34, tr_ns: 80, tf_ns: 200,
+      alpha: 0.0050, package: "TO-247AC", manufacturer: "Infineon",
+      application: "Инвертори, welding equipment"
     }
   },
   
@@ -125,7 +193,7 @@ const TRANSISTOR_DB = {
   },
   
   GaN: {
-    // Ниско напрежение GaN HEMTs (100V-200V)
+    // Ниско напрежение GaN HEMTs (80V-200V)
     "EPC2001C": {
       name: "EPC2001C (GaN HEMT)",
       vds_max: 100, id_max: 13, rds_mohm: 14, tr_ns: 1.4, tf_ns: 3.5,
@@ -143,6 +211,42 @@ const TRANSISTOR_DB = {
       vds_max: 100, id_max: 90, rds_mohm: 8, tr_ns: 3.2, tf_ns: 2.1,
       alpha: 0.003, package: "GaN PX", manufacturer: "GaN Systems",
       application: "Синхронни конвертори, зарядни"
+    },
+    "EPC2007C": {
+      name: "EPC2007C (GaN HEMT)",
+      vds_max: 100, id_max: 18, rds_mohm: 16, tr_ns: 2.6, tf_ns: 1.4,
+      alpha: 0.0038, package: "LGA", manufacturer: "EPC",
+      application: "Point of load, високочестотни DC-DC"
+    },
+    "EPC2015C": {
+      name: "EPC2015C (GaN HEMT)",
+      vds_max: 200, id_max: 16, rds_mohm: 25, tr_ns: 1.8, tf_ns: 2.2,
+      alpha: 0.0032, package: "LGA", manufacturer: "EPC",
+      application: "48V-12V конвертори, телеком"
+    },
+    "GS61004B": {
+      name: "GS61004B (GaN HEMT)",
+      vds_max: 100, id_max: 4, rds_mohm: 25, tr_ns: 2.1, tf_ns: 1.8,
+      alpha: 0.0035, package: "GaN PX", manufacturer: "GaN Systems",
+      application: "USB-C PD, безжични зарядни"
+    },
+    "EPC8009": {
+      name: "EPC8009 (GaN HEMT)",
+      vds_max: 100, id_max: 1.6, rds_mohm: 300, tr_ns: 0.9, tf_ns: 0.7,
+      alpha: 0.004, package: "WLB", manufacturer: "EPC",
+      application: "Envelope tracking, RF applications"
+    },
+    "EPC2040": {
+      name: "EPC2040 (GaN HEMT)",
+      vds_max: 200, id_max: 6, rds_mohm: 75, tr_ns: 2.3, tf_ns: 1.5,
+      alpha: 0.0033, package: "LGA", manufacturer: "EPC",
+      application: "48V системи, LED драйвери"
+    },
+    "GS61202B": {
+      name: "GS61202B (GaN HEMT)",
+      vds_max: 200, id_max: 2, rds_mohm: 110, tr_ns: 1.5, tf_ns: 1.2,
+      alpha: 0.0030, package: "GaN PX", manufacturer: "GaN Systems",
+      application: "Малки адаптери, USB-C PD"
     },
     
     // Средно напрежение GaN HEMTs (400V-650V)
@@ -175,6 +279,60 @@ const TRANSISTOR_DB = {
       vds_max: 650, id_max: 15, rds_mohm: 50, tr_ns: 4.2, tf_ns: 3.1,
       alpha: 0.0028, package: "GaN PX", manufacturer: "GaN Systems",
       application: "Компактни адаптери"
+    },
+    "TPH3205WS": {
+      name: "TPH3205WS (GaN HEMT)",
+      vds_max: 650, id_max: 36, rds_mohm: 25, tr_ns: 12, tf_ns: 5.5,
+      alpha: 0.0025, package: "TO-247", manufacturer: "Transphorm",
+      application: "Фотоволтаични инвертори, мотор драйвери"
+    },
+    "EPC2059": {
+      name: "EPC2059 (GaN HEMT)",
+      vds_max: 600, id_max: 16, rds_mohm: 65, tr_ns: 3.2, tf_ns: 2.8,
+      alpha: 0.0032, package: "LGA", manufacturer: "EPC",
+      application: "Automotive onboard chargers"
+    },
+    "GS66504B": {
+      name: "GS66504B (GaN HEMT)",
+      vds_max: 650, id_max: 7.5, rds_mohm: 67, tr_ns: 6.5, tf_ns: 2.8,
+      alpha: 0.0028, package: "GaN PX", manufacturer: "GaN Systems",
+      application: "AC-DC адаптери, зарядни станции"
+    },
+    "TPH3206LD": {
+      name: "TPH3206LD (GaN HEMT)",
+      vds_max: 650, id_max: 43, rds_mohm: 21, tr_ns: 14, tf_ns: 6.2,
+      alpha: 0.0022, package: "TO-220", manufacturer: "Transphorm",
+      application: "Industrial motor drives"
+    },
+    "EPC2302": {
+      name: "EPC2302 (GaN HEMT)",
+      vds_max: 400, id_max: 15, rds_mohm: 45, tr_ns: 2.8, tf_ns: 1.9,
+      alpha: 0.0030, package: "LGA", manufacturer: "EPC",
+      application: "Server power supplies"
+    },
+    "GS66511T": {
+      name: "GS66511T (GaN HEMT)",
+      vds_max: 650, id_max: 22, rds_mohm: 25, tr_ns: 7.2, tf_ns: 3.5,
+      alpha: 0.0026, package: "GaN PX", manufacturer: "GaN Systems",
+      application: "Automotive applications"
+    },
+    "TPH3002PS": {
+      name: "TPH3002PS (GaN HEMT)",
+      vds_max: 650, id_max: 8.5, rds_mohm: 90, tr_ns: 8.5, tf_ns: 4.2,
+      alpha: 0.0030, package: "PQFN", manufacturer: "Transphorm",
+      application: "Малки мощности AC-DC"
+    },
+    "EPC2218": {
+      name: "EPC2218 (GaN HEMT)",
+      vds_max: 600, id_max: 9, rds_mohm: 110, tr_ns: 4.1, tf_ns: 2.5,
+      alpha: 0.0035, package: "LGA", manufacturer: "EPC",
+      application: "Industrial power supplies"
+    },
+    "GS66502B": {
+      name: "GS66502B (GaN HEMT)",
+      vds_max: 650, id_max: 3.5, rds_mohm: 150, tr_ns: 5.8, tf_ns: 2.1,
+      alpha: 0.0032, package: "GaN PX", manufacturer: "GaN Systems",
+      application: "Compact chargers, LED drivers"
     }
   }
 };
@@ -423,6 +581,27 @@ function calc(){
   <p><u>GaN:</u> Най-висока цена, най-добра за високи честоти (100kHz+), най-ниски загуби, но ограничения при много високи напрежения.</p>`;
 }
 
+// Функция за превключване на език
+function switchLanguage(lang) {
+  currentLang = lang;
+  
+  // Обновяваме активния бутон
+  document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+  document.getElementById('lang' + lang.toUpperCase()).classList.add('active');
+  
+  // Обновяваме текстовете
+  const langData = LANGUAGES[lang];
+  if (langData) {
+    document.getElementById('mainTitle').textContent = langData.mainTitle;
+    document.getElementById('subtitle').textContent = langData.subtitle;
+    // Добавяме повече преводи тук според нуждата
+  }
+}
+
+// Event listeners за език
+document.getElementById('langBG').addEventListener('click', () => switchLanguage('bg'));
+document.getElementById('langEN').addEventListener('click', () => switchLanguage('en'));
+
 // Event listeners
 document.getElementById('calcBtn').addEventListener('click',calc);
 
@@ -463,7 +642,7 @@ document.getElementById('resetBtn').addEventListener('click',()=>{
 // стартирай при зареждане
 document.addEventListener('DOMContentLoaded', function() {
   // Проверяваме дали всички нужни елементи съществуват
-  const requiredElements = ['techSelect', 'maxVoltage', 'maxCurrent', 'transistorSelect', 'suggestBtn', 'calcBtn', 'resetBtn'];
+  const requiredElements = ['techSelect', 'maxVoltage', 'maxCurrent', 'transistorSelect', 'suggestBtn', 'calcBtn', 'resetBtn', 'langBG', 'langEN'];
   
   for (const elementId of requiredElements) {
     const element = document.getElementById(elementId);
@@ -477,4 +656,7 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // Първоначално disable на suggest бутона
   document.getElementById('suggestBtn').disabled = true;
+  
+  // Задаваме първоначален език
+  switchLanguage('bg');
 });
