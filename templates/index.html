@@ -132,6 +132,73 @@
         <div id="explainText"></div>
       </div>
     </section>
+
+    <!-- Нова секция за графики на ефективност vs честота -->
+    <section class="analysis">
+      <h2 data-lang="efficiencyAnalysis">Анализ на ефективност vs честота</h2>
+      <p data-lang="efficiencyDescription">Тази графика показва как се променя ефективността при различни честоти за Si, SiC и GaN технологиите.</p>
+      
+      <div class="analysis-controls">
+        <label class="tooltip-label">
+          <span data-lang="frequencyRange">Честотен обхват</span>:
+          <span class="tooltip-icon">?</span>
+          <div class="tooltip">Задайте честотния обхват за анализ. Препоръчително: 1-500kHz за Si, 10-1000kHz за SiC, 50-2000kHz за GaN.</div>
+          <div class="frequency-range">
+            <label>От: <input id="freqMin" type="number" value="1" min="1" max="100"> kHz</label>
+            <label>До: <input id="freqMax" type="number" value="500" min="10" max="2000"> kHz</label>
+          </div>
+        </label>
+        
+        <button id="generateEffChart" data-lang="generateChart">Генерирай графика</button>
+      </div>
+      
+      <canvas id="efficiencyChart" style="display: none;"></canvas>
+      <div id="efficiencyInsights" class="insights-box" style="display: none;"></div>
+    </section>
+
+    <!-- Нова секция за термично моделиране -->
+    <section class="thermal">
+      <h2 data-lang="thermalModeling">Термично моделиране</h2>
+      <p data-lang="thermalDescription">Изчислява температурата на корпуса и съединението базирано на загубите и термичните съпротивления.</p>
+      
+      <div class="thermal-controls">
+        <div class="row">
+          <label class="tooltip-label">
+            <span data-lang="ambientTemp">Околна температура (°C)</span>:
+            <span class="tooltip-icon">?</span>
+            <div class="tooltip">Температурата на околната среда. Типични стойности: 25°C (стайна), 40°C (промишлена), 70°C (автомобилна).</div>
+            <input id="ambientTemp" type="number" value="25" min="-40" max="85">
+          </label>
+
+          <label class="tooltip-label">
+            <span data-lang="coolingType">Тип охлаждане</span>:
+            <span class="tooltip-icon">?</span>
+            <div class="tooltip">Изберете тип охлаждане. Всеки тип има различно термично съпротивление case-to-ambient.</div>
+            <select id="coolingType">
+              <option value="natural" data-lang-option="naturalCooling">Естествено охлаждане</option>
+              <option value="small_heatsink" data-lang-option="smallHeatsink">Малък радиатор</option>
+              <option value="medium_heatsink" data-lang-option="mediumHeatsink">Среден радиатор</option>
+              <option value="large_heatsink" data-lang-option="largeHeatsink">Голям радиатор</option>
+              <option value="forced_air" data-lang-option="forcedAir">Принудително въздушно</option>
+              <option value="liquid_cooling" data-lang-option="liquidCooling">Течно охлаждане</option>
+            </select>
+          </label>
+        </div>
+
+        <button id="calculateThermal" data-lang="calculateThermal">Изчисли термични параметри</button>
+      </div>
+
+      <div id="thermalResults" class="thermal-results" style="display: none;">
+        <h3 data-lang="thermalResults">Термични резултати</h3>
+        <table>
+          <tr><td data-lang="junctionTemp">Температура на съединението (Tj)</td><td id="junctionTemp">—</td></tr>
+          <tr><td data-lang="caseTemp">Температура на корпуса (Tc)</td><td id="caseTemp">—</td></tr>
+          <tr><td data-lang="thermalResistance">Термично съпротивление (Rth)</td><td id="thermalResistance">—</td></tr>
+          <tr><td data-lang="thermalMargin">Термичен марж</td><td id="thermalMargin">—</td></tr>
+        </table>
+        <div id="thermalWarnings" class="warning-box" style="display: none;"></div>
+      </div>
+    </section>
   </main>
 
   <footer>
