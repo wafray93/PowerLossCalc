@@ -1475,6 +1475,28 @@ function calc(){
   }, 900);
 }
 
+// База данни с транзистори
+const TRANSISTOR_DATABASE = {
+  'Si': [
+    { name: 'IRFZ44N', manufacturer: 'Infineon', package: 'TO-220', vds_max: 55, id_max: 49, rds_mohm: 17.5, tr_ns: 25, tf_ns: 20, alpha: 0.006, application: 'General purpose' },
+    { name: 'IRLB8721', manufacturer: 'Infineon', package: 'TO-220', vds_max: 30, id_max: 62, rds_mohm: 4.3, tr_ns: 30, tf_ns: 25, alpha: 0.007, application: 'Low voltage, high current' },
+    { name: 'IRF540N', manufacturer: 'Infineon', package: 'TO-220', vds_max: 100, id_max: 33, rds_mohm: 44, tr_ns: 20, tf_ns: 15, alpha: 0.005, application: 'High voltage' },
+    { name: 'IRFP260N', manufacturer: 'Infineon', package: 'TO-247', vds_max: 200, id_max: 50, rds_mohm: 40, tr_ns: 35, tf_ns: 30, alpha: 0.006, application: 'High power' }
+  ],
+  'SiC': [
+    { name: 'C3M0075120K', manufacturer: 'Wolfspeed', package: 'TO-247-3', vds_max: 1200, id_max: 36, rds_mohm: 75, tr_ns: 15, tf_ns: 12, alpha: 0.003, application: 'High voltage switching' },
+    { name: 'SCT3120AL', manufacturer: 'ROHM', package: 'TO-247N', vds_max: 1200, id_max: 35, rds_mohm: 120, tr_ns: 18, tf_ns: 15, alpha: 0.004, application: 'Industrial drives' },
+    { name: 'C2M0080120D', manufacturer: 'Wolfspeed', package: 'TO-247-3', vds_max: 1200, id_max: 36, rds_mohm: 80, tr_ns: 12, tf_ns: 10, alpha: 0.003, application: 'Solar inverters' },
+    { name: 'IMW120R030M1H', manufacturer: 'Infineon', package: 'TO-247-3', vds_max: 1200, id_max: 31, rds_mohm: 30, tr_ns: 10, tf_ns: 8, alpha: 0.0025, application: 'EV charging' }
+  ],
+  'GaN': [
+    { name: 'GS66508B', manufacturer: 'GaN Systems', package: 'GaNPX', vds_max: 650, id_max: 30, rds_mohm: 50, tr_ns: 5, tf_ns: 3, alpha: 0.004, application: 'High frequency switching' },
+    { name: 'TPH3205WS', manufacturer: 'Transphorm', package: 'TO-247', vds_max: 650, id_max: 46, rds_mohm: 32, tr_ns: 8, tf_ns: 5, alpha: 0.003, application: 'Server PSU' },
+    { name: 'EPC2001C', manufacturer: 'EPC', package: 'LGA', vds_max: 100, id_max: 15, rds_mohm: 25, tr_ns: 3, tf_ns: 2, alpha: 0.005, application: 'DC-DC converters' },
+    { name: 'GS61008P', manufacturer: 'GaN Systems', package: 'GaNPX', vds_max: 100, id_max: 90, rds_mohm: 7, tr_ns: 4, tf_ns: 3, alpha: 0.0035, application: 'Motor drives' }
+  ]
+};
+
 // Основна функция за изчисляване на загубите
 function calculateLosses() {
   // Вземаме стойностите от формата
@@ -1580,4 +1602,33 @@ function getSelectedTransistor() {
     }
   }
   return null;
+}
+
+// Зареждане на транзисторите в dropdown при стартиране
+document.addEventListener('DOMContentLoaded', function() {
+  loadTransistors();
+});
+
+// Функция за зареждане на транзисторите
+function loadTransistors() {
+  const transistorSelect = document.getElementById('transistorSelect');
+  if (!transistorSelect) return;
+  
+  // Изчистваме първо
+  transistorSelect.innerHTML = '<option value=\"\">' + (currentLang === 'bg' ? 'Изберете транзистор' : 'Select transistor') + '</option>';
+  
+  // Добавяме транзисторите по технологии
+  for (const tech in TRANSISTOR_DATABASE) {
+    const optgroup = document.createElement('optgroup');
+    optgroup.label = tech + ' транзистори';
+    
+    TRANSISTOR_DATABASE[tech].forEach(transistor => {
+      const option = document.createElement('option');
+      option.value = transistor.name + '_' + tech;
+      option.textContent = `${transistor.name} (${tech}) - ${transistor.vds_max}V/${transistor.id_max}A`;
+      optgroup.appendChild(option);
+    });
+    
+    transistorSelect.appendChild(optgroup);
+  }
 }
