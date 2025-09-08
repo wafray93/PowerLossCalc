@@ -1056,7 +1056,12 @@ function calc(){
         </h3>
         <canvas id="waveformCanvas" width="800" height="400" style="border: 1px solid #ccc; border-radius: 8px; max-width: 100%;"></canvas>
       `;
-      document.getElementById('results').parentNode.appendChild(waveformContainer);
+      const resultsParent = document.getElementById('results')?.parentNode;
+      if (resultsParent) {
+        resultsParent.appendChild(waveformContainer);
+      } else {
+        document.body.appendChild(waveformContainer);
+      }
     }
     
     waveformSimulator.initCanvas('waveformCanvas');
@@ -1108,7 +1113,12 @@ function calc(){
           </div>
         `;
         
-        document.getElementById('results').parentNode.appendChild(costContainer);
+        const resultsParent = document.getElementById('results')?.parentNode;
+        if (resultsParent) {
+          resultsParent.appendChild(costContainer);
+        } else {
+          document.body.appendChild(costContainer);
+        }
       }
     }, 200);
   }
@@ -3390,3 +3400,189 @@ class CostAnalyzer {
 }
 
 const costAnalyzer = new CostAnalyzer();
+
+// Reliability/MTBF Prediction Models базирани на stress фактори
+class ReliabilityAnalyzer {
+  constructor() {
+    // JEDEC/MIL-HDBK-217 based failure rate models (FIT = Failures in Time per 10^9 hours)
+    this.baseFailureRates = {
+      Si: { base_fit: 0.5, activation_energy: 0.65 },     // eV
+      SiC: { base_fit: 0.3, activation_energy: 1.2 },    // Better reliability, higher Ea
+      GaN: { base_fit: 0.8, activation_energy: 0.9 }     // Newer technology, more variation
+    };
+    
+    // Stress factors according to MIL-HDBK-217
+    this.stressFactors = {
+      temperature: {
+        low: 0.1,      // < 55°C
+        normal: 1.0,   // 55-85°C
+        high: 5.0,     // 85-125°C
+        extreme: 20.0  // > 125°C
+      },
+      voltage: {
+        low: 0.5,      // < 60% rated
+        normal: 1.0,   // 60-80% rated
+        high: 3.0,     // 80-90% rated
+        extreme: 10.0  // > 90% rated
+      },
+      current: {
+        low: 0.3,      // < 50% rated
+        normal: 1.0,   // 50-70% rated
+        high: 4.0,     // 70-85% rated
+        extreme: 15.0  // > 85% rated
+      },
+      switching: {
+        low: 1.0,      // < 10 kHz
+        normal: 2.0,   // 10-100 kHz
+        high: 5.0,     // 100-500 kHz
+        extreme: 12.0  // > 500 kHz
+      }
+    };
+  }
+  
+  calculateMTBF(technology, temperature, voltageStress, currentStress, switchingFreq, environment = 'controlled') {
+    const baseData = this.baseFailureRates[technology];
+    if (!baseData) return null;
+    
+    // Arrhenius temperature acceleration model
+    const k = 8.617e-5; // Boltzmann constant (eV/K)
+    const T_ref = 298.15; // 25°C reference temperature
+    const T_junction = temperature + 273.15; // Convert to Kelvin
+    
+    const tempAcceleration = Math.exp(
+      (baseData.activation_energy / k) * 
+      ((1 / T_ref) - (1 / T_junction))
+    );
+    
+    // Get stress factors
+    const tempFactor = this.getStressFactor('temperature', temperature);
+    const voltageFactor = this.getStressFactor('voltage', voltageStress);
+    const currentFactor = this.getStressFactor('current', currentStress);
+    const switchingFactor = this.getStressFactor('switching', switchingFreq);
+    
+    // Environment factor
+    const envFactor = environment === 'industrial' ? 2.0 : 
+                     environment === 'automotive' ? 3.0 :
+                     environment === 'military' ? 5.0 : 1.0;
+    
+    // Combined failure rate (FIT)
+    const totalFailureRate = baseData.base_fit * 
+                            tempAcceleration * 
+                            tempFactor * 
+                            voltageFactor * 
+                            currentFactor * 
+                            switchingFactor * 
+                            envFactor;
+    
+    // MTBF in hours
+    const mtbf_hours = 1e9 / totalFailureRate;
+    
+    return {
+      mtbf_hours: mtbf_hours,
+      mtbf_years: mtbf_hours / 8760,
+      failure_rate_fit: totalFailureRate,
+      reliability_10years: Math.exp(-10 * 8760 / mtbf_hours) * 100,
+      stress_analysis: {
+        temperature_factor: tempFactor,
+        voltage_factor: voltageFactor, 
+        current_factor: currentFactor,
+        switching_factor: switchingFactor,
+        environment_factor: envFactor,
+        temperature_acceleration: tempAcceleration
+      },
+      dominant_stress: this.identifyDominantStress({
+        temperature: tempFactor,
+        voltage: voltageFactor,
+        current: currentFactor,
+        switching: switchingFactor
+      })
+    };
+  }
+  
+  getStressFactor(stressType, value) {
+    const factors = this.stressFactors[stressType];
+    
+    switch(stressType) {
+      case 'temperature':
+        if (value < 55) return factors.low;
+        if (value < 85) return factors.normal;
+        if (value < 125) return factors.high;
+        return factors.extreme;
+        
+      case 'voltage':
+      case 'current':
+        if (value < 0.6) return factors.low;
+        if (value < 0.8) return factors.normal;
+        if (value < 0.9) return factors.high;
+        return factors.extreme;
+        
+      case 'switching':
+        if (value < 10) return factors.low;
+        if (value < 100) return factors.normal;
+        if (value < 500) return factors.high;
+        return factors.extreme;
+        
+      default:
+        return 1.0;
+    }
+  }
+  
+  identifyDominantStress(stressFactors) {
+    let maxStress = 0;
+    let dominantStress = 'none';
+    
+    for (const [stress, factor] of Object.entries(stressFactors)) {
+      if (factor > maxStress) {
+        maxStress = factor;
+        dominantStress = stress;
+      }
+    }
+    
+    return { type: dominantStress, factor: maxStress };
+  }
+  
+  generateReliabilityReport(mtbfData, currentLang) {
+    const isBg = currentLang === 'bg';
+    
+    const reliabilityLevel = mtbfData.mtbf_years > 20 ? 'excellent' :
+                           mtbfData.mtbf_years > 10 ? 'good' :
+                           mtbfData.mtbf_years > 5 ? 'acceptable' : 'poor';
+    
+    const statusColors = {
+      excellent: '#2e7d32',
+      good: '#388e3c', 
+      acceptable: '#ff9800',
+      poor: '#d32f2f'
+    };
+    
+    const statusText = {
+      excellent: isBg ? 'Отлична надеждност' : 'Excellent Reliability',
+      good: isBg ? 'Добра надеждност' : 'Good Reliability',
+      acceptable: isBg ? 'Приемлива надеждност' : 'Acceptable Reliability',
+      poor: isBg ? 'Ниска надеждност' : 'Poor Reliability'
+    };
+    
+    return {
+      status: reliabilityLevel,
+      color: statusColors[reliabilityLevel],
+      text: statusText[reliabilityLevel],
+      mtbf_display: `${mtbfData.mtbf_years.toFixed(1)} ${isBg ? 'години' : 'years'}`,
+      reliability_10y: `${mtbfData.reliability_10years.toFixed(1)}%`,
+      dominant_stress: mtbfData.dominant_stress.type,
+      improvement_suggestion: this.generateImprovementSuggestion(mtbfData.dominant_stress, isBg)
+    };
+  }
+  
+  generateImprovementSuggestion(dominantStress, isBg) {
+    const suggestions = {
+      temperature: isBg ? '🌡️ Подобрете охлаждането за намаляване на температурата' : '🌡️ Improve cooling to reduce temperature',
+      voltage: isBg ? '⚡ Намалете напрежението или изберете транзистор с по-високо номинално напрежение' : '⚡ Reduce voltage or select higher voltage rating transistor',
+      current: isBg ? '🔌 Намалете тока или използвайте паралелни транзистори' : '🔌 Reduce current or use parallel transistors',
+      switching: isBg ? '📋 Намалете честотата на превключване или изберете по-бърз транзистор' : '📋 Reduce switching frequency or select faster transistor'
+    };
+    
+    return suggestions[dominantStress.type] || (isBg ? 'Оптимизирайте операционните условия' : 'Optimize operating conditions');
+  }
+}
+
+const reliabilityAnalyzer = new ReliabilityAnalyzer();
