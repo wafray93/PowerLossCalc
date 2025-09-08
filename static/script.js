@@ -1040,6 +1040,30 @@ function calc(){
     console.log(`🔬 Using enhanced datasheet parameters from ${enhancedParams.manufacturer}`);
   }
   
+  // Generate switching waveforms
+  const waveforms = waveformSimulator.simulateSwitchingWaveforms(Vdc, I, fsw/1000, tech);
+  
+  // Create waveform visualization
+  setTimeout(() => {
+    let waveformContainer = document.getElementById('waveformContainer');
+    if (!waveformContainer) {
+      waveformContainer = document.createElement('div');
+      waveformContainer.id = 'waveformContainer';
+      waveformContainer.style.marginTop = '20px';
+      waveformContainer.innerHTML = `
+        <h3 style="color: #1976d2; margin-bottom: 10px;">
+          📊 ${currentLang === 'bg' ? 'Switching Waveforms' : 'Switching Waveforms'}
+        </h3>
+        <canvas id="waveformCanvas" width="800" height="400" style="border: 1px solid #ccc; border-radius: 8px; max-width: 100%;"></canvas>
+      `;
+      document.getElementById('results').parentNode.appendChild(waveformContainer);
+    }
+    
+    waveformSimulator.initCanvas('waveformCanvas');
+    const title = `${tech} Transistor @ ${fsw/1000}kHz, ${Vdc}V, ${I}A`;
+    waveformSimulator.drawWaveforms(waveforms, title);
+  }, 100);
+  
   let warnings = [];
   let recommendations = [];
   
@@ -3079,3 +3103,130 @@ ${report.citation}
 }
 
 const reportGenerator = new ScientificReportGenerator();
+
+// Interactive Waveform Simulation Engine
+class WaveformSimulator {
+  constructor() {
+    this.canvas = null;
+    this.ctx = null;
+  }
+  
+  initCanvas(canvasId) {
+    this.canvas = document.getElementById(canvasId);
+    if (!this.canvas) {
+      this.canvas = document.createElement('canvas');
+      this.canvas.id = canvasId;
+      this.canvas.width = 800;
+      this.canvas.height = 400;
+      this.canvas.style.border = '1px solid #ccc';
+    }
+    this.ctx = this.canvas.getContext('2d');
+  }
+  
+  simulateSwitchingWaveforms(vds, id, fsw_khz, technology) {
+    const fsw = fsw_khz * 1000;
+    const samples = 200;
+    const duration_ms = 2 / fsw_khz;
+    
+    const waveforms = { time: [], vds_waveform: [], id_waveform: [], power_waveform: [] };
+    
+    for (let i = 0; i < samples; i++) {
+      const t = (i / samples) * duration_ms;
+      const phase = (t * fsw_khz / 1000) % 1;
+      
+      const { vds_val, id_val } = this.calculateSwitchingPoint(phase, vds, id, technology);
+      
+      waveforms.time.push(t * 1000);
+      waveforms.vds_waveform.push(vds_val);
+      waveforms.id_waveform.push(id_val);
+      waveforms.power_waveform.push(vds_val * id_val);
+    }
+    
+    return waveforms;
+  }
+  
+  calculateSwitchingPoint(phase, vds_max, id_max, technology) {
+    let vds_val, id_val;
+    
+    if (phase < 0.1) {
+      const progress = phase / 0.1;
+      vds_val = vds_max * (1 - progress);
+      id_val = id_max * progress;
+    } else if (phase < 0.4) {
+      vds_val = vds_max * 0.05;
+      id_val = id_max;
+    } else if (phase < 0.5) {
+      const progress = (phase - 0.4) / 0.1;
+      vds_val = vds_max * progress;
+      id_val = id_max * (1 - progress);
+    } else {
+      vds_val = vds_max;
+      id_val = 0;
+    }
+    
+    return { vds_val, id_val };
+  }
+  
+  drawWaveforms(waveforms, title) {
+    if (!this.ctx) return;
+    
+    const canvas = this.canvas;
+    const ctx = this.ctx;
+    
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+    const margin = 60;
+    const plotWidth = canvas.width - 2 * margin;
+    const plotHeight = (canvas.height - 80) / 3;
+    
+    ctx.fillStyle = '#333';
+    ctx.font = '16px Arial';
+    ctx.textAlign = 'center';
+    ctx.fillText(title, canvas.width / 2, 25);
+    
+    const plots = [
+      { data: waveforms.vds_waveform, label: 'VDS (V)', color: '#d32f2f' },
+      { data: waveforms.id_waveform, label: 'ID (A)', color: '#1976d2' },
+      { data: waveforms.power_waveform, label: 'Power (W)', color: '#388e3c' }
+    ];
+    
+    plots.forEach((plot, index) => {
+      const yOffset = 40 + index * (plotHeight + 20);
+      this.drawSubplot(ctx, waveforms.time, plot.data, margin, yOffset, plotWidth, plotHeight - 20, plot);
+    });
+  }
+  
+  drawSubplot(ctx, timeData, yData, x, y, width, height, plot) {
+    const yMax = Math.max(...yData);
+    
+    ctx.fillStyle = '#f8f9fa';
+    ctx.fillRect(x, y, width, height);
+    
+    ctx.strokeStyle = '#dee2e6';
+    ctx.strokeRect(x, y, width, height);
+    
+    ctx.strokeStyle = plot.color;
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    
+    const xScale = width / (timeData[timeData.length - 1] - timeData[0]);
+    const yScale = height / yMax;
+    
+    for (let i = 0; i < timeData.length; i++) {
+      const xPos = x + (timeData[i] - timeData[0]) * xScale;
+      const yPos = y + height - yData[i] * yScale;
+      
+      if (i === 0) ctx.moveTo(xPos, yPos);
+      else ctx.lineTo(xPos, yPos);
+    }
+    
+    ctx.stroke();
+    
+    ctx.fillStyle = plot.color;
+    ctx.font = '12px Arial';
+    ctx.textAlign = 'left';
+    ctx.fillText(plot.label, x + 5, y + 15);
+  }
+}
+
+const waveformSimulator = new WaveformSimulator();
