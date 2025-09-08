@@ -65,7 +65,10 @@ main {
 
 .controls h2,
 .results h2,
-.explanation h2 {
+.explanation h2,
+.analysis h2,
+.thermal h2,
+.theory h2 {
   text-align: center;
   margin-bottom: 20px;
 }
