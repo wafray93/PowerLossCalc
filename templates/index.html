@@ -22,7 +22,8 @@
     <section class="controls">
       <h2 data-lang="inputParams">Въведи параметри</h2>
       <div class="row">
-        <label class="tooltip-label"><span data-lang="technology">Технология</span>:
+        <label class="input-group">
+          <span data-lang="technology">Технология</span>
           <span class="tooltip-icon">?</span>
           <div class="tooltip">Изберете тип полупроводник: Si (силиций) за стандартни приложения, SiC (силициев карбид) за висока ефективност и температура, GaN (галиев нитрид) за високочестотни приложения.</div>
           <select id="techSelect">
@@ -32,13 +33,15 @@
           </select>
         </label>
 
-        <label class="tooltip-label"><span data-lang="maxVoltage">Макс. напрежение (V)</span>:
+        <label class="input-group">
+          <span data-lang="maxVoltage">Макс. напрежение (V)</span>
           <span class="tooltip-icon">?</span>
           <div class="tooltip">Задайте максималното работно напрежение за вашето приложение. Транзисторът трябва да има VDS_max по-голямо от това значение с марж за безопасност (обикновено 1.5-2x).</div>
           <input id="maxVoltage" type="number" value="650" min="50" max="1500">
         </label>
 
-        <label class="tooltip-label"><span data-lang="maxCurrent">Макс. ток (A)</span>:
+        <label class="input-group">
+          <span data-lang="maxCurrent">Макс. ток (A)</span>
           <span class="tooltip-icon">?</span>
           <div class="tooltip">Задайте максималния постоянен ток през транзистора. Транзисторът трябва да може да провежда поне този ток с добро охлаждане.</div>
           <input id="maxCurrent" type="number" value="30" min="1" max="100">
@@ -46,7 +49,8 @@
       </div>
 
       <div class="row">
-        <label class="tooltip-label"><span data-lang="concreteModel">Конкретен модел</span>:
+        <label class="input-group">
+          <span data-lang="concreteModel">Конкретен модел</span>
           <span class="tooltip-icon">?</span>
           <div class="tooltip">Изберете конкретен транзистор от филтрираните по напрежение и ток. Всеки модел има реални параметри от datasheet-а на производителя.</div>
           <select id="transistorSelect">
@@ -148,8 +152,8 @@
       <p data-lang="efficiencyDescription">Тази графика показва как се променя ефективността при различни честоти за Si, SiC и GaN технологиите.</p>
       
       <div class="analysis-controls">
-        <label class="tooltip-label">
-          <span data-lang="frequencyRange">Честотен обхват</span>:
+        <label class="input-group">
+          <span data-lang="frequencyRange">Честотен обхват</span>
           <span class="tooltip-icon">?</span>
           <div class="tooltip">Задайте честотния обхват за анализ. Препоръчително: 1-500kHz за Si, 10-1000kHz за SiC, 50-2000kHz за GaN.</div>
           <div class="frequency-range">
@@ -172,15 +176,15 @@
       
       <div class="thermal-controls">
         <div class="row">
-          <label class="tooltip-label">
-            <span data-lang="ambientTemp">Околна температура (°C)</span>:
+          <label class="input-group">
+            <span data-lang="ambientTemp">Околна температура (°C)</span>
             <span class="tooltip-icon">?</span>
             <div class="tooltip">Температурата на околната среда. Типични стойности: 25°C (стайна), 40°C (промишлена), 70°C (автомобилна).</div>
             <input id="ambientTemp" type="number" value="25" min="-40" max="85">
           </label>
 
-          <label class="tooltip-label">
-            <span data-lang="coolingType">Тип охлаждане</span>:
+          <label class="input-group">
+            <span data-lang="coolingType">Тип охлаждане</span>
             <span class="tooltip-icon">?</span>
             <div class="tooltip">Изберете тип охлаждане. Всеки тип има различно термично съпротивление case-to-ambient.</div>
             <select id="coolingType">
