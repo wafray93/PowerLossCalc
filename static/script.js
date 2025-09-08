@@ -36,7 +36,7 @@ const LANGUAGES = {
       duty: 'Коефициент на запълване (Duty cycle) - отношението между времето ON и периода. 0.5 означава 50% от времето транзисторът е включен. Влияе на загубите от проводимост.',
       frequencyRange: 'Честотен обхват за анализ на ефективността спрямо честотата.',
       ambientTemp: 'Околна температура - влияе на термичните изчисления.',
-      coolingType: 'Тип охлаждане - определя термичното съпротивление.'
+      coolingType: 'Тип охлаждане - определя термичното съпротивление. Естествено (50°C/W), малък радиатор 10-20cm² (20°C/W), среден радиатор 50-100cm² (8°C/W), голям радиатор >200cm² (3°C/W), принудително въздушно с вентилатор (2°C/W), течно охлаждане (0.5°C/W).'
     },
     // Нови преводи за новите функции
     efficiencyAnalysis: 'Анализ на ефективност vs честота',
@@ -44,7 +44,7 @@ const LANGUAGES = {
     frequencyRange: 'Честотен обхват',
     generateChart: 'Генерирай графика',
     thermalModeling: 'Термично моделиране',
-    thermalDescription: 'Изчислява температурата на корпуса и съединението според загубите и термичните съпротивления.',
+    thermalDescription: 'Анализира как се загрява транзисторът и дали е необходимо охлаждане. Изчислява температурите на полупроводниковия чип (junction) и корпуса въз основа на мощността на загубите.',
     ambientTemp: 'Околна температура (°C)',
     coolingType: 'Тип охлаждане',
     calculateThermal: 'Изчисли термични параметри',
@@ -53,12 +53,12 @@ const LANGUAGES = {
     caseTemp: 'Температура на корпуса (Tc)',
     thermalResistance: 'Термично съпротивление (Rth)',
     thermalMargin: 'Термичен марж',
-    naturalCooling: 'Естествено охлаждане',
-    smallHeatsink: 'Малък радиатор',
-    mediumHeatsink: 'Среден радиатор',
-    largeHeatsink: 'Голям радиатор',
-    forcedAir: 'Принудително въздушно',
-    liquidCooling: 'Течно охлаждане'
+    naturalCooling: 'Естествено (само корпус, 50°C/W)',
+    smallHeatsink: 'Малък радиатор (10-20cm², 20°C/W)',
+    mediumHeatsink: 'Среден радиатор (50-100cm², 8°C/W)',
+    largeHeatsink: 'Голям радиатор (>200cm², 3°C/W)',
+    forcedAir: 'Принудително въздушно (с вентилатор, 2°C/W)',
+    liquidCooling: 'Течно охлаждане (най-ефективно, 0.5°C/W)'
   },
   en: {
     mainTitle: 'Calculator: Si / SiC / GaN Transistors',
@@ -96,7 +96,7 @@ const LANGUAGES = {
       duty: 'Duty cycle - ratio between ON time and period. 0.5 means 50% of time the transistor is on. Affects conduction losses.',
       frequencyRange: 'Frequency range for efficiency vs frequency analysis.',
       ambientTemp: 'Ambient temperature - affects thermal calculations.',
-      coolingType: 'Cooling type - determines thermal resistance.'
+      coolingType: 'Cooling type - determines thermal resistance. Natural (50°C/W), small heatsink 10-20cm² (20°C/W), medium heatsink 50-100cm² (8°C/W), large heatsink >200cm² (3°C/W), forced air with fan (2°C/W), liquid cooling (0.5°C/W).'
     },
     // New translations for new functions
     efficiencyAnalysis: 'Efficiency vs Frequency Analysis',
@@ -104,7 +104,7 @@ const LANGUAGES = {
     frequencyRange: 'Frequency Range',
     generateChart: 'Generate Chart',
     thermalModeling: 'Thermal Modeling',
-    thermalDescription: 'Calculates case and junction temperatures based on losses and thermal resistances.',
+    thermalDescription: 'Analyzes how the transistor heats up and whether cooling is necessary. Calculates temperatures of the semiconductor chip (junction) and case based on power losses.',
     ambientTemp: 'Ambient Temperature (°C)',
     coolingType: 'Cooling Type',
     calculateThermal: 'Calculate Thermal Parameters',
@@ -113,12 +113,12 @@ const LANGUAGES = {
     caseTemp: 'Case Temperature (Tc)',
     thermalResistance: 'Thermal Resistance (Rth)',
     thermalMargin: 'Thermal Margin',
-    naturalCooling: 'Natural Cooling',
-    smallHeatsink: 'Small Heatsink',
-    mediumHeatsink: 'Medium Heatsink',
-    largeHeatsink: 'Large Heatsink',
-    forcedAir: 'Forced Air',
-    liquidCooling: 'Liquid Cooling'
+    naturalCooling: 'Natural (case only, 50°C/W)',
+    smallHeatsink: 'Small Heatsink (10-20cm², 20°C/W)',
+    mediumHeatsink: 'Medium Heatsink (50-100cm², 8°C/W)',
+    largeHeatsink: 'Large Heatsink (>200cm², 3°C/W)',
+    forcedAir: 'Forced Air (with fan, 2°C/W)',
+    liquidCooling: 'Liquid Cooling (most efficient, 0.5°C/W)'
   }
 };
 
@@ -1340,12 +1340,12 @@ const PHYSICS_CONSTANTS = {
 
 // Термични съпротивления според типа охлаждане (K/W)
 const THERMAL_RESISTANCES = {
-  natural: 50,           // Natural convection
-  small_heatsink: 15,    // Small heatsink
-  medium_heatsink: 8,    // Medium heatsink  
-  large_heatsink: 4,     // Large heatsink
-  forced_air: 2,         // Forced air cooling
-  liquid_cooling: 0.5    // Liquid cooling
+  natural: 50,           // Natural convection (само корпус)
+  small_heatsink: 20,    // Small heatsink (10-20cm²)
+  medium_heatsink: 8,    // Medium heatsink (50-100cm²)
+  large_heatsink: 3,     // Large heatsink (>200cm²)
+  forced_air: 2,         // Forced air cooling (с вентилатор)
+  liquid_cooling: 0.5    // Liquid cooling (най-ефективно)
 };
 
 // Научно точна функция за изчисление на switching losses

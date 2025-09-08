@@ -172,7 +172,7 @@
     <!-- Нова секция за термично моделиране -->
     <section class="thermal">
       <h2 data-lang="thermalModeling">Термично моделиране</h2>
-      <p data-lang="thermalDescription">Изчислява температурата на корпуса и съединението базирано на загубите и термичните съпротивления.</p>
+      <p data-lang="thermalDescription">Анализира как се загрява транзисторът и дали е необходимо охлаждане. Изчислява температурите на полупроводниковия чип (junction) и корпуса въз основа на мощността на загубите.</p>
       
       <div class="thermal-controls">
         <div class="row">
@@ -186,14 +186,14 @@
           <label class="input-group">
             <span data-lang="coolingType">Тип охлаждане</span>
             <span class="tooltip-icon">?</span>
-            <div class="tooltip">Изберете тип охлаждане. Всеки тип има различно термично съпротивление case-to-ambient.</div>
+            <div class="tooltip">Изберете тип охлаждане:<br><strong>Естествено:</strong> само корпуса (40-60°C/W)<br><strong>Малък радиатор:</strong> 10-20cm² (15-25°C/W)<br><strong>Среден радиатор:</strong> 50-100cm² (5-10°C/W)<br><strong>Голям радиатор:</strong> >200cm² (2-5°C/W)<br><strong>Принудително въздушно:</strong> с вентилатор (1-3°C/W)<br><strong>Течно охлаждане:</strong> най-ефективно (<1°C/W)</div>
             <select id="coolingType">
-              <option value="natural" data-lang-option="naturalCooling">Естествено охлаждане</option>
-              <option value="small_heatsink" data-lang-option="smallHeatsink">Малък радиатор</option>
-              <option value="medium_heatsink" data-lang-option="mediumHeatsink">Среден радиатор</option>
-              <option value="large_heatsink" data-lang-option="largeHeatsink">Голям радиатор</option>
-              <option value="forced_air" data-lang-option="forcedAir">Принудително въздушно</option>
-              <option value="liquid_cooling" data-lang-option="liquidCooling">Течно охлаждане</option>
+              <option value="natural" data-lang-option="naturalCooling">Естествено (само корпус, 50°C/W)</option>
+              <option value="small_heatsink" data-lang-option="smallHeatsink">Малък радиатор (10-20cm², 20°C/W)</option>
+              <option value="medium_heatsink" data-lang-option="mediumHeatsink">Среден радиатор (50-100cm², 8°C/W)</option>
+              <option value="large_heatsink" data-lang-option="largeHeatsink">Голям радиатор (>200cm², 3°C/W)</option>
+              <option value="forced_air" data-lang-option="forcedAir">Принудително въздушно (с вентилатор, 2°C/W)</option>
+              <option value="liquid_cooling" data-lang-option="liquidCooling">Течно охлаждане (най-ефективно, 0.5°C/W)</option>
             </select>
           </label>
         </div>
