@@ -63,6 +63,11 @@ main {
   box-shadow: 0 2px 8px rgba(0,0,0,0.05);
 }
 
+.controls h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
 .row {
   display: flex;
   flex-wrap: wrap;
@@ -122,11 +127,12 @@ button:hover {
 }
 
 .input-group span:first-child {
-  min-width: 180px;
+  min-width: 200px;
   font-weight: 500;
   color: #2c3e50;
   white-space: nowrap;
-  display: inline;
+  display: inline-block;
+  text-align: left;
 }
 
 .input-group .tooltip-icon {
@@ -137,6 +143,7 @@ button:hover {
 .input-group select {
   flex-shrink: 0;
   margin-left: 10px;
+  min-width: 120px;
 }
 
 .tech-comparison {
