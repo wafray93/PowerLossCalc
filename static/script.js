@@ -462,5 +462,19 @@ document.getElementById('resetBtn').addEventListener('click',()=>{
 
 // стартирай при зареждане
 document.addEventListener('DOMContentLoaded', function() {
+  // Проверяваме дали всички нужни елементи съществуват
+  const requiredElements = ['techSelect', 'maxVoltage', 'maxCurrent', 'transistorSelect', 'suggestBtn', 'calcBtn', 'resetBtn'];
+  
+  for (const elementId of requiredElements) {
+    const element = document.getElementById(elementId);
+    if (!element) {
+      console.error(`Element with ID '${elementId}' not found!`);
+      return;
+    }
+  }
+  
   filterTransistors();
+  
+  // Първоначално disable на suggest бутона
+  document.getElementById('suggestBtn').disabled = true;
 });
