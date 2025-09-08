@@ -6,7 +6,7 @@ const LANGUAGES = {
     inputParams: 'Въведи параметри',
     technology: 'Технология',
     concreteModel: 'Конкретен модел',
-    selectTransistor: 'Избери транзистор...',
+    selectTransistor: 'Въведете или изберете модел',
     calculate: 'Изчисли',
     suggestOptimal: 'Предложи оптимални параметри',
     reset: 'Възстанови стойности',
@@ -72,7 +72,7 @@ const LANGUAGES = {
     inputParams: 'Input Parameters',
     technology: 'Technology',
     concreteModel: 'Specific Model',
-    selectTransistor: 'Select transistor...',
+    selectTransistor: 'Enter or select model',
     calculate: 'Calculate',
     suggestOptimal: 'Suggest Optimal Parameters',
     reset: 'Reset Values',
@@ -713,45 +713,90 @@ let selectedTransistor = null;
 function populateTransistors() {
   const tech = document.getElementById('techSelect').value;
   
-  const transistorSelect = document.getElementById('transistorSelect');
+  const transistorList = document.getElementById('transistorList');
+  const transistorInput = document.getElementById('transistorSelect');
   const langData = LANGUAGES[currentLang] || LANGUAGES['bg'];
-  transistorSelect.innerHTML = `<option value="">${langData.selectTransistor}</option>`;
+  
+  // Изчистваме datalist
+  transistorList.innerHTML = '';
+  
+  // Обновяваме placeholder текста
+  transistorInput.placeholder = langData.selectTransistor + '...';
   
   const transistors = TRANSISTOR_DB[tech] || {};
   
-  // Добавяме всички транзистори без филтриране
+  // Добавяме всички транзистори в datalist
   Object.entries(transistors).forEach(([key, transistor]) => {
     const option = document.createElement('option');
     option.value = key;
     option.textContent = `${transistor.name} [${transistor.vds_max}V, ${transistor.id_max}A]`;
-    transistorSelect.appendChild(option);
+    transistorList.appendChild(option);
   });
 }
 
 // Функция за показване на информацията за избрания транзистор
 function showTransistorInfo(transistorKey) {
-  if (!transistorKey) {
+  const tech = document.getElementById('techSelect').value;
+  
+  if (!transistorKey || transistorKey.trim() === '') {
     document.getElementById('transistorInfo').style.display = 'none';
     selectedTransistor = null;
     return;
   }
   
-  const tech = document.getElementById('techSelect').value;
-  const transistor = TRANSISTOR_DB[tech][transistorKey];
-  selectedTransistor = transistor;
+  // Проверяваме дали моделът е в базата данни
+  let transistor = TRANSISTOR_DB[tech] && TRANSISTOR_DB[tech][transistorKey];
   
-  document.getElementById('modelName').textContent = transistor.name;
-  document.getElementById('manufacturer').textContent = transistor.manufacturer;
-  document.getElementById('package').textContent = transistor.package;
-  document.getElementById('vdsMax').textContent = transistor.vds_max + ' V';
-  document.getElementById('idMax').textContent = transistor.id_max + ' A';
-  document.getElementById('rdsOn').textContent = transistor.rds_mohm + ' mΩ';
-  document.getElementById('application').textContent = transistor.application;
-  
-  // Генерираме предложения за параметри
-  generateParameterSuggestions(transistor);
-  
-  document.getElementById('transistorInfo').style.display = 'block';
+  if (transistor) {
+    // Модел от базата данни
+    selectedTransistor = transistor;
+    
+    document.getElementById('modelName').textContent = transistor.name;
+    document.getElementById('manufacturer').textContent = transistor.manufacturer;
+    document.getElementById('package').textContent = transistor.package;
+    document.getElementById('vdsMax').textContent = transistor.vds_max + ' V';
+    document.getElementById('idMax').textContent = transistor.id_max + ' A';
+    document.getElementById('rdsOn').textContent = transistor.rds_mohm + ' mΩ';
+    document.getElementById('application').textContent = transistor.application;
+    
+    // Генерираме предложения за параметри
+    generateParameterSuggestions(transistor);
+    
+    document.getElementById('transistorInfo').style.display = 'block';
+  } else {
+    // Ръчно въведен модел - използваме типични параметри за технологията
+    const typicalParams = getTypicalParameters(tech);
+    selectedTransistor = {
+      name: transistorKey + ` (${tech})`,
+      manufacturer: "Ръчно въведен",
+      package: "N/A",
+      ...typicalParams,
+      application: "Ръчно въведен модел"
+    };
+    
+    document.getElementById('modelName').textContent = selectedTransistor.name;
+    document.getElementById('manufacturer').textContent = "Ръчно въведен модел";
+    document.getElementById('package').textContent = "Моля въведете параметрите ръчно";
+    document.getElementById('vdsMax').textContent = typicalParams.vds_max + ' V (типично)';
+    document.getElementById('idMax').textContent = typicalParams.id_max + ' A (типично)';
+    document.getElementById('rdsOn').textContent = typicalParams.rds_mohm + ' mΩ (типично)';
+    document.getElementById('application').textContent = "Копирано от datasheet - моля проверете параметрите";
+    
+    // Генерираме предложения с типични параметри
+    generateParameterSuggestions(selectedTransistor);
+    
+    document.getElementById('transistorInfo').style.display = 'block';
+  }
+}
+
+// Функция за получаване на типични параметри за дадена технология
+function getTypicalParameters(tech) {
+  const typical = {
+    'Si': { vds_max: 600, id_max: 20, rds_mohm: 50, tr_ns: 25, tf_ns: 15, alpha: 0.004 },
+    'SiC': { vds_max: 1200, id_max: 25, rds_mohm: 40, tr_ns: 15, tf_ns: 8, alpha: 0.003 },
+    'GaN': { vds_max: 650, id_max: 15, rds_mohm: 50, tr_ns: 5, tf_ns: 3, alpha: 0.0025 }
+  };
+  return typical[tech] || typical['Si'];
 }
 
 // Функция за генериране на предложения за параметри
@@ -2468,6 +2513,12 @@ document.getElementById('techSelect').addEventListener('change', function() {
   document.getElementById('transistorSelect').value = '';
   showTransistorInfo('');
   document.getElementById('suggestBtn').disabled = true;
+});
+
+// Event listener за транзистор input field (поддържа както избиране, така и въвеждане)
+document.getElementById('transistorSelect').addEventListener('input', function() {
+  showTransistorInfo(this.value);
+  document.getElementById('suggestBtn').disabled = !this.value;
 });
 
 document.getElementById('transistorSelect').addEventListener('change', function() {

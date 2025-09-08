@@ -36,10 +36,11 @@
         <label class="input-group">
           <span data-lang="concreteModel">Конкретен модел</span>
           <span class="tooltip-icon">?</span>
-          <div class="tooltip">Изберете конкретен транзистор - всеки модел има реални параметри от datasheet-а на производителя.</div>
-          <select id="transistorSelect">
-            <option value="">Избери транзистор...</option>
-          </select>
+          <div class="tooltip">Изберете или въведете модел на транзистор. Можете да копирате име от datasheet и да го поставите директно тук. За ръчно въведени модели ще се използват типични параметри за избраната технология.</div>
+          <input id="transistorSelect" type="text" list="transistorList" placeholder="Въведете или изберете модел..." autocomplete="off" data-lang-placeholder="selectTransistor">
+          <datalist id="transistorList">
+            <!-- Опциите ще се попълнят динамично -->
+          </datalist>
         </label>
       </div>
 
