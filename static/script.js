@@ -561,9 +561,6 @@ const TRANSISTOR_DB = {
       vds_max: 80, id_max: 35, rds_mohm: 14, tr_ns: 2.1, tf_ns: 1.8,
       alpha: 0.003, package: "LGA", manufacturer: "EPC",
       application: "DC-DC step down converters"
-    }
-      alpha: 0.0038, package: "LGA", manufacturer: "EPC",
-      application: "Point of load, високочестотни DC-DC"
     },
     "EPC2015C": {
       name: "EPC2015C (GaN HEMT)",
@@ -1316,7 +1313,8 @@ function generateEfficiencyChart() {
     frequencies.push(freq);
     
     // Calculate losses at this frequency
-    const pCond = calculateAdvancedConductionLosses(iLoad, selectedTransistor.rds_on, duty, temp, techType);
+    const rds_on_ohms = selectedTransistor.rds_mohm / 1000; // Convert milliohm to ohm
+    const pCond = calculateAdvancedConductionLosses(iLoad, rds_on_ohms, duty, temp, techType);
     const pSw = calculateAdvancedSwitchingLosses(vdc, iLoad, freq, temp, techType);
     const pTotal = pCond + pSw;
     const pOut = vdc * iLoad * duty; // Output power
@@ -1620,9 +1618,9 @@ document.getElementById('calculateThermal').addEventListener('click', calculateT
 
 document.getElementById('resetBtn').addEventListener('click',()=>{
   document.getElementById('techSelect').value="SiC";
-  document.getElementById('maxVoltage').value=650;
-  document.getElementById('maxCurrent').value=30;
-  document.getElementById('vdc').value=400;
+  document.getElementById('maxVoltage').value=200;
+  document.getElementById('maxCurrent').value=15;
+  document.getElementById('vdc').value=100;
   document.getElementById('iLoad').value=30;
   document.getElementById('fsw').value=100;
   document.getElementById('temp').value=25;
