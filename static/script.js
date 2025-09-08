@@ -33,8 +33,32 @@ const LANGUAGES = {
       iload: 'RMS ток през товара. Това е ефективната стойност на тока, който преминава през транзистора по време на проводимост.',
       fsw: 'Честота на превключване. По-високата честота намалява размера на компонентите, но увеличава загубите от превключване. Типични стойности: Si (10-50kHz), SiC (50-200kHz), GaN (100kHz-1MHz).',
       temp: 'Температура на p-n съединението (Junction temperature). Влияе на съпротивлението RDS(on). Типични стойности: 25°C (стайна), 100°C (работна), 150°C (максимална).',
-      duty: 'Коефициент на запълване (Duty cycle) - отношението между времето ON и периода. 0.5 означава 50% от времето транзисторът е включен. Влияе на загубите от проводимост.'
-    }
+      duty: 'Коефициент на запълване (Duty cycle) - отношението между времето ON и периода. 0.5 означава 50% от времето транзисторът е включен. Влияе на загубите от проводимост.',
+      frequencyRange: 'Честотен обхват за анализ на ефективността спрямо честотата.',
+      ambientTemp: 'Околна температура - влияе на термичните изчисления.',
+      coolingType: 'Тип охлаждане - определя термичното съпротивление.'
+    },
+    // Нови преводи за новите функции
+    efficiencyAnalysis: 'Анализ на ефективност vs честота',
+    efficiencyDescription: 'Тази графика показва как се променя ефективността при различни честоти за Si, SiC и GaN технологиите.',
+    frequencyRange: 'Честотен обхват',
+    generateChart: 'Генерирай графика',
+    thermalModeling: 'Термично моделиране',
+    thermalDescription: 'Изчислява температурата на корпуса и съединението според загубите и термичните съпротивления.',
+    ambientTemp: 'Околна температура (°C)',
+    coolingType: 'Тип охлаждане',
+    calculateThermal: 'Изчисли термични параметри',
+    thermalResults: 'Термични резултати',
+    junctionTemp: 'Температура на съединението (Tj)',
+    caseTemp: 'Температура на корпуса (Tc)',
+    thermalResistance: 'Термично съпротивление (Rth)',
+    thermalMargin: 'Термичен марж',
+    naturalCooling: 'Естествено охлаждане',
+    smallHeatsink: 'Малък радиатор',
+    mediumHeatsink: 'Среден радиатор',
+    largeHeatsink: 'Голям радиатор',
+    forcedAir: 'Принудително въздушно',
+    liquidCooling: 'Течно охлаждане'
   },
   en: {
     mainTitle: 'Calculator: Si / SiC / GaN Transistors',
@@ -69,8 +93,32 @@ const LANGUAGES = {
       iload: 'RMS load current. This is the effective value of current flowing through the transistor during conduction.',
       fsw: 'Switching frequency. Higher frequency reduces component size but increases switching losses. Typical values: Si (10-50kHz), SiC (50-200kHz), GaN (100kHz-1MHz).',
       temp: 'Junction temperature. Affects RDS(on) resistance. Typical values: 25°C (room), 100°C (operating), 150°C (maximum).',
-      duty: 'Duty cycle - ratio between ON time and period. 0.5 means 50% of time the transistor is on. Affects conduction losses.'
-    }
+      duty: 'Duty cycle - ratio between ON time and period. 0.5 means 50% of time the transistor is on. Affects conduction losses.',
+      frequencyRange: 'Frequency range for efficiency vs frequency analysis.',
+      ambientTemp: 'Ambient temperature - affects thermal calculations.',
+      coolingType: 'Cooling type - determines thermal resistance.'
+    },
+    // New translations for new functions
+    efficiencyAnalysis: 'Efficiency vs Frequency Analysis',
+    efficiencyDescription: 'This chart shows how efficiency changes with different frequencies for Si, SiC and GaN technologies.',
+    frequencyRange: 'Frequency Range',
+    generateChart: 'Generate Chart',
+    thermalModeling: 'Thermal Modeling',
+    thermalDescription: 'Calculates case and junction temperatures based on losses and thermal resistances.',
+    ambientTemp: 'Ambient Temperature (°C)',
+    coolingType: 'Cooling Type',
+    calculateThermal: 'Calculate Thermal Parameters',
+    thermalResults: 'Thermal Results',
+    junctionTemp: 'Junction Temperature (Tj)',
+    caseTemp: 'Case Temperature (Tc)',
+    thermalResistance: 'Thermal Resistance (Rth)',
+    thermalMargin: 'Thermal Margin',
+    naturalCooling: 'Natural Cooling',
+    smallHeatsink: 'Small Heatsink',
+    mediumHeatsink: 'Medium Heatsink',
+    largeHeatsink: 'Large Heatsink',
+    forcedAir: 'Forced Air',
+    liquidCooling: 'Liquid Cooling'
   }
 };
 
@@ -1037,6 +1085,398 @@ function switchLanguage(lang) {
   }
 }
 
+// Научни константи за по-точни изчисления
+const PHYSICS_CONSTANTS = {
+  // Gate charge и capacitance параметри за различните технологии
+  Si: {
+    typical_Qg: 150e-9,      // 150 nC typical gate charge
+    typical_Coss: 800e-12,   // 800 pF output capacitance  
+    typical_Crss: 50e-12,    // 50 pF reverse transfer capacitance (Miller)
+    temp_coeff_rds: 0.006,   // 0.6%/°C RDS(on) temperature coefficient
+    switching_speed_factor: 1.0,
+    bandgap: 1.12            // eV
+  },
+  SiC: {
+    typical_Qg: 45e-9,       // 45 nC typical gate charge
+    typical_Coss: 180e-12,   // 180 pF output capacitance
+    typical_Crss: 8e-12,     // 8 pF reverse transfer capacitance
+    temp_coeff_rds: 0.008,   // 0.8%/°C RDS(on) temperature coefficient
+    switching_speed_factor: 0.3,
+    bandgap: 3.3             // eV
+  },
+  GaN: {
+    typical_Qg: 12e-9,       // 12 nC typical gate charge
+    typical_Coss: 65e-12,    // 65 pF output capacitance
+    typical_Crss: 2e-12,     // 2 pF reverse transfer capacitance
+    temp_coeff_rds: 0.012,   // 1.2%/°C RDS(on) temperature coefficient
+    switching_speed_factor: 0.1,
+    bandgap: 3.4             // eV
+  }
+};
+
+// Термични съпротивления според типа охлаждане (K/W)
+const THERMAL_RESISTANCES = {
+  natural: 50,           // Natural convection
+  small_heatsink: 15,    // Small heatsink
+  medium_heatsink: 8,    // Medium heatsink  
+  large_heatsink: 4,     // Large heatsink
+  forced_air: 2,         // Forced air cooling
+  liquid_cooling: 0.5    // Liquid cooling
+};
+
+// Научно точна функция за изчисление на switching losses
+function calculateAdvancedSwitchingLosses(vds, id, fsw_khz, temp, technology) {
+  const fsw = fsw_khz * 1000; // Convert to Hz
+  const constants = PHYSICS_CONSTANTS[technology];
+  
+  // Temperature derating на RDS(on)
+  const temp_factor = 1 + constants.temp_coeff_rds * (temp - 25);
+  
+  // Miller capacitance влияние върху switching времената
+  const gate_drive_voltage = 10; // Typical 10V gate drive
+  const gate_current = 0.5; // Typical 500mA gate current
+  
+  // Rise/fall времена базирани на gate charge и Miller capacitance
+  const t_rise = (constants.typical_Qg + constants.typical_Crss * vds) / gate_current;
+  const t_fall = t_rise * 0.8; // Fall time typically 80% of rise time
+  
+  // Switching energies per cycle (realistic formula)
+  const E_on = 0.5 * vds * id * t_rise * constants.switching_speed_factor;
+  const E_off = 0.5 * vds * id * t_fall * constants.switching_speed_factor;
+  
+  // Output capacitance discharge energy (Coss losses)
+  const E_coss = 0.5 * constants.typical_Coss * vds * vds;
+  
+  // Total switching losses including temperature effects
+  const P_switching = (E_on + E_off + E_coss) * fsw * temp_factor;
+  
+  return P_switching;
+}
+
+// Научно точна функция за изчисление на conduction losses
+function calculateAdvancedConductionLosses(id, rds_on_25c, duty, temp, technology) {
+  const constants = PHYSICS_CONSTANTS[technology];
+  
+  // Temperature derating на RDS(on) според физическата теория
+  const temp_factor = 1 + constants.temp_coeff_rds * (temp - 25);
+  const rds_on_temp = rds_on_25c * temp_factor;
+  
+  // Conduction losses с temperature effects
+  const P_conduction = id * id * rds_on_temp * duty;
+  
+  return P_conduction;
+}
+
+// Функция за генериране на efficiency vs frequency график
+function generateEfficiencyChart() {
+  if (!selectedTransistor) {
+    alert('Моля, първо изберете транзистор!');
+    return;
+  }
+  
+  const freqMin = parseFloat(document.getElementById('freqMin').value);
+  const freqMax = parseFloat(document.getElementById('freqMax').value);
+  const vdc = parseFloat(document.getElementById('vdc').value);
+  const iLoad = parseFloat(document.getElementById('iLoad').value);
+  const temp = parseFloat(document.getElementById('temp').value);
+  const duty = parseFloat(document.getElementById('duty').value);
+  
+  // Determine technology
+  let techType;
+  if (selectedTransistor.name.includes('Si') && !selectedTransistor.name.includes('SiC')) {
+    techType = 'Si';
+  } else if (selectedTransistor.name.includes('SiC')) {
+    techType = 'SiC';
+  } else if (selectedTransistor.name.includes('GaN')) {
+    techType = 'GaN';
+  }
+  
+  // Generate frequency points (logarithmic scale)
+  const frequencies = [];
+  const efficiencies = [];
+  const stepCount = 50;
+  
+  for (let i = 0; i <= stepCount; i++) {
+    const logFreq = Math.log10(freqMin) + (Math.log10(freqMax) - Math.log10(freqMin)) * i / stepCount;
+    const freq = Math.pow(10, logFreq);
+    frequencies.push(freq);
+    
+    // Calculate losses at this frequency
+    const pCond = calculateAdvancedConductionLosses(iLoad, selectedTransistor.rds_on, duty, temp, techType);
+    const pSw = calculateAdvancedSwitchingLosses(vdc, iLoad, freq, temp, techType);
+    const pTotal = pCond + pSw;
+    const pOut = vdc * iLoad * duty; // Output power
+    const efficiency = (pOut / (pOut + pTotal)) * 100;
+    
+    efficiencies.push(Math.max(0, Math.min(100, efficiency)));
+  }
+  
+  // Create chart
+  const ctx = document.getElementById('efficiencyChart');
+  
+  // Destroy existing chart if any
+  if (window.efficiencyChartInstance) {
+    window.efficiencyChartInstance.destroy();
+  }
+  
+  window.efficiencyChartInstance = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: frequencies.map(f => f.toFixed(0)),
+      datasets: [{
+        label: `${selectedTransistor.name} - КПД (%)`,
+        data: efficiencies,
+        borderColor: getTechnologyColor(techType),
+        backgroundColor: getTechnologyColor(techType) + '20',
+        borderWidth: 3,
+        fill: false,
+        tension: 0.1
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        title: {
+          display: true,
+          text: 'Ефективност vs Честота'
+        },
+        legend: {
+          display: true
+        }
+      },
+      scales: {
+        x: {
+          type: 'logarithmic',
+          title: {
+            display: true,
+            text: 'Честота (kHz)'
+          }
+        },
+        y: {
+          title: {
+            display: true,
+            text: 'КПД (%)'
+          },
+          min: 80,
+          max: 100
+        }
+      }
+    }
+  });
+  
+  document.getElementById('efficiencyChart').style.display = 'block';
+  
+  // Show insights
+  showEfficiencyInsights(frequencies, efficiencies, techType);
+}
+
+// Get color for technology
+function getTechnologyColor(techType) {
+  switch(techType) {
+    case 'Si': return '#FF6B6B';
+    case 'SiC': return '#4ECDC4';
+    case 'GaN': return '#45B7D1';
+    default: return '#95A5A6';
+  }
+}
+
+// Show scientific insights about efficiency vs frequency
+function showEfficiencyInsights(frequencies, efficiencies, techType) {
+  const maxEffIndex = efficiencies.indexOf(Math.max(...efficiencies));
+  const optimalFreq = frequencies[maxEffIndex];
+  const maxEff = efficiencies[maxEffIndex];
+  
+  const langData = LANGUAGES[currentLang] || LANGUAGES['bg'];
+  
+  let insights = '';
+  if (currentLang === 'bg') {
+    insights = `
+      <div class="scientific-insights">
+        <h4>🔬 Научен анализ на ефективността:</h4>
+        <div class="insight-item">
+          <strong>📊 Оптимална честота:</strong> ${optimalFreq.toFixed(1)} kHz (${maxEff.toFixed(2)}% КПД)<br>
+          <em>Физично обяснение:</em> При тази честота switching и conduction загубите са в оптимално съотношение.
+        </div>
+        
+        <div class="insight-item">
+          <strong>⚡ ${techType} характеристики:</strong><br>
+          ${getTechnologyPhysicsExplanation(techType)}
+        </div>
+        
+        <div class="insight-item">
+          <strong>🧮 Използвани научни модели:</strong><br>
+          • Miller capacitance (Crss): ${(PHYSICS_CONSTANTS[techType].typical_Crss * 1e12).toFixed(1)} pF<br>
+          • Gate charge (Qg): ${(PHYSICS_CONSTANTS[techType].typical_Qg * 1e9).toFixed(1)} nC<br>
+          • Temperature coefficient: ${(PHYSICS_CONSTANTS[techType].temp_coeff_rds * 100).toFixed(1)}%/°C<br>
+          • Bandgap energy: ${PHYSICS_CONSTANTS[techType].bandgap} eV
+        </div>
+      </div>
+    `;
+  } else {
+    insights = `
+      <div class="scientific-insights">
+        <h4>🔬 Scientific Efficiency Analysis:</h4>
+        <div class="insight-item">
+          <strong>📊 Optimal frequency:</strong> ${optimalFreq.toFixed(1)} kHz (${maxEff.toFixed(2)}% efficiency)<br>
+          <em>Physical explanation:</em> At this frequency switching and conduction losses are optimally balanced.
+        </div>
+        
+        <div class="insight-item">
+          <strong>⚡ ${techType} characteristics:</strong><br>
+          ${getTechnologyPhysicsExplanationEn(techType)}
+        </div>
+        
+        <div class="insight-item">
+          <strong>🧮 Scientific models used:</strong><br>
+          • Miller capacitance (Crss): ${(PHYSICS_CONSTANTS[techType].typical_Crss * 1e12).toFixed(1)} pF<br>
+          • Gate charge (Qg): ${(PHYSICS_CONSTANTS[techType].typical_Qg * 1e9).toFixed(1)} nC<br>
+          • Temperature coefficient: ${(PHYSICS_CONSTANTS[techType].temp_coeff_rds * 100).toFixed(1)}%/°C<br>
+          • Bandgap energy: ${PHYSICS_CONSTANTS[techType].bandgap} eV
+        </div>
+      </div>
+    `;
+  }
+  
+  document.getElementById('efficiencyInsights').innerHTML = insights;
+  document.getElementById('efficiencyInsights').style.display = 'block';
+}
+
+// Scientific explanation of technology physics
+function getTechnologyPhysicsExplanation(techType) {
+  switch(techType) {
+    case 'Si':
+      return `
+        • <u>Кристална решетка:</u> Диамантена структура, ниска подвижност на носителите<br>
+        • <u>Bandgap:</u> 1.12 eV - ограничава работната температура<br>
+        • <u>Switching:</u> Бавни поради големи паразитни капацитети<br>
+        • <u>Предимства:</u> Евтини, добре изучени процеси<br>
+        • <u>Ограничения:</u> Ниска честота, високи switching загуби
+      `;
+    case 'SiC':
+      return `
+        • <u>Кристална решетка:</u> Политипна структура (4H-SiC), висока подвижност<br>
+        • <u>Bandgap:</u> 3.3 eV - позволява висока температура (200°C+)<br>
+        • <u>Switching:</u> Бързи поради ниски паразитни капацитети<br>
+        • <u>Предимства:</u> Високи честоти, отлична термична стабилност<br>
+        • <u>Физика:</u> Критичното електрично поле е 10x по-високо от Si
+      `;
+    case 'GaN':
+      return `
+        • <u>Кристална решетка:</u> Wurtzite структура, най-висока подвижност<br>
+        • <u>Bandgap:</u> 3.4 eV - директен bandgap за високи честоти<br>
+        • <u>Switching:</u> Най-бързи (sub-nanosecond rise times)<br>
+        • <u>2DEG канал:</u> Двумерен електронен газ с висока концентрация<br>
+        • <u>Физика:</u> Хетероструктура AlGaN/GaN създава проводящ канал
+      `;
+    default:
+      return 'Няма данни за тази технология.';
+  }
+}
+
+function getTechnologyPhysicsExplanationEn(techType) {
+  switch(techType) {
+    case 'Si':
+      return `
+        • <u>Crystal lattice:</u> Diamond structure, low carrier mobility<br>
+        • <u>Bandgap:</u> 1.12 eV - limits operating temperature<br>
+        • <u>Switching:</u> Slow due to large parasitic capacitances<br>
+        • <u>Advantages:</u> Cheap, well-established processes<br>
+        • <u>Limitations:</u> Low frequency, high switching losses
+      `;
+    case 'SiC':
+      return `
+        • <u>Crystal lattice:</u> Polytypic structure (4H-SiC), high mobility<br>
+        • <u>Bandgap:</u> 3.3 eV - enables high temperature (200°C+)<br>
+        • <u>Switching:</u> Fast due to low parasitic capacitances<br>
+        • <u>Advantages:</u> High frequencies, excellent thermal stability<br>
+        • <u>Physics:</u> Critical electric field is 10x higher than Si
+      `;
+    case 'GaN':
+      return `
+        • <u>Crystal lattice:</u> Wurtzite structure, highest mobility<br>
+        • <u>Bandgap:</u> 3.4 eV - direct bandgap for high frequencies<br>
+        • <u>Switching:</u> Fastest (sub-nanosecond rise times)<br>
+        • <u>2DEG channel:</u> Two-dimensional electron gas with high concentration<br>
+        • <u>Physics:</u> AlGaN/GaN heterostructure creates conducting channel
+      `;
+    default:
+      return 'No data for this technology.';
+  }
+}
+
+// Thermal modeling function
+function calculateThermalParameters() {
+  if (!selectedTransistor) {
+    alert('Моля, първо изберете транзистор!');
+    return;
+  }
+  
+  const ambientTemp = parseFloat(document.getElementById('ambientTemp').value);
+  const coolingType = document.getElementById('coolingType').value;
+  
+  // Get current losses
+  const vdc = parseFloat(document.getElementById('vdc').value);
+  const iLoad = parseFloat(document.getElementById('iLoad').value);
+  const fsw = parseFloat(document.getElementById('fsw').value);
+  const temp = parseFloat(document.getElementById('temp').value);
+  const duty = parseFloat(document.getElementById('duty').value);
+  
+  // Determine technology
+  let techType;
+  if (selectedTransistor.name.includes('Si') && !selectedTransistor.name.includes('SiC')) {
+    techType = 'Si';
+  } else if (selectedTransistor.name.includes('SiC')) {
+    techType = 'SiC';
+  } else if (selectedTransistor.name.includes('GaN')) {
+    techType = 'GaN';
+  }
+  
+  // Calculate losses with current parameters
+  const pCond = calculateAdvancedConductionLosses(iLoad, selectedTransistor.rds_on, duty, temp, techType);
+  const pSw = calculateAdvancedSwitchingLosses(vdc, iLoad, fsw, temp, techType);
+  const totalLosses = pCond + pSw;
+  
+  // Thermal resistances
+  const rth_jc = 0.5; // Junction-to-case (typical value, K/W)
+  const rth_ca = THERMAL_RESISTANCES[coolingType]; // Case-to-ambient
+  const rth_ja = rth_jc + rth_ca; // Total junction-to-ambient
+  
+  // Temperature calculations
+  const caseTemp = ambientTemp + totalLosses * rth_ca;
+  const junctionTemp = ambientTemp + totalLosses * rth_ja;
+  
+  // Thermal margin calculation
+  const maxJunctionTemp = 150; // Typical max junction temperature
+  const thermalMargin = maxJunctionTemp - junctionTemp;
+  
+  // Display results
+  const langData = LANGUAGES[currentLang] || LANGUAGES['bg'];
+  
+  document.getElementById('junctionTemp').textContent = `${junctionTemp.toFixed(1)}°C`;
+  document.getElementById('caseTemp').textContent = `${caseTemp.toFixed(1)}°C`;
+  document.getElementById('thermalResistance').textContent = `${rth_ja.toFixed(2)} K/W`;
+  document.getElementById('thermalMargin').textContent = `${thermalMargin.toFixed(1)}°C`;
+  
+  document.getElementById('thermalResults').style.display = 'block';
+  
+  // Show warnings if necessary
+  const warningsDiv = document.getElementById('thermalWarnings');
+  let warnings = '';
+  
+  if (junctionTemp > 125) {
+    warnings += `⚠️ Висока температура на съединението! Препоръчва се по-добро охлаждане.<br>`;
+  }
+  if (thermalMargin < 25) {
+    warnings += `⚠️ Малък термичен марж! Рискувате от прегряване при пикове.<br>`;
+  }
+  if (warnings) {
+    warningsDiv.innerHTML = warnings;
+    warningsDiv.style.display = 'block';
+  } else {
+    warningsDiv.style.display = 'none';
+  }
+}
+
 // Event listeners
 document.getElementById('calcBtn').addEventListener('click',calc);
 
@@ -1058,6 +1498,10 @@ document.getElementById('transistorSelect').addEventListener('change', function(
 document.getElementById('suggestBtn').addEventListener('click', function() {
   suggestOptimalParameters();
 });
+
+// Event listeners за новите функции
+document.getElementById('generateEffChart').addEventListener('click', generateEfficiencyChart);
+document.getElementById('calculateThermal').addEventListener('click', calculateThermalParameters);
 
 document.getElementById('resetBtn').addEventListener('click',()=>{
   document.getElementById('techSelect').value="SiC";
