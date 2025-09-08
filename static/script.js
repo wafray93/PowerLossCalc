@@ -36,7 +36,7 @@ const LANGUAGES = {
       coolingType: 'Тип охлаждане - точни datasheet стойности. Естествено (50°C/W), малък радиатор Fischer SK104 (15°C/W), среден радиатор Fischer SK129 (6°C/W), голям радиатор Fischer SK53 (2.5°C/W), принудително въздушно 1-2m/s (1.5°C/W), течно охлаждане (0.3°C/W).'
     },
     // Нови преводи за новите функции
-    efficiencyAnalysis: 'Анализ на ефективност vs честота',
+    efficiencyAnalysis: 'Анализ на ефективност срещу честота',
     efficiencyDescription: 'Тази графика показва как се променя ефективността при различни честоти за Si, SiC и GaN технологиите.',
     frequencyRange: 'Честотен обхват',
     generateChart: 'Генерирай графика',
@@ -1028,7 +1028,7 @@ function calc(){
   chart=new Chart(ctx,{
     type:'pie',
     data:{
-      labels:['Conduction','Switching'],
+      labels: currentLang === 'bg' ? ['Проводимост','Превключване'] : ['Conduction','Switching'],
       datasets:[{data:[pCond,pSw],backgroundColor:['#004aad','#00c896']}]
     },
     options:{
@@ -1407,7 +1407,7 @@ function generateEfficiencyChart() {
     data: {
       labels: frequencies.map(f => f.toFixed(0)),
       datasets: [{
-        label: `${selectedTransistor.name} - КПД (%)`,
+        label: `${selectedTransistor.name} - ${currentLang === 'bg' ? 'КПД' : 'Efficiency'} (%)`,
         data: efficiencies,
         borderColor: getTechnologyColor(techType),
         backgroundColor: getTechnologyColor(techType) + '20',
@@ -1421,7 +1421,7 @@ function generateEfficiencyChart() {
       plugins: {
         title: {
           display: true,
-          text: 'Ефективност vs Честота'
+          text: currentLang === 'bg' ? 'Ефективност срещу честота' : 'Efficiency vs Frequency'
         },
         legend: {
           display: true
@@ -1432,13 +1432,13 @@ function generateEfficiencyChart() {
           type: 'logarithmic',
           title: {
             display: true,
-            text: 'Честота (kHz)'
+            text: currentLang === 'bg' ? 'Честота (kHz)' : 'Frequency (kHz)'
           }
         },
         y: {
           title: {
             display: true,
-            text: 'КПД (%)'
+            text: currentLang === 'bg' ? 'КПД (%)' : 'Efficiency (%)'
           },
           min: 80,
           max: 100
@@ -1538,8 +1538,8 @@ async function copyChartToClipboard(chartId) {
     let chartInstance;
     if (chartId === 'lossChart' && chart) {
       chartInstance = chart;
-    } else if (chartId === 'efficiencyChart' && window.efficiencyChart) {
-      chartInstance = window.efficiencyChart;
+    } else if (chartId === 'efficiencyChart' && window.efficiencyChartInstance) {
+      chartInstance = window.efficiencyChartInstance;
     } else {
       throw new Error('No active chart found');
     }
@@ -1584,9 +1584,9 @@ async function copyChartToClipboard(chartId) {
     if (chartId === 'lossChart' && chart) {
       const newWindow = window.open();
       newWindow.document.write(`<img src="${chart.toBase64Image()}" alt="Loss Chart">`);
-    } else if (chartId === 'efficiencyChart' && window.efficiencyChart) {
+    } else if (chartId === 'efficiencyChart' && window.efficiencyChartInstance) {
       const newWindow = window.open();
-      newWindow.document.write(`<img src="${window.efficiencyChart.toBase64Image()}" alt="Efficiency Chart">`);
+      newWindow.document.write(`<img src="${window.efficiencyChartInstance.toBase64Image()}" alt="Efficiency Chart">`);
     }
   }
 }
