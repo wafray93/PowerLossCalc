@@ -1,0 +1,85 @@
+// Библиотека с примерни стойности (опростени!)
+const DEVICES = {
+  Si: {rds_mohm:20,tr_ns:1000,tf_ns:1000,alpha:0.007},
+  SiC:{rds_mohm:8,tr_ns:100,tf_ns:100,alpha:0.002},
+  GaN:{rds_mohm:5,tr_ns:20,tf_ns:20,alpha:0.003}
+};
+
+const ctx = document.getElementById('lossChart').getContext('2d');
+let chart=null;
+
+function calc(){
+  const tech=document.getElementById('techSelect').value;
+  const Vdc=+document.getElementById('vdc').value;
+  const I=+document.getElementById('iLoad').value;
+  const fsw=+document.getElementById('fsw').value*1000;
+  const T=+document.getElementById('temp').value;
+  const D=+document.getElementById('duty').value;
+
+  const d=DEVICES[tech];
+  const rds0=d.rds_mohm/1000;
+  const rds=rds0*(1+d.alpha*(T-25));
+
+  const pCond=I*I*rds*D;
+  const trs=d.tr_ns*1e-9;
+  const tfs=d.tf_ns*1e-9;
+  const pSw=0.5*Vdc*I*(trs+tfs)*fsw*2;
+  const pTotal=pCond+pSw;
+  const pout=Vdc*I*D;
+  const eff=100*pout/(pout+pTotal);
+
+  document.getElementById('pCond').textContent=pCond.toFixed(2)+" W";
+  document.getElementById('pSw').textContent=pSw.toFixed(2)+" W";
+  document.getElementById('pTotal').textContent=pTotal.toFixed(2)+" W";
+  document.getElementById('efficiency').textContent=eff.toFixed(2)+" %";
+
+  if(chart) chart.destroy();
+  chart=new Chart(ctx,{
+    type:'pie',
+    data:{
+      labels:['Conduction','Switching'],
+      datasets:[{data:[pCond,pSw],backgroundColor:['#004aad','#00c896']}]
+    },
+    options:{
+      responsive: true,
+      maintainAspectRatio: true,
+      plugins:{
+        legend:{
+          position:'bottom',
+          labels: {
+            padding: 20,
+            usePointStyle: true
+          }
+        }
+      }
+    }
+  });
+
+  document.getElementById('explainText').innerHTML=`
+  <p><b>Формули:</b></p>
+  <ul>
+    <li>P<sub>cond</sub>=I²·R<sub>DS(on)</sub>·D</li>
+    <li>P<sub>sw</sub>=0.5·V<sub>DC</sub>·I·(t<sub>r</sub>+t<sub>f</sub>)·f<sub>sw</sub>·2</li>
+    <li>R(T)=R<sub>ref</sub>·(1+α·(T-25))</li>
+  </ul>
+  <p><b>Обяснение:</b></p>
+  <p><u>Si:</u> по-високи съпротивления и времена → по-големи загуби.</p>
+  <p><u>SiC:</u> по-ниско R<sub>DS(on)</sub> и по-къси времена → по-малки загуби и стабилност при висока T.</p>
+  <p><u>GaN:</u> най-бързо превключване, много малки загуби при високи честоти, но ограничения при много високи напрежения.</p>`;
+}
+
+document.getElementById('calcBtn').addEventListener('click',calc);
+document.getElementById('resetBtn').addEventListener('click',()=>{
+  document.getElementById('techSelect').value="SiC";
+  document.getElementById('vdc').value=400;
+  document.getElementById('iLoad').value=30;
+  document.getElementById('fsw').value=100;
+  document.getElementById('temp').value=25;
+  document.getElementById('duty').value=0.5;
+  calc();
+});
+
+// стартирай при зареждане
+document.addEventListener('DOMContentLoaded', function() {
+  calc();
+});

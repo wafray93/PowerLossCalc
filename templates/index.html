@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="bg">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Si / SiC / GaN Калкулатор</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+  <!-- Chart.js за графики -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <header>
+    <h1>Калкулатор: Si / SiC / GaN Транзистори</h1>
+    <p class="lead">Сравни загуби, ефективност и научи защо има разлики.</p>
+  </header>
+
+  <main>
+    <section class="controls">
+      <h2>Въведи параметри</h2>
+      <div class="row">
+        <label>Технология:
+          <select id="techSelect">
+            <option value="Si">Si MOSFET / IGBT</option>
+            <option value="SiC" selected>SiC MOSFET</option>
+            <option value="GaN">GaN HEMT</option>
+          </select>
+        </label>
+
+        <label>V<sub>DC</sub> (V):
+          <input id="vdc" type="number" value="400">
+        </label>
+
+        <label>I<sub>load</sub> (A):
+          <input id="iLoad" type="number" value="30">
+        </label>
+
+        <label>f<sub>sw</sub> (kHz):
+          <input id="fsw" type="number" value="100">
+        </label>
+
+        <label>T<sub>j</sub> (°C):
+          <input id="temp" type="number" value="25">
+        </label>
+
+        <label>Duty D:
+          <input id="duty" type="number" value="0.5" step="0.01">
+        </label>
+      </div>
+
+      <div class="row">
+        <button id="calcBtn">Изчисли</button>
+        <button id="resetBtn">Възстанови стойности</button>
+      </div>
+    </section>
+
+    <section class="results">
+      <h2>Резултати</h2>
+      <table>
+        <tr><td>Conduction losses</td><td id="pCond">—</td></tr>
+        <tr><td>Switching losses</td><td id="pSw">—</td></tr>
+        <tr><td>Total losses</td><td id="pTotal">—</td></tr>
+        <tr><td>КПД</td><td id="efficiency">—</td></tr>
+      </table>
+
+      <canvas id="lossChart"></canvas>
+
+      <div class="explanation">
+        <h2>Формули и обяснение</h2>
+        <div id="explainText"></div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <small>⚠️ Примерен калкулатор — стойностите са опростени. За реални проекти ползвай datasheet.</small>
+  </footer>
+
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

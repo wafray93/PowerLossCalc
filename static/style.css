@@ -1,0 +1,144 @@
+body {
+  font-family: Arial, sans-serif;
+  background: #f7f9fc;
+  margin: 0;
+  color: #222;
+}
+
+header {
+  background: #004aad;
+  color: white;
+  padding: 15px;
+  text-align: center;
+}
+
+h1 {
+  margin: 0;
+  font-size: 22px;
+}
+
+.lead {
+  margin: 5px 0 0;
+  font-size: 14px;
+}
+
+main {
+  padding: 15px;
+  max-width: 900px;
+  margin: auto;
+}
+
+.controls, .results {
+  background: #fff;
+  padding: 15px;
+  margin-bottom: 15px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+label {
+  display: flex;
+  flex-direction: column;
+  font-size: 13px;
+  min-width: 120px;
+}
+
+input, select {
+  padding: 6px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-top: 5px;
+}
+
+button {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 6px;
+  background: #004aad;
+  color: white;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+button:hover {
+  background: #0066cc;
+}
+
+.results table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 15px;
+}
+
+.results td {
+  border-bottom: 1px solid #eee;
+  padding: 6px;
+}
+
+.results td:first-child {
+  font-weight: bold;
+}
+
+#lossChart {
+  max-width: 400px;
+  margin: 20px auto;
+  display: block;
+}
+
+.explanation {
+  margin-top: 15px;
+  padding: 10px;
+  background: #f0f4ff;
+  border-radius: 6px;
+}
+
+.explanation h2 {
+  margin-top: 0;
+  color: #004aad;
+}
+
+.explanation ul {
+  margin: 10px 0;
+  padding-left: 20px;
+}
+
+.explanation li {
+  margin-bottom: 5px;
+}
+
+footer {
+  text-align: center;
+  padding: 10px;
+  font-size: 12px;
+  color: #666;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .row {
+    flex-direction: column;
+  }
+  
+  label {
+    min-width: auto;
+  }
+  
+  main {
+    padding: 10px;
+  }
+  
+  header {
+    padding: 10px;
+  }
+  
+  h1 {
+    font-size: 18px;
+  }
+}
