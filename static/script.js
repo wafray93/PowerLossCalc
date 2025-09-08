@@ -1129,6 +1129,22 @@ function calc(){
 function switchLanguage(lang) {
   currentLang = lang;
   
+  // Запазваме текущо избраните стойности преди смяната на езика
+  const savedValues = {
+    techSelect: document.getElementById('techSelect').value,
+    maxVoltage: document.getElementById('maxVoltage').value,
+    maxCurrent: document.getElementById('maxCurrent').value,
+    transistorSelect: document.getElementById('transistorSelect').value,
+    vdc: document.getElementById('vdc').value,
+    iLoad: document.getElementById('iLoad').value,
+    fsw: document.getElementById('fsw').value,
+    temp: document.getElementById('temp').value,
+    duty: document.getElementById('duty').value,
+    freqMin: document.getElementById('freqMin').value,
+    freqMax: document.getElementById('freqMax').value,
+    selectedTransistor: selectedTransistor // Запазваме и глобалната променлива
+  };
+  
   // Обновяваме активния бутон
   document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
   document.getElementById('lang' + lang.toUpperCase()).classList.add('active');
@@ -1184,8 +1200,33 @@ function switchLanguage(lang) {
       });
     }
     
-    // Обновяваме и транзисторния select
+    // Обновяваме транзисторния select но запазваме стойностите
     filterTransistors();
+    
+    // Възстановяваме всички запазени стойности след филтрирането
+    setTimeout(() => {
+      document.getElementById('techSelect').value = savedValues.techSelect;
+      document.getElementById('maxVoltage').value = savedValues.maxVoltage;
+      document.getElementById('maxCurrent').value = savedValues.maxCurrent;
+      document.getElementById('vdc').value = savedValues.vdc;
+      document.getElementById('iLoad').value = savedValues.iLoad;
+      document.getElementById('fsw').value = savedValues.fsw;
+      document.getElementById('temp').value = savedValues.temp;
+      document.getElementById('duty').value = savedValues.duty;
+      document.getElementById('freqMin').value = savedValues.freqMin;
+      document.getElementById('freqMax').value = savedValues.freqMax;
+      
+      // Възстановяваме избрания транзистор
+      if (savedValues.transistorSelect) {
+        document.getElementById('transistorSelect').value = savedValues.transistorSelect;
+        selectedTransistor = savedValues.selectedTransistor;
+        
+        // Ако има избран транзистор, показваме информацията за него
+        if (selectedTransistor) {
+          updateTransistorInfo();
+        }
+      }
+    }, 50); // Малка забавка за да се зареди select-ът
   }
 }
 
