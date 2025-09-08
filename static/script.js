@@ -10,6 +10,7 @@ const LANGUAGES = {
     calculate: 'Изчисли',
     suggestOptimal: 'Предложи оптимални параметри',
     reset: 'Възстанови стойности',
+    copyChart: '📋 Копирай графика',
     transistorInfo: 'Информация за транзистора',
     results: 'Резултати',
     conductionLosses: 'Загуби от проводимост',
@@ -66,6 +67,7 @@ const LANGUAGES = {
     calculate: 'Calculate',
     suggestOptimal: 'Suggest Optimal Parameters',
     reset: 'Reset Values',
+    copyChart: '📋 Copy Chart',
     transistorInfo: 'Transistor Information',
     results: 'Results',
     conductionLosses: 'Conduction Losses',
@@ -1452,6 +1454,7 @@ function generateEfficiencyChart() {
   });
   
   document.getElementById('efficiencyChart').style.display = 'block';
+  document.getElementById('copyEfficiencyChart').style.display = 'inline-flex';
   
   // Show insights
   showEfficiencyInsights(frequencies, efficiencies, techType);
@@ -1526,6 +1529,72 @@ function showEfficiencyInsights(frequencies, efficiencies, techType) {
   
   document.getElementById('efficiencyInsights').innerHTML = insights;
   document.getElementById('efficiencyInsights').style.display = 'block';
+}
+
+// Функция за копиране на графики в clipboard като изображение
+async function copyChartToClipboard(chartId) {
+  try {
+    // Намираме canvas елемента
+    const canvas = document.getElementById(chartId);
+    if (!canvas) {
+      throw new Error('Chart not found');
+    }
+
+    // Проверяваме дали има активна графика
+    let chartInstance;
+    if (chartId === 'lossChart' && chart) {
+      chartInstance = chart;
+    } else if (chartId === 'efficiencyChart' && window.efficiencyChart) {
+      chartInstance = window.efficiencyChart;
+    } else {
+      throw new Error('No active chart found');
+    }
+
+    // Генерираме base64 изображение от графиката  
+    const base64Image = chartInstance.toBase64Image();
+    
+    // Конвертираме base64 в blob
+    const response = await fetch(base64Image);
+    const blob = await response.blob();
+    
+    // Създаваме ClipboardItem и копираме в clipboard
+    const clipboardItem = new ClipboardItem({ 'image/png': blob });
+    await navigator.clipboard.write([clipboardItem]);
+    
+    // Показваме успешно съобщение
+    const button = document.getElementById(chartId === 'lossChart' ? 'copyLossChart' : 'copyEfficiencyChart');
+    const originalText = button.textContent;
+    button.textContent = currentLang === 'bg' ? '✅ Копирано!' : '✅ Copied!';
+    button.disabled = true;
+    
+    setTimeout(() => {
+      button.textContent = originalText;
+      button.disabled = false;
+    }, 2000);
+    
+  } catch (error) {
+    console.error('Error copying chart:', error);
+    
+    // Показваме грешка
+    const button = document.getElementById(chartId === 'lossChart' ? 'copyLossChart' : 'copyEfficiencyChart');
+    const originalText = button.textContent;
+    button.textContent = currentLang === 'bg' ? '❌ Грешка' : '❌ Error';
+    button.disabled = true;
+    
+    setTimeout(() => {
+      button.textContent = originalText;
+      button.disabled = false;
+    }, 2000);
+    
+    // Fallback - показваме URL в нов прозорец ако clipboard API не работи
+    if (chartId === 'lossChart' && chart) {
+      const newWindow = window.open();
+      newWindow.document.write(`<img src="${chart.toBase64Image()}" alt="Loss Chart">`);
+    } else if (chartId === 'efficiencyChart' && window.efficiencyChart) {
+      const newWindow = window.open();
+      newWindow.document.write(`<img src="${window.efficiencyChart.toBase64Image()}" alt="Efficiency Chart">`);
+    }
+  }
 }
 
 // Scientific explanation of technology physics
@@ -1764,6 +1833,10 @@ document.getElementById('suggestBtn').addEventListener('click', function() {
 // Event listeners за новите функции
 document.getElementById('generateEffChart').addEventListener('click', generateEfficiencyChart);
 document.getElementById('calculateThermal').addEventListener('click', calculateThermalParameters);
+
+// Event listeners за копиране на графики
+document.getElementById('copyLossChart').addEventListener('click', () => copyChartToClipboard('lossChart'));
+document.getElementById('copyEfficiencyChart').addEventListener('click', () => copyChartToClipboard('efficiencyChart'));
 
 document.getElementById('resetBtn').addEventListener('click',()=>{
   document.getElementById('techSelect').value="SiC";
