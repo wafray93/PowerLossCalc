@@ -598,10 +598,6 @@ function switchLanguage(lang) {
   }
 }
 
-// Event listeners за език
-document.getElementById('langBG').addEventListener('click', () => switchLanguage('bg'));
-document.getElementById('langEN').addEventListener('click', () => switchLanguage('en'));
-
 // Event listeners
 document.getElementById('calcBtn').addEventListener('click',calc);
 
@@ -656,6 +652,10 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // Първоначално disable на suggest бутона
   document.getElementById('suggestBtn').disabled = true;
+  
+  // Event listeners за език
+  document.getElementById('langBG').addEventListener('click', () => switchLanguage('bg'));
+  document.getElementById('langEN').addEventListener('click', () => switchLanguage('en'));
   
   // Задаваме първоначален език
   switchLanguage('bg');
