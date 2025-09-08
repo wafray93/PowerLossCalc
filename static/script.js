@@ -1252,6 +1252,96 @@ function calc(){
     }, 500);
   }
   
+  // Add Gate Drive Requirements Analysis
+  if (selectedTransistor) {
+    setTimeout(() => {
+      const gateDriveData = gateDriveCalc.calculateGateDriveRequirements(
+        selectedTransistor, fsw/1000, tech, enhancedParams
+      );
+      
+      let gateDriveContainer = document.getElementById('gateDriveContainer');
+      if (!gateDriveContainer) {
+        gateDriveContainer = document.createElement('div');
+        gateDriveContainer.id = 'gateDriveContainer';
+        gateDriveContainer.style.marginTop = '20px';
+        
+        gateDriveContainer.innerHTML = `
+          <div style="background: linear-gradient(135deg, #f3e5f5, #e0f2f1); border-radius: 8px; padding: 15px; border-left: 4px solid #7b1fa2;">
+            <h3 style="color: #7b1fa2; margin-top: 0; margin-bottom: 15px;">
+              🔌 ${currentLang === 'bg' ? 'Gate Drive Requirements' : 'Gate Drive Requirements'}
+            </h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin-bottom: 15px;">
+              <div><strong>${currentLang === 'bg' ? 'Gate Voltages' : 'Gate Voltages'}:</strong> +${gateDriveData.gate_voltages.on}V/${gateDriveData.gate_voltages.off}V</div>
+              <div><strong>${currentLang === 'bg' ? 'Gate Charge' : 'Gate Charge'}:</strong> ${gateDriveData.gate_charges.total} nC</div>
+              <div><strong>${currentLang === 'bg' ? 'Avg Current' : 'Avg Current'}:</strong> ${gateDriveData.currents.average} mA</div>
+              <div><strong>${currentLang === 'bg' ? 'Peak Current' : 'Peak Current'}:</strong> ${gateDriveData.currents.peak} mA</div>
+              <div><strong>${currentLang === 'bg' ? 'Gate Resistor' : 'Gate Resistor'}:</strong> ${gateDriveData.gate_resistor.optimal}Ω</div>
+              <div><strong>${currentLang === 'bg' ? 'Driver Power' : 'Driver Power'}:</strong> ${gateDriveData.driver_power} mW</div>
+            </div>
+            <div style="background: white; padding: 10px; border-radius: 5px; margin-bottom: 10px;">
+              <strong>${currentLang === 'bg' ? 'Recommended Driver ICs:' : 'Recommended Driver ICs:'}</strong><br>
+              ${gateDriveData.driver_ic.recommendations}
+              ${gateDriveData.driver_ic.isolation_required ? `<br><span style="color: #d32f2f;">⚠️ ${currentLang === 'bg' ? 'Isolation required' : 'Isolation required'}</span>` : ''}
+            </div>
+            <div style="background: #f8f9fa; padding: 10px; border-radius: 5px;">
+              <strong>${currentLang === 'bg' ? 'Layout Recommendations:' : 'Layout Recommendations:'}</strong><br>
+              ${gateDriveData.layout_recommendations.map(r => `• ${r}`).join('<br>')}
+            </div>
+          </div>
+        `;
+        
+        const resultsParent = document.getElementById('results')?.parentNode;
+        if (resultsParent) {
+          resultsParent.appendChild(gateDriveContainer);
+        } else {
+          document.body.appendChild(gateDriveContainer);
+        }
+      }
+    }, 600);
+  }
+  
+  // Add Efficiency Optimization Analysis
+  if (selectedTransistor) {
+    setTimeout(() => {
+      const efficiencyData = efficiencyOptimizer.findOptimalFrequency(
+        selectedTransistor, Vdc, I, T, tech
+      );
+      
+      let efficiencyContainer = document.getElementById('efficiencyContainer');
+      if (!efficiencyContainer) {
+        efficiencyContainer = document.createElement('div');
+        efficiencyContainer.id = 'efficiencyContainer';
+        efficiencyContainer.style.marginTop = '20px';
+        
+        efficiencyContainer.innerHTML = `
+          <div style="background: linear-gradient(135deg, #e8f5e8, #fff3e0); border-radius: 8px; padding: 15px; border-left: 4px solid #388e3c;">
+            <h3 style="color: #388e3c; margin-top: 0; margin-bottom: 15px;">
+              📊 ${currentLang === 'bg' ? 'Frequency Optimization Analysis' : 'Frequency Optimization Analysis'}
+            </h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin-bottom: 15px;">
+              <div><strong>${currentLang === 'bg' ? 'Current Frequency' : 'Current Frequency'}:</strong> ${(fsw/1000).toFixed(1)} kHz</div>
+              <div><strong>${currentLang === 'bg' ? 'Current Efficiency' : 'Current Efficiency'}:</strong> ${eff.toFixed(2)}%</div>
+              <div><strong>${currentLang === 'bg' ? 'Optimal Frequency' : 'Optimal Frequency'}:</strong> ${efficiencyData.optimal_frequency.toFixed(1)} kHz</div>
+              <div><strong>${currentLang === 'bg' ? 'Max Efficiency' : 'Max Efficiency'}:</strong> ${efficiencyData.max_efficiency.toFixed(2)}%</div>
+              <div><strong>${currentLang === 'bg' ? 'Potential Gain' : 'Potential Gain'}:</strong> +${(efficiencyData.max_efficiency - eff).toFixed(2)}%</div>
+            </div>
+            <div style="background: white; padding: 10px; border-radius: 5px;">
+              <strong>${currentLang === 'bg' ? 'Optimization Recommendations:' : 'Optimization Recommendations:'}</strong><br>
+              ${efficiencyData.recommendations.map(r => `• ${r}`).join('<br>')}
+            </div>
+          </div>
+        `;
+        
+        const resultsParent = document.getElementById('results')?.parentNode;
+        if (resultsParent) {
+          resultsParent.appendChild(efficiencyContainer);
+        } else {
+          document.body.appendChild(efficiencyContainer);
+        }
+      }
+    }, 700);
+  }
+  
   let warnings = [];
   let recommendations = [];
   
@@ -4031,3 +4121,253 @@ class SOAVisualizer {
 }
 
 const soaVisualizer = new SOAVisualizer();
+
+// Gate Drive Requirements Calculator за system design
+class GateDriveCalculator {
+  constructor() {
+    this.standardGateVoltages = {
+      Si: { on: 10, off: 0, threshold: 3 },
+      SiC: { on: 18, off: -5, threshold: 3 },
+      GaN: { on: 6, off: 0, threshold: 1.5 }
+    };
+  }
+  
+  calculateGateDriveRequirements(transistor, fsw_khz, technology, enhancedParams) {
+    const fsw = fsw_khz * 1000;
+    const gateVoltages = this.standardGateVoltages[technology];
+    
+    // Use enhanced parameters if available
+    const qg_total = enhancedParams?.qg_total || this.getDefaultQg(technology);
+    const qgd = enhancedParams?.qgd || qg_total * 0.2;
+    const qgs = enhancedParams?.qgs || qg_total * 0.3;
+    
+    // Gate current calculation
+    const ig_avg = qg_total * 1e-9 * fsw; // Average gate current (A)
+    const ig_peak = ig_avg * 10; // Peak gate current estimate
+    
+    // Gate resistor calculation for desired switching speed
+    const vgate_swing = gateVoltages.on - gateVoltages.off;
+    const desired_tr = this.getDesiredSwitchingTime(technology); // ns
+    const rgate_opt = (desired_tr * 1e-9 * vgate_swing) / (qg_total * 1e-9 * Math.log(3));
+    
+    // Gate driver power calculation
+    const pgate_driver = vgate_swing * ig_avg + 
+                        (qg_total * 1e-9 * vgate_swing * fsw); // Switching power
+    
+    // Driver IC requirements
+    const driverSpecs = this.selectDriverIC(ig_peak, pgate_driver, technology);
+    
+    return {
+      gate_voltages: gateVoltages,
+      gate_charges: { total: qg_total, gate_drain: qgd, gate_source: qgs },
+      currents: {
+        average: (ig_avg * 1000).toFixed(2), // mA
+        peak: (ig_peak * 1000).toFixed(1)    // mA
+      },
+      gate_resistor: {
+        optimal: rgate_opt.toFixed(1),
+        turn_on: (rgate_opt * 0.7).toFixed(1),
+        turn_off: (rgate_opt * 1.3).toFixed(1)
+      },
+      driver_power: (pgate_driver * 1000).toFixed(1), // mW
+      driver_ic: driverSpecs,
+      layout_recommendations: this.getLayoutRecommendations(technology, fsw_khz)
+    };
+  }
+  
+  getDefaultQg(technology) {
+    const defaults = { Si: 45, SiC: 19, GaN: 4.3 };
+    return defaults[technology] || 25;
+  }
+  
+  getDesiredSwitchingTime(technology) {
+    const times = { Si: 50, SiC: 20, GaN: 8 }; // ns
+    return times[technology] || 30;
+  }
+  
+  selectDriverIC(peakCurrent, power, technology) {
+    // Simplified driver IC selection logic
+    const recommendations = {
+      Si: {
+        low_power: 'IR2110, UCC27511',
+        high_power: 'IXDN614SI, UCC21520'
+      },
+      SiC: {
+        low_power: 'UCC21732, Si8271',
+        high_power: 'UCC21750, ACPL-P611'
+      },
+      GaN: {
+        low_power: 'LM5113, UCC27282',
+        high_power: 'LMG1020, Si8274'
+      }
+    };
+    
+    const powerCategory = power > 500 ? 'high_power' : 'low_power';
+    const suggestion = recommendations[technology]?.[powerCategory] || 'Custom solution needed';
+    
+    return {
+      category: powerCategory,
+      recommendations: suggestion,
+      isolation_required: technology === 'SiC' || power > 1000,
+      bootstrap_capable: power < 200
+    };
+  }
+  
+  getLayoutRecommendations(technology, fsw_khz) {
+    const recommendations = [];
+    
+    if (fsw_khz > 100) {
+      recommendations.push(
+        currentLang === 'bg' ? 
+        '📏 Минимизирайте gate loop inductance (<5nH)' :
+        '📏 Minimize gate loop inductance (<5nH)'
+      );
+    }
+    
+    if (technology === 'GaN') {
+      recommendations.push(
+        currentLang === 'bg' ?
+        '⚡ Използвайте dedicated GaN gate driver с fast turn-off' :
+        '⚡ Use dedicated GaN gate driver with fast turn-off'
+      );
+    }
+    
+    if (technology === 'SiC') {
+      recommendations.push(
+        currentLang === 'bg' ?
+        '🔒 Препоръчва се galvanic isolation (>2.5kV)' :
+        '🔒 Galvanic isolation recommended (>2.5kV)'
+      );
+    }
+    
+    recommendations.push(
+      currentLang === 'bg' ?
+      '🛡️ Добавете Miller clamp за dv/dt immunity' :
+      '🛡️ Add Miller clamp for dv/dt immunity'
+    );
+    
+    return recommendations;
+  }
+}
+
+const gateDriveCalc = new GateDriveCalculator();
+
+// Efficiency vs Frequency Optimization Finder
+class EfficiencyOptimizer {
+  constructor() {
+    this.frequencyRange = [1, 1000]; // kHz
+    this.optimizationPoints = 50;
+  }
+  
+  findOptimalFrequency(transistor, vdc, iLoad, temperature, technology, targetEfficiency = 95) {
+    const frequencies = [];
+    const efficiencies = [];
+    const totalLosses = [];
+    
+    const fMin = this.frequencyRange[0];
+    const fMax = Math.min(this.frequencyRange[1], this.getMaxReasonableFreq(technology));
+    
+    // Sweep frequency range
+    for (let i = 0; i < this.optimizationPoints; i++) {
+      const fsw_khz = fMin + (fMax - fMin) * i / (this.optimizationPoints - 1);
+      const fsw = fsw_khz * 1000;
+      
+      // Calculate losses at this frequency
+      const rds0 = transistor.rds_mohm / 1000;
+      const tempCoeff = technology === 'Si' ? 0.006 : technology === 'SiC' ? 0.003 : 0.004;
+      const rds = rds0 * (1 + tempCoeff * (temperature - 25));
+      
+      const pCond = iLoad * iLoad * rds * 0.5; // Assume 50% duty cycle
+      
+      // Technology-specific switching times
+      const tr_ns = transistor.tr_ns || this.getTypicalTr(technology);
+      const tf_ns = transistor.tf_ns || this.getTypicalTf(technology);
+      
+      const pSw = 0.5 * vdc * iLoad * (tr_ns + tf_ns) * 1e-9 * fsw * 2;
+      const pTotal = pCond + pSw;
+      
+      const pOut = vdc * iLoad * 0.5;
+      const efficiency = (pOut / (pOut + pTotal)) * 100;
+      
+      frequencies.push(fsw_khz);
+      efficiencies.push(efficiency);
+      totalLosses.push(pTotal);
+    }
+    
+    // Find optimal points
+    const maxEffIndex = efficiencies.indexOf(Math.max(...efficiencies));
+    const targetIndex = this.findTargetEfficiencyIndex(efficiencies, targetEfficiency);
+    
+    return {
+      frequencies,
+      efficiencies,
+      totalLosses,
+      optimal_frequency: frequencies[maxEffIndex],
+      max_efficiency: efficiencies[maxEffIndex],
+      target_frequency: targetIndex >= 0 ? frequencies[targetIndex] : null,
+      recommendations: this.generateFrequencyRecommendations(
+        frequencies[maxEffIndex], 
+        efficiencies[maxEffIndex],
+        technology
+      )
+    };
+  }
+  
+  getMaxReasonableFreq(technology) {
+    const limits = { Si: 100, SiC: 500, GaN: 1000 };
+    return limits[technology] || 100;
+  }
+  
+  getTypicalTr(technology) {
+    const times = { Si: 25, SiC: 15, GaN: 5 };
+    return times[technology] || 25;
+  }
+  
+  getTypicalTf(technology) {
+    const times = { Si: 20, SiC: 12, GaN: 3 };
+    return times[technology] || 20;
+  }
+  
+  findTargetEfficiencyIndex(efficiencies, target) {
+    for (let i = 0; i < efficiencies.length; i++) {
+      if (efficiencies[i] >= target) {
+        return i;
+      }
+    }
+    return -1;
+  }
+  
+  generateFrequencyRecommendations(optimalFreq, maxEff, technology) {
+    const recommendations = [];
+    
+    if (maxEff > 98) {
+      recommendations.push(currentLang === 'bg' ?
+        '🎯 Отличен избор на честота за максимална ефективност' :
+        '🎯 Excellent frequency choice for maximum efficiency');
+    } else if (maxEff > 95) {
+      recommendations.push(currentLang === 'bg' ?
+        '✅ Добра честота, но има място за подобрение' :
+        '✅ Good frequency, but room for improvement');
+    } else {
+      recommendations.push(currentLang === 'bg' ?
+        '⚠️ Ниска ефективност - разгледайте други параметри' :
+        '⚠️ Low efficiency - consider other parameters');
+    }
+    
+    if (optimalFreq > 200 && technology === 'Si') {
+      recommendations.push(currentLang === 'bg' ?
+        '🔄 За Si транзистори се препоръчва <100kHz' :
+        '🔄 For Si transistors, consider <100kHz');
+    }
+    
+    if (optimalFreq < 50 && technology === 'GaN') {
+      recommendations.push(currentLang === 'bg' ?
+        '📈 GaN позволява много по-високи честоти >200kHz' :
+        '📈 GaN enables much higher frequencies >200kHz');
+    }
+    
+    return recommendations;
+  }
+}
+
+const efficiencyOptimizer = new EfficiencyOptimizer();
