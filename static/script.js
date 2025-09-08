@@ -1384,6 +1384,95 @@ const THERMAL_RESISTANCES = {
   liquid_cooling: 0.3    // Liquid cooling - Corsair/NZXT measurements
 };
 
+// Advanced thermal modeling параметри (базирани на Cauer thermal networks)
+const THERMAL_MODELS = {
+  Si: {
+    rth_jc: 0.5,          // Junction-to-case thermal resistance (K/W)
+    rth_jc_transient: [   // Transient thermal impedance elements
+      { r: 0.1, tau: 0.001 },  // Fast thermal time constant (1ms)
+      { r: 0.2, tau: 0.01 },   // Medium (10ms)
+      { r: 0.2, tau: 0.1 }     // Slow (100ms)
+    ],
+    package_capacitance: 0.02, // Thermal capacitance (J/K)
+    max_power_pulse: 500,     // Maximum pulse power (W)
+    safe_junction_temp: 125   // Conservative junction temperature (°C)
+  },
+  SiC: {
+    rth_jc: 0.3,          // Lower thermal resistance
+    rth_jc_transient: [
+      { r: 0.05, tau: 0.001 },
+      { r: 0.1, tau: 0.01 },
+      { r: 0.15, tau: 0.1 }
+    ],
+    package_capacitance: 0.015, // Lower thermal mass
+    max_power_pulse: 800,
+    safe_junction_temp: 175   // Higher operating temperature
+  },
+  GaN: {
+    rth_jc: 0.8,          // Higher due to smaller die size
+    rth_jc_transient: [
+      { r: 0.2, tau: 0.0001 }, // Very fast thermal response
+      { r: 0.3, tau: 0.001 },
+      { r: 0.3, tau: 0.01 }
+    ],
+    package_capacitance: 0.005, // Very low thermal mass
+    max_power_pulse: 300,       // Limited by small die size
+    safe_junction_temp: 125     // Conservative due to thermal sensitivity
+  }
+};
+
+// Професионална junction temperature калкулация
+function calculateJunctionTemperature(powerLoss, ambientTemp, coolingType, technology, pulseWidth = 0) {
+  const thermalModel = THERMAL_MODELS[technology];
+  const sinkResistance = THERMAL_RESISTANCES[coolingType];
+  
+  if (!thermalModel) return { tj: ambientTemp, warning: 'Unknown technology' };
+  
+  let effectiveThermalResistance;
+  
+  // За импулсни загуби - използваме transient thermal impedance
+  if (pulseWidth > 0 && pulseWidth < 1) { // Pulse duration < 1 second
+    effectiveThermalResistance = thermalModel.rth_jc_transient
+      .reduce((sum, element) => {
+        const factor = 1 - Math.exp(-pulseWidth / element.tau);
+        return sum + element.r * factor;
+      }, 0);
+  } else {
+    // Steady-state thermal resistance
+    effectiveThermalResistance = thermalModel.rth_jc;
+  }
+  
+  // Total thermal resistance από junction до ambient
+  const totalRth = effectiveThermalResistance + sinkResistance;
+  
+  // Junction temperature
+  const tj = ambientTemp + powerLoss * totalRth;
+  
+  // Safety analysis
+  let warning = '';
+  if (tj > thermalModel.safe_junction_temp) {
+    warning = currentLang === 'bg' 
+      ? `🚨 Junction temp ${tj.toFixed(1)}°C надвишава безопасния лимит ${thermalModel.safe_junction_temp}°C!`
+      : `🚨 Junction temp ${tj.toFixed(1)}°C exceeds safe limit ${thermalModel.safe_junction_temp}°C!`;
+  } else if (tj > thermalModel.safe_junction_temp * 0.85) {
+    warning = currentLang === 'bg'
+      ? `⚠️ Junction temp ${tj.toFixed(1)}°C е близо до максималната`
+      : `⚠️ Junction temp ${tj.toFixed(1)}°C is approaching maximum`;
+  }
+  
+  // Thermal cycling analysis
+  const thermalStress = (tj - ambientTemp) / (thermalModel.safe_junction_temp - ambientTemp);
+  
+  return {
+    tj: tj.toFixed(1),
+    totalRth: totalRth.toFixed(3),
+    thermalStress: (thermalStress * 100).toFixed(1),
+    warning: warning,
+    derating: tj > thermalModel.safe_junction_temp * 0.8 ? 
+      (1 - (tj - thermalModel.safe_junction_temp * 0.8) / (thermalModel.safe_junction_temp * 0.2)) : 1
+  };
+}
+
 // Професионални safety limits и validation rules (базирани на IEC 61439 и UL стандарти)
 const SAFETY_LIMITS = {
   Si: {
@@ -2817,7 +2906,12 @@ function displaySafetyWarnings(validation) {
     
     // Поставяме преди results div
     const resultsDiv = document.getElementById('results');
-    resultsDiv.parentNode.insertBefore(warningsDiv, resultsDiv);
+    if (resultsDiv && resultsDiv.parentNode) {
+      resultsDiv.parentNode.insertBefore(warningsDiv, resultsDiv);
+    } else {
+      // Fallback - поставяме в body
+      document.body.appendChild(warningsDiv);
+    }
   }
   
   if (validation.warnings.length === 0 && validation.errors.length === 0) {
