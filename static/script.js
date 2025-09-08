@@ -5,8 +5,6 @@ const LANGUAGES = {
     subtitle: 'Научно обяснение, формули и графики.',
     inputParams: 'Въведи параметри',
     technology: 'Технология',
-    maxVoltage: 'Макс. напрежение (V)',
-    maxCurrent: 'Макс. ток (A)',
     concreteModel: 'Конкретен модел',
     selectTransistor: 'Избери транзистор...',
     calculate: 'Изчисли',
@@ -26,8 +24,6 @@ const LANGUAGES = {
     model: 'Модел',
     tooltips: {
       technology: 'Изберете тип полупроводник: Si (силиций) за стандартни приложения, SiC (силициев карбид) за висока ефективност и температура, GaN (галиев нитрид) за високочестотни приложения.',
-      maxVoltage: 'Задайте максималното работно напрежение за вашето приложение. Транзисторът трябва да има VDS_max по-голямо от това значение с марж за безопасност (обикновено 1.5-2x).',
-      maxCurrent: 'Задайте максималния постоянен ток през транзистора. Транзисторът трябва да може да провежда поне този ток с добро охлаждане.',
       concreteModel: 'Изберете конкретен транзистор от филтрираните по напрежение и ток. Всеки модел има реални параметри от datasheet-а на производителя.',
       vdc: 'DC напрежение на шината (Bus voltage). Това е напрежението, което транзисторът превключва. Трябва да е по-малко от VDS_max на избрания транзистор.',
       iload: 'RMS ток през товара. Това е ефективната стойност на тока, който преминава през транзистора по време на проводимост.',
@@ -65,8 +61,6 @@ const LANGUAGES = {
     subtitle: 'Scientific explanation, formulas and charts.',
     inputParams: 'Input Parameters',
     technology: 'Technology',
-    maxVoltage: 'Max. Voltage (V)',
-    maxCurrent: 'Max. Current (A)',
     concreteModel: 'Specific Model',
     selectTransistor: 'Select transistor...',
     calculate: 'Calculate',
@@ -86,8 +80,6 @@ const LANGUAGES = {
     model: 'Model',
     tooltips: {
       technology: 'Select semiconductor type: Si (silicon) for standard applications, SiC (silicon carbide) for high efficiency and temperature, GaN (gallium nitride) for high-frequency applications.',
-      maxVoltage: 'Set the maximum operating voltage for your application. The transistor must have VDS_max greater than this value with safety margin (typically 1.5-2x).',
-      maxCurrent: 'Set the maximum continuous current through the transistor. The transistor must be able to conduct at least this current with good cooling.',
       concreteModel: 'Select a specific transistor from those filtered by voltage and current. Each model has real parameters from the manufacturer\'s datasheet.',
       vdc: 'DC bus voltage. This is the voltage that the transistor switches. Must be less than VDS_max of the selected transistor.',
       iload: 'RMS load current. This is the effective value of current flowing through the transistor during conduction.',
@@ -697,11 +689,9 @@ const ctx = document.getElementById('lossChart').getContext('2d');
 let chart=null;
 let selectedTransistor = null;
 
-// Функция за филтриране на транзисторите според критериите
-function filterTransistors() {
+// Функция за зареждане на всички транзистори
+function populateTransistors() {
   const tech = document.getElementById('techSelect').value;
-  const maxVoltage = +document.getElementById('maxVoltage').value;
-  const maxCurrent = +document.getElementById('maxCurrent').value;
   
   const transistorSelect = document.getElementById('transistorSelect');
   const langData = LANGUAGES[currentLang] || LANGUAGES['bg'];
@@ -709,42 +699,13 @@ function filterTransistors() {
   
   const transistors = TRANSISTOR_DB[tech] || {};
   
-  // Филтрираме и сортираме транзисторите
-  const filteredTransistors = Object.entries(transistors)
-    .filter(([key, transistor]) => {
-      // Стриктно филтриране: всички параметри трябва да са >= зададените
-      return transistor.vds_max >= maxVoltage && transistor.id_max >= maxCurrent;
-    })
-    .sort((a, b) => {
-      // Първо сортираме по близост към зададения ток
-      const currentDiffA = Math.abs(a[1].id_max - maxCurrent);
-      const currentDiffB = Math.abs(b[1].id_max - maxCurrent);
-      if (currentDiffA !== currentDiffB) {
-        return currentDiffA - currentDiffB;
-      }
-      // След това по близост към зададеното напрежение
-      return Math.abs(a[1].vds_max - maxVoltage) - Math.abs(b[1].vds_max - maxVoltage);
-    });
-  
-  // Добавяме филтрираните транзистори в select
-  filteredTransistors.forEach(([key, transistor]) => {
+  // Добавяме всички транзистори без филтриране
+  Object.entries(transistors).forEach(([key, transistor]) => {
     const option = document.createElement('option');
     option.value = key;
     option.textContent = `${transistor.name} [${transistor.vds_max}V, ${transistor.id_max}A]`;
     transistorSelect.appendChild(option);
   });
-  
-  // Ако няма резултати, покажи съобщение
-  if (filteredTransistors.length === 0) {
-    const option = document.createElement('option');
-    option.value = '';
-    const message = currentLang === 'en' ? 
-      `No transistors for ${maxVoltage}V/${maxCurrent}A - adjust parameters` :
-      `Няма транзистори за ${maxVoltage}V/${maxCurrent}A - промени параметрите`;
-    option.textContent = message;
-    option.disabled = true;
-    transistorSelect.appendChild(option);
-  }
 }
 
 // Функция за показване на информацията за избрания транзистор
@@ -1211,8 +1172,6 @@ function switchLanguage(lang) {
   // Запазваме текущо избраните стойности преди смяната на езика
   const savedValues = {
     techSelect: document.getElementById('techSelect').value,
-    maxVoltage: document.getElementById('maxVoltage').value,
-    maxCurrent: document.getElementById('maxCurrent').value,
     transistorSelect: document.getElementById('transistorSelect').value,
     vdc: document.getElementById('vdc').value,
     iLoad: document.getElementById('iLoad').value,
@@ -1280,13 +1239,11 @@ function switchLanguage(lang) {
     }
     
     // Обновяваме транзисторния select но запазваме стойностите
-    filterTransistors();
+    populateTransistors();
     
     // Възстановяваме всички запазени стойности след филтрирането
     setTimeout(() => {
       document.getElementById('techSelect').value = savedValues.techSelect;
-      document.getElementById('maxVoltage').value = savedValues.maxVoltage;
-      document.getElementById('maxCurrent').value = savedValues.maxCurrent;
       document.getElementById('vdc').value = savedValues.vdc;
       document.getElementById('iLoad').value = savedValues.iLoad;
       document.getElementById('fsw').value = savedValues.fsw;
@@ -1789,14 +1746,11 @@ function calculateThermalParameters() {
 document.getElementById('calcBtn').addEventListener('click',calc);
 
 document.getElementById('techSelect').addEventListener('change', function() {
-  filterTransistors();
+  populateTransistors();
   document.getElementById('transistorSelect').value = '';
   showTransistorInfo('');
   document.getElementById('suggestBtn').disabled = true;
 });
-
-document.getElementById('maxVoltage').addEventListener('input', filterTransistors);
-document.getElementById('maxCurrent').addEventListener('input', filterTransistors);
 
 document.getElementById('transistorSelect').addEventListener('change', function() {
   showTransistorInfo(this.value);
@@ -1813,14 +1767,12 @@ document.getElementById('calculateThermal').addEventListener('click', calculateT
 
 document.getElementById('resetBtn').addEventListener('click',()=>{
   document.getElementById('techSelect').value="SiC";
-  document.getElementById('maxVoltage').value=200;
-  document.getElementById('maxCurrent').value=15;
   document.getElementById('vdc').value=100;
-  document.getElementById('iLoad').value=30;
+  document.getElementById('iLoad').value=15;
   document.getElementById('fsw').value=100;
   document.getElementById('temp').value=25;
   document.getElementById('duty').value=0.5;
-  filterTransistors();
+  populateTransistors();
   document.getElementById('transistorSelect').value = '';
   showTransistorInfo('');
 });

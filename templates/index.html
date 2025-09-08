@@ -34,25 +34,9 @@
         </label>
 
         <label class="input-group">
-          <span data-lang="maxVoltage">Макс. напрежение (V)</span>
-          <span class="tooltip-icon">?</span>
-          <div class="tooltip">Задайте максималното работно напрежение за вашето приложение. Транзисторът трябва да има VDS_max по-голямо от това значение с марж за безопасност (обикновено 1.5-2x).</div>
-          <input id="maxVoltage" type="number" value="650" min="50" max="1500">
-        </label>
-
-        <label class="input-group">
-          <span data-lang="maxCurrent">Макс. ток (A)</span>
-          <span class="tooltip-icon">?</span>
-          <div class="tooltip">Задайте максималния постоянен ток през транзистора. Транзисторът трябва да може да провежда поне този ток с добро охлаждане.</div>
-          <input id="maxCurrent" type="number" value="30" min="1" max="100">
-        </label>
-      </div>
-
-      <div class="row">
-        <label class="input-group">
           <span data-lang="concreteModel">Конкретен модел</span>
           <span class="tooltip-icon">?</span>
-          <div class="tooltip">Изберете конкретен транзистор от филтрираните по напрежение и ток. Всеки модел има реални параметри от datasheet-а на производителя.</div>
+          <div class="tooltip">Изберете конкретен транзистор - всеки модел има реални параметри от datasheet-а на производителя.</div>
           <select id="transistorSelect">
             <option value="">Избери транзистор...</option>
           </select>
