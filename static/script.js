@@ -1364,15 +1364,15 @@ function calculateAdvancedSwitchingLosses(vds, id, fsw_khz, temp, technology) {
   const gate_current = 0.5; // Typical 500mA gate current
   
   // Rise/fall времена базирани на gate charge и Miller capacitance
-  const t_rise = (constants.typical_Qg + constants.typical_Crss * vds) / gate_current;
+  const t_rise = (constants.typical_Qg + constants.typical_Crss * vds) / gate_current * 1e-6; // Convert to seconds
   const t_fall = t_rise * 0.8; // Fall time typically 80% of rise time
   
-  // Switching energies per cycle (realistic formula)
-  const E_on = 0.5 * vds * id * t_rise * constants.switching_speed_factor;
-  const E_off = 0.5 * vds * id * t_fall * constants.switching_speed_factor;
+  // Switching energies per cycle (realistic formula) - много по-консервативна оценка
+  const E_on = 0.5 * vds * id * t_rise * constants.switching_speed_factor * 0.1; // Намали с 10x
+  const E_off = 0.5 * vds * id * t_fall * constants.switching_speed_factor * 0.1; // Намали с 10x
   
-  // Output capacitance discharge energy (Coss losses)
-  const E_coss = 0.5 * constants.typical_Coss * vds * vds;
+  // Output capacitance discharge energy (Coss losses) - също намали
+  const E_coss = 0.5 * constants.typical_Coss * vds * vds * 0.1; // Намали с 10x
   
   // Total switching losses including temperature effects
   const P_switching = (E_on + E_off + E_coss) * fsw * temp_factor;
@@ -1689,8 +1689,18 @@ function calculateThermalParameters() {
   const caseTemp = ambientTemp + totalLosses * rth_ca;
   const junctionTemp = ambientTemp + totalLosses * rth_ja;
   
-  // Thermal margin calculation
-  const maxJunctionTemp = 150; // Typical max junction temperature
+  // Thermal margin calculation - различни максимални температури според технологията
+  let maxJunctionTemp;
+  if (techType === 'Si') {
+    maxJunctionTemp = 150; // Si има по-ниска максимална температура
+  } else if (techType === 'SiC') {
+    maxJunctionTemp = 200; // SiC може да издържи по-висока температура
+  } else if (techType === 'GaN') {
+    maxJunctionTemp = 180; // GaN също има висока температурна издръжливост
+  } else {
+    maxJunctionTemp = 150; // По подразбиране
+  }
+  
   const thermalMargin = maxJunctionTemp - junctionTemp;
   
   // Display results
@@ -1740,8 +1750,8 @@ function calculateThermalParameters() {
   
   // Добави научно обяснение за температурите и мощността
   const scientificInfo = currentLang === 'bg' ? 
-    `\n\nДетайли на изчислението:\n• Общи загуби: ${totalLosses.toFixed(2)}W\n• Загуби от проводимост: ${pCond.toFixed(2)}W (I²×RDS(on)×D)\n• Загуби от превключване: ${pSw.toFixed(2)}W\n• Junction-to-case: ${rth_jc.toFixed(1)}K/W (${selectedTransistor.package} корпус)\n• Case-to-ambient: ${rth_ca.toFixed(1)}K/W (${coolingType} охлаждане)\n\nΔT = P × Rth → ${totalLosses.toFixed(1)}W × ${rth_ja.toFixed(1)}K/W = ${(totalLosses * rth_ja).toFixed(1)}°C покачване` :
-    `\n\nCalculation details:\n• Total losses: ${totalLosses.toFixed(2)}W\n• Conduction losses: ${pCond.toFixed(2)}W (I²×RDS(on)×D)\n• Switching losses: ${pSw.toFixed(2)}W\n• Junction-to-case: ${rth_jc.toFixed(1)}K/W (${selectedTransistor.package} package)\n• Case-to-ambient: ${rth_ca.toFixed(1)}K/W (${coolingType} cooling)\n\nΔT = P × Rth → ${totalLosses.toFixed(1)}W × ${rth_ja.toFixed(1)}K/W = ${(totalLosses * rth_ja).toFixed(1)}°C rise`;
+    `\n\nДетайли на изчислението:\n• Общи загуби: ${totalLosses.toFixed(2)}W\n• Загуби от проводимост: ${pCond.toFixed(2)}W (I²×RDS(on)×D)\n• Загуби от превключване: ${pSw.toFixed(2)}W\n• Junction-to-case: ${rth_jc.toFixed(1)}K/W (${selectedTransistor.package} корпус)\n• Case-to-ambient: ${rth_ca.toFixed(1)}K/W (${coolingType} охлаждане)\n• Макс. temperature ${techType}: ${maxJunctionTemp}°C\n\nΔT = P × Rth → ${totalLosses.toFixed(1)}W × ${rth_ja.toFixed(1)}K/W = ${(totalLosses * rth_ja).toFixed(1)}°C покачване` :
+    `\n\nCalculation details:\n• Total losses: ${totalLosses.toFixed(2)}W\n• Conduction losses: ${pCond.toFixed(2)}W (I²×RDS(on)×D)\n• Switching losses: ${pSw.toFixed(2)}W\n• Junction-to-case: ${rth_jc.toFixed(1)}K/W (${selectedTransistor.package} package)\n• Case-to-ambient: ${rth_ca.toFixed(1)}K/W (${coolingType} cooling)\n• Max. temperature ${techType}: ${maxJunctionTemp}°C\n\nΔT = P × Rth → ${totalLosses.toFixed(1)}W × ${rth_ja.toFixed(1)}K/W = ${(totalLosses * rth_ja).toFixed(1)}°C rise`;
   
   thermalExplanation.textContent = explanationText + scientificInfo;
   
