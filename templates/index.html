@@ -206,6 +206,14 @@
     <small>⚠️ Примерен калкулатор — стойностите са опростени. За реални проекти ползвай datasheet.</small>
   </footer>
 
+  <!-- Overlay и modal за обяснения -->
+  <div class="overlay" id="overlay"></div>
+  <div class="term-explanation" id="termExplanation">
+    <button class="close-btn" onclick="closeTermExplanation()">×</button>
+    <h3 id="termTitle"></h3>
+    <div id="termContent"></div>
+  </div>
+
   <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 </html>

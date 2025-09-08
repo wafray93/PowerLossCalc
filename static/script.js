@@ -1508,10 +1508,9 @@ function showEfficiencyInsights(frequencies, efficiencies, techType) {
         
         <div class="insight-item">
           <strong>🧮 Използвани научни модели:</strong><br>
-          • Miller capacitance (Crss): ${(PHYSICS_CONSTANTS[techType].typical_Crss * 1e12).toFixed(1)} pF<br>
-          • Gate charge (Qg): ${(PHYSICS_CONSTANTS[techType].typical_Qg * 1e9).toFixed(1)} nC<br>
-          • Temperature coefficient: ${(PHYSICS_CONSTANTS[techType].temp_coeff_rds * 100).toFixed(1)}%/°C<br>
-          • Bandgap energy: ${PHYSICS_CONSTANTS[techType].bandgap} eV
+          • <span class="clickable-term" data-term="coss">Output capacitance (Coss)</span>: ${(PHYSICS_CONSTANTS[techType].typical_Coss * 1e12).toFixed(1)} pF<br>
+          • <span class="clickable-term" data-term="temp_coeff">Temperature coefficient</span>: ${(PHYSICS_CONSTANTS[techType].temp_coeff_rds * 100).toFixed(1)}%/°C<br>
+          • <span class="clickable-term" data-term="bandgap">Bandgap energy</span>: ${PHYSICS_CONSTANTS[techType].bandgap} eV
         </div>
       </div>
     `;
@@ -1531,10 +1530,9 @@ function showEfficiencyInsights(frequencies, efficiencies, techType) {
         
         <div class="insight-item">
           <strong>🧮 Scientific models used:</strong><br>
-          • Miller capacitance (Crss): ${(PHYSICS_CONSTANTS[techType].typical_Crss * 1e12).toFixed(1)} pF<br>
-          • Gate charge (Qg): ${(PHYSICS_CONSTANTS[techType].typical_Qg * 1e9).toFixed(1)} nC<br>
-          • Temperature coefficient: ${(PHYSICS_CONSTANTS[techType].temp_coeff_rds * 100).toFixed(1)}%/°C<br>
-          • Bandgap energy: ${PHYSICS_CONSTANTS[techType].bandgap} eV
+          • <span class="clickable-term" data-term="coss">Output capacitance (Coss)</span>: ${(PHYSICS_CONSTANTS[techType].typical_Coss * 1e12).toFixed(1)} pF<br>
+          • <span class="clickable-term" data-term="temp_coeff">Temperature coefficient</span>: ${(PHYSICS_CONSTANTS[techType].temp_coeff_rds * 100).toFixed(1)}%/°C<br>
+          • <span class="clickable-term" data-term="bandgap">Bandgap energy</span>: ${PHYSICS_CONSTANTS[techType].bandgap} eV
         </div>
       </div>
     `;
@@ -1542,7 +1540,183 @@ function showEfficiencyInsights(frequencies, efficiencies, techType) {
   
   document.getElementById('efficiencyInsights').innerHTML = insights;
   document.getElementById('efficiencyInsights').style.display = 'block';
+  
+  // Добавяме event listeners за интерактивните термини
+  addTermClickListeners();
 }
+
+// Функция за добавяне на click listeners за термините
+function addTermClickListeners() {
+  document.querySelectorAll('.clickable-term').forEach(term => {
+    term.addEventListener('click', function() {
+      const termKey = this.getAttribute('data-term');
+      showTermExplanation(termKey);
+    });
+  });
+}
+
+// Функция за показване на обяснението на термин
+function showTermExplanation(termKey) {
+  const explanations = {
+    'coss': {
+      bg: {
+        title: 'Output Capacitance (Coss)',
+        content: `
+          <p><strong>Какво е Coss?</strong></p>
+          <p>Output capacitance (Coss) е паразитният капацитет между drain и source на MOSFET транзистора.</p>
+          
+          <p><strong>Защо е важен?</strong></p>
+          <ul>
+            <li>Определя switching загубите при превключване</li>
+            <li>По-малък Coss → по-бързо превключване → по-малки загуби</li>
+            <li>Влияе на dv/dt стойностите</li>
+          </ul>
+          
+          <p><strong>Типични стойности:</strong></p>
+          <ul>
+            <li>Si MOSFETs: 800-2000 pF</li>
+            <li>SiC MOSFETs: 100-300 pF</li>
+            <li>GaN FETs: 50-100 pF</li>
+          </ul>
+        `
+      },
+      en: {
+        title: 'Output Capacitance (Coss)',
+        content: `
+          <p><strong>What is Coss?</strong></p>
+          <p>Output capacitance (Coss) is the parasitic capacitance between drain and source of a MOSFET transistor.</p>
+          
+          <p><strong>Why is it important?</strong></p>
+          <ul>
+            <li>Determines switching losses during transitions</li>
+            <li>Lower Coss → faster switching → lower losses</li>
+            <li>Affects dv/dt values</li>
+          </ul>
+          
+          <p><strong>Typical values:</strong></p>
+          <ul>
+            <li>Si MOSFETs: 800-2000 pF</li>
+            <li>SiC MOSFETs: 100-300 pF</li>
+            <li>GaN FETs: 50-100 pF</li>
+          </ul>
+        `
+      }
+    },
+    'temp_coeff': {
+      bg: {
+        title: 'Температурен коефициент на RDS(on)',
+        content: `
+          <p><strong>Какво показва?</strong></p>
+          <p>Показва как се променя съпротивлението RDS(on) с температурата.</p>
+          
+          <p><strong>Формула:</strong></p>
+          <p>RDS(on)(T) = RDS(on)(25°C) × [1 + α × (T - 25°C)]</p>
+          
+          <p><strong>Типични стойности на α:</strong></p>
+          <ul>
+            <li>Si: 0.6%/°C (по-голямо влияние на температурата)</li>
+            <li>SiC: 0.8%/°C (средно влияние)</li>
+            <li>GaN: 1.2%/°C (най-голямо влияние)</li>
+          </ul>
+          
+          <p><strong>Практично значение:</strong></p>
+          <p>При 100°C работа, RDS(on) се увеличава с 45-90% спрямо стойността при 25°C!</p>
+        `
+      },
+      en: {
+        title: 'RDS(on) Temperature Coefficient',
+        content: `
+          <p><strong>What does it show?</strong></p>
+          <p>Shows how RDS(on) resistance changes with temperature.</p>
+          
+          <p><strong>Formula:</strong></p>
+          <p>RDS(on)(T) = RDS(on)(25°C) × [1 + α × (T - 25°C)]</p>
+          
+          <p><strong>Typical α values:</strong></p>
+          <ul>
+            <li>Si: 0.6%/°C (higher temperature impact)</li>
+            <li>SiC: 0.8%/°C (medium impact)</li>
+            <li>GaN: 1.2%/°C (highest impact)</li>
+          </ul>
+          
+          <p><strong>Practical meaning:</strong></p>
+          <p>At 100°C operation, RDS(on) increases by 45-90% compared to 25°C value!</p>
+        `
+      }
+    },
+    'bandgap': {
+      bg: {
+        title: 'Bandgap Energy (Забранена зона)',
+        content: `
+          <p><strong>Какво е Bandgap?</strong></p>
+          <p>Energийната разлика между валентната зона и проводимостната зона в полупроводника.</p>
+          
+          <p><strong>Влияние върху параметрите:</strong></p>
+          <ul>
+            <li><strong>Максимална температура:</strong> По-голям bandgap → по-висока Tmax</li>
+            <li><strong>Switching скорост:</strong> Влияе на подвижността на носителите</li>
+            <li><strong>Ефективност:</strong> По-голям bandgap → по-малки загуби</li>
+          </ul>
+          
+          <p><strong>Сравнение на технологиите:</strong></p>
+          <ul>
+            <li><strong>Si:</strong> 1.12 eV → Tmax ~150°C</li>
+            <li><strong>SiC:</strong> 3.3 eV → Tmax ~200°C</li>
+            <li><strong>GaN:</strong> 3.4 eV → Tmax ~200°C+</li>
+          </ul>
+          
+          <p><strong>Защо е важно?</strong></p>
+          <p>По-широкият bandgap позволява работа при по-високи напрежения, температури и честоти!</p>
+        `
+      },
+      en: {
+        title: 'Bandgap Energy',
+        content: `
+          <p><strong>What is Bandgap?</strong></p>
+          <p>The energy difference between valence band and conduction band in semiconductor.</p>
+          
+          <p><strong>Impact on parameters:</strong></p>
+          <ul>
+            <li><strong>Maximum temperature:</strong> Larger bandgap → higher Tmax</li>
+            <li><strong>Switching speed:</strong> Affects carrier mobility</li>
+            <li><strong>Efficiency:</strong> Larger bandgap → lower losses</li>
+          </ul>
+          
+          <p><strong>Technology comparison:</strong></p>
+          <ul>
+            <li><strong>Si:</strong> 1.12 eV → Tmax ~150°C</li>
+            <li><strong>SiC:</strong> 3.3 eV → Tmax ~200°C</li>
+            <li><strong>GaN:</strong> 3.4 eV → Tmax ~200°C+</li>
+          </ul>
+          
+          <p><strong>Why important?</strong></p>
+          <p>Wider bandgap enables operation at higher voltages, temperatures and frequencies!</p>
+        `
+      }
+    }
+  };
+
+  const lang = currentLang === 'bg' ? 'bg' : 'en';
+  const explanation = explanations[termKey][lang];
+  
+  if (explanation) {
+    document.getElementById('termTitle').textContent = explanation.title;
+    document.getElementById('termContent').innerHTML = explanation.content;
+    document.getElementById('overlay').style.display = 'block';
+    document.getElementById('termExplanation').style.display = 'block';
+  }
+}
+
+// Функция за затваряне на обяснението
+function closeTermExplanation() {
+  document.getElementById('overlay').style.display = 'none';
+  document.getElementById('termExplanation').style.display = 'none';
+}
+
+// Затваряне при кликване върху overlay
+document.addEventListener('DOMContentLoaded', function() {
+  document.getElementById('overlay').addEventListener('click', closeTermExplanation);
+});
 
 // Функция за копиране на графики в clipboard като изображение
 async function copyChartToClipboard(chartId) {
