@@ -1665,12 +1665,23 @@ function calculateThermalParameters() {
   }
   
   // Calculate losses with current parameters
-  const pCond = calculateAdvancedConductionLosses(iLoad, selectedTransistor.rds_on, duty, temp, techType);
+  const rds_on_ohms = selectedTransistor.rds_mohm / 1000; // Convert milliohm to ohm
+  const pCond = calculateAdvancedConductionLosses(iLoad, rds_on_ohms, duty, temp, techType);
   const pSw = calculateAdvancedSwitchingLosses(vdc, iLoad, fsw, temp, techType);
   const totalLosses = pCond + pSw;
   
-  // Thermal resistances
-  const rth_jc = 0.5; // Junction-to-case (typical value, K/W)
+  // Thermal resistances - реалистични стойности според корпуса
+  let rth_jc; // Junction-to-case (зависи от корпуса)
+  if (selectedTransistor.package.includes('TO-220')) {
+    rth_jc = 0.5; // TO-220 корпуси имат добро термично съпротивление
+  } else if (selectedTransistor.package.includes('D2PAK') || selectedTransistor.package.includes('DPAK')) {
+    rth_jc = 1.0; // SMD корпуси имат по-високо термично съпротивление
+  } else if (selectedTransistor.package.includes('SO') || selectedTransistor.package.includes('QFN')) {
+    rth_jc = 20; // Малки SMD корпуси имат много високо термично съпротивление
+  } else {
+    rth_jc = 1.5; // Стандартна стойност за други корпуси
+  }
+  
   const rth_ca = THERMAL_RESISTANCES[coolingType]; // Case-to-ambient
   const rth_ja = rth_jc + rth_ca; // Total junction-to-ambient
   
@@ -1726,7 +1737,13 @@ function calculateThermalParameters() {
   
   thermalStatusDiv.textContent = statusText;
   thermalStatusDiv.style.display = 'block';
-  thermalExplanation.textContent = explanationText;
+  
+  // Добави научно обяснение за температурите и мощността
+  const scientificInfo = currentLang === 'bg' ? 
+    `\n\nДетайли на изчислението:\n• Общи загуби: ${totalLosses.toFixed(2)}W\n• Загуби от проводимост: ${pCond.toFixed(2)}W (I²×RDS(on)×D)\n• Загуби от превключване: ${pSw.toFixed(2)}W\n• Junction-to-case: ${rth_jc.toFixed(1)}K/W (${selectedTransistor.package} корпус)\n• Case-to-ambient: ${rth_ca.toFixed(1)}K/W (${coolingType} охлаждане)\n\nΔT = P × Rth → ${totalLosses.toFixed(1)}W × ${rth_ja.toFixed(1)}K/W = ${(totalLosses * rth_ja).toFixed(1)}°C покачване` :
+    `\n\nCalculation details:\n• Total losses: ${totalLosses.toFixed(2)}W\n• Conduction losses: ${pCond.toFixed(2)}W (I²×RDS(on)×D)\n• Switching losses: ${pSw.toFixed(2)}W\n• Junction-to-case: ${rth_jc.toFixed(1)}K/W (${selectedTransistor.package} package)\n• Case-to-ambient: ${rth_ca.toFixed(1)}K/W (${coolingType} cooling)\n\nΔT = P × Rth → ${totalLosses.toFixed(1)}W × ${rth_ja.toFixed(1)}K/W = ${(totalLosses * rth_ja).toFixed(1)}°C rise`;
+  
+  thermalExplanation.textContent = explanationText + scientificInfo;
   
   document.getElementById('thermalResults').style.display = 'block';
   
