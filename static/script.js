@@ -1123,6 +1123,359 @@ function calc(){
     }, 200);
   }
   
+  // Add Reliability Analysis
+  if (selectedTransistor) {
+    setTimeout(() => {
+      // Calculate reliability metrics
+      const voltageStress = Vdc / selectedTransistor.vds_max;
+      const currentStress = I / selectedTransistor.id_max;
+      
+      const mtbfData = reliabilityAnalyzer.calculateMTBF(
+        tech, 
+        parseFloat(thermalResult.tj), 
+        voltageStress, 
+        currentStress, 
+        fsw/1000
+      );
+      
+      if (mtbfData) {
+        const reliabilityReport = reliabilityAnalyzer.generateReliabilityReport(mtbfData, currentLang);
+        
+        let reliabilityContainer = document.getElementById('reliabilityContainer');
+        if (!reliabilityContainer) {
+          reliabilityContainer = document.createElement('div');
+          reliabilityContainer.id = 'reliabilityContainer';
+          reliabilityContainer.style.marginTop = '20px';
+          
+          reliabilityContainer.innerHTML = `
+            <div style="background: linear-gradient(135deg, #f3e5f5, #e8f5e8); border-radius: 8px; padding: 15px; border-left: 4px solid ${reliabilityReport.color};">
+              <h3 style="color: ${reliabilityReport.color}; margin-top: 0; margin-bottom: 15px;">
+                🔬 ${currentLang === 'bg' ? 'Reliability Analysis (MTBF)' : 'Reliability Analysis (MTBF)'}
+              </h3>
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; margin-bottom: 15px;">
+                <div><strong>${currentLang === 'bg' ? 'Status' : 'Status'}:</strong> ${reliabilityReport.text}</div>
+                <div><strong>MTBF:</strong> ${reliabilityReport.mtbf_display}</div>
+                <div><strong>${currentLang === 'bg' ? '10-Year Reliability' : '10-Year Reliability'}:</strong> ${reliabilityReport.reliability_10y}</div>
+                <div><strong>${currentLang === 'bg' ? 'Failure Rate' : 'Failure Rate'}:</strong> ${mtbfData.failure_rate_fit.toFixed(1)} FIT</div>
+                <div><strong>${currentLang === 'bg' ? 'Dominant Stress' : 'Dominant Stress'}:</strong> ${reliabilityReport.dominant_stress}</div>
+              </div>
+              <div style="background: white; padding: 10px; border-radius: 5px; font-weight: bold;">
+                ${reliabilityReport.improvement_suggestion}
+              </div>
+            </div>
+          `;
+          
+          const resultsParent = document.getElementById('results')?.parentNode;
+          if (resultsParent) {
+            resultsParent.appendChild(reliabilityContainer);
+          } else {
+            document.body.appendChild(reliabilityContainer);
+          }
+        }
+      }
+    }, 300);
+  }
+  
+  // Add EMI/EMC Analysis
+  setTimeout(() => {
+    const emiData = emiAnalyzer.calculateEMI(Vdc, I, fsw/1000, tech, selectedTransistor);
+    
+    let emiContainer = document.getElementById('emiContainer');
+    if (!emiContainer) {
+      emiContainer = document.createElement('div');
+      emiContainer.id = 'emiContainer';
+      emiContainer.style.marginTop = '20px';
+      
+      const complianceColor = emiData.compliance.overall_compliance ? '#2e7d32' : '#d32f2f';
+      const complianceText = emiData.compliance.overall_compliance ? 
+        (currentLang === 'bg' ? '✅ EMI Compliance OK' : '✅ EMI Compliance OK') :
+        (currentLang === 'bg' ? '❌ EMI Compliance Issues' : '❌ EMI Compliance Issues');
+      
+      emiContainer.innerHTML = `
+        <div style="background: linear-gradient(135deg, #e1f5fe, #f9fbe7); border-radius: 8px; padding: 15px; border-left: 4px solid #0277bd;">
+          <h3 style="color: #0277bd; margin-top: 0; margin-bottom: 15px;">
+            📡 ${currentLang === 'bg' ? 'EMI/EMC Analysis' : 'EMI/EMC Analysis'}
+          </h3>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; margin-bottom: 15px;">
+            <div><strong>dv/dt:</strong> ${emiData.dv_dt} V/ns</div>
+            <div><strong>di/dt:</strong> ${emiData.di_dt} A/ns</div>
+            <div><strong>${currentLang === 'bg' ? 'Switching Times' : 'Switching Times'}:</strong> ${emiData.switching_times.tr_ns}/${emiData.switching_times.tf_ns} ns</div>
+            <div><strong>${currentLang === 'bg' ? 'Radiated Emission' : 'Radiated Emission'}:</strong> ${emiData.radiated_emission} dBμV</div>
+            <div><strong>${currentLang === 'bg' ? 'Harmonic BW' : 'Harmonic BW'}:</strong> ${emiData.harmonic_content.bandwidth_mhz.toFixed(1)} MHz</div>
+          </div>
+          <div style="background: ${complianceColor}; color: white; padding: 8px; border-radius: 5px; font-weight: bold; margin-bottom: 10px;">
+            ${complianceText}
+          </div>
+          ${emiData.mitigation_suggestions.length > 0 ? `
+            <div style="background: white; padding: 10px; border-radius: 5px;">
+              <strong>${currentLang === 'bg' ? 'Mitigation Suggestions:' : 'Mitigation Suggestions:'}</strong><br>
+              ${emiData.mitigation_suggestions.map(s => `• ${s}`).join('<br>')}
+            </div>
+          ` : ''}
+        </div>
+      `;
+      
+      const resultsParent = document.getElementById('results')?.parentNode;
+      if (resultsParent) {
+        resultsParent.appendChild(emiContainer);
+      } else {
+        document.body.appendChild(emiContainer);
+      }
+    }
+  }, 400);
+  
+  // Add SOA Visualization
+  if (selectedTransistor) {
+    setTimeout(() => {
+      let soaContainer = document.getElementById('soaContainer');
+      if (!soaContainer) {
+        soaContainer = document.createElement('div');
+        soaContainer.id = 'soaContainer';
+        soaContainer.style.marginTop = '20px';
+        soaContainer.innerHTML = `
+          <h3 style="color: #d32f2f; margin-bottom: 10px;">
+            ⚡ ${currentLang === 'bg' ? 'Safe Operating Area (SOA)' : 'Safe Operating Area (SOA)'}
+          </h3>
+          <canvas id="soaCanvas" width="600" height="400" style="border: 1px solid #ccc; border-radius: 8px; max-width: 100%;"></canvas>
+        `;
+        
+        const resultsParent = document.getElementById('results')?.parentNode;
+        if (resultsParent) {
+          resultsParent.appendChild(soaContainer);
+        } else {
+          document.body.appendChild(soaContainer);
+        }
+      }
+      
+      soaVisualizer.initCanvas('soaCanvas');
+      soaVisualizer.drawSOA(selectedTransistor, Vdc, I, tech);
+    }, 500);
+  }
+  
+  // Add Gate Drive Requirements Analysis
+  if (selectedTransistor) {
+    setTimeout(() => {
+      const gateDriveData = gateDriveCalc.calculateGateDriveRequirements(
+        selectedTransistor, fsw/1000, tech, enhancedParams
+      );
+      
+      let gateDriveContainer = document.getElementById('gateDriveContainer');
+      if (!gateDriveContainer) {
+        gateDriveContainer = document.createElement('div');
+        gateDriveContainer.id = 'gateDriveContainer';
+        gateDriveContainer.style.marginTop = '20px';
+        
+        gateDriveContainer.innerHTML = `
+          <div style="background: linear-gradient(135deg, #f3e5f5, #e0f2f1); border-radius: 8px; padding: 15px; border-left: 4px solid #7b1fa2;">
+            <h3 style="color: #7b1fa2; margin-top: 0; margin-bottom: 15px;">
+              🔌 ${currentLang === 'bg' ? 'Gate Drive Requirements' : 'Gate Drive Requirements'}
+            </h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin-bottom: 15px;">
+              <div><strong>${currentLang === 'bg' ? 'Gate Voltages' : 'Gate Voltages'}:</strong> +${gateDriveData.gate_voltages.on}V/${gateDriveData.gate_voltages.off}V</div>
+              <div><strong>${currentLang === 'bg' ? 'Gate Charge' : 'Gate Charge'}:</strong> ${gateDriveData.gate_charges.total} nC</div>
+              <div><strong>${currentLang === 'bg' ? 'Avg Current' : 'Avg Current'}:</strong> ${gateDriveData.currents.average} mA</div>
+              <div><strong>${currentLang === 'bg' ? 'Peak Current' : 'Peak Current'}:</strong> ${gateDriveData.currents.peak} mA</div>
+              <div><strong>${currentLang === 'bg' ? 'Gate Resistor' : 'Gate Resistor'}:</strong> ${gateDriveData.gate_resistor.optimal}Ω</div>
+              <div><strong>${currentLang === 'bg' ? 'Driver Power' : 'Driver Power'}:</strong> ${gateDriveData.driver_power} mW</div>
+            </div>
+            <div style="background: white; padding: 10px; border-radius: 5px; margin-bottom: 10px;">
+              <strong>${currentLang === 'bg' ? 'Recommended Driver ICs:' : 'Recommended Driver ICs:'}</strong><br>
+              ${gateDriveData.driver_ic.recommendations}
+              ${gateDriveData.driver_ic.isolation_required ? `<br><span style="color: #d32f2f;">⚠️ ${currentLang === 'bg' ? 'Isolation required' : 'Isolation required'}</span>` : ''}
+            </div>
+            <div style="background: #f8f9fa; padding: 10px; border-radius: 5px;">
+              <strong>${currentLang === 'bg' ? 'Layout Recommendations:' : 'Layout Recommendations:'}</strong><br>
+              ${gateDriveData.layout_recommendations.map(r => `• ${r}`).join('<br>')}
+            </div>
+          </div>
+        `;
+        
+        const resultsParent = document.getElementById('results')?.parentNode;
+        if (resultsParent) {
+          resultsParent.appendChild(gateDriveContainer);
+        } else {
+          document.body.appendChild(gateDriveContainer);
+        }
+      }
+    }, 600);
+  }
+  
+  // Add Efficiency Optimization Analysis
+  if (selectedTransistor) {
+    setTimeout(() => {
+      const efficiencyData = efficiencyOptimizer.findOptimalFrequency(
+        selectedTransistor, Vdc, I, T, tech
+      );
+      
+      let efficiencyContainer = document.getElementById('efficiencyContainer');
+      if (!efficiencyContainer) {
+        efficiencyContainer = document.createElement('div');
+        efficiencyContainer.id = 'efficiencyContainer';
+        efficiencyContainer.style.marginTop = '20px';
+        
+        efficiencyContainer.innerHTML = `
+          <div style="background: linear-gradient(135deg, #e8f5e8, #fff3e0); border-radius: 8px; padding: 15px; border-left: 4px solid #388e3c;">
+            <h3 style="color: #388e3c; margin-top: 0; margin-bottom: 15px;">
+              📊 ${currentLang === 'bg' ? 'Frequency Optimization Analysis' : 'Frequency Optimization Analysis'}
+            </h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin-bottom: 15px;">
+              <div><strong>${currentLang === 'bg' ? 'Current Frequency' : 'Current Frequency'}:</strong> ${(fsw/1000).toFixed(1)} kHz</div>
+              <div><strong>${currentLang === 'bg' ? 'Current Efficiency' : 'Current Efficiency'}:</strong> ${eff.toFixed(2)}%</div>
+              <div><strong>${currentLang === 'bg' ? 'Optimal Frequency' : 'Optimal Frequency'}:</strong> ${efficiencyData.optimal_frequency.toFixed(1)} kHz</div>
+              <div><strong>${currentLang === 'bg' ? 'Max Efficiency' : 'Max Efficiency'}:</strong> ${efficiencyData.max_efficiency.toFixed(2)}%</div>
+              <div><strong>${currentLang === 'bg' ? 'Potential Gain' : 'Potential Gain'}:</strong> +${(efficiencyData.max_efficiency - eff).toFixed(2)}%</div>
+            </div>
+            <div style="background: white; padding: 10px; border-radius: 5px;">
+              <strong>${currentLang === 'bg' ? 'Optimization Recommendations:' : 'Optimization Recommendations:'}</strong><br>
+              ${efficiencyData.recommendations.map(r => `• ${r}`).join('<br>')}
+            </div>
+          </div>
+        `;
+        
+        const resultsParent = document.getElementById('results')?.parentNode;
+        if (resultsParent) {
+          resultsParent.appendChild(efficiencyContainer);
+        } else {
+          document.body.appendChild(efficiencyContainer);
+        }
+      }
+    }, 700);
+  }
+  
+  // Add Temperature Derating Analysis
+  if (selectedTransistor && thermalResult) {
+    setTimeout(() => {
+      const tjFloat = parseFloat(thermalResult.tj);
+      const thermalCycling = thermalAnalyzer.calculateThermalCycling(
+        T, tjFloat, 1000, tech // Assume 1000 cycles per year
+      );
+      
+      let thermalContainer = document.getElementById('thermalContainer');
+      if (!thermalContainer) {
+        thermalContainer = document.createElement('div');
+        thermalContainer.id = 'thermalContainer';
+        thermalContainer.style.marginTop = '20px';
+        
+        const rating = thermalAnalyzer.getThermalReliabilityRating(parseFloat(thermalCycling.years_to_failure));
+        
+        thermalContainer.innerHTML = `
+          <div style="background: linear-gradient(135deg, #e3f2fd, #fce4ec); border-radius: 8px; padding: 15px; border-left: 4px solid #1976d2;">
+            <h3 style="color: #1976d2; margin-top: 0; margin-bottom: 15px;">
+              🌡️ ${currentLang === 'bg' ? 'Thermal Cycling Analysis' : 'Thermal Cycling Analysis'}
+            </h3>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; margin-bottom: 15px;">
+              <div><strong>ΔT:</strong> ${thermalCycling.delta_t.toFixed(1)}°C</div>
+              <div><strong>${currentLang === 'bg' ? 'Stress Factor' : 'Stress Factor'}:</strong> ${thermalCycling.thermal_stress_factor}</div>
+              <div><strong>${currentLang === 'bg' ? 'Cycles to Failure' : 'Cycles to Failure'}:</strong> ${thermalCycling.cycles_to_failure.toLocaleString()}</div>
+              <div><strong>${currentLang === 'bg' ? 'Expected Life' : 'Expected Life'}:</strong> ${thermalCycling.years_to_failure} years</div>
+            </div>
+            <div style="background: ${rating.color}; color: white; padding: 8px; border-radius: 5px; font-weight: bold; margin-bottom: 10px;">
+              ${currentLang === 'bg' ? 'Термична надежност' : 'Thermal Reliability'}: ${rating.level.toUpperCase()}
+            </div>
+            ${thermalCycling.recommendations.length > 0 ? `
+              <div style="background: white; padding: 10px; border-radius: 5px;">
+                <strong>${currentLang === 'bg' ? 'Препоръки:' : 'Recommendations:'}</strong><br>
+                ${thermalCycling.recommendations.map(r => `• ${r}`).join('<br>')}
+              </div>
+            ` : ''}
+          </div>
+        `;
+        
+        const resultsParent = document.getElementById('results')?.parentNode;
+        if (resultsParent) {
+          resultsParent.appendChild(thermalContainer);
+        } else {
+          document.body.appendChild(thermalContainer);
+        }
+      }
+    }, 800);
+  }
+  
+  // Add Professional Export Buttons
+  setTimeout(() => {
+    let exportContainer = document.getElementById('exportContainer');
+    if (!exportContainer) {
+      exportContainer = document.createElement('div');
+      exportContainer.id = 'exportContainer';
+      exportContainer.style.marginTop = '20px';
+      
+      // Collect all calculation data for export
+      const exportData = dataExporter.exportCalculationData(
+        {
+          pCond: results.pCond,
+          pSw: results.pSw,
+          totalLoss: results.totalLoss,
+          efficiency: results.efficiency,
+          junctionTemp: thermalResult?.tj
+        },
+        {
+          technology: tech,
+          voltage: Vdc,
+          current: I,
+          frequency: fsw/1000,
+          temperature: T,
+          duty: D
+        },
+        selectedTransistor
+      );
+      
+      exportContainer.innerHTML = `
+        <div style="background: linear-gradient(135deg, #f3e5f5, #e8eaf6); border-radius: 8px; padding: 15px; border-left: 4px solid #673ab7;">
+          <h3 style="color: #673ab7; margin-top: 0; margin-bottom: 15px;">
+            📄 ${currentLang === 'bg' ? 'Professional Data Export' : 'Professional Data Export'}
+          </h3>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 10px;">
+            <button onclick="exportCSV()" style="background: #4caf50; color: white; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer;">
+              📊 CSV Export
+            </button>
+            <button onclick="exportLaTeX()" style="background: #2196f3; color: white; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer;">
+              📝 LaTeX Table
+            </button>
+            <button onclick="exportCitation()" style="background: #ff9800; color: white; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer;">
+              📚 Citation
+            </button>
+            <button onclick="exportJSON()" style="background: #9c27b0; color: white; border: none; padding: 8px 12px; border-radius: 4px; cursor: pointer;">
+              💾 JSON Data
+            </button>
+          </div>
+          <div style="background: white; padding: 10px; border-radius: 5px; margin-top: 10px; font-size: 12px; color: #666;">
+            ${currentLang === 'bg' ? 'Всички експорти включват metadata, references и IEEE стандарти за научни публикации' : 'All exports include metadata, references and IEEE standards for scientific publications'}
+          </div>
+        </div>
+      `;
+      
+      // Add export functions to global scope
+      window.exportCSV = () => {
+        const csv = dataExporter.generateCSV(exportData);
+        dataExporter.downloadFile(csv, 'transistor_analysis.csv', 'text/csv');
+      };
+      
+      window.exportLaTeX = () => {
+        const latex = dataExporter.generateLaTeX(exportData);
+        dataExporter.downloadFile(latex, 'transistor_analysis.tex', 'text/plain');
+      };
+      
+      window.exportCitation = () => {
+        const citation = dataExporter.generateCitation();
+        dataExporter.downloadFile(citation, 'citation.txt', 'text/plain');
+      };
+      
+      window.exportJSON = () => {
+        const json = JSON.stringify(exportData, null, 2);
+        dataExporter.downloadFile(json, 'transistor_analysis.json', 'application/json');
+      };
+      
+      const resultsParent = document.getElementById('results')?.parentNode;
+      if (resultsParent) {
+        resultsParent.appendChild(exportContainer);
+      } else {
+        document.body.appendChild(exportContainer);
+      }
+    }
+  }, 900);
+}
+  }
+  
   let warnings = [];
   let recommendations = [];
   
@@ -3586,3 +3939,965 @@ class ReliabilityAnalyzer {
 }
 
 const reliabilityAnalyzer = new ReliabilityAnalyzer();
+
+// EMI/EMC Analysis с dv/dt, di/dt calculations за compliance
+class EMIAnalyzer {
+  constructor() {
+    // IEEE 519, IEC 61000 стандартни лимити
+    this.emiLimits = {
+      dv_dt_max: { // V/ns
+        Si: 50,
+        SiC: 100, 
+        GaN: 200
+      },
+      di_dt_max: { // A/ns
+        Si: 1.0,
+        SiC: 5.0,
+        GaN: 10.0
+      },
+      conducted_emission_limits: { // dBμV
+        class_a: 79, // Industrial
+        class_b: 66  // Residential
+      }
+    };
+  }
+  
+  calculateEMI(vdc, iLoad, fsw_khz, technology, selectedTransistor) {
+    const fsw = fsw_khz * 1000;
+    
+    // Get switching times from transistor data or estimates
+    const tr_ns = selectedTransistor?.tr_ns || this.getTypicalSwitchingTime(technology, 'rise');
+    const tf_ns = selectedTransistor?.tf_ns || this.getTypicalSwitchingTime(technology, 'fall');
+    
+    // Calculate dv/dt and di/dt
+    const dv_dt = vdc / (tr_ns / 1000); // V/ns
+    const di_dt = iLoad / (tr_ns / 1000); // A/ns
+    
+    // EMI radiation calculation (simplified)
+    const harmonic_content = this.calculateHarmonicContent(fsw, tr_ns, tf_ns);
+    const radiated_emission = this.estimateRadiatedEmission(dv_dt, di_dt, fsw, harmonic_content);
+    
+    // Compliance check
+    const compliance = this.checkCompliance(dv_dt, di_dt, technology, radiated_emission);
+    
+    return {
+      dv_dt: dv_dt.toFixed(2),
+      di_dt: di_dt.toFixed(2),
+      switching_times: { tr_ns, tf_ns },
+      harmonic_content,
+      radiated_emission: radiated_emission.toFixed(1),
+      compliance,
+      mitigation_suggestions: this.generateMitigationSuggestions(compliance, dv_dt, di_dt)
+    };
+  }
+  
+  getTypicalSwitchingTime(technology, transition) {
+    const times = {
+      Si: { rise: 25, fall: 20 },
+      SiC: { rise: 15, fall: 12 },
+      GaN: { rise: 5, fall: 3 }
+    };
+    return times[technology][transition];
+  }
+  
+  calculateHarmonicContent(fsw, tr_ns, tf_ns) {
+    // Simplified harmonic analysis based on switching edges
+    const rise_bandwidth = 0.35 / (tr_ns * 1e-9); // Hz
+    const fall_bandwidth = 0.35 / (tf_ns * 1e-9); // Hz
+    
+    const significant_harmonics = Math.max(rise_bandwidth, fall_bandwidth) / fsw;
+    
+    return {
+      bandwidth_mhz: Math.max(rise_bandwidth, fall_bandwidth) / 1e6,
+      significant_harmonics: Math.floor(significant_harmonics),
+      critical_frequency_mhz: (fsw * significant_harmonics) / 1e6
+    };
+  }
+  
+  estimateRadiatedEmission(dv_dt, di_dt, fsw, harmonics) {
+    // Simplified radiated emission estimation (dBμV/m at 1m)
+    const voltage_contribution = 20 * Math.log10(dv_dt * 1000); // Convert to mV/ns
+    const current_contribution = 20 * Math.log10(di_dt * 1000);  // Convert to mA/ns
+    const frequency_factor = 20 * Math.log10(fsw / 1000);       // kHz to MHz factor
+    
+    return voltage_contribution + current_contribution + frequency_factor - 40; // Empirical correction
+  }
+  
+  checkCompliance(dv_dt, di_dt, technology, radiated_emission) {
+    const limits = this.emiLimits;
+    
+    return {
+      dv_dt_ok: dv_dt <= limits.dv_dt_max[technology],
+      di_dt_ok: di_dt <= limits.di_dt_max[technology],
+      conducted_class_a: radiated_emission <= limits.conducted_emission_limits.class_a,
+      conducted_class_b: radiated_emission <= limits.conducted_emission_limits.class_b,
+      overall_compliance: (
+        dv_dt <= limits.dv_dt_max[technology] && 
+        di_dt <= limits.di_dt_max[technology] && 
+        radiated_emission <= limits.conducted_emission_limits.class_a
+      )
+    };
+  }
+  
+  generateMitigationSuggestions(compliance, dv_dt, di_dt) {
+    const suggestions = [];
+    
+    if (!compliance.dv_dt_ok) {
+      suggestions.push(currentLang === 'bg' ? 
+        '📐 Добавете gate resistor за намаляване на dv/dt' :
+        '📐 Add gate resistor to reduce dv/dt');
+    }
+    
+    if (!compliance.di_dt_ok) {
+      suggestions.push(currentLang === 'bg' ? 
+        '🔗 Минимизирайте паразитната индуктивност в circuit layout' :
+        '🔗 Minimize parasitic inductance in circuit layout');
+    }
+    
+    if (!compliance.conducted_class_b) {
+      suggestions.push(currentLang === 'bg' ? 
+        '🛡️ Добавете EMI филтри и shielding' :
+        '🛡️ Add EMI filters and shielding');
+    }
+    
+    return suggestions;
+  }
+}
+
+const emiAnalyzer = new EMIAnalyzer();
+
+// Safe Operating Area (SOA) Visualization
+class SOAVisualizer {
+  constructor() {
+    this.canvas = null;
+    this.ctx = null;
+  }
+  
+  initCanvas(canvasId) {
+    this.canvas = document.getElementById(canvasId);
+    if (!this.canvas) {
+      this.canvas = document.createElement('canvas');
+      this.canvas.id = canvasId;
+      this.canvas.width = 600;
+      this.canvas.height = 400;
+      this.canvas.style.border = '1px solid #ccc';
+      this.canvas.style.borderRadius = '8px';
+    }
+    this.ctx = this.canvas.getContext('2d');
+  }
+  
+  drawSOA(transistor, currentVoltage, currentCurrent, technology) {
+    if (!this.ctx) return;
+    
+    const ctx = this.ctx;
+    const canvas = this.canvas;
+    
+    // Clear canvas
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+    // Set up coordinate system
+    const margin = 60;
+    const plotWidth = canvas.width - 2 * margin;
+    const plotHeight = canvas.height - 2 * margin;
+    
+    const vMax = transistor.vds_max;
+    const iMax = transistor.id_max;
+    
+    // Draw axes
+    this.drawAxes(ctx, margin, plotWidth, plotHeight, vMax, iMax);
+    
+    // Draw SOA boundaries
+    this.drawSOABoundaries(ctx, margin, plotWidth, plotHeight, vMax, iMax, transistor, technology);
+    
+    // Plot current operating point
+    this.plotOperatingPoint(ctx, margin, plotWidth, plotHeight, vMax, iMax, currentVoltage, currentCurrent);
+    
+    // Add title
+    ctx.fillStyle = '#333';
+    ctx.font = 'bold 16px Arial';
+    ctx.textAlign = 'center';
+    ctx.fillText(`Safe Operating Area - ${transistor.name}`, canvas.width / 2, 25);
+  }
+  
+  drawAxes(ctx, margin, width, height, vMax, iMax) {
+    ctx.strokeStyle = '#333';
+    ctx.lineWidth = 2;
+    
+    // X-axis (Voltage)
+    ctx.beginPath();
+    ctx.moveTo(margin, margin + height);
+    ctx.lineTo(margin + width, margin + height);
+    ctx.stroke();
+    
+    // Y-axis (Current)
+    ctx.beginPath();
+    ctx.moveTo(margin, margin);
+    ctx.lineTo(margin, margin + height);
+    ctx.stroke();
+    
+    // Labels
+    ctx.fillStyle = '#666';
+    ctx.font = '12px Arial';
+    ctx.textAlign = 'center';
+    ctx.fillText('VDS (V)', margin + width/2, margin + height + 40);
+    
+    ctx.save();
+    ctx.translate(20, margin + height/2);
+    ctx.rotate(-Math.PI/2);
+    ctx.fillText('ID (A)', 0, 0);
+    ctx.restore();
+    
+    // Scale markings
+    this.drawScaleMarkings(ctx, margin, width, height, vMax, iMax);
+  }
+  
+  drawScaleMarkings(ctx, margin, width, height, vMax, iMax) {
+    ctx.fillStyle = '#666';
+    ctx.font = '10px Arial';
+    
+    // Voltage markings
+    for (let i = 0; i <= 5; i++) {
+      const v = (vMax / 5) * i;
+      const x = margin + (width / 5) * i;
+      
+      ctx.textAlign = 'center';
+      ctx.fillText(v.toFixed(0), x, margin + height + 15);
+      
+      // Grid lines
+      ctx.strokeStyle = '#eee';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(x, margin);
+      ctx.lineTo(x, margin + height);
+      ctx.stroke();
+    }
+    
+    // Current markings
+    for (let i = 0; i <= 5; i++) {
+      const current = (iMax / 5) * i;
+      const y = margin + height - (height / 5) * i;
+      
+      ctx.textAlign = 'right';
+      ctx.fillText(current.toFixed(0), margin - 5, y + 3);
+      
+      // Grid lines
+      ctx.strokeStyle = '#eee';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(margin, y);
+      ctx.lineTo(margin + width, y);
+      ctx.stroke();
+    }
+  }
+  
+  drawSOABoundaries(ctx, margin, width, height, vMax, iMax, transistor, technology) {
+    ctx.strokeStyle = '#d32f2f';
+    ctx.lineWidth = 3;
+    
+    // Voltage limit (vertical line)
+    const vLimitX = margin + (width * 0.9); // 90% of max voltage
+    ctx.beginPath();
+    ctx.moveTo(vLimitX, margin);
+    ctx.lineTo(vLimitX, margin + height);
+    ctx.stroke();
+    
+    // Current limit (horizontal line)
+    const iLimitY = margin + (height * 0.1); // 90% of max current
+    ctx.beginPath();
+    ctx.moveTo(margin, iLimitY);
+    ctx.lineTo(margin + width, iLimitY);
+    ctx.stroke();
+    
+    // Power limit (hyperbola)
+    const maxPower = transistor.vds_max * transistor.id_max * 0.5; // Conservative estimate
+    ctx.beginPath();
+    for (let i = 0; i <= width; i += 5) {
+      const v = (vMax * i) / width;
+      if (v > 0) {
+        const powerLimitedCurrent = maxPower / v;
+        const y = margin + height - (height * powerLimitedCurrent / iMax);
+        
+        if (y >= margin && y <= margin + height) {
+          if (i === 0) {
+            ctx.moveTo(margin + i, y);
+          } else {
+            ctx.lineTo(margin + i, y);
+          }
+        }
+      }
+    }
+    ctx.stroke();
+    
+    // Add labels
+    ctx.fillStyle = '#d32f2f';
+    ctx.font = '10px Arial';
+    ctx.fillText('V limit', vLimitX + 5, margin + 15);
+    ctx.fillText('I limit', margin + 5, iLimitY - 5);
+    ctx.fillText('P limit', margin + width - 50, margin + 50);
+  }
+  
+  plotOperatingPoint(ctx, margin, width, height, vMax, iMax, voltage, current) {
+    const x = margin + (width * voltage / vMax);
+    const y = margin + height - (height * current / iMax);
+    
+    // Operating point
+    ctx.fillStyle = '#1976d2';
+    ctx.beginPath();
+    ctx.arc(x, y, 8, 0, 2 * Math.PI);
+    ctx.fill();
+    
+    // Point label
+    ctx.fillStyle = '#1976d2';
+    ctx.font = '12px Arial';
+    ctx.textAlign = 'left';
+    ctx.fillText(`(${voltage}V, ${current}A)`, x + 10, y - 10);
+  }
+}
+
+const soaVisualizer = new SOAVisualizer();
+
+// Gate Drive Requirements Calculator за system design
+class GateDriveCalculator {
+  constructor() {
+    this.standardGateVoltages = {
+      Si: { on: 10, off: 0, threshold: 3 },
+      SiC: { on: 18, off: -5, threshold: 3 },
+      GaN: { on: 6, off: 0, threshold: 1.5 }
+    };
+  }
+  
+  calculateGateDriveRequirements(transistor, fsw_khz, technology, enhancedParams) {
+    const fsw = fsw_khz * 1000;
+    const gateVoltages = this.standardGateVoltages[technology];
+    
+    // Use enhanced parameters if available
+    const qg_total = enhancedParams?.qg_total || this.getDefaultQg(technology);
+    const qgd = enhancedParams?.qgd || qg_total * 0.2;
+    const qgs = enhancedParams?.qgs || qg_total * 0.3;
+    
+    // Gate current calculation
+    const ig_avg = qg_total * 1e-9 * fsw; // Average gate current (A)
+    const ig_peak = ig_avg * 10; // Peak gate current estimate
+    
+    // Gate resistor calculation for desired switching speed
+    const vgate_swing = gateVoltages.on - gateVoltages.off;
+    const desired_tr = this.getDesiredSwitchingTime(technology); // ns
+    const rgate_opt = (desired_tr * 1e-9 * vgate_swing) / (qg_total * 1e-9 * Math.log(3));
+    
+    // Gate driver power calculation
+    const pgate_driver = vgate_swing * ig_avg + 
+                        (qg_total * 1e-9 * vgate_swing * fsw); // Switching power
+    
+    // Driver IC requirements
+    const driverSpecs = this.selectDriverIC(ig_peak, pgate_driver, technology);
+    
+    return {
+      gate_voltages: gateVoltages,
+      gate_charges: { total: qg_total, gate_drain: qgd, gate_source: qgs },
+      currents: {
+        average: (ig_avg * 1000).toFixed(2), // mA
+        peak: (ig_peak * 1000).toFixed(1)    // mA
+      },
+      gate_resistor: {
+        optimal: rgate_opt.toFixed(1),
+        turn_on: (rgate_opt * 0.7).toFixed(1),
+        turn_off: (rgate_opt * 1.3).toFixed(1)
+      },
+      driver_power: (pgate_driver * 1000).toFixed(1), // mW
+      driver_ic: driverSpecs,
+      layout_recommendations: this.getLayoutRecommendations(technology, fsw_khz)
+    };
+  }
+  
+  getDefaultQg(technology) {
+    const defaults = { Si: 45, SiC: 19, GaN: 4.3 };
+    return defaults[technology] || 25;
+  }
+  
+  getDesiredSwitchingTime(technology) {
+    const times = { Si: 50, SiC: 20, GaN: 8 }; // ns
+    return times[technology] || 30;
+  }
+  
+  selectDriverIC(peakCurrent, power, technology) {
+    // Simplified driver IC selection logic
+    const recommendations = {
+      Si: {
+        low_power: 'IR2110, UCC27511',
+        high_power: 'IXDN614SI, UCC21520'
+      },
+      SiC: {
+        low_power: 'UCC21732, Si8271',
+        high_power: 'UCC21750, ACPL-P611'
+      },
+      GaN: {
+        low_power: 'LM5113, UCC27282',
+        high_power: 'LMG1020, Si8274'
+      }
+    };
+    
+    const powerCategory = power > 500 ? 'high_power' : 'low_power';
+    const suggestion = recommendations[technology]?.[powerCategory] || 'Custom solution needed';
+    
+    return {
+      category: powerCategory,
+      recommendations: suggestion,
+      isolation_required: technology === 'SiC' || power > 1000,
+      bootstrap_capable: power < 200
+    };
+  }
+  
+  getLayoutRecommendations(technology, fsw_khz) {
+    const recommendations = [];
+    
+    if (fsw_khz > 100) {
+      recommendations.push(
+        currentLang === 'bg' ? 
+        '📏 Минимизирайте gate loop inductance (<5nH)' :
+        '📏 Minimize gate loop inductance (<5nH)'
+      );
+    }
+    
+    if (technology === 'GaN') {
+      recommendations.push(
+        currentLang === 'bg' ?
+        '⚡ Използвайте dedicated GaN gate driver с fast turn-off' :
+        '⚡ Use dedicated GaN gate driver with fast turn-off'
+      );
+    }
+    
+    if (technology === 'SiC') {
+      recommendations.push(
+        currentLang === 'bg' ?
+        '🔒 Препоръчва се galvanic isolation (>2.5kV)' :
+        '🔒 Galvanic isolation recommended (>2.5kV)'
+      );
+    }
+    
+    recommendations.push(
+      currentLang === 'bg' ?
+      '🛡️ Добавете Miller clamp за dv/dt immunity' :
+      '🛡️ Add Miller clamp for dv/dt immunity'
+    );
+    
+    return recommendations;
+  }
+}
+
+const gateDriveCalc = new GateDriveCalculator();
+
+// Efficiency vs Frequency Optimization Finder
+class EfficiencyOptimizer {
+  constructor() {
+    this.frequencyRange = [1, 1000]; // kHz
+    this.optimizationPoints = 50;
+  }
+  
+  findOptimalFrequency(transistor, vdc, iLoad, temperature, technology, targetEfficiency = 95) {
+    const frequencies = [];
+    const efficiencies = [];
+    const totalLosses = [];
+    
+    const fMin = this.frequencyRange[0];
+    const fMax = Math.min(this.frequencyRange[1], this.getMaxReasonableFreq(technology));
+    
+    // Sweep frequency range
+    for (let i = 0; i < this.optimizationPoints; i++) {
+      const fsw_khz = fMin + (fMax - fMin) * i / (this.optimizationPoints - 1);
+      const fsw = fsw_khz * 1000;
+      
+      // Calculate losses at this frequency
+      const rds0 = transistor.rds_mohm / 1000;
+      const tempCoeff = technology === 'Si' ? 0.006 : technology === 'SiC' ? 0.003 : 0.004;
+      const rds = rds0 * (1 + tempCoeff * (temperature - 25));
+      
+      const pCond = iLoad * iLoad * rds * 0.5; // Assume 50% duty cycle
+      
+      // Technology-specific switching times
+      const tr_ns = transistor.tr_ns || this.getTypicalTr(technology);
+      const tf_ns = transistor.tf_ns || this.getTypicalTf(technology);
+      
+      const pSw = 0.5 * vdc * iLoad * (tr_ns + tf_ns) * 1e-9 * fsw * 2;
+      const pTotal = pCond + pSw;
+      
+      const pOut = vdc * iLoad * 0.5;
+      const efficiency = (pOut / (pOut + pTotal)) * 100;
+      
+      frequencies.push(fsw_khz);
+      efficiencies.push(efficiency);
+      totalLosses.push(pTotal);
+    }
+    
+    // Find optimal points
+    const maxEffIndex = efficiencies.indexOf(Math.max(...efficiencies));
+    const targetIndex = this.findTargetEfficiencyIndex(efficiencies, targetEfficiency);
+    
+    return {
+      frequencies,
+      efficiencies,
+      totalLosses,
+      optimal_frequency: frequencies[maxEffIndex],
+      max_efficiency: efficiencies[maxEffIndex],
+      target_frequency: targetIndex >= 0 ? frequencies[targetIndex] : null,
+      recommendations: this.generateFrequencyRecommendations(
+        frequencies[maxEffIndex], 
+        efficiencies[maxEffIndex],
+        technology
+      )
+    };
+  }
+  
+  getMaxReasonableFreq(technology) {
+    const limits = { Si: 100, SiC: 500, GaN: 1000 };
+    return limits[technology] || 100;
+  }
+  
+  getTypicalTr(technology) {
+    const times = { Si: 25, SiC: 15, GaN: 5 };
+    return times[technology] || 25;
+  }
+  
+  getTypicalTf(technology) {
+    const times = { Si: 20, SiC: 12, GaN: 3 };
+    return times[technology] || 20;
+  }
+  
+  findTargetEfficiencyIndex(efficiencies, target) {
+    for (let i = 0; i < efficiencies.length; i++) {
+      if (efficiencies[i] >= target) {
+        return i;
+      }
+    }
+    return -1;
+  }
+  
+  generateFrequencyRecommendations(optimalFreq, maxEff, technology) {
+    const recommendations = [];
+    
+    if (maxEff > 98) {
+      recommendations.push(currentLang === 'bg' ?
+        '🎯 Отличен избор на честота за максимална ефективност' :
+        '🎯 Excellent frequency choice for maximum efficiency');
+    } else if (maxEff > 95) {
+      recommendations.push(currentLang === 'bg' ?
+        '✅ Добра честота, но има място за подобрение' :
+        '✅ Good frequency, but room for improvement');
+    } else {
+      recommendations.push(currentLang === 'bg' ?
+        '⚠️ Ниска ефективност - разгледайте други параметри' :
+        '⚠️ Low efficiency - consider other parameters');
+    }
+    
+    if (optimalFreq > 200 && technology === 'Si') {
+      recommendations.push(currentLang === 'bg' ?
+        '🔄 За Si транзистори се препоръчва <100kHz' :
+        '🔄 For Si transistors, consider <100kHz');
+    }
+    
+    if (optimalFreq < 50 && technology === 'GaN') {
+      recommendations.push(currentLang === 'bg' ?
+        '📈 GaN позволява много по-високи честоти >200kHz' :
+        '📈 GaN enables much higher frequencies >200kHz');
+    }
+    
+    return recommendations;
+  }
+}
+
+const efficiencyOptimizer = new EfficiencyOptimizer();
+
+// Professional Data Export System за научни публикации
+class DataExporter {
+  constructor() {
+    this.exportFormats = ['CSV', 'JSON', 'LaTeX', 'Citation'];
+  }
+  
+  exportCalculationData(calculationResults, parameters, transistor) {
+    const timestamp = new Date().toISOString();
+    const exportData = {
+      metadata: {
+        tool: 'Advanced Transistor Loss Calculator',
+        version: '2.1.0',
+        timestamp: timestamp,
+        author: 'Power Electronics Research Tool',
+        standards: ['IEEE 519', 'IEC 61000', 'MIL-HDBK-217']
+      },
+      transistor_specifications: {
+        name: transistor.name,
+        technology: parameters.technology,
+        vds_max: transistor.vds_max,
+        id_max: transistor.id_max,
+        rds_on_25c: transistor.rds_mohm,
+        package: transistor.package || 'Unknown'
+      },
+      operating_conditions: {
+        dc_voltage: parameters.voltage,
+        load_current: parameters.current,
+        switching_frequency_khz: parameters.frequency,
+        ambient_temperature: parameters.temperature,
+        duty_cycle: parameters.duty,
+        cooling_type: parameters.cooling || 'medium_heatsink'
+      },
+      calculated_results: calculationResults,
+      analysis_modules: {
+        thermal_analysis: calculationResults.thermalAnalysis || null,
+        reliability_mtbf: calculationResults.reliabilityData || null,
+        emi_emc: calculationResults.emiData || null,
+        cost_analysis: calculationResults.costAnalysis || null,
+        efficiency_optimization: calculationResults.efficiencyOpt || null
+      },
+      references: [
+        'IEEE Standard 519-2014: Recommended Practice for Harmonic Control',
+        'IEC 61000-6-4:2018: Generic standards – Emission standard for industrial environments',
+        'MIL-HDBK-217F: Reliability Prediction of Electronic Equipment',
+        'Mohan, N., et al. "Power Electronics: Converters, Applications, and Design", 4th Ed.'
+      ]
+    };
+    
+    return exportData;
+  }
+  
+  generateCSV(exportData) {
+    const headers = [
+      'Parameter', 'Value', 'Unit', 'Category'
+    ];
+    
+    const rows = [];
+    rows.push(headers.join(','));
+    
+    // Add transistor specs
+    rows.push(`Transistor,${exportData.transistor_specifications.name},,Specification`);
+    rows.push(`Technology,${exportData.transistor_specifications.technology},,Specification`);
+    rows.push(`VDS_max,${exportData.transistor_specifications.vds_max},V,Specification`);
+    rows.push(`ID_max,${exportData.transistor_specifications.id_max},A,Specification`);
+    rows.push(`RDS_on,${exportData.transistor_specifications.rds_on_25c},mΩ,Specification`);
+    
+    // Add operating conditions
+    rows.push(`DC_Voltage,${exportData.operating_conditions.dc_voltage},V,Operating`);
+    rows.push(`Load_Current,${exportData.operating_conditions.load_current},A,Operating`);
+    rows.push(`Switching_Frequency,${exportData.operating_conditions.switching_frequency_khz},kHz,Operating`);
+    rows.push(`Temperature,${exportData.operating_conditions.ambient_temperature},°C,Operating`);
+    rows.push(`Duty_Cycle,${exportData.operating_conditions.duty_cycle},%,Operating`);
+    
+    // Add results
+    const results = exportData.calculated_results;
+    rows.push(`Conduction_Losses,${results.pCond?.toFixed(3) || 'N/A'},W,Results`);
+    rows.push(`Switching_Losses,${results.pSw?.toFixed(3) || 'N/A'},W,Results`);
+    rows.push(`Total_Losses,${results.totalLoss?.toFixed(3) || 'N/A'},W,Results`);
+    rows.push(`Efficiency,${results.efficiency?.toFixed(2) || 'N/A'},%,Results`);
+    rows.push(`Junction_Temperature,${results.junctionTemp || 'N/A'},°C,Results`);
+    
+    return rows.join('\n');
+  }
+  
+  generateLaTeX(exportData) {
+    return `
+\\begin{table}[htbp]
+\\centering
+\\caption{Power Loss Analysis Results for ${exportData.transistor_specifications.name}}
+\\begin{tabular}{|l|c|c|}
+\\hline
+\\textbf{Parameter} & \\textbf{Value} & \\textbf{Unit} \\\\
+\\hline
+\\multicolumn{3}{|c|}{\\textbf{Operating Conditions}} \\\\
+\\hline
+DC Voltage & ${exportData.operating_conditions.dc_voltage} & V \\\\
+Load Current & ${exportData.operating_conditions.load_current} & A \\\\
+Switching Frequency & ${exportData.operating_conditions.switching_frequency_khz} & kHz \\\\
+Temperature & ${exportData.operating_conditions.ambient_temperature} & °C \\\\
+\\hline
+\\multicolumn{3}{|c|}{\\textbf{Calculated Results}} \\\\
+\\hline
+Conduction Losses & ${exportData.calculated_results.pCond?.toFixed(3) || 'N/A'} & W \\\\
+Switching Losses & ${exportData.calculated_results.pSw?.toFixed(3) || 'N/A'} & W \\\\
+Total Losses & ${exportData.calculated_results.totalLoss?.toFixed(3) || 'N/A'} & W \\\\
+Efficiency & ${exportData.calculated_results.efficiency?.toFixed(2) || 'N/A'} & \\% \\\\
+Junction Temperature & ${exportData.calculated_results.junctionTemp || 'N/A'} & °C \\\\
+\\hline
+\\end{tabular}
+\\label{tab:power_analysis}
+\\end{table}
+    `;
+  }
+  
+  generateCitation() {
+    const currentYear = new Date().getFullYear();
+    return `
+Trans Calculator v2.1, "Advanced Power Electronics Analysis Tool," 
+${currentYear}, [Online]. Available: ${window.location.href}.
+Accessed: ${new Date().toLocaleDateString()}.
+
+@misc{transistor_calculator_2025,
+  title={Advanced Transistor Loss Calculator},
+  author={Power Electronics Research Tool},
+  year={${currentYear}},
+  url={${window.location.href}},
+  note={Online tool for semiconductor power loss analysis}
+}
+    `;
+  }
+  
+  downloadFile(content, filename, mimeType) {
+    const blob = new Blob([content], { type: mimeType });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = filename;
+    link.style.display = 'none';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  }
+}
+
+const dataExporter = new DataExporter();
+
+// Temperature Derating и Thermal Cycling Analysis
+class ThermalAnalyzer {
+  constructor() {
+    this.deratingStandards = {
+      Si: { start_temp: 100, max_temp: 150, derating_factor: 2.5 },
+      SiC: { start_temp: 125, max_temp: 200, derating_factor: 2.0 },
+      GaN: { start_temp: 85, max_temp: 150, derating_factor: 3.0 }
+    };
+  }
+  
+  calculateThermalCycling(tj_min, tj_max, cycles_per_year, technology) {
+    const deltaT = tj_max - tj_min;
+    const standards = this.deratingStandards[technology];
+    
+    // Coffin-Manson model for thermal cycling
+    const n_coffin = 2.0; // Temperature exponent
+    const q_activation = standards?.derating_factor || 2.0; // Activation energy factor
+    
+    // Relative life expectancy
+    const thermal_stress_factor = Math.pow(deltaT / 40, n_coffin);
+    const cycles_to_failure = 1e6 / thermal_stress_factor; // Empirical model
+    
+    const years_to_failure = cycles_to_failure / cycles_per_year;
+    
+    return {
+      delta_t: deltaT,
+      thermal_stress_factor: thermal_stress_factor.toFixed(2),
+      cycles_to_failure: Math.round(cycles_to_failure),
+      years_to_failure: years_to_failure.toFixed(1),
+      reliability_rating: this.getThermalReliabilityRating(years_to_failure),
+      recommendations: this.getThermalRecommendations(deltaT, technology)
+    };
+  }
+  
+  generateDeratingCurve(technology, powerLoss) {
+    const standards = this.deratingStandards[technology];
+    const temperatures = [];
+    const deratedPowers = [];
+    
+    for (let temp = 25; temp <= standards.max_temp; temp += 5) {
+      temperatures.push(temp);
+      
+      if (temp <= standards.start_temp) {
+        deratedPowers.push(powerLoss); // Full power
+      } else {
+        const derating = 1 - ((temp - standards.start_temp) / 
+                             (standards.max_temp - standards.start_temp));
+        deratedPowers.push(Math.max(0, powerLoss * derating));
+      }
+    }
+    
+    return { temperatures, deratedPowers };
+  }
+  
+  getThermalReliabilityRating(years) {
+    if (years > 20) return { level: 'excellent', color: '#2e7d32' };
+    if (years > 10) return { level: 'good', color: '#388e3c' };
+    if (years > 5) return { level: 'acceptable', color: '#ff9800' };
+    return { level: 'poor', color: '#d32f2f' };
+  }
+  
+  getThermalRecommendations(deltaT, technology) {
+    const recommendations = [];
+    
+    if (deltaT > 60) {
+      recommendations.push(currentLang === 'bg' ?
+        '🌡️ Критично: ΔT > 60°C намалява живота значително' :
+        '🌡️ Critical: ΔT > 60°C reduces life significantly');
+    }
+    
+    if (deltaT > 40) {
+      recommendations.push(currentLang === 'bg' ?
+        '❄️ Подобрете охлаждането за намаляване на thermal cycling' :
+        '❄️ Improve cooling to reduce thermal cycling');
+    }
+    
+    if (technology === 'GaN' && deltaT > 30) {
+      recommendations.push(currentLang === 'bg' ?
+        '⚠️ GaN е по-чувствителен към thermal cycling' :
+        '⚠️ GaN is more sensitive to thermal cycling');
+    }
+    
+    return recommendations;
+  }
+}
+
+const thermalAnalyzer = new ThermalAnalyzer();
+
+// Smart Component Selection Wizard с AI-powered ranking
+class ComponentSelector {
+  constructor() {
+    this.selectionCriteria = {
+      efficiency: { weight: 0.3, priority: 'high' },
+      cost: { weight: 0.2, priority: 'medium' },
+      thermal: { weight: 0.2, priority: 'high' },
+      reliability: { weight: 0.15, priority: 'medium' },
+      emi: { weight: 0.1, priority: 'low' },
+      availability: { weight: 0.05, priority: 'low' }
+    };
+  }
+  
+  analyzeAndRank(operatingConditions, applicationRequirements) {
+    const candidates = this.getAllCandidates();
+    const scoredCandidates = [];
+    
+    for (const candidate of candidates) {
+      const score = this.calculateOverallScore(candidate, operatingConditions, applicationRequirements);
+      scoredCandidates.push({ ...candidate, score: score });
+    }
+    
+    // Sort by score (highest first)
+    scoredCandidates.sort((a, b) => b.score.total - a.score.total);
+    
+    return {
+      recommendations: scoredCandidates.slice(0, 5), // Top 5
+      analysis: this.generateSelectionAnalysis(scoredCandidates[0]),
+      alternatives: this.suggestAlternatives(scoredCandidates)
+    };
+  }
+  
+  getAllCandidates() {
+    // Simplified candidate list with representative devices
+    return [
+      // Si MOSFETs
+      { name: 'IRFZ44N', technology: 'Si', vds_max: 55, id_max: 49, rds_mohm: 17.5, cost_factor: 1.0, availability: 'excellent' },
+      { name: 'IRLB8721', technology: 'Si', vds_max: 30, id_max: 62, rds_mohm: 4.3, cost_factor: 1.2, availability: 'excellent' },
+      
+      // SiC MOSFETs  
+      { name: 'C3M0075120K', technology: 'SiC', vds_max: 1200, id_max: 36, rds_mohm: 75, cost_factor: 8.0, availability: 'good' },
+      { name: 'SCT3120AL', technology: 'SiC', vds_max: 1200, id_max: 35, rds_mohm: 120, cost_factor: 6.5, availability: 'good' },
+      
+      // GaN HEMTs
+      { name: 'GS66508B', technology: 'GaN', vds_max: 650, id_max: 30, rds_mohm: 50, cost_factor: 12.0, availability: 'limited' },
+      { name: 'TPH3205WS', technology: 'GaN', vds_max: 650, id_max: 46, rds_mohm: 32, cost_factor: 15.0, availability: 'limited' }
+    ];
+  }
+  
+  calculateOverallScore(candidate, conditions, requirements) {
+    const scores = {};
+    
+    // Efficiency score
+    const efficiency = this.estimateEfficiency(candidate, conditions);
+    scores.efficiency = (efficiency - 85) / 15 * 100; // Scale 85-100% to 0-100 points
+    
+    // Cost score (inverse - lower cost = higher score)
+    scores.cost = Math.max(0, 100 - candidate.cost_factor * 10);
+    
+    // Thermal score
+    scores.thermal = this.calculateThermalScore(candidate, conditions);
+    
+    // Reliability score
+    scores.reliability = this.calculateReliabilityScore(candidate, conditions);
+    
+    // EMI score
+    scores.emi = this.calculateEMIScore(candidate);
+    
+    // Availability score
+    const availabilityMap = { 'excellent': 100, 'good': 75, 'limited': 40, 'poor': 10 };
+    scores.availability = availabilityMap[candidate.availability] || 50;
+    
+    // Calculate weighted total
+    let totalScore = 0;
+    for (const [criterion, weight] of Object.entries(this.selectionCriteria)) {
+      totalScore += (scores[criterion] || 0) * weight.weight;
+    }
+    
+    return { ...scores, total: totalScore };
+  }
+  
+  estimateEfficiency(candidate, conditions) {
+    // Simplified efficiency estimation
+    const rds = candidate.rds_mohm / 1000;
+    const pCond = conditions.current * conditions.current * rds * 0.5;
+    
+    const switchingTimes = {
+      Si: 25, SiC: 15, GaN: 5
+    };
+    const tr_ns = switchingTimes[candidate.technology];
+    const pSw = 0.5 * conditions.voltage * conditions.current * tr_ns * 1e-9 * conditions.frequency * 1000 * 2;
+    
+    const pOut = conditions.voltage * conditions.current * 0.5;
+    return (pOut / (pOut + pCond + pSw)) * 100;
+  }
+  
+  calculateThermalScore(candidate, conditions) {
+    // Thermal performance score based on losses
+    const efficiency = this.estimateEfficiency(candidate, conditions);
+    return Math.min(100, (efficiency - 85) * 5); // Higher efficiency = better thermal
+  }
+  
+  calculateReliabilityScore(candidate, conditions) {
+    // Technology-based reliability scoring
+    const reliabilityMap = { 'Si': 85, 'SiC': 75, 'GaN': 65 }; // Si most mature
+    const baseScore = reliabilityMap[candidate.technology] || 60;
+    
+    // Derating for high stress
+    const voltageStress = conditions.voltage / candidate.vds_max;
+    const currentStress = conditions.current / candidate.id_max;
+    const stressPenalty = Math.max(0, (voltageStress + currentStress - 1) * 20);
+    
+    return Math.max(0, baseScore - stressPenalty);
+  }
+  
+  calculateEMIScore(candidate) {
+    // EMI performance - faster switching = potentially more EMI
+    const emiMap = { 'Si': 90, 'SiC': 70, 'GaN': 50 };
+    return emiMap[candidate.technology] || 60;
+  }
+  
+  generateSelectionAnalysis(topCandidate) {
+    const strengths = [];
+    const considerations = [];
+    
+    if (topCandidate.score.efficiency > 80) {
+      strengths.push(currentLang === 'bg' ? '✅ Отлична ефективност' : '✅ Excellent efficiency');
+    }
+    
+    if (topCandidate.score.cost > 70) {
+      strengths.push(currentLang === 'bg' ? '💰 Добра цена/качество' : '💰 Good cost/performance');
+    }
+    
+    if (topCandidate.score.thermal > 75) {
+      strengths.push(currentLang === 'bg' ? '🌡️ Отлично термично поведение' : '🌡️ Excellent thermal performance');
+    }
+    
+    if (topCandidate.cost_factor > 5) {
+      considerations.push(currentLang === 'bg' ? '⚠️ Висока цена - оценете ROI' : '⚠️ High cost - evaluate ROI');
+    }
+    
+    if (topCandidate.availability === 'limited') {
+      considerations.push(currentLang === 'bg' ? '📦 Ограничена наличност - планирайте запаси' : '📦 Limited availability - plan inventory');
+    }
+    
+    return { strengths, considerations };
+  }
+  
+  suggestAlternatives(scoredCandidates) {
+    const alternatives = {};
+    
+    alternatives.cost_optimized = scoredCandidates.find(c => c.score.cost > 80);
+    alternatives.performance_optimized = scoredCandidates.find(c => c.score.efficiency > 90);
+    alternatives.reliability_optimized = scoredCandidates.find(c => c.score.reliability > 85);
+    
+    return alternatives;
+  }
+}
+
+const componentSelector = new ComponentSelector();
