@@ -1735,8 +1735,12 @@ function closeTermExplanation() {
 document.addEventListener('DOMContentLoaded', function() {
   document.getElementById('overlay').addEventListener('click', closeTermExplanation);
   
-  // Инициализираме първия таб с теория
-  showTheoryTab('conduction');
+  // Инициализираме първия таб с теория след малка забавка
+  setTimeout(() => {
+    if (document.getElementById('theoryContent')) {
+      showTheoryTab('conduction');
+    }
+  }, 100);
 });
 
 // Функция за показване на различните табове с теория
