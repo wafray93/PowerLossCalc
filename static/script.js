@@ -638,6 +638,152 @@ function generateParameterSuggestions(transistor) {
   suggestionsDiv.innerHTML = suggestions;
 }
 
+// Нова функция за обяснение на оптимизацията
+function showOptimizationExplanation(voltage, current, frequency, techType) {
+  const langData = LANGUAGES[currentLang] || LANGUAGES['bg'];
+  
+  let explanation = '';
+  
+  if (currentLang === 'bg') {
+    explanation = `
+      <div class="optimization-explanation">
+        <h4>🧠 Научно обосноване на оптималните параметри:</h4>
+        
+        <div class="param-explanation">
+          <strong>📊 Напрежение: ${voltage}V (60% от макс.)</strong><br>
+          • <u>Марж за безопасност:</u> Оставя 40% резерв за върхове (spikes) и отклонения<br>
+          • <u>IEC 61000 стандарт:</u> Препоръчва 1.5-2x derating за надеждност<br>
+          • <u>Термична стабилност:</u> Намалява термичния стрес
+        </div>
+        
+        <div class="param-explanation">
+          <strong>⚡ Ток: ${current}A (70% от макс.)</strong><br>
+          • <u>Охладителна способност:</u> I²R загубите растат квадратично<br>
+          • <u>Сравнение:</u> 70% ток = 49% от загубите на пълен ток<br>
+          • <u>КОЛ област:</u> Осигурява Safe Operating Area при високи температури
+        </div>
+        
+        <div class="param-explanation">
+          <strong>🌊 Честота: ${frequency}kHz (${techType} оптимум)</strong><br>
+          ${getFrequencyExplanation(techType)}
+        </div>
+        
+        <div class="param-explanation">
+          <strong>🌡️ Температура: 100°C (реалистична работна)</strong><br>
+          • <u>Практичност:</u> 100°C е типична работна температура<br>
+          • <u>RDS(on) увеличение:</u> +30-50% при 100°C спрямо 25°C<br>
+          • <u>Надеждност:</u> Позволява реалистично планиране на охлаждането
+        </div>
+        
+        <div class="param-explanation">
+          <strong>🔄 Duty Cycle: 50% (оптимален баланс)</strong><br>
+          • <u>Математически:</u> Минимизира d×(1-d) за най-ниски загуби<br>
+          • <u>Кондензатори:</u> Минимален ripple current в изходния кондензатор<br>
+          • <u>Магнитни елементи:</u> Оптимално използване на магнитното ядро
+        </div>
+        
+        <p><strong>🎯 Извод:</strong> Тези параметри осигуряват оптимален баланс между ефективност, надеждност и практичност.</p>
+      </div>
+    `;
+  } else {
+    explanation = `
+      <div class="optimization-explanation">
+        <h4>🧠 Scientific Justification of Optimal Parameters:</h4>
+        
+        <div class="param-explanation">
+          <strong>📊 Voltage: ${voltage}V (60% of max)</strong><br>
+          • <u>Safety margin:</u> Leaves 40% headroom for spikes and deviations<br>
+          • <u>IEC 61000 standard:</u> Recommends 1.5-2x derating for reliability<br>
+          • <u>Thermal stability:</u> Reduces thermal stress
+        </div>
+        
+        <div class="param-explanation">
+          <strong>⚡ Current: ${current}A (70% of max)</strong><br>
+          • <u>Cooling capability:</u> I²R losses grow quadratically<br>
+          • <u>Comparison:</u> 70% current = 49% of full current losses<br>
+          • <u>SOA region:</u> Ensures Safe Operating Area at high temperatures
+        </div>
+        
+        <div class="param-explanation">
+          <strong>🌊 Frequency: ${frequency}kHz (${techType} optimum)</strong><br>
+          ${getFrequencyExplanationEn(techType)}
+        </div>
+        
+        <div class="param-explanation">
+          <strong>🌡️ Temperature: 100°C (realistic operating)</strong><br>
+          • <u>Practicality:</u> 100°C is typical operating temperature<br>
+          • <u>RDS(on) increase:</u> +30-50% at 100°C vs 25°C<br>
+          • <u>Reliability:</u> Allows realistic thermal planning
+        </div>
+        
+        <div class="param-explanation">
+          <strong>🔄 Duty Cycle: 50% (optimal balance)</strong><br>
+          • <u>Mathematical:</u> Minimizes d×(1-d) for lowest losses<br>
+          • <u>Capacitors:</u> Minimal ripple current in output capacitor<br>
+          • <u>Magnetics:</u> Optimal core utilization
+        </div>
+        
+        <p><strong>🎯 Conclusion:</strong> These parameters ensure optimal balance between efficiency, reliability and practicality.</p>
+      </div>
+    `;
+  }
+  
+  // Покажи обяснението в parameterSuggestions div
+  const suggestionsDiv = document.getElementById('parameterSuggestions');
+  suggestionsDiv.innerHTML = explanation;
+}
+
+// Помощни функции за обяснение на честотата
+function getFrequencyExplanation(techType) {
+  switch(techType) {
+    case 'Si':
+      return `
+        • <u>20kHz ограничение:</u> Бавни switching времена (tr/tf ~50-200ns)<br>
+        • <u>Загуби от превключване:</u> Пропорционални на честотата<br>
+        • <u>Магнитни елементи:</u> По-големи, но по-икономични
+      `;
+    case 'SiC':
+      return `
+        • <u>100kHz оптимум:</u> Бързи switching времена (tr/tf ~10-30ns)<br>
+        • <u>Ниски switching загуби:</u> 3-5x по-малки от Si при същата честота<br>
+        • <u>Компонентна оптимизация:</u> По-малки магнитни елементи
+      `;
+    case 'GaN':
+      return `
+        • <u>300kHz възможност:</u> Най-бързи switching времена (tr/tf ~1-10ns)<br>
+        • <u>Минимални switching загуби:</u> Най-висока ефективност<br>
+        • <u>Компактност:</u> Най-малки магнитни елементи и кондензатори
+      `;
+    default:
+      return '• Оптимална честота според технологията';
+  }
+}
+
+function getFrequencyExplanationEn(techType) {
+  switch(techType) {
+    case 'Si':
+      return `
+        • <u>20kHz limitation:</u> Slow switching times (tr/tf ~50-200ns)<br>
+        • <u>Switching losses:</u> Proportional to frequency<br>
+        • <u>Magnetics:</u> Larger but more economical components
+      `;
+    case 'SiC':
+      return `
+        • <u>100kHz optimum:</u> Fast switching times (tr/tf ~10-30ns)<br>
+        • <u>Low switching losses:</u> 3-5x lower than Si at same frequency<br>
+        • <u>Component optimization:</u> Smaller magnetic components
+      `;
+    case 'GaN':
+      return `
+        • <u>300kHz capability:</u> Fastest switching times (tr/tf ~1-10ns)<br>
+        • <u>Minimal switching losses:</u> Highest efficiency<br>
+        • <u>Compactness:</u> Smallest magnetic components and capacitors
+      `;
+    default:
+      return '• Optimal frequency according to technology';
+  }
+}
+
 // Функция за автоматично предлагане на подходящи параметри
 function suggestOptimalParameters() {
   if (!selectedTransistor) return;
@@ -645,17 +791,30 @@ function suggestOptimalParameters() {
   const safeVoltage = Math.floor(selectedTransistor.vds_max * 0.6);
   const safeCurrent = Math.floor(selectedTransistor.id_max * 0.7);
   
+  let suggestedFreq;
+  let techType = '';
+  
+  // Определи технологията и оптималната честота
+  if (selectedTransistor.name.includes('Si') && !selectedTransistor.name.includes('SiC')) {
+    suggestedFreq = 20;
+    techType = 'Si';
+  } else if (selectedTransistor.name.includes('SiC')) {
+    suggestedFreq = 100;
+    techType = 'SiC';
+  } else if (selectedTransistor.name.includes('GaN')) {
+    suggestedFreq = 300;
+    techType = 'GaN';
+  }
+  
+  // Задай параметрите
   document.getElementById('vdc').value = safeVoltage;
   document.getElementById('iLoad').value = safeCurrent;
+  document.getElementById('fsw').value = suggestedFreq;
+  document.getElementById('temp').value = 100;
+  document.getElementById('duty').value = 0.5;
   
-  // Предложи честота според технологията
-  if (selectedTransistor.name.includes('Si')) {
-    document.getElementById('fsw').value = 20;
-  } else if (selectedTransistor.name.includes('SiC')) {
-    document.getElementById('fsw').value = 100;
-  } else if (selectedTransistor.name.includes('GaN')) {
-    document.getElementById('fsw').value = 300;
-  }
+  // Покажи научно обяснение
+  showOptimizationExplanation(safeVoltage, safeCurrent, suggestedFreq, techType);
 }
 
 function calc(){
@@ -840,7 +999,6 @@ document.getElementById('transistorSelect').addEventListener('change', function(
 
 document.getElementById('suggestBtn').addEventListener('click', function() {
   suggestOptimalParameters();
-  alert('Предложени са оптимални параметри според избрания транзистор!');
 });
 
 document.getElementById('resetBtn').addEventListener('click',()=>{
