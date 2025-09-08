@@ -1123,6 +1123,135 @@ function calc(){
     }, 200);
   }
   
+  // Add Reliability Analysis
+  if (selectedTransistor) {
+    setTimeout(() => {
+      // Calculate reliability metrics
+      const voltageStress = Vdc / selectedTransistor.vds_max;
+      const currentStress = I / selectedTransistor.id_max;
+      
+      const mtbfData = reliabilityAnalyzer.calculateMTBF(
+        tech, 
+        parseFloat(thermalResult.tj), 
+        voltageStress, 
+        currentStress, 
+        fsw/1000
+      );
+      
+      if (mtbfData) {
+        const reliabilityReport = reliabilityAnalyzer.generateReliabilityReport(mtbfData, currentLang);
+        
+        let reliabilityContainer = document.getElementById('reliabilityContainer');
+        if (!reliabilityContainer) {
+          reliabilityContainer = document.createElement('div');
+          reliabilityContainer.id = 'reliabilityContainer';
+          reliabilityContainer.style.marginTop = '20px';
+          
+          reliabilityContainer.innerHTML = `
+            <div style="background: linear-gradient(135deg, #f3e5f5, #e8f5e8); border-radius: 8px; padding: 15px; border-left: 4px solid ${reliabilityReport.color};">
+              <h3 style="color: ${reliabilityReport.color}; margin-top: 0; margin-bottom: 15px;">
+                🔬 ${currentLang === 'bg' ? 'Reliability Analysis (MTBF)' : 'Reliability Analysis (MTBF)'}
+              </h3>
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; margin-bottom: 15px;">
+                <div><strong>${currentLang === 'bg' ? 'Status' : 'Status'}:</strong> ${reliabilityReport.text}</div>
+                <div><strong>MTBF:</strong> ${reliabilityReport.mtbf_display}</div>
+                <div><strong>${currentLang === 'bg' ? '10-Year Reliability' : '10-Year Reliability'}:</strong> ${reliabilityReport.reliability_10y}</div>
+                <div><strong>${currentLang === 'bg' ? 'Failure Rate' : 'Failure Rate'}:</strong> ${mtbfData.failure_rate_fit.toFixed(1)} FIT</div>
+                <div><strong>${currentLang === 'bg' ? 'Dominant Stress' : 'Dominant Stress'}:</strong> ${reliabilityReport.dominant_stress}</div>
+              </div>
+              <div style="background: white; padding: 10px; border-radius: 5px; font-weight: bold;">
+                ${reliabilityReport.improvement_suggestion}
+              </div>
+            </div>
+          `;
+          
+          const resultsParent = document.getElementById('results')?.parentNode;
+          if (resultsParent) {
+            resultsParent.appendChild(reliabilityContainer);
+          } else {
+            document.body.appendChild(reliabilityContainer);
+          }
+        }
+      }
+    }, 300);
+  }
+  
+  // Add EMI/EMC Analysis
+  setTimeout(() => {
+    const emiData = emiAnalyzer.calculateEMI(Vdc, I, fsw/1000, tech, selectedTransistor);
+    
+    let emiContainer = document.getElementById('emiContainer');
+    if (!emiContainer) {
+      emiContainer = document.createElement('div');
+      emiContainer.id = 'emiContainer';
+      emiContainer.style.marginTop = '20px';
+      
+      const complianceColor = emiData.compliance.overall_compliance ? '#2e7d32' : '#d32f2f';
+      const complianceText = emiData.compliance.overall_compliance ? 
+        (currentLang === 'bg' ? '✅ EMI Compliance OK' : '✅ EMI Compliance OK') :
+        (currentLang === 'bg' ? '❌ EMI Compliance Issues' : '❌ EMI Compliance Issues');
+      
+      emiContainer.innerHTML = `
+        <div style="background: linear-gradient(135deg, #e1f5fe, #f9fbe7); border-radius: 8px; padding: 15px; border-left: 4px solid #0277bd;">
+          <h3 style="color: #0277bd; margin-top: 0; margin-bottom: 15px;">
+            📡 ${currentLang === 'bg' ? 'EMI/EMC Analysis' : 'EMI/EMC Analysis'}
+          </h3>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; margin-bottom: 15px;">
+            <div><strong>dv/dt:</strong> ${emiData.dv_dt} V/ns</div>
+            <div><strong>di/dt:</strong> ${emiData.di_dt} A/ns</div>
+            <div><strong>${currentLang === 'bg' ? 'Switching Times' : 'Switching Times'}:</strong> ${emiData.switching_times.tr_ns}/${emiData.switching_times.tf_ns} ns</div>
+            <div><strong>${currentLang === 'bg' ? 'Radiated Emission' : 'Radiated Emission'}:</strong> ${emiData.radiated_emission} dBμV</div>
+            <div><strong>${currentLang === 'bg' ? 'Harmonic BW' : 'Harmonic BW'}:</strong> ${emiData.harmonic_content.bandwidth_mhz.toFixed(1)} MHz</div>
+          </div>
+          <div style="background: ${complianceColor}; color: white; padding: 8px; border-radius: 5px; font-weight: bold; margin-bottom: 10px;">
+            ${complianceText}
+          </div>
+          ${emiData.mitigation_suggestions.length > 0 ? `
+            <div style="background: white; padding: 10px; border-radius: 5px;">
+              <strong>${currentLang === 'bg' ? 'Mitigation Suggestions:' : 'Mitigation Suggestions:'}</strong><br>
+              ${emiData.mitigation_suggestions.map(s => `• ${s}`).join('<br>')}
+            </div>
+          ` : ''}
+        </div>
+      `;
+      
+      const resultsParent = document.getElementById('results')?.parentNode;
+      if (resultsParent) {
+        resultsParent.appendChild(emiContainer);
+      } else {
+        document.body.appendChild(emiContainer);
+      }
+    }
+  }, 400);
+  
+  // Add SOA Visualization
+  if (selectedTransistor) {
+    setTimeout(() => {
+      let soaContainer = document.getElementById('soaContainer');
+      if (!soaContainer) {
+        soaContainer = document.createElement('div');
+        soaContainer.id = 'soaContainer';
+        soaContainer.style.marginTop = '20px';
+        soaContainer.innerHTML = `
+          <h3 style="color: #d32f2f; margin-bottom: 10px;">
+            ⚡ ${currentLang === 'bg' ? 'Safe Operating Area (SOA)' : 'Safe Operating Area (SOA)'}
+          </h3>
+          <canvas id="soaCanvas" width="600" height="400" style="border: 1px solid #ccc; border-radius: 8px; max-width: 100%;"></canvas>
+        `;
+        
+        const resultsParent = document.getElementById('results')?.parentNode;
+        if (resultsParent) {
+          resultsParent.appendChild(soaContainer);
+        } else {
+          document.body.appendChild(soaContainer);
+        }
+      }
+      
+      soaVisualizer.initCanvas('soaCanvas');
+      soaVisualizer.drawSOA(selectedTransistor, Vdc, I, tech);
+    }, 500);
+  }
+  
   let warnings = [];
   let recommendations = [];
   
@@ -3586,3 +3715,319 @@ class ReliabilityAnalyzer {
 }
 
 const reliabilityAnalyzer = new ReliabilityAnalyzer();
+
+// EMI/EMC Analysis с dv/dt, di/dt calculations за compliance
+class EMIAnalyzer {
+  constructor() {
+    // IEEE 519, IEC 61000 стандартни лимити
+    this.emiLimits = {
+      dv_dt_max: { // V/ns
+        Si: 50,
+        SiC: 100, 
+        GaN: 200
+      },
+      di_dt_max: { // A/ns
+        Si: 1.0,
+        SiC: 5.0,
+        GaN: 10.0
+      },
+      conducted_emission_limits: { // dBμV
+        class_a: 79, // Industrial
+        class_b: 66  // Residential
+      }
+    };
+  }
+  
+  calculateEMI(vdc, iLoad, fsw_khz, technology, selectedTransistor) {
+    const fsw = fsw_khz * 1000;
+    
+    // Get switching times from transistor data or estimates
+    const tr_ns = selectedTransistor?.tr_ns || this.getTypicalSwitchingTime(technology, 'rise');
+    const tf_ns = selectedTransistor?.tf_ns || this.getTypicalSwitchingTime(technology, 'fall');
+    
+    // Calculate dv/dt and di/dt
+    const dv_dt = vdc / (tr_ns / 1000); // V/ns
+    const di_dt = iLoad / (tr_ns / 1000); // A/ns
+    
+    // EMI radiation calculation (simplified)
+    const harmonic_content = this.calculateHarmonicContent(fsw, tr_ns, tf_ns);
+    const radiated_emission = this.estimateRadiatedEmission(dv_dt, di_dt, fsw, harmonic_content);
+    
+    // Compliance check
+    const compliance = this.checkCompliance(dv_dt, di_dt, technology, radiated_emission);
+    
+    return {
+      dv_dt: dv_dt.toFixed(2),
+      di_dt: di_dt.toFixed(2),
+      switching_times: { tr_ns, tf_ns },
+      harmonic_content,
+      radiated_emission: radiated_emission.toFixed(1),
+      compliance,
+      mitigation_suggestions: this.generateMitigationSuggestions(compliance, dv_dt, di_dt)
+    };
+  }
+  
+  getTypicalSwitchingTime(technology, transition) {
+    const times = {
+      Si: { rise: 25, fall: 20 },
+      SiC: { rise: 15, fall: 12 },
+      GaN: { rise: 5, fall: 3 }
+    };
+    return times[technology][transition];
+  }
+  
+  calculateHarmonicContent(fsw, tr_ns, tf_ns) {
+    // Simplified harmonic analysis based on switching edges
+    const rise_bandwidth = 0.35 / (tr_ns * 1e-9); // Hz
+    const fall_bandwidth = 0.35 / (tf_ns * 1e-9); // Hz
+    
+    const significant_harmonics = Math.max(rise_bandwidth, fall_bandwidth) / fsw;
+    
+    return {
+      bandwidth_mhz: Math.max(rise_bandwidth, fall_bandwidth) / 1e6,
+      significant_harmonics: Math.floor(significant_harmonics),
+      critical_frequency_mhz: (fsw * significant_harmonics) / 1e6
+    };
+  }
+  
+  estimateRadiatedEmission(dv_dt, di_dt, fsw, harmonics) {
+    // Simplified radiated emission estimation (dBμV/m at 1m)
+    const voltage_contribution = 20 * Math.log10(dv_dt * 1000); // Convert to mV/ns
+    const current_contribution = 20 * Math.log10(di_dt * 1000);  // Convert to mA/ns
+    const frequency_factor = 20 * Math.log10(fsw / 1000);       // kHz to MHz factor
+    
+    return voltage_contribution + current_contribution + frequency_factor - 40; // Empirical correction
+  }
+  
+  checkCompliance(dv_dt, di_dt, technology, radiated_emission) {
+    const limits = this.emiLimits;
+    
+    return {
+      dv_dt_ok: dv_dt <= limits.dv_dt_max[technology],
+      di_dt_ok: di_dt <= limits.di_dt_max[technology],
+      conducted_class_a: radiated_emission <= limits.conducted_emission_limits.class_a,
+      conducted_class_b: radiated_emission <= limits.conducted_emission_limits.class_b,
+      overall_compliance: (
+        dv_dt <= limits.dv_dt_max[technology] && 
+        di_dt <= limits.di_dt_max[technology] && 
+        radiated_emission <= limits.conducted_emission_limits.class_a
+      )
+    };
+  }
+  
+  generateMitigationSuggestions(compliance, dv_dt, di_dt) {
+    const suggestions = [];
+    
+    if (!compliance.dv_dt_ok) {
+      suggestions.push(currentLang === 'bg' ? 
+        '📐 Добавете gate resistor за намаляване на dv/dt' :
+        '📐 Add gate resistor to reduce dv/dt');
+    }
+    
+    if (!compliance.di_dt_ok) {
+      suggestions.push(currentLang === 'bg' ? 
+        '🔗 Минимизирайте паразитната индуктивност в circuit layout' :
+        '🔗 Minimize parasitic inductance in circuit layout');
+    }
+    
+    if (!compliance.conducted_class_b) {
+      suggestions.push(currentLang === 'bg' ? 
+        '🛡️ Добавете EMI филтри и shielding' :
+        '🛡️ Add EMI filters and shielding');
+    }
+    
+    return suggestions;
+  }
+}
+
+const emiAnalyzer = new EMIAnalyzer();
+
+// Safe Operating Area (SOA) Visualization
+class SOAVisualizer {
+  constructor() {
+    this.canvas = null;
+    this.ctx = null;
+  }
+  
+  initCanvas(canvasId) {
+    this.canvas = document.getElementById(canvasId);
+    if (!this.canvas) {
+      this.canvas = document.createElement('canvas');
+      this.canvas.id = canvasId;
+      this.canvas.width = 600;
+      this.canvas.height = 400;
+      this.canvas.style.border = '1px solid #ccc';
+      this.canvas.style.borderRadius = '8px';
+    }
+    this.ctx = this.canvas.getContext('2d');
+  }
+  
+  drawSOA(transistor, currentVoltage, currentCurrent, technology) {
+    if (!this.ctx) return;
+    
+    const ctx = this.ctx;
+    const canvas = this.canvas;
+    
+    // Clear canvas
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    
+    // Set up coordinate system
+    const margin = 60;
+    const plotWidth = canvas.width - 2 * margin;
+    const plotHeight = canvas.height - 2 * margin;
+    
+    const vMax = transistor.vds_max;
+    const iMax = transistor.id_max;
+    
+    // Draw axes
+    this.drawAxes(ctx, margin, plotWidth, plotHeight, vMax, iMax);
+    
+    // Draw SOA boundaries
+    this.drawSOABoundaries(ctx, margin, plotWidth, plotHeight, vMax, iMax, transistor, technology);
+    
+    // Plot current operating point
+    this.plotOperatingPoint(ctx, margin, plotWidth, plotHeight, vMax, iMax, currentVoltage, currentCurrent);
+    
+    // Add title
+    ctx.fillStyle = '#333';
+    ctx.font = 'bold 16px Arial';
+    ctx.textAlign = 'center';
+    ctx.fillText(`Safe Operating Area - ${transistor.name}`, canvas.width / 2, 25);
+  }
+  
+  drawAxes(ctx, margin, width, height, vMax, iMax) {
+    ctx.strokeStyle = '#333';
+    ctx.lineWidth = 2;
+    
+    // X-axis (Voltage)
+    ctx.beginPath();
+    ctx.moveTo(margin, margin + height);
+    ctx.lineTo(margin + width, margin + height);
+    ctx.stroke();
+    
+    // Y-axis (Current)
+    ctx.beginPath();
+    ctx.moveTo(margin, margin);
+    ctx.lineTo(margin, margin + height);
+    ctx.stroke();
+    
+    // Labels
+    ctx.fillStyle = '#666';
+    ctx.font = '12px Arial';
+    ctx.textAlign = 'center';
+    ctx.fillText('VDS (V)', margin + width/2, margin + height + 40);
+    
+    ctx.save();
+    ctx.translate(20, margin + height/2);
+    ctx.rotate(-Math.PI/2);
+    ctx.fillText('ID (A)', 0, 0);
+    ctx.restore();
+    
+    // Scale markings
+    this.drawScaleMarkings(ctx, margin, width, height, vMax, iMax);
+  }
+  
+  drawScaleMarkings(ctx, margin, width, height, vMax, iMax) {
+    ctx.fillStyle = '#666';
+    ctx.font = '10px Arial';
+    
+    // Voltage markings
+    for (let i = 0; i <= 5; i++) {
+      const v = (vMax / 5) * i;
+      const x = margin + (width / 5) * i;
+      
+      ctx.textAlign = 'center';
+      ctx.fillText(v.toFixed(0), x, margin + height + 15);
+      
+      // Grid lines
+      ctx.strokeStyle = '#eee';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(x, margin);
+      ctx.lineTo(x, margin + height);
+      ctx.stroke();
+    }
+    
+    // Current markings
+    for (let i = 0; i <= 5; i++) {
+      const current = (iMax / 5) * i;
+      const y = margin + height - (height / 5) * i;
+      
+      ctx.textAlign = 'right';
+      ctx.fillText(current.toFixed(0), margin - 5, y + 3);
+      
+      // Grid lines
+      ctx.strokeStyle = '#eee';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(margin, y);
+      ctx.lineTo(margin + width, y);
+      ctx.stroke();
+    }
+  }
+  
+  drawSOABoundaries(ctx, margin, width, height, vMax, iMax, transistor, technology) {
+    ctx.strokeStyle = '#d32f2f';
+    ctx.lineWidth = 3;
+    
+    // Voltage limit (vertical line)
+    const vLimitX = margin + (width * 0.9); // 90% of max voltage
+    ctx.beginPath();
+    ctx.moveTo(vLimitX, margin);
+    ctx.lineTo(vLimitX, margin + height);
+    ctx.stroke();
+    
+    // Current limit (horizontal line)
+    const iLimitY = margin + (height * 0.1); // 90% of max current
+    ctx.beginPath();
+    ctx.moveTo(margin, iLimitY);
+    ctx.lineTo(margin + width, iLimitY);
+    ctx.stroke();
+    
+    // Power limit (hyperbola)
+    const maxPower = transistor.vds_max * transistor.id_max * 0.5; // Conservative estimate
+    ctx.beginPath();
+    for (let i = 0; i <= width; i += 5) {
+      const v = (vMax * i) / width;
+      if (v > 0) {
+        const powerLimitedCurrent = maxPower / v;
+        const y = margin + height - (height * powerLimitedCurrent / iMax);
+        
+        if (y >= margin && y <= margin + height) {
+          if (i === 0) {
+            ctx.moveTo(margin + i, y);
+          } else {
+            ctx.lineTo(margin + i, y);
+          }
+        }
+      }
+    }
+    ctx.stroke();
+    
+    // Add labels
+    ctx.fillStyle = '#d32f2f';
+    ctx.font = '10px Arial';
+    ctx.fillText('V limit', vLimitX + 5, margin + 15);
+    ctx.fillText('I limit', margin + 5, iLimitY - 5);
+    ctx.fillText('P limit', margin + width - 50, margin + 50);
+  }
+  
+  plotOperatingPoint(ctx, margin, width, height, vMax, iMax, voltage, current) {
+    const x = margin + (width * voltage / vMax);
+    const y = margin + height - (height * current / iMax);
+    
+    // Operating point
+    ctx.fillStyle = '#1976d2';
+    ctx.beginPath();
+    ctx.arc(x, y, 8, 0, 2 * Math.PI);
+    ctx.fill();
+    
+    // Point label
+    ctx.fillStyle = '#1976d2';
+    ctx.font = '12px Arial';
+    ctx.textAlign = 'left';
+    ctx.fillText(`(${voltage}V, ${current}A)`, x + 10, y - 10);
+  }
+}
+
+const soaVisualizer = new SOAVisualizer();
