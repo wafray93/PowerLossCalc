@@ -230,6 +230,18 @@ const TRANSISTOR_DB = {
       vds_max: 600, id_max: 10, rds_mohm: 650, tr_ns: 35, tf_ns: 80,
       alpha: 0.0080, package: "TO-220", manufacturer: "STMicroelectronics",
       application: "SMPS, lighting"
+    },
+    "IXFK55N50": {
+      name: "IXFK55N50 (Si MOSFET)",
+      vds_max: 500, id_max: 55, rds_mohm: 90, tr_ns: 60, tf_ns: 100,
+      alpha: 0.0070, package: "TO-264", manufacturer: "IXYS",
+      application: "Power switching, motor control, power supplies"
+    },
+    "GT60M322": {
+      name: "GT60M322 (Si IGBT)",
+      vds_max: 900, id_max: 60, rds_mohm: 35, tr_ns: 120, tf_ns: 250,
+      alpha: 0.0045, package: "TO-3P", manufacturer: "Toshiba",
+      application: "Voltage resonance inverters, current resonance"
     }
   },
   
@@ -497,6 +509,12 @@ const TRANSISTOR_DB = {
       vds_max: 650, id_max: 34.5, rds_mohm: 50, tr_ns: 8.0, tf_ns: 6.0,
       alpha: 0.0028, package: "TO-247", manufacturer: "Nexperia",
       application: "Hard/soft switching converters, PFC, PV inverters"
+    },
+    "TP65H050G4WS": {
+      name: "TP65H050G4WS (GaN FET)",
+      vds_max: 650, id_max: 50, rds_mohm: 50, tr_ns: 5.5, tf_ns: 4.8,
+      alpha: 0.0025, package: "TO-247", manufacturer: "Transphorm/Renesas",
+      application: "Power conversion 25W-10kW, EV chargers, industrial PSU"
     }
   }
 };
