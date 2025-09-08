@@ -721,16 +721,16 @@ function showOptimizationExplanation(voltage, current, frequency, techType) {
         
         <div class="param-explanation">
           <strong>📊 Напрежение: ${voltage}V (60% от макс.)</strong><br>
-          • <u>Марж за безопасност:</u> Оставя 40% резерв за върхове (spikes) и отклонения<br>
-          • <u>IEC 61000 стандарт:</u> Препоръчва 1.5-2x derating за надеждност<br>
-          • <u>Термична стабилност:</u> Намалява термичния стрес
+          • <u>Марж за безопасност:</u> Оставя 40% резерв за възмущения и отклонения<br>
+          • <u>IEC 61000 стандарт:</u> Препоръчва намаляване на номиналните стойности 1.5-2x за надеждност<br>
+          • <u>Термична стабилност:</u> Намалява топлинното натоварване
         </div>
         
         <div class="param-explanation">
           <strong>⚡ Ток: ${current}A (70% от макс.)</strong><br>
           • <u>Охладителна способност:</u> I²R загубите растат квадратично<br>
           • <u>Сравнение:</u> 70% ток = 49% от загубите на пълен ток<br>
-          • <u>КОЛ област:</u> Осигурява Safe Operating Area при високи температури
+          • <u>Безопасна работна област:</u> Осигурява стабилна работа при високи температури
         </div>
         
         <div class="param-explanation">
@@ -746,9 +746,9 @@ function showOptimizationExplanation(voltage, current, frequency, techType) {
         </div>
         
         <div class="param-explanation">
-          <strong>🔄 Duty Cycle: 50% (оптимален баланс)</strong><br>
+          <strong>🔄 Коефициент на запълване: 50% (оптимален баланс)</strong><br>
           • <u>Математически:</u> Минимизира d×(1-d) за най-ниски загуби<br>
-          • <u>Кондензатори:</u> Минимален ripple current в изходния кондензатор<br>
+          • <u>Кондензатори:</u> Минимален пулсиращ ток в изходния кондензатор<br>
           • <u>Магнитни елементи:</u> Оптимално използване на магнитното ядро
         </div>
         
@@ -808,20 +808,20 @@ function getFrequencyExplanation(techType) {
   switch(techType) {
     case 'Si':
       return `
-        • <u>20kHz ограничение:</u> Бавни switching времена (tr/tf ~50-200ns)<br>
+        • <u>20kHz ограничение:</u> Бавни времена за превключване (tr/tf ~50-200ns)<br>
         • <u>Загуби от превключване:</u> Пропорционални на честотата<br>
         • <u>Магнитни елементи:</u> По-големи, но по-икономични
       `;
     case 'SiC':
       return `
-        • <u>100kHz оптимум:</u> Бързи switching времена (tr/tf ~10-30ns)<br>
-        • <u>Ниски switching загуби:</u> 3-5x по-малки от Si при същата честота<br>
-        • <u>Компонентна оптимизация:</u> По-малки магнитни елементи
+        • <u>100kHz оптимум:</u> Бързи времена за превключване (tr/tf ~10-30ns)<br>
+        • <u>Ниски загуби при превключване:</u> 3-5x по-малки от Si при същата честота<br>
+        • <u>Оптимизация на компонентите:</u> По-малки магнитни елементи
       `;
     case 'GaN':
       return `
-        • <u>300kHz възможност:</u> Най-бързи switching времена (tr/tf ~1-10ns)<br>
-        • <u>Минимални switching загуби:</u> Най-висока ефективност<br>
+        • <u>300kHz възможност:</u> Най-бързи времена за превключване (tr/tf ~1-10ns)<br>
+        • <u>Минимални загуби при превключване:</u> Най-висока ефективност<br>
         • <u>Компактност:</u> Най-малки магнитни елементи и кондензатори
       `;
     default:
@@ -1126,8 +1126,11 @@ const THERMAL_RESISTANCES = {
 
 // Научно точна функция за изчисление на switching losses
 function calculateAdvancedSwitchingLosses(vds, id, fsw_khz, temp, technology) {
+  if (!vds || !id || !fsw_khz || !temp || !technology) return 0;
+  
   const fsw = fsw_khz * 1000; // Convert to Hz
   const constants = PHYSICS_CONSTANTS[technology];
+  if (!constants) return 0;
   
   // Temperature derating на RDS(on)
   const temp_factor = 1 + constants.temp_coeff_rds * (temp - 25);
@@ -1150,12 +1153,15 @@ function calculateAdvancedSwitchingLosses(vds, id, fsw_khz, temp, technology) {
   // Total switching losses including temperature effects
   const P_switching = (E_on + E_off + E_coss) * fsw * temp_factor;
   
-  return P_switching;
+  return isNaN(P_switching) ? 0 : P_switching;
 }
 
 // Научно точна функция за изчисление на conduction losses
 function calculateAdvancedConductionLosses(id, rds_on_25c, duty, temp, technology) {
+  if (!id || !rds_on_25c || !duty || !temp || !technology) return 0;
+  
   const constants = PHYSICS_CONSTANTS[technology];
+  if (!constants) return 0;
   
   // Temperature derating на RDS(on) според физическата теория
   const temp_factor = 1 + constants.temp_coeff_rds * (temp - 25);
@@ -1164,13 +1170,14 @@ function calculateAdvancedConductionLosses(id, rds_on_25c, duty, temp, technolog
   // Conduction losses с temperature effects
   const P_conduction = id * id * rds_on_temp * duty;
   
-  return P_conduction;
+  return isNaN(P_conduction) ? 0 : P_conduction;
 }
 
 // Функция за генериране на efficiency vs frequency график
 function generateEfficiencyChart() {
   if (!selectedTransistor) {
-    alert('Моля, първо изберете транзистор!');
+    const message = currentLang === 'bg' ? 'Моля, първо изберете транзистор!' : 'Please select a transistor first!';
+    alert(message);
     return;
   }
   
@@ -1407,7 +1414,8 @@ function getTechnologyPhysicsExplanationEn(techType) {
 // Thermal modeling function
 function calculateThermalParameters() {
   if (!selectedTransistor) {
-    alert('Моля, първо изберете транзистор!');
+    const message = currentLang === 'bg' ? 'Моля, първо изберете транзистор!' : 'Please select a transistor first!';
+    alert(message);
     return;
   }
   
