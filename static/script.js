@@ -1029,6 +1029,11 @@ function calc(){
   const T=+document.getElementById('temp').value;
   const D=+document.getElementById('duty').value;
   
+  // Нова професионална safety валидация
+  const tech = document.getElementById('techSelect').value;
+  const safetyValidation = validateOperatingParameters(Vdc, I, fsw/1000, T, D, tech);
+  displaySafetyWarnings(safetyValidation);
+  
   let warnings = [];
   let recommendations = [];
   
@@ -1378,6 +1383,118 @@ const THERMAL_RESISTANCES = {
   forced_air: 1.5,       // Forced air cooling 1-2 m/s - Sunon/Delta fans
   liquid_cooling: 0.3    // Liquid cooling - Corsair/NZXT measurements
 };
+
+// Професионални safety limits и validation rules (базирани на IEC 61439 и UL стандарти)
+const SAFETY_LIMITS = {
+  Si: {
+    max_junction_temp: 150,      // °C - Maximum safe junction temperature
+    max_case_temp: 100,          // °C - Maximum case temperature
+    max_switching_freq: 20000,   // Hz - Practical switching frequency limit
+    max_power_density: 50,       // W/cm² - Safe power density
+    derating_temp_start: 100,    // °C - Temperature where derating starts
+    max_voltage_rating: 1700,    // V - Absolute maximum voltage
+    thermal_runaway_threshold: 0.8 // Factor for thermal runaway detection
+  },
+  SiC: {
+    max_junction_temp: 200,      // °C - Higher for SiC
+    max_case_temp: 150,          // °C
+    max_switching_freq: 500000,  // Hz - Much higher switching capability
+    max_power_density: 80,       // W/cm²
+    derating_temp_start: 125,    // °C
+    max_voltage_rating: 3300,    // V
+    thermal_runaway_threshold: 0.85
+  },
+  GaN: {
+    max_junction_temp: 150,      // °C - Lower due to smaller die size
+    max_case_temp: 100,          // °C
+    max_switching_freq: 2000000, // Hz - Highest switching frequency
+    max_power_density: 100,      // W/cm² - Highest power density
+    derating_temp_start: 85,     // °C - Earlier derating
+    max_voltage_rating: 1200,    // V - Current GaN voltage limits
+    thermal_runaway_threshold: 0.75 // More sensitive
+  }
+};
+
+// Real-time parameter validation функция
+function validateOperatingParameters(vdc, iLoad, fsw, temp, duty, technology) {
+  const warnings = [];
+  const errors = [];
+  const limits = SAFETY_LIMITS[technology];
+  
+  if (!limits) {
+    errors.push(currentLang === 'bg' ? 'Неизвестна технология!' : 'Unknown technology!');
+    return { warnings, errors, severity: 'error' };
+  }
+  
+  // Voltage validation
+  if (vdc > limits.max_voltage_rating * 0.8) {
+    warnings.push(currentLang === 'bg' 
+      ? `⚠️ Високо напрежение: ${vdc}V (препоръчително <${(limits.max_voltage_rating * 0.8).toFixed(0)}V)`
+      : `⚠️ High voltage: ${vdc}V (recommended <${(limits.max_voltage_rating * 0.8).toFixed(0)}V)`);
+  }
+  
+  if (vdc > limits.max_voltage_rating) {
+    errors.push(currentLang === 'bg' 
+      ? `🚨 ОПАСНОСТ: Напрежение ${vdc}V надвишава максимума ${limits.max_voltage_rating}V!`
+      : `🚨 DANGER: Voltage ${vdc}V exceeds maximum ${limits.max_voltage_rating}V!`);
+  }
+  
+  // Frequency validation  
+  if (fsw * 1000 > limits.max_switching_freq * 0.5) {
+    warnings.push(currentLang === 'bg'
+      ? `⚠️ Висока честота: ${fsw}kHz може да причини прегряване`
+      : `⚠️ High frequency: ${fsw}kHz may cause overheating`);
+  }
+  
+  if (fsw * 1000 > limits.max_switching_freq) {
+    errors.push(currentLang === 'bg'
+      ? `🚨 Честотата ${fsw}kHz е над максималната за ${technology}!`
+      : `🚨 Frequency ${fsw}kHz exceeds maximum for ${technology}!`);
+  }
+  
+  // Temperature validation
+  if (temp > limits.derating_temp_start) {
+    warnings.push(currentLang === 'bg'
+      ? `⚠️ Температура ${temp}°C изисква derating на параметрите`
+      : `⚠️ Temperature ${temp}°C requires parameter derating`);
+  }
+  
+  if (temp > limits.max_case_temp) {
+    errors.push(currentLang === 'bg'
+      ? `🚨 Температура ${temp}°C е опасно висока за ${technology}!`
+      : `🚨 Temperature ${temp}°C is dangerously high for ${technology}!`);
+  }
+  
+  // Duty cycle validation
+  if (duty > 0.95) {
+    warnings.push(currentLang === 'bg'
+      ? `⚠️ Duty cycle ${(duty*100).toFixed(1)}% е много висок`
+      : `⚠️ Duty cycle ${(duty*100).toFixed(1)}% is very high`);
+  }
+  
+  // Current density check (requires transistor selection)
+  if (selectedTransistor && selectedTransistor.id_max) {
+    const currentUtilization = (iLoad / selectedTransistor.id_max) * 100;
+    if (currentUtilization > 80) {
+      warnings.push(currentLang === 'bg'
+        ? `⚠️ Ток ${iLoad}A е ${currentUtilization.toFixed(1)}% от максималния`
+        : `⚠️ Current ${iLoad}A is ${currentUtilization.toFixed(1)}% of maximum`);
+    }
+    
+    if (currentUtilization > 100) {
+      errors.push(currentLang === 'bg'
+        ? `🚨 Ток ${iLoad}A надвишава максималния ${selectedTransistor.id_max}A!`
+        : `🚨 Current ${iLoad}A exceeds maximum ${selectedTransistor.id_max}A!`);
+    }
+  }
+  
+  // Determine overall severity
+  let severity = 'safe';
+  if (warnings.length > 0) severity = 'warning';
+  if (errors.length > 0) severity = 'error';
+  
+  return { warnings, errors, severity };
+}
 
 // Научно точна функция за изчисление на switching losses
 function calculateAdvancedSwitchingLosses(vds, id, fsw_khz, temp, technology) {
@@ -2682,3 +2799,64 @@ document.addEventListener('DOMContentLoaded', function() {
   // Задаваме първоначален език
   switchLanguage('bg');
 });
+
+// Функция за показване на safety warnings в UI
+function displaySafetyWarnings(validation) {
+  let warningsDiv = document.getElementById('safetyWarnings');
+  if (!warningsDiv) {
+    // Създаваме warnings container
+    warningsDiv = document.createElement('div');
+    warningsDiv.id = 'safetyWarnings';
+    warningsDiv.style.cssText = `
+      margin: 15px 0;
+      padding: 10px;
+      border-radius: 8px;
+      font-weight: bold;
+      display: none;
+    `;
+    
+    // Поставяме преди results div
+    const resultsDiv = document.getElementById('results');
+    resultsDiv.parentNode.insertBefore(warningsDiv, resultsDiv);
+  }
+  
+  if (validation.warnings.length === 0 && validation.errors.length === 0) {
+    warningsDiv.style.display = 'none';
+    return;
+  }
+  
+  let content = '';
+  let bgColor = '';
+  
+  if (validation.severity === 'error') {
+    bgColor = '#ffebee';
+    content = '<h4 style="color: #c62828; margin-top: 0;">🚨 КРИТИЧНИ ГРЕШКИ</h4>';
+    validation.errors.forEach(error => {
+      content += `<div style="color: #c62828; margin: 5px 0;">${error}</div>`;
+    });
+  }
+  
+  if (validation.severity === 'warning' || validation.warnings.length > 0) {
+    if (validation.severity !== 'error') {
+      bgColor = '#fff3e0';
+      content = '<h4 style="color: #ef6c00; margin-top: 0;">⚠️ ПРЕДУПРЕЖДЕНИЯ</h4>';
+    } else {
+      content += '<h4 style="color: #ef6c00; margin: 10px 0 0 0;">⚠️ ПРЕДУПРЕЖДЕНИЯ</h4>';
+    }
+    validation.warnings.forEach(warning => {
+      content += `<div style="color: #ef6c00; margin: 5px 0;">${warning}</div>`;
+    });
+  }
+  
+  if (validation.severity === 'safe' || (validation.warnings.length === 0 && validation.errors.length === 0)) {
+    bgColor = '#e8f5e8';
+    content = '<div style="color: #2e7d32;">✅ ' + 
+      (currentLang === 'bg' ? 'Всички параметри са в безопасните граници' : 'All parameters are within safe limits') + 
+      '</div>';
+  }
+  
+  warningsDiv.innerHTML = content;
+  warningsDiv.style.backgroundColor = bgColor;
+  warningsDiv.style.border = `2px solid ${validation.severity === 'error' ? '#c62828' : validation.severity === 'warning' ? '#ef6c00' : '#2e7d32'}`;
+  warningsDiv.style.display = 'block';
+}
