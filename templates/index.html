@@ -131,6 +131,25 @@
       </div>
     </section>
 
+    <!-- Нова секция за теория и основни формули -->
+    <section class="theory">
+      <h2 data-lang="theoryTitle">📚 Теория и основни формули</h2>
+      <p data-lang="theoryDescription">Разберете физическите основи на полупроводниковите загуби и формулите зад изчисленията.</p>
+      
+      <div class="theory-content">
+        <div class="theory-tabs">
+          <button class="theory-tab active" onclick="showTheoryTab('conduction')" data-lang="conductionLosses">Проводими загуби</button>
+          <button class="theory-tab" onclick="showTheoryTab('switching')" data-lang="switchingLosses">Превключващи загуби</button>
+          <button class="theory-tab" onclick="showTheoryTab('thermal')" data-lang="thermalTheory">Термична теория</button>
+          <button class="theory-tab" onclick="showTheoryTab('comparison')" data-lang="techComparison">Сравнение на технологиите</button>
+        </div>
+        
+        <div class="theory-tab-content" id="theoryContent">
+          <!-- Съдържанието ще се зарежда динамично -->
+        </div>
+      </div>
+    </section>
+
     <!-- Нова секция за графики на ефективност vs честота -->
     <section class="analysis">
       <h2 data-lang="efficiencyAnalysis">Анализ на ефективност срещу честота</h2>

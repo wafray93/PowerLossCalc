@@ -40,6 +40,15 @@ const LANGUAGES = {
     efficiencyDescription: 'Тази графика показва как се променя ефективността при различни честоти за Si, SiC и GaN технологиите.',
     frequencyRange: 'Честотен обхват',
     generateChart: 'Генерирай графика',
+    
+    // Секция с теория и формули
+    theoryTitle: '📚 Теория и основни формули',
+    theoryDescription: 'Разберете физическите основи на полупроводниковите загуби и формулите зад изчисленията.',
+    conductionLosses: 'Проводими загуби',
+    switchingLosses: 'Превключващи загуби',
+    thermalTheory: 'Термична теория',
+    techComparison: 'Сравнение на технологиите',
+    
     thermalModeling: 'Термично моделиране',
     thermalDescription: 'Анализира как се загрява транзисторът и дали е необходимо охлаждане. Изчислява температурите на полупроводниковия чип (junction) и корпуса въз основа на мощността на загубите.',
     ambientTemp: 'Околна температура (°C)',
@@ -97,6 +106,15 @@ const LANGUAGES = {
     efficiencyDescription: 'This chart shows how efficiency changes with different frequencies for Si, SiC and GaN technologies.',
     frequencyRange: 'Frequency Range',
     generateChart: 'Generate Chart',
+    
+    // Theory and formulas section
+    theoryTitle: '📚 Theory and Basic Formulas',
+    theoryDescription: 'Understand the physical foundations of semiconductor losses and formulas behind calculations.',
+    conductionLosses: 'Conduction Losses',
+    switchingLosses: 'Switching Losses',
+    thermalTheory: 'Thermal Theory',
+    techComparison: 'Technology Comparison',
+    
     thermalModeling: 'Thermal Modeling',
     thermalDescription: 'Analyzes how the transistor heats up and whether cooling is necessary. Calculates temperatures of the semiconductor chip (junction) and case based on power losses.',
     ambientTemp: 'Ambient Temperature (°C)',
@@ -1716,7 +1734,447 @@ function closeTermExplanation() {
 // Затваряне при кликване върху overlay
 document.addEventListener('DOMContentLoaded', function() {
   document.getElementById('overlay').addEventListener('click', closeTermExplanation);
+  
+  // Инициализираме първия таб с теория
+  showTheoryTab('conduction');
 });
+
+// Функция за показване на различните табове с теория
+function showTheoryTab(tabName) {
+  // Премахваме активния клас от всички табове
+  document.querySelectorAll('.theory-tab').forEach(tab => {
+    tab.classList.remove('active');
+  });
+  
+  // Добавяме активния клас на кликнатия таб
+  document.querySelector(`[onclick="showTheoryTab('${tabName}')"]`).classList.add('active');
+  
+  // Показваме съответното съдържание
+  const content = getTheoryContent(tabName);
+  document.getElementById('theoryContent').innerHTML = content;
+}
+
+// Функция за генериране на съдържанието за различните табове
+function getTheoryContent(tabName) {
+  const lang = currentLang === 'bg' ? 'bg' : 'en';
+  
+  const content = {
+    'conduction': {
+      'bg': `
+        <h3>🔌 Проводими загуби (Conduction Losses)</h3>
+        
+        <div class="theory-formula">
+          <h4>Основна формула:</h4>
+          <strong>P<sub>cond</sub> = I<sup>2</sup> × R<sub>DS(on)</sub> × D</strong>
+        </div>
+        
+        <div class="theory-explanation">
+          <p><strong>Обяснение:</strong></p>
+          <ul>
+            <li><strong>P<sub>cond</sub></strong> - Загуби от проводимост (W)</li>
+            <li><strong>I</strong> - RMS ток през транзистора (A)</li>
+            <li><strong>R<sub>DS(on)</sub></strong> - Съпротивление при отворено състояние (Ω)</li>
+            <li><strong>D</strong> - Duty cycle (работен цикъл, 0-1)</li>
+          </ul>
+        </div>
+        
+        <div class="theory-formula">
+          <h4>Температурна корекция:</h4>
+          <strong>R<sub>DS(on)</sub>(T) = R<sub>DS(on)</sub>(25°C) × [1 + α × (T - 25°C)]</strong>
+          <br><br>
+          <strong>α (температурен коефициент):</strong>
+          <ul>
+            <li>Si: 0.6%/°C</li>
+            <li>SiC: 0.8%/°C</li>
+            <li>GaN: 1.2%/°C</li>
+          </ul>
+        </div>
+        
+        <div class="theory-explanation">
+          <p><strong>Физическо обяснение:</strong></p>
+          <p>Проводимите загуби възникват когато транзисторът е в проводящо състояние. Въпреки че MOSFET-ът е "включен", той все още има малко съпротивление R<sub>DS(on)</sub>. Токът, протичащ през това съпротивление, генерира топлина според закона на Джул: P = I²R.</p>
+          <p>С повишаване на температурата, движението на носителите в полупроводника намалява, което води до увеличаване на съпротивлението.</p>
+        </div>
+      `,
+      'en': `
+        <h3>🔌 Conduction Losses</h3>
+        
+        <div class="theory-formula">
+          <h4>Basic formula:</h4>
+          <strong>P<sub>cond</sub> = I<sup>2</sup> × R<sub>DS(on)</sub> × D</strong>
+        </div>
+        
+        <div class="theory-explanation">
+          <p><strong>Where:</strong></p>
+          <ul>
+            <li><strong>P<sub>cond</sub></strong> - Conduction power losses (W)</li>
+            <li><strong>I</strong> - RMS current through transistor (A)</li>
+            <li><strong>R<sub>DS(on)</sub></strong> - On-state resistance (Ω)</li>
+            <li><strong>D</strong> - Duty cycle (0-1)</li>
+          </ul>
+        </div>
+        
+        <div class="theory-formula">
+          <h4>Temperature correction:</h4>
+          <strong>R<sub>DS(on)</sub>(T) = R<sub>DS(on)</sub>(25°C) × [1 + α × (T - 25°C)]</strong>
+          <br><br>
+          <strong>α (temperature coefficient):</strong>
+          <ul>
+            <li>Si: 0.6%/°C</li>
+            <li>SiC: 0.8%/°C</li>
+            <li>GaN: 1.2%/°C</li>
+          </ul>
+        </div>
+        
+        <div class="theory-explanation">
+          <p><strong>Physical explanation:</strong></p>
+          <p>Conduction losses occur when the transistor is in the conducting state. Although the MOSFET is "on", it still has small resistance R<sub>DS(on)</sub>. Current flowing through this resistance generates heat according to Joule's law: P = I²R.</p>
+          <p>With increasing temperature, carrier mobility in the semiconductor decreases, leading to increased resistance.</p>
+        </div>
+      `
+    },
+    'switching': {
+      'bg': `
+        <h3>⚡ Превключващи загуби (Switching Losses)</h3>
+        
+        <div class="theory-formula">
+          <h4>Основна формула:</h4>
+          <strong>P<sub>sw</sub> = (E<sub>on</sub> + E<sub>off</sub> + E<sub>coss</sub>) × f<sub>sw</sub></strong>
+        </div>
+        
+        <div class="theory-explanation">
+          <p><strong>Компоненти:</strong></p>
+          <ul>
+            <li><strong>E<sub>on</sub></strong> - Енергия при включване (J)</li>
+            <li><strong>E<sub>off</sub></strong> - Енергия при изключване (J)</li>
+            <li><strong>E<sub>coss</sub></strong> - Енергия от output capacitance (J)</li>
+            <li><strong>f<sub>sw</sub></strong> - Честота на превключване (Hz)</li>
+          </ul>
+        </div>
+        
+        <div class="theory-formula">
+          <h4>Детайлни изчисления:</h4>
+          <strong>E<sub>on</sub> = 0.5 × V<sub>DS</sub> × I<sub>D</sub> × t<sub>rise</sub></strong><br>
+          <strong>E<sub>off</sub> = 0.5 × V<sub>DS</sub> × I<sub>D</sub> × t<sub>fall</sub></strong><br>
+          <strong>E<sub>coss</sub> = 0.5 × C<sub>oss</sub> × V<sub>DS</sub><sup>2</sup></strong>
+        </div>
+        
+        <div class="theory-comparison">
+          <div class="tech-card si">
+            <h4>Si MOSFET</h4>
+            <div class="tech-value">C<sub>oss</sub>: 800 pF</div>
+            <div class="tech-value">t<sub>rise</sub>: 25 ns</div>
+            <div class="tech-value">t<sub>fall</sub>: 20 ns</div>
+          </div>
+          <div class="tech-card sic">
+            <h4>SiC MOSFET</h4>
+            <div class="tech-value">C<sub>oss</sub>: 180 pF</div>
+            <div class="tech-value">t<sub>rise</sub>: 15 ns</div>
+            <div class="tech-value">t<sub>fall</sub>: 12 ns</div>
+          </div>
+          <div class="tech-card gan">
+            <h4>GaN HEMT</h4>
+            <div class="tech-value">C<sub>oss</sub>: 65 pF</div>
+            <div class="tech-value">t<sub>rise</sub>: 5 ns</div>
+            <div class="tech-value">t<sub>fall</sub>: 4 ns</div>
+          </div>
+        </div>
+        
+        <div class="theory-explanation">
+          <p><strong>Физическо обяснение:</strong></p>
+          <p>Превключващите загуби възникват по време на прехода между включено и изключено състояние. По време на този преход и напрежението, и токът имат ненулеви стойности, което причинява мощностни загуби.</p>
+          <p>GaN транзисторите имат най-малки превключащи загуби благодарение на бързите switching времена и малките паразитни капацитети.</p>
+        </div>
+      `,
+      'en': `
+        <h3>⚡ Switching Losses</h3>
+        
+        <div class="theory-formula">
+          <h4>Basic formula:</h4>
+          <strong>P<sub>sw</sub> = (E<sub>on</sub> + E<sub>off</sub> + E<sub>coss</sub>) × f<sub>sw</sub></strong>
+        </div>
+        
+        <div class="theory-explanation">
+          <p><strong>Components:</strong></p>
+          <ul>
+            <li><strong>E<sub>on</sub></strong> - Turn-on energy (J)</li>
+            <li><strong>E<sub>off</sub></strong> - Turn-off energy (J)</li>
+            <li><strong>E<sub>coss</sub></strong> - Output capacitance energy (J)</li>
+            <li><strong>f<sub>sw</sub></strong> - Switching frequency (Hz)</li>
+          </ul>
+        </div>
+        
+        <div class="theory-formula">
+          <h4>Detailed calculations:</h4>
+          <strong>E<sub>on</sub> = 0.5 × V<sub>DS</sub> × I<sub>D</sub> × t<sub>rise</sub></strong><br>
+          <strong>E<sub>off</sub> = 0.5 × V<sub>DS</sub> × I<sub>D</sub> × t<sub>fall</sub></strong><br>
+          <strong>E<sub>coss</sub> = 0.5 × C<sub>oss</sub> × V<sub>DS</sub><sup>2</sup></strong>
+        </div>
+        
+        <div class="theory-comparison">
+          <div class="tech-card si">
+            <h4>Si MOSFET</h4>
+            <div class="tech-value">C<sub>oss</sub>: 800 pF</div>
+            <div class="tech-value">t<sub>rise</sub>: 25 ns</div>
+            <div class="tech-value">t<sub>fall</sub>: 20 ns</div>
+          </div>
+          <div class="tech-card sic">
+            <h4>SiC MOSFET</h4>
+            <div class="tech-value">C<sub>oss</sub>: 180 pF</div>
+            <div class="tech-value">t<sub>rise</sub>: 15 ns</div>
+            <div class="tech-value">t<sub>fall</sub>: 12 ns</div>
+          </div>
+          <div class="tech-card gan">
+            <h4>GaN HEMT</h4>
+            <div class="tech-value">C<sub>oss</sub>: 65 pF</div>
+            <div class="tech-value">t<sub>rise</sub>: 5 ns</div>
+            <div class="tech-value">t<sub>fall</sub>: 4 ns</div>
+          </div>
+        </div>
+        
+        <div class="theory-explanation">
+          <p><strong>Physical explanation:</strong></p>
+          <p>Switching losses occur during the transition between on and off states. During this transition, both voltage and current have non-zero values, causing power losses.</p>
+          <p>GaN transistors have the lowest switching losses due to fast switching times and small parasitic capacitances.</p>
+        </div>
+      `
+    },
+    'thermal': {
+      'bg': `
+        <h3>🌡️ Термична теория</h3>
+        
+        <div class="theory-formula">
+          <h4>Основна термична формула:</h4>
+          <strong>T<sub>j</sub> = T<sub>a</sub> + P<sub>total</sub> × (R<sub>θJC</sub> + R<sub>θCA</sub>)</strong>
+        </div>
+        
+        <div class="theory-explanation">
+          <p><strong>Термини:</strong></p>
+          <ul>
+            <li><strong>T<sub>j</sub></strong> - Junction температура (°C)</li>
+            <li><strong>T<sub>a</sub></strong> - Околна температура (°C)</li>
+            <li><strong>P<sub>total</sub></strong> - Общи загуби (W)</li>
+            <li><strong>R<sub>θJC</sub></strong> - Термично съпротивление junction-case (°C/W)</li>
+            <li><strong>R<sub>θCA</sub></strong> - Термично съпротивление case-ambient (°C/W)</li>
+          </ul>
+        </div>
+        
+        <div class="theory-formula">
+          <h4>Case температура:</h4>
+          <strong>T<sub>c</sub> = T<sub>a</sub> + P<sub>total</sub> × R<sub>θCA</sub></strong>
+        </div>
+        
+        <div class="theory-comparison">
+          <div class="tech-card si">
+            <h4>Естествено охлаждане</h4>
+            <div class="tech-value">R<sub>θCA</sub>: 50 °C/W</div>
+            <p>Само корпуса на транзистора</p>
+          </div>
+          <div class="tech-card sic">
+            <h4>Малък радиатор</h4>
+            <div class="tech-value">R<sub>θCA</sub>: 15 °C/W</div>
+            <p>10-20 cm² (Fischer SK104)</p>
+          </div>
+          <div class="tech-card gan">
+            <h4>Голям радиатор</h4>
+            <div class="tech-value">R<sub>θCA</sub>: 2.5 °C/W</div>
+            <p>>200 cm² (Fischer SK53)</p>
+          </div>
+        </div>
+        
+        <div class="theory-explanation">
+          <p><strong>Максимални работни температури:</strong></p>
+          <ul>
+            <li><strong>Si MOSFET:</strong> 150-175°C</li>
+            <li><strong>SiC MOSFET:</strong> 175-200°C</li>
+            <li><strong>GaN HEMT:</strong> 150-200°C</li>
+          </ul>
+        </div>
+        
+        <div class="theory-explanation">
+          <p><strong>Термичен марж:</strong></p>
+          <p>Препоръчва се junction температурата да не надвишава 80-90% от максималната стойност за надеждна работа. Това осигурява марж за безопасност и удължава живота на компонента.</p>
+        </div>
+      `,
+      'en': `
+        <h3>🌡️ Thermal Theory</h3>
+        
+        <div class="theory-formula">
+          <h4>Basic thermal formula:</h4>
+          <strong>T<sub>j</sub> = T<sub>a</sub> + P<sub>total</sub> × (R<sub>θJC</sub> + R<sub>θCA</sub>)</strong>
+        </div>
+        
+        <div class="theory-explanation">
+          <p><strong>Terms:</strong></p>
+          <ul>
+            <li><strong>T<sub>j</sub></strong> - Junction temperature (°C)</li>
+            <li><strong>T<sub>a</sub></strong> - Ambient temperature (°C)</li>
+            <li><strong>P<sub>total</sub></strong> - Total power losses (W)</li>
+            <li><strong>R<sub>θJC</sub></strong> - Thermal resistance junction-case (°C/W)</li>
+            <li><strong>R<sub>θCA</sub></strong> - Thermal resistance case-ambient (°C/W)</li>
+          </ul>
+        </div>
+        
+        <div class="theory-formula">
+          <h4>Case temperature:</h4>
+          <strong>T<sub>c</sub> = T<sub>a</sub> + P<sub>total</sub> × R<sub>θCA</sub></strong>
+        </div>
+        
+        <div class="theory-comparison">
+          <div class="tech-card si">
+            <h4>Natural cooling</h4>
+            <div class="tech-value">R<sub>θCA</sub>: 50 °C/W</div>
+            <p>Transistor case only</p>
+          </div>
+          <div class="tech-card sic">
+            <h4>Small heatsink</h4>
+            <div class="tech-value">R<sub>θCA</sub>: 15 °C/W</div>
+            <p>10-20 cm² (Fischer SK104)</p>
+          </div>
+          <div class="tech-card gan">
+            <h4>Large heatsink</h4>
+            <div class="tech-value">R<sub>θCA</sub>: 2.5 °C/W</div>
+            <p>>200 cm² (Fischer SK53)</p>
+          </div>
+        </div>
+        
+        <div class="theory-explanation">
+          <p><strong>Maximum operating temperatures:</strong></p>
+          <ul>
+            <li><strong>Si MOSFET:</strong> 150-175°C</li>
+            <li><strong>SiC MOSFET:</strong> 175-200°C</li>
+            <li><strong>GaN HEMT:</strong> 150-200°C</li>
+          </ul>
+        </div>
+        
+        <div class="theory-explanation">
+          <p><strong>Thermal margin:</strong></p>
+          <p>It's recommended that junction temperature doesn't exceed 80-90% of maximum value for reliable operation. This ensures safety margin and extends component lifetime.</p>
+        </div>
+      `
+    },
+    'comparison': {
+      'bg': `
+        <h3>⚖️ Сравнение на технологиите</h3>
+        
+        <div class="theory-comparison">
+          <div class="tech-card si">
+            <h4>🟤 Силиций (Si)</h4>
+            <div class="tech-value">Bandgap: 1.12 eV</div>
+            <div class="tech-value">f<sub>max</sub>: 10-100 kHz</div>
+            <div class="tech-value">T<sub>max</sub>: 150°C</div>
+            <div class="tech-value">Цена: €€</div>
+          </div>
+          <div class="tech-card sic">
+            <h4>🟠 Силициев карбид (SiC)</h4>
+            <div class="tech-value">Bandgap: 3.3 eV</div>
+            <div class="tech-value">f<sub>max</sub>: 50-500 kHz</div>
+            <div class="tech-value">T<sub>max</sub>: 200°C</div>
+            <div class="tech-value">Цена: €€€€</div>
+          </div>
+          <div class="tech-card gan">
+            <h4>🟢 Галиев нитрид (GaN)</h4>
+            <div class="tech-value">Bandgap: 3.4 eV</div>
+            <div class="tech-value">f<sub>max</sub>: 100kHz-2MHz</div>
+            <div class="tech-value">T<sub>max</sub>: 200°C</div>
+            <div class="tech-value">Цена: €€€€€</div>
+          </div>
+        </div>
+        
+        <div class="theory-explanation">
+          <p><strong>Предимства и недостатъци:</strong></p>
+          
+          <h4>Si (Силиций):</h4>
+          <ul>
+            <li>✅ Ниска цена и широка достъпност</li>
+            <li>✅ Зряла технология с много производители</li>
+            <li>✅ Добра надеждност</li>
+            <li>❌ Ограничена честота (до 100 kHz)</li>
+            <li>❌ По-високи загуби при висока честота</li>
+          </ul>
+          
+          <h4>SiC (Силициев карбид):</h4>
+          <ul>
+            <li>✅ Висока ефективност при средни честоти</li>
+            <li>✅ Добра термична производителност</li>
+            <li>✅ Подходящ за високо напрежение</li>
+            <li>❌ По-висока цена от Si</li>
+            <li>❌ Ограничени производители</li>
+          </ul>
+          
+          <h4>GaN (Галиев нитрид):</h4>
+          <ul>
+            <li>✅ Най-високата ефективност</li>
+            <li>✅ Много високи честоти (до 2 MHz+)</li>
+            <li>✅ Компактни решения</li>
+            <li>❌ Най-висока цена</li>
+            <li>❌ По-нова технология</li>
+          </ul>
+        </div>
+      `,
+      'en': `
+        <h3>⚖️ Technology Comparison</h3>
+        
+        <div class="theory-comparison">
+          <div class="tech-card si">
+            <h4>🟤 Silicon (Si)</h4>
+            <div class="tech-value">Bandgap: 1.12 eV</div>
+            <div class="tech-value">f<sub>max</sub>: 10-100 kHz</div>
+            <div class="tech-value">T<sub>max</sub>: 150°C</div>
+            <div class="tech-value">Price: €€</div>
+          </div>
+          <div class="tech-card sic">
+            <h4>🟠 Silicon Carbide (SiC)</h4>
+            <div class="tech-value">Bandgap: 3.3 eV</div>
+            <div class="tech-value">f<sub>max</sub>: 50-500 kHz</div>
+            <div class="tech-value">T<sub>max</sub>: 200°C</div>
+            <div class="tech-value">Price: €€€€</div>
+          </div>
+          <div class="tech-card gan">
+            <h4>🟢 Gallium Nitride (GaN)</h4>
+            <div class="tech-value">Bandgap: 3.4 eV</div>
+            <div class="tech-value">f<sub>max</sub>: 100kHz-2MHz</div>
+            <div class="tech-value">T<sub>max</sub>: 200°C</div>
+            <div class="tech-value">Price: €€€€€</div>
+          </div>
+        </div>
+        
+        <div class="theory-explanation">
+          <p><strong>Advantages and Disadvantages:</strong></p>
+          
+          <h4>Si (Silicon):</h4>
+          <ul>
+            <li>✅ Low cost and wide availability</li>
+            <li>✅ Mature technology with many suppliers</li>
+            <li>✅ Good reliability</li>
+            <li>❌ Limited frequency (up to 100 kHz)</li>
+            <li>❌ Higher losses at high frequency</li>
+          </ul>
+          
+          <h4>SiC (Silicon Carbide):</h4>
+          <ul>
+            <li>✅ High efficiency at medium frequencies</li>
+            <li>✅ Good thermal performance</li>
+            <li>✅ Suitable for high voltage</li>
+            <li>❌ Higher cost than Si</li>
+            <li>❌ Limited suppliers</li>
+          </ul>
+          
+          <h4>GaN (Gallium Nitride):</h4>
+          <ul>
+            <li>✅ Highest efficiency</li>
+            <li>✅ Very high frequencies (up to 2 MHz+)</li>
+            <li>✅ Compact solutions</li>
+            <li>❌ Highest cost</li>
+            <li>❌ Newer technology</li>
+          </ul>
+        </div>
+      `
+    }
+  };
+  
+  return content[tabName][lang];
+}
 
 // Функция за копиране на графики в clipboard като изображение
 async function copyChartToClipboard(chartId) {
