@@ -56,38 +56,47 @@
       </div>
 
       <div class="row">
-        <label class="tooltip-label">V<sub>DC</sub> (V):
+        <label class="input-group">
+          <span>V<sub>DC</sub> напрежение (V)</span>
           <span class="tooltip-icon">?</span>
           <div class="tooltip">DC напрежение на шината (Bus voltage). Това е напрежението, което транзисторът превключва. Трябва да е по-малко от VDS_max на избрания транзистор.</div>
           <input id="vdc" type="number" value="400">
         </label>
 
-        <label class="tooltip-label">I<sub>load</sub> (A):
+        <label class="input-group">
+          <span>I<sub>load</sub> ток (A)</span>
           <span class="tooltip-icon">?</span>
           <div class="tooltip">RMS ток през товара. Това е ефективната стойност на тока, който преминава през транзистора по време на проводимост.</div>
           <input id="iLoad" type="number" value="30">
         </label>
+      </div>
 
-        <label class="tooltip-label">f<sub>sw</sub> (kHz):
+      <div class="row">
+        <label class="input-group">
+          <span>f<sub>sw</sub> честота (kHz)</span>
           <span class="tooltip-icon">?</span>
           <div class="tooltip">Честота на превключване. По-високата честота намалява размера на компонентите, но увеличава загубите от превключване. Типични стойности: Si (10-50kHz), SiC (50-200kHz), GaN (100kHz-1MHz).</div>
           <input id="fsw" type="number" value="100">
         </label>
 
-        <label class="tooltip-label">T<sub>j</sub> (°C):
+        <label class="input-group">
+          <span>T<sub>j</sub> температура (°C)</span>
           <span class="tooltip-icon">?</span>
           <div class="tooltip">Температура на p-n съединението (Junction temperature). Влияе на съпротивлението RDS(on). Типични стойности: 25°C (стайна), 100°C (работна), 150°C (максимална).</div>
           <input id="temp" type="number" value="25">
         </label>
+      </div>
 
-        <label class="tooltip-label">Duty D:
+      <div class="row">
+        <label class="input-group">
+          <span>Duty коефициент запълване</span>
           <span class="tooltip-icon">?</span>
           <div class="tooltip">Коефициент на запълване (Duty cycle) - отношението между времето ON и периода. 0.5 означава 50% от времето транзисторът е включен. Влияе на загубите от проводимост.</div>
           <input id="duty" type="number" value="0.5" step="0.01" min="0.01" max="0.99">
         </label>
       </div>
 
-      <div class="row">
+      <div class="button-row">
         <button id="calcBtn" data-lang="calculate">Изчисли</button>
         <button id="suggestBtn" disabled data-lang="suggestOptimal">Предложи оптимални параметри</button>
         <button id="resetBtn" data-lang="reset">Възстанови стойности</button>

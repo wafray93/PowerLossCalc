@@ -312,6 +312,73 @@ const TRANSISTOR_DB = {
       vds_max: 900, id_max: 60, rds_mohm: 35, tr_ns: 120, tf_ns: 250,
       alpha: 0.0045, package: "TO-3P", manufacturer: "Toshiba",
       application: "Voltage resonance inverters, current resonance"
+    },
+    // Още много Si MOSFETs
+    "IRFP4568PBF": {
+      name: "IRFP4568PBF (Si MOSFET)",
+      vds_max: 150, id_max: 171, rds_mohm: 5.5, tr_ns: 50, tf_ns: 35,
+      alpha: 0.0065, package: "TO-247AC", manufacturer: "Infineon",
+      application: "High current applications, DC motor drives"
+    },
+    "STB16NK50Z": {
+      name: "STB16NK50Z (Si MOSFET)",
+      vds_max: 500, id_max: 16, rds_mohm: 250, tr_ns: 60, tf_ns: 120,
+      alpha: 0.0075, package: "D2PAK", manufacturer: "STMicroelectronics",
+      application: "SMPS, automotive"
+    },
+    "IRFP360LC": {
+      name: "IRFP360LC (Si MOSFET)",
+      vds_max: 400, id_max: 23, rds_mohm: 200, tr_ns: 110, tf_ns: 160,
+      alpha: 0.0070, package: "TO-247AC", manufacturer: "Infineon",
+      application: "Switching power supplies"
+    },
+    "STP75NF75": {
+      name: "STP75NF75 (Si MOSFET)",
+      vds_max: 75, id_max: 80, rds_mohm: 8.5, tr_ns: 85, tf_ns: 85,
+      alpha: 0.0060, package: "TO-220", manufacturer: "STMicroelectronics",
+      application: "Automotive, motor control"
+    },
+    "IRFB7546PBF": {
+      name: "IRFB7546PBF (Si MOSFET)",
+      vds_max: 60, id_max: 78, rds_mohm: 5.9, tr_ns: 24, tf_ns: 12,
+      alpha: 0.0058, package: "TO-220AB", manufacturer: "Infineon",
+      application: "Synchronous rectification"
+    },
+    "IXFN55N50": {
+      name: "IXFN55N50 (Si MOSFET)",
+      vds_max: 500, id_max: 55, rds_mohm: 90, tr_ns: 60, tf_ns: 100,
+      alpha: 0.0070, package: "TO-220", manufacturer: "IXYS",
+      application: "UPS, welding, motor drives"
+    },
+    "STW42N65M5": {
+      name: "STW42N65M5 (Si MOSFET)",
+      vds_max: 650, id_max: 42, rds_mohm: 65, tr_ns: 85, tf_ns: 45,
+      alpha: 0.0075, package: "TO-247", manufacturer: "STMicroelectronics",
+      application: "PFC, resonant converters"
+    },
+    "IRFB4227": {
+      name: "IRFB4227 (Si MOSFET)",
+      vds_max: 200, id_max: 65, rds_mohm: 18, tr_ns: 43, tf_ns: 35,
+      alpha: 0.0065, package: "TO-220AB", manufacturer: "Infineon",
+      application: "DC-DC converters, motor drives"
+    },
+    "STP140N10F7": {
+      name: "STP140N10F7 (Si MOSFET)",
+      vds_max: 100, id_max: 120, rds_mohm: 4.6, tr_ns: 90, tf_ns: 170,
+      alpha: 0.0058, package: "TO-220", manufacturer: "STMicroelectronics",
+      application: "High current switching"
+    },
+    "IRFB3607": {
+      name: "IRFB3607 (Si MOSFET)",
+      vds_max: 75, id_max: 80, rds_mohm: 7.5, tr_ns: 22, tf_ns: 18,
+      alpha: 0.0058, package: "TO-220AB", manufacturer: "Infineon",
+      application: "Synchronous rectification"
+    },
+    "APT10M16JVR": {
+      name: "APT10M16JVR (Si MOSFET)",
+      vds_max: 160, id_max: 75, rds_mohm: 10, tr_ns: 25, tf_ns: 40,
+      alpha: 0.0062, package: "TO-247", manufacturer: "Microsemi",
+      application: "Motor drives, DC-DC converters"
     }
   },
   
@@ -455,6 +522,46 @@ const TRANSISTOR_DB = {
     "EPC2007C": {
       name: "EPC2007C (GaN HEMT)",
       vds_max: 100, id_max: 18, rds_mohm: 16, tr_ns: 2.6, tf_ns: 1.4,
+      alpha: 0.0032, package: "LGA", manufacturer: "EPC",
+      application: "48V Bus converters"
+    },
+    // Още GaN HEMTs
+    "EPC2036": {
+      name: "EPC2036 (GaN HEMT)",
+      vds_max: 100, id_max: 16, rds_mohm: 25, tr_ns: 1.9, tf_ns: 1.2,
+      alpha: 0.0035, package: "LGA", manufacturer: "EPC",
+      application: "Envelope tracking, wireless charging"
+    },
+    "GS66516T": {
+      name: "GS66516T (GaN HEMT)",
+      vds_max: 650, id_max: 60, rds_mohm: 25, tr_ns: 4.7, tf_ns: 8.8,
+      alpha: 0.002, package: "GaN PX", manufacturer: "GaN Systems",
+      application: "Industrial motor drives, solar inverters"
+    },
+    "EPC2218": {
+      name: "EPC2218 (GaN HEMT)",
+      vds_max: 80, id_max: 120, rds_mohm: 4.8, tr_ns: 1.8, tf_ns: 4.5,
+      alpha: 0.0028, package: "LGA", manufacturer: "EPC",
+      application: "High current POL, battery management"
+    },
+    "TPH3212PS": {
+      name: "TPH3212PS (GaN HEMT)",
+      vds_max: 650, id_max: 36, rds_mohm: 62, tr_ns: 3.5, tf_ns: 5.4,
+      alpha: 0.0022, package: "TOLL", manufacturer: "Transphorm",
+      application: "PFC, LLC converters"
+    },
+    "GS66508P": {
+      name: "GS66508P (GaN HEMT)",
+      vds_max: 650, id_max: 30, rds_mohm: 50, tr_ns: 3.8, tf_ns: 4.7,
+      alpha: 0.0025, package: "GaN PX", manufacturer: "GaN Systems",
+      application: "Server PSU, telecom"
+    },
+    "EPC2152": {
+      name: "EPC2152 (GaN HEMT)",
+      vds_max: 80, id_max: 35, rds_mohm: 14, tr_ns: 2.1, tf_ns: 1.8,
+      alpha: 0.003, package: "LGA", manufacturer: "EPC",
+      application: "DC-DC step down converters"
+    }
       alpha: 0.0038, package: "LGA", manufacturer: "EPC",
       application: "Point of load, високочестотни DC-DC"
     },
