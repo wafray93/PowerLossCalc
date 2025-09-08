@@ -20,9 +20,9 @@
 
   <main>
     <section class="controls">
-      <h2>Въведи параметри</h2>
+      <h2 data-lang="inputParams">Въведи параметри</h2>
       <div class="row">
-        <label class="tooltip-label">Технология:
+        <label class="tooltip-label"><span data-lang="technology">Технология</span>:
           <span class="tooltip-icon">?</span>
           <div class="tooltip">Изберете тип полупроводник: Si (силиций) за стандартни приложения, SiC (силициев карбид) за висока ефективност и температура, GaN (галиев нитрид) за високочестотни приложения.</div>
           <select id="techSelect">
@@ -32,13 +32,13 @@
           </select>
         </label>
 
-        <label class="tooltip-label">Макс. напрежение (V):
+        <label class="tooltip-label"><span data-lang="maxVoltage">Макс. напрежение (V)</span>:
           <span class="tooltip-icon">?</span>
           <div class="tooltip">Задайте максималното работно напрежение за вашето приложение. Транзисторът трябва да има VDS_max по-голямо от това значение с марж за безопасност (обикновено 1.5-2x).</div>
           <input id="maxVoltage" type="number" value="650" min="50" max="1500">
         </label>
 
-        <label class="tooltip-label">Макс. ток (A):
+        <label class="tooltip-label"><span data-lang="maxCurrent">Макс. ток (A)</span>:
           <span class="tooltip-icon">?</span>
           <div class="tooltip">Задайте максималния постоянен ток през транзистора. Транзисторът трябва да може да провежда поне този ток с добро охлаждане.</div>
           <input id="maxCurrent" type="number" value="30" min="1" max="100">
@@ -46,7 +46,7 @@
       </div>
 
       <div class="row">
-        <label class="tooltip-label">Конкретен модел:
+        <label class="tooltip-label"><span data-lang="concreteModel">Конкретен модел</span>:
           <span class="tooltip-icon">?</span>
           <div class="tooltip">Изберете конкретен транзистор от филтрираните по напрежение и ток. Всеки модел има реални параметри от datasheet-а на производителя.</div>
           <select id="transistorSelect">
@@ -88,47 +88,47 @@
       </div>
 
       <div class="row">
-        <button id="calcBtn">Изчисли</button>
-        <button id="suggestBtn" disabled>Предложи оптимални параметри</button>
-        <button id="resetBtn">Възстанови стойности</button>
+        <button id="calcBtn" data-lang="calculate">Изчисли</button>
+        <button id="suggestBtn" disabled data-lang="suggestOptimal">Предложи оптимални параметри</button>
+        <button id="resetBtn" data-lang="reset">Възстанови стойности</button>
       </div>
     </section>
 
     <section class="results">
-      <h2>Информация за транзистора</h2>
+      <h2 data-lang="transistorInfo">Информация за транзистора</h2>
       <div id="transistorInfo" class="transistor-info" style="display: none;">
         <table>
-          <tr><td>Модел</td><td id="modelName">—</td></tr>
-          <tr><td>Производител</td><td id="manufacturer">—</td></tr>
-          <tr><td>Корпус</td><td id="package">—</td></tr>
+          <tr><td data-lang="model">Модел</td><td id="modelName">—</td></tr>
+          <tr><td data-lang="manufacturer">Производител</td><td id="manufacturer">—</td></tr>
+          <tr><td data-lang="package">Корпус</td><td id="package">—</td></tr>
           <tr><td>V<sub>DS max</sub></td><td id="vdsMax">—</td></tr>
           <tr><td>I<sub>D max</sub></td><td id="idMax">—</td></tr>
           <tr><td>R<sub>DS(on)</sub></td><td id="rdsOn">—</td></tr>
-          <tr><td>Приложения</td><td id="application">—</td></tr>
+          <tr><td data-lang="applications">Приложения</td><td id="application">—</td></tr>
         </table>
         <div id="parameterSuggestions"></div>
       </div>
 
       <div class="educational-info">
-        <h3>Как да избера подходящ транзистор?</h3>
+        <h3 data-lang="howToChoose">Как да избера подходящ транзистор?</h3>
         <p><strong>1. Напрежение:</strong> Изберете VDS_max поне 1.5-2x по-голямо от работното напрежение за марж за безопасност.</p>
         <p><strong>2. Ток:</strong> ID_max трябва да е по-голям от RMS тока с отчитане на термичните ограничения.</p>
         <p><strong>3. Честота:</strong> За високи честоти избирайте SiC/GaN с малки времена за превключване.</p>
         <p><strong>4. Ефективност:</strong> За висока ефективност търсете ниско RDS(on) и бързо превключване.</p>
       </div>
 
-      <h2>Резултати</h2>
+      <h2 data-lang="results">Резултати</h2>
       <table>
-        <tr><td>Conduction losses</td><td id="pCond">—</td></tr>
-        <tr><td>Switching losses</td><td id="pSw">—</td></tr>
-        <tr><td>Total losses</td><td id="pTotal">—</td></tr>
-        <tr><td>КПД</td><td id="efficiency">—</td></tr>
+        <tr><td data-lang="conductionLosses">Conduction losses</td><td id="pCond">—</td></tr>
+        <tr><td data-lang="switchingLosses">Switching losses</td><td id="pSw">—</td></tr>
+        <tr><td data-lang="totalLosses">Total losses</td><td id="pTotal">—</td></tr>
+        <tr><td data-lang="efficiency">КПД</td><td id="efficiency">—</td></tr>
       </table>
 
       <canvas id="lossChart"></canvas>
 
       <div class="explanation">
-        <h2>Формули и обяснение</h2>
+        <h2 data-lang="formulasTitle">Формули и обяснение</h2>
         <div id="explainText"></div>
       </div>
     </section>

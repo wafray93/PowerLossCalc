@@ -14,7 +14,16 @@ const LANGUAGES = {
     reset: 'Възстанови стойности',
     transistorInfo: 'Информация за транзистора',
     results: 'Резултати',
-    // други преводи...
+    conductionLosses: 'Загуби от проводимост',
+    switchingLosses: 'Загуби от превключване',
+    totalLosses: 'Общи загуби',
+    efficiency: 'КПД',
+    formulasTitle: 'Формули и обяснение',
+    howToChoose: 'Как да избера подходящ транзистор?',
+    manufacturer: 'Производител',
+    package: 'Корпус',
+    applications: 'Приложения',
+    model: 'Модел'
   },
   en: {
     mainTitle: 'Calculator: Si / SiC / GaN Transistors',
@@ -30,7 +39,16 @@ const LANGUAGES = {
     reset: 'Reset Values',
     transistorInfo: 'Transistor Information',
     results: 'Results',
-    // други преводи...
+    conductionLosses: 'Conduction Losses',
+    switchingLosses: 'Switching Losses',
+    totalLosses: 'Total Losses',
+    efficiency: 'Efficiency',
+    formulasTitle: 'Formulas and Explanation',
+    howToChoose: 'How to choose the right transistor?',
+    manufacturer: 'Manufacturer',
+    package: 'Package',
+    applications: 'Applications',
+    model: 'Model'
   }
 };
 
@@ -133,6 +151,85 @@ const TRANSISTOR_DB = {
       vds_max: 600, id_max: 75, rds_mohm: 34, tr_ns: 80, tf_ns: 200,
       alpha: 0.0050, package: "TO-247AC", manufacturer: "Infineon",
       application: "Инвертори, welding equipment"
+    },
+    // Нови Si MOSFETs
+    "IPP60R125CP": {
+      name: "IPP60R125CP (Si MOSFET)",
+      vds_max: 600, id_max: 23, rds_mohm: 125, tr_ns: 45, tf_ns: 35,
+      alpha: 0.0070, package: "TO-220", manufacturer: "Infineon",
+      application: "PFC, SMPS"
+    },
+    "SPP20N60C3": {
+      name: "SPP20N60C3 (Si MOSFET)",
+      vds_max: 600, id_max: 20, rds_mohm: 190, tr_ns: 38, tf_ns: 25,
+      alpha: 0.0075, package: "TO-220", manufacturer: "Infineon",
+      application: "SMPS, UPS"
+    },
+    "IRFP260N": {
+      name: "IRFP260N (Si MOSFET)",
+      vds_max: 200, id_max: 50, rds_mohm: 40, tr_ns: 43, tf_ns: 35,
+      alpha: 0.0065, package: "TO-247", manufacturer: "Infineon",
+      application: "Audio amplifiers, motor control"
+    },
+    "STF13NM60N": {
+      name: "STF13NM60N (Si MOSFET)",
+      vds_max: 600, id_max: 13, rds_mohm: 300, tr_ns: 25, tf_ns: 40,
+      alpha: 0.0080, package: "TO-220FP", manufacturer: "STMicroelectronics",
+      application: "Lighting, SMPS"
+    },
+    "STP6NK60Z": {
+      name: "STP6NK60Z (Si MOSFET)",
+      vds_max: 600, id_max: 6, rds_mohm: 1000, tr_ns: 25, tf_ns: 60,
+      alpha: 0.0085, package: "TO-220", manufacturer: "STMicroelectronics",
+      application: "Low power SMPS"
+    },
+    "IRF740": {
+      name: "IRF740 (Si MOSFET)",
+      vds_max: 400, id_max: 10, rds_mohm: 480, tr_ns: 50, tf_ns: 85,
+      alpha: 0.0070, package: "TO-220", manufacturer: "Infineon",
+      application: "Medium power switching"
+    },
+    "BUZ11": {
+      name: "BUZ11 (Si MOSFET)",
+      vds_max: 50, id_max: 30, rds_mohm: 40, tr_ns: 15, tf_ns: 25,
+      alpha: 0.0065, package: "TO-220", manufacturer: "STMicroelectronics",
+      application: "Audio, linear regulators"
+    },
+    "IRF9540N": {
+      name: "IRF9540N (Si P-MOSFET)",
+      vds_max: 100, id_max: 23, rds_mohm: 117, tr_ns: 95, tf_ns: 50,
+      alpha: 0.0070, package: "TO-220", manufacturer: "Infineon",
+      application: "P-channel applications"
+    },
+    "IRLB3034PBF": {
+      name: "IRLB3034PBF (Si MOSFET)",
+      vds_max: 40, id_max: 195, rds_mohm: 1.7, tr_ns: 46, tf_ns: 12,
+      alpha: 0.0055, package: "TO-220AB", manufacturer: "Infineon",
+      application: "DC-DC converters, motor control"
+    },
+    "IRFZ46N": {
+      name: "IRFZ46N (Si MOSFET)",
+      vds_max: 55, id_max: 53, rds_mohm: 16, tr_ns: 23, tf_ns: 16,
+      alpha: 0.0065, package: "TO-220", manufacturer: "Infineon",
+      application: "Synchronous rectifiers"
+    },
+    "IRLB4030PBF": {
+      name: "IRLB4030PBF (Si MOSFET)",
+      vds_max: 100, id_max: 180, rds_mohm: 3.7, tr_ns: 33, tf_ns: 27,
+      alpha: 0.0060, package: "TO-220AB", manufacturer: "Infineon",
+      application: "Motor control, DC-DC"
+    },
+    "IRF520N": {
+      name: "IRF520N (Si MOSFET)",
+      vds_max: 100, id_max: 9.7, rds_mohm: 270, tr_ns: 43, tf_ns: 28,
+      alpha: 0.0065, package: "TO-220", manufacturer: "Infineon",
+      application: "General purpose switching"
+    },
+    "STP10NK60Z": {
+      name: "STP10NK60Z (Si MOSFET)",
+      vds_max: 600, id_max: 10, rds_mohm: 650, tr_ns: 35, tf_ns: 80,
+      alpha: 0.0080, package: "TO-220", manufacturer: "STMicroelectronics",
+      application: "SMPS, lighting"
     }
   },
   
@@ -189,6 +286,67 @@ const TRANSISTOR_DB = {
       vds_max: 1700, id_max: 60, rds_mohm: 25, tr_ns: 25, tf_ns: 45,
       alpha: 0.0015, package: "TO-247-4", manufacturer: "Wolfspeed",
       application: "Високоволтови преобразуватели"
+    },
+    // Нови SiC MOSFETs
+    "C2M0040120D": {
+      name: "C2M0040120D (SiC MOSFET)",
+      vds_max: 1200, id_max: 60, rds_mohm: 40, tr_ns: 18, tf_ns: 23,
+      alpha: 0.0018, package: "TO-247", manufacturer: "Wolfspeed",
+      application: "Industrial motor drives"
+    },
+    "C2M0025120D": {
+      name: "C2M0025120D (SiC MOSFET)",
+      vds_max: 1200, id_max: 90, rds_mohm: 25, tr_ns: 20, tf_ns: 26,
+      alpha: 0.0015, package: "TO-247", manufacturer: "Wolfspeed",
+      application: "EV charging, grid tie inverters"
+    },
+    "SCT3120AL": {
+      name: "SCT3120AL (SiC MOSFET)",
+      vds_max: 1200, id_max: 35, rds_mohm: 120, tr_ns: 22, tf_ns: 28,
+      alpha: 0.0025, package: "TO-247", manufacturer: "Rohm",
+      application: "Power supplies"
+    },
+    "SCT3080KL": {
+      name: "SCT3080KL (SiC MOSFET)",
+      vds_max: 1200, id_max: 52, rds_mohm: 80, tr_ns: 25, tf_ns: 20,
+      alpha: 0.0022, package: "TO-247", manufacturer: "Rohm",
+      application: "Motor drives"
+    },
+    "STW88N65M5": {
+      name: "STW88N65M5 (SiC MOSFET)",
+      vds_max: 650, id_max: 80, rds_mohm: 65, tr_ns: 28, tf_ns: 15,
+      alpha: 0.0020, package: "H2PAK", manufacturer: "STMicroelectronics",
+      application: "Automotive OBC"
+    },
+    "UF3C120040K4S": {
+      name: "UF3C120040K4S (SiC MOSFET)",
+      vds_max: 1200, id_max: 72, rds_mohm: 40, tr_ns: 19, tf_ns: 22,
+      alpha: 0.0018, package: "TO-247", manufacturer: "UnitedSiC",
+      application: "High efficiency power conversion"
+    },
+    "IMW65R027M1H": {
+      name: "IMW65R027M1H (SiC MOSFET)",
+      vds_max: 650, id_max: 90, rds_mohm: 27, tr_ns: 12, tf_ns: 18,
+      alpha: 0.0016, package: "TO-247", manufacturer: "Infineon",
+      application: "Server PSU, telecom"
+    },
+    "SCT2450KE": {
+      name: "SCT2450KE (SiC MOSFET)",
+      vds_max: 650, id_max: 45, rds_mohm: 45, tr_ns: 18, tf_ns: 12,
+      alpha: 0.0018, package: "TO-247", manufacturer: "Rohm",
+      application: "AC servo drives"
+    },
+    "IMW120R045M1H": {
+      name: "IMW120R045M1H (SiC MOSFET)",
+      vds_max: 1200, id_max: 45, rds_mohm: 45, tr_ns: 22, tf_ns: 18,
+      alpha: 0.0020, package: "TO-247", manufacturer: "Infineon",
+      application: "Traction inverters"
+    },
+    "SCT2160KE": {
+      name: "SCT2160KE (SiC MOSFET)",
+      vds_max: 650, id_max: 25, rds_mohm: 160, tr_ns: 15, tf_ns: 22,
+      alpha: 0.0025, package: "TO-220", manufacturer: "Rohm",
+      application: "SMPS applications"
     }
   },
   
@@ -348,17 +506,46 @@ function filterTransistors() {
   const maxCurrent = +document.getElementById('maxCurrent').value;
   
   const transistorSelect = document.getElementById('transistorSelect');
-  transistorSelect.innerHTML = '<option value="">Избери транзистор...</option>';
+  const langData = LANGUAGES[currentLang] || LANGUAGES['bg'];
+  transistorSelect.innerHTML = `<option value="">${langData.selectTransistor}</option>`;
   
-  const transistors = TRANSISTOR_DB[tech];
+  const transistors = TRANSISTOR_DB[tech] || {};
   
-  for (const [key, transistor] of Object.entries(transistors)) {
-    if (transistor.vds_max >= maxVoltage && transistor.id_max >= maxCurrent) {
-      const option = document.createElement('option');
-      option.value = key;
-      option.textContent = `${transistor.name} (${transistor.vds_max}V/${transistor.id_max}A)`;
-      transistorSelect.appendChild(option);
-    }
+  // Филтрираме и сортираме транзисторите
+  const filteredTransistors = Object.entries(transistors)
+    .filter(([key, transistor]) => {
+      // Стриктно филтриране: всички параметри трябва да са >= зададените
+      return transistor.vds_max >= maxVoltage && transistor.id_max >= maxCurrent;
+    })
+    .sort((a, b) => {
+      // Първо сортираме по близост към зададения ток
+      const currentDiffA = Math.abs(a[1].id_max - maxCurrent);
+      const currentDiffB = Math.abs(b[1].id_max - maxCurrent);
+      if (currentDiffA !== currentDiffB) {
+        return currentDiffA - currentDiffB;
+      }
+      // След това по близост към зададеното напрежение
+      return Math.abs(a[1].vds_max - maxVoltage) - Math.abs(b[1].vds_max - maxVoltage);
+    });
+  
+  // Добавяме филтрираните транзистори в select
+  filteredTransistors.forEach(([key, transistor]) => {
+    const option = document.createElement('option');
+    option.value = key;
+    option.textContent = `${transistor.name} [${transistor.vds_max}V, ${transistor.id_max}A]`;
+    transistorSelect.appendChild(option);
+  });
+  
+  // Ако няма резултати, покажи съобщение
+  if (filteredTransistors.length === 0) {
+    const option = document.createElement('option');
+    option.value = '';
+    const message = currentLang === 'en' ? 
+      `No transistors for ${maxVoltage}V/${maxCurrent}A - adjust parameters` :
+      `Няма транзистори за ${maxVoltage}V/${maxCurrent}A - промени параметрите`;
+    option.textContent = message;
+    option.disabled = true;
+    transistorSelect.appendChild(option);
   }
 }
 
@@ -592,9 +779,20 @@ function switchLanguage(lang) {
   // Обновяваме текстовете
   const langData = LANGUAGES[lang];
   if (langData) {
+    // Основни заглавия
     document.getElementById('mainTitle').textContent = langData.mainTitle;
     document.getElementById('subtitle').textContent = langData.subtitle;
-    // Добавяме повече преводи тук според нуждата
+    
+    // Обновяваме всички елементи с data-lang атрибут
+    document.querySelectorAll('[data-lang]').forEach(element => {
+      const key = element.getAttribute('data-lang');
+      if (langData[key]) {
+        element.textContent = langData[key];
+      }
+    });
+    
+    // Обновяваме и транзисторния select
+    filterTransistors();
   }
 }
 
