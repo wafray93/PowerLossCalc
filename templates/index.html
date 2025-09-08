@@ -18,7 +18,9 @@
     <section class="controls">
       <h2>Въведи параметри</h2>
       <div class="row">
-        <label>Технология:
+        <label class="tooltip-label">Технология:
+          <span class="tooltip-icon">?</span>
+          <div class="tooltip">Изберете тип полупроводник: Si (кремний) за стандартни приложения, SiC (силициев карбид) за висока ефективност и температура, GaN (галиев нитрид) за високочестотни приложения.</div>
           <select id="techSelect">
             <option value="Si">Si MOSFET / IGBT</option>
             <option value="SiC" selected>SiC MOSFET</option>
@@ -26,17 +28,23 @@
           </select>
         </label>
 
-        <label>Макс. напрежение (V):
+        <label class="tooltip-label">Макс. напрежение (V):
+          <span class="tooltip-icon">?</span>
+          <div class="tooltip">Задайте максималното работно напрежение за вашето приложение. Транзисторът трябва да има VDS_max по-голямо от това значение с марж за безопасност (обикновено 1.5-2x).</div>
           <input id="maxVoltage" type="number" value="650" min="50" max="1500">
         </label>
 
-        <label>Макс. ток (A):
+        <label class="tooltip-label">Макс. ток (A):
+          <span class="tooltip-icon">?</span>
+          <div class="tooltip">Задайте максималния постоянен ток през транзистора. Транзисторът трябва да може да провежда поне този ток с добро охлаждане.</div>
           <input id="maxCurrent" type="number" value="30" min="1" max="100">
         </label>
       </div>
 
       <div class="row">
-        <label>Конкретен модел:
+        <label class="tooltip-label">Конкретен модел:
+          <span class="tooltip-icon">?</span>
+          <div class="tooltip">Изберете конкретен транзистор от филтрираните по напрежение и ток. Всеки модел има реални параметри от datasheet-а на производителя.</div>
           <select id="transistorSelect">
             <option value="">Избери транзистор...</option>
           </select>
@@ -44,29 +52,40 @@
       </div>
 
       <div class="row">
-        <label>V<sub>DC</sub> (V):
+        <label class="tooltip-label">V<sub>DC</sub> (V):
+          <span class="tooltip-icon">?</span>
+          <div class="tooltip">DC напрежение на шината (Bus voltage). Това е напрежението, което транзисторът превключва. Трябва да е по-малко от VDS_max на избрания транзистор.</div>
           <input id="vdc" type="number" value="400">
         </label>
 
-        <label>I<sub>load</sub> (A):
+        <label class="tooltip-label">I<sub>load</sub> (A):
+          <span class="tooltip-icon">?</span>
+          <div class="tooltip">RMS ток през товара. Това е ефективната стойност на тока, който преминава през транзистора по време на проводимост.</div>
           <input id="iLoad" type="number" value="30">
         </label>
 
-        <label>f<sub>sw</sub> (kHz):
+        <label class="tooltip-label">f<sub>sw</sub> (kHz):
+          <span class="tooltip-icon">?</span>
+          <div class="tooltip">Честота на превключване. По-високата честота намалява размера на компонентите, но увеличава загубите от превключване. Типични стойности: Si (10-50kHz), SiC (50-200kHz), GaN (100kHz-1MHz).</div>
           <input id="fsw" type="number" value="100">
         </label>
 
-        <label>T<sub>j</sub> (°C):
+        <label class="tooltip-label">T<sub>j</sub> (°C):
+          <span class="tooltip-icon">?</span>
+          <div class="tooltip">Температура на p-n съединението (Junction temperature). Влияе на съпротивлението RDS(on). Типични стойности: 25°C (стайна), 100°C (работна), 150°C (максимална).</div>
           <input id="temp" type="number" value="25">
         </label>
 
-        <label>Duty D:
-          <input id="duty" type="number" value="0.5" step="0.01">
+        <label class="tooltip-label">Duty D:
+          <span class="tooltip-icon">?</span>
+          <div class="tooltip">Коефициент на запълване (Duty cycle) - отношението между времето ON и периода. 0.5 означава 50% от времето транзисторът е включен. Влияе на загубите от проводимост.</div>
+          <input id="duty" type="number" value="0.5" step="0.01" min="0.01" max="0.99">
         </label>
       </div>
 
       <div class="row">
         <button id="calcBtn">Изчисли</button>
+        <button id="suggestBtn" disabled>Предложи оптимални параметри</button>
         <button id="resetBtn">Възстанови стойности</button>
       </div>
     </section>
@@ -81,7 +100,17 @@
           <tr><td>V<sub>DS max</sub></td><td id="vdsMax">—</td></tr>
           <tr><td>I<sub>D max</sub></td><td id="idMax">—</td></tr>
           <tr><td>R<sub>DS(on)</sub></td><td id="rdsOn">—</td></tr>
+          <tr><td>Приложения</td><td id="application">—</td></tr>
         </table>
+        <div id="parameterSuggestions"></div>
+      </div>
+
+      <div class="educational-info">
+        <h3>Как да избера подходящ транзистор?</h3>
+        <p><strong>1. Напрежение:</strong> Изберете VDS_max поне 1.5-2x по-голямо от работното напрежение за марж за безопасност.</p>
+        <p><strong>2. Ток:</strong> ID_max трябва да е по-голям от RMS тока с отчитане на термичните ограничения.</p>
+        <p><strong>3. Честота:</strong> За високи честоти избирайте SiC/GaN с малки времена за превключване.</p>
+        <p><strong>4. Ефективност:</strong> За висока ефективност търсете ниско RDS(on) и бързо превключване.</p>
       </div>
 
       <h2>Резултати</h2>

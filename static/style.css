@@ -130,6 +130,102 @@ button:hover {
   min-width: 250px;
 }
 
+/* Tooltip styles */
+.tooltip-label {
+  position: relative;
+}
+
+.tooltip-icon {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  background: #004aad;
+  color: white;
+  border-radius: 50%;
+  text-align: center;
+  font-size: 12px;
+  line-height: 18px;
+  cursor: help;
+  margin-left: 5px;
+  vertical-align: top;
+}
+
+.tooltip {
+  visibility: hidden;
+  opacity: 0;
+  position: absolute;
+  top: -5px;
+  left: 110%;
+  width: 280px;
+  background-color: #333;
+  color: white;
+  text-align: left;
+  border-radius: 6px;
+  padding: 10px;
+  z-index: 1000;
+  font-size: 12px;
+  line-height: 1.4;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  transition: opacity 0.3s;
+}
+
+.tooltip::after {
+  content: "";
+  position: absolute;
+  top: 15px;
+  left: -8px;
+  border-width: 8px;
+  border-style: solid;
+  border-color: transparent #333 transparent transparent;
+}
+
+.tooltip-icon:hover + .tooltip,
+.tooltip-label:hover .tooltip {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* Educational sections */
+.educational-info {
+  background: #f0f8ff;
+  border-left: 4px solid #004aad;
+  padding: 15px;
+  margin: 20px 0;
+  border-radius: 4px;
+}
+
+.educational-info h3 {
+  margin-top: 0;
+  color: #004aad;
+}
+
+.parameter-suggestion {
+  background: #e8f5e8;
+  border: 1px solid #4caf50;
+  border-radius: 6px;
+  padding: 10px;
+  margin: 10px 0;
+  font-size: 13px;
+}
+
+.warning-box {
+  background: #fff3cd;
+  border: 1px solid #ffc107;
+  border-radius: 6px;
+  padding: 10px;
+  margin: 10px 0;
+  color: #856404;
+}
+
+.error-box {
+  background: #f8d7da;
+  border: 1px solid #dc3545;
+  border-radius: 6px;
+  padding: 10px;
+  margin: 10px 0;
+  color: #721c24;
+}
+
 footer {
   text-align: center;
   padding: 10px;
