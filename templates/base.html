@@ -36,8 +36,8 @@
             
             <!-- Language Switcher -->
             <div class="language-switcher">
-                <button class="lang-btn active" onclick="switchLanguage('bg')" aria-label="Български език">БГ</button>
-                <button class="lang-btn" onclick="switchLanguage('en')" aria-label="English language">EN</button>
+                <button id="langBG" class="lang-btn active" onclick="switchLanguage('bg', this)" aria-label="Български език">БГ</button>
+                <button id="langEN" class="lang-btn" onclick="switchLanguage('en', this)" aria-label="English language">EN</button>
             </div>
         </div>
     </header>
@@ -213,18 +213,6 @@
             }
         }
 
-        // Language switcher
-        function switchLanguage(lang) {
-            const buttons = document.querySelectorAll('.lang-btn');
-            buttons.forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-            
-            // Store language preference
-            localStorage.setItem('preferred-language', lang);
-            
-            // Apply language changes (you can expand this)
-            console.log('Language switched to:', lang);
-        }
 
         // Keyboard navigation for accessibility
         document.addEventListener('keydown', function(e) {

@@ -1289,23 +1289,37 @@ function calc(){
 function switchLanguage(lang) {
   currentLang = lang;
   
-  // Запазваме текущо избраните стойности преди смяната на езика
-  const savedValues = {
-    techSelect: document.getElementById('techSelect').value,
-    transistorSelect: document.getElementById('transistorSelect').value,
-    vdc: document.getElementById('vdc').value,
-    iLoad: document.getElementById('iLoad').value,
-    fsw: document.getElementById('fsw').value,
-    temp: document.getElementById('temp').value,
-    duty: document.getElementById('duty').value,
-    freqMin: document.getElementById('freqMin').value,
-    freqMax: document.getElementById('freqMax').value,
-    selectedTransistor: selectedTransistor // Запазваме и глобалната променлива
-  };
+  // Запазваме текущо избраните стойности преди смяната на езика (safely)
+  const savedValues = {};
   
-  // Обновяваме активния бутон
+  // Safely get values from elements that might not exist
+  const techSelectEl = document.getElementById('techSelect');
+  const transistorSelectEl = document.getElementById('transistorSelect');
+  const vdcEl = document.getElementById('vdc');
+  const iLoadEl = document.getElementById('iLoad');
+  const fswEl = document.getElementById('fsw');
+  const tempEl = document.getElementById('temp');
+  const dutyEl = document.getElementById('duty');
+  const freqMinEl = document.getElementById('freqMin');
+  const freqMaxEl = document.getElementById('freqMax');
+  
+  if (techSelectEl) savedValues.techSelect = techSelectEl.value;
+  if (transistorSelectEl) savedValues.transistorSelect = transistorSelectEl.value;
+  if (vdcEl) savedValues.vdc = vdcEl.value;
+  if (iLoadEl) savedValues.iLoad = iLoadEl.value;
+  if (fswEl) savedValues.fsw = fswEl.value;
+  if (tempEl) savedValues.temp = tempEl.value;
+  if (dutyEl) savedValues.duty = dutyEl.value;
+  if (freqMinEl) savedValues.freqMin = freqMinEl.value;
+  if (freqMaxEl) savedValues.freqMax = freqMaxEl.value;
+  savedValues.selectedTransistor = selectedTransistor; // Запазваме и глобалната променлива
+  
+  // Обновяваме активния бутон (само ако съществува)
   document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
-  document.getElementById('lang' + lang.toUpperCase()).classList.add('active');
+  const langBtn = document.getElementById('lang' + lang.toUpperCase());
+  if (langBtn && langBtn.classList) {
+    langBtn.classList.add('active');
+  }
   
   // Обновяваме текстовете
   const langData = LANGUAGES[lang];
@@ -1355,20 +1369,20 @@ function switchLanguage(lang) {
     // Обновяваме транзисторния select но запазваме стойностите
     populateTransistors();
     
-    // Възстановяваме всички запазени стойности след филтрирането
+    // Възстановяваме всички запазени стойности след филтрирането (safely)
     setTimeout(() => {
-      document.getElementById('techSelect').value = savedValues.techSelect;
-      document.getElementById('vdc').value = savedValues.vdc;
-      document.getElementById('iLoad').value = savedValues.iLoad;
-      document.getElementById('fsw').value = savedValues.fsw;
-      document.getElementById('temp').value = savedValues.temp;
-      document.getElementById('duty').value = savedValues.duty;
-      document.getElementById('freqMin').value = savedValues.freqMin;
-      document.getElementById('freqMax').value = savedValues.freqMax;
+      if (techSelectEl && savedValues.techSelect) techSelectEl.value = savedValues.techSelect;
+      if (vdcEl && savedValues.vdc) vdcEl.value = savedValues.vdc;
+      if (iLoadEl && savedValues.iLoad) iLoadEl.value = savedValues.iLoad;
+      if (fswEl && savedValues.fsw) fswEl.value = savedValues.fsw;
+      if (tempEl && savedValues.temp) tempEl.value = savedValues.temp;
+      if (dutyEl && savedValues.duty) dutyEl.value = savedValues.duty;
+      if (freqMinEl && savedValues.freqMin) freqMinEl.value = savedValues.freqMin;
+      if (freqMaxEl && savedValues.freqMax) freqMaxEl.value = savedValues.freqMax;
       
       // Възстановяваме избрания транзистор
-      if (savedValues.transistorSelect) {
-        document.getElementById('transistorSelect').value = savedValues.transistorSelect;
+      if (savedValues.transistorSelect && transistorSelectEl) {
+        transistorSelectEl.value = savedValues.transistorSelect;
         selectedTransistor = savedValues.selectedTransistor;
         
         // Ако има избран транзистор, показваме информацията за него
@@ -1727,12 +1741,19 @@ function showEfficiencyInsights(frequencies, efficiencies, techType) {
 
 // Функция за добавяне на click listeners за термините
 function addTermClickListeners() {
-  document.querySelectorAll('.clickable-term').forEach(term => {
-    term.addEventListener('click', function() {
-      const termKey = this.getAttribute('data-term');
-      showTermExplanation(termKey);
+  const clickableTerms = document.querySelectorAll('.clickable-term');
+  if (clickableTerms) {
+    clickableTerms.forEach(term => {
+      if (term) {
+        term.addEventListener('click', function() {
+          const termKey = this.getAttribute('data-term');
+          if (termKey) {
+            showTermExplanation(termKey);
+          }
+        });
+      }
     });
-  });
+  }
 }
 
 // Функция за показване на обяснението на термин
@@ -2803,6 +2824,8 @@ document.addEventListener('DOMContentLoaded', function() {
     langEN.addEventListener('click', () => switchLanguage('en'));
   }
   
-  // Задаваме първоначален език
-  switchLanguage('bg');
+  // Задаваме първоначален език (само ако има language бутони)
+  if (langBG || langEN) {
+    switchLanguage('bg');
+  }
 });

@@ -6,30 +6,130 @@
 
 {% block page_description %}Изчислете загуби, ефективност и изберете подходящ Si/SiC/GaN транзистор за вашето приложение.{% endblock %}
 
-{% block content %}
-<section class="calculator-content">
-    <div class="controls">
-        <h2>📊 Въведи параметри</h2>
-        <p>Тук ще бъде основният калкулатор интерфейс...</p>
-        <!-- Calculator content will be moved here from index.html -->
-        
-        <div class="educational-info">
-            <h3>Как да използвате калкулатора:</h3>
-            <ul>
-                <li>Изберете технология: Si за стандартни приложения, SiC за висока ефективност, GaN за високи честоти</li>
-                <li>Въведете параметри на приложението: напрежение, ток, честота</li>
-                <li>Прегледайте резултатите и препоръките за оптимизация</li>
-            </ul>
-        </div>
-    </div>
+{% block extra_head %}
+<!-- Chart.js за графики -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% endblock %}
 
-    <div class="results">
-        <h2>📋 Резултати</h2>
-        <p>Резултатите от изчисленията ще се появят тук след като въведете параметрите и натиснете "Изчисли".</p>
-        
-        <div id="calculationResults" class="calculation-results">
-            <!-- Results will be populated by JavaScript -->
-        </div>
-    </div>
+{% block content %}
+<section class="controls">
+  <h2 data-lang="inputParams">Въведи параметри</h2>
+  <div class="row">
+    <label class="input-group">
+      <span data-lang="technology">Технология</span>
+      <span class="tooltip-icon">?</span>
+      <div class="tooltip">Изберете тип полупроводник: Si (силиций) за стандартни приложения, SiC (силициев карбид) за висока ефективност и температура, GaN (галиев нитрид) за високочестотни приложения.</div>
+      <select id="techSelect">
+        <option value="Si">Si MOSFET / IGBT</option>
+        <option value="SiC" selected>SiC MOSFET</option>
+        <option value="GaN">GaN HEMT</option>
+      </select>
+    </label>
+
+    <label class="input-group">
+      <span data-lang="concreteModel">Конкретен модел</span>
+      <span class="tooltip-icon">?</span>
+      <div class="tooltip">Изберете или въведете модел на транзистор. Можете да копирате име от datasheet и да го поставите директно тук. За ръчно въведени модели ще се използват типични параметри за избраната технология.</div>
+      <input id="transistorSelect" type="text" list="transistorList" placeholder="Въведете или изберете модел..." autocomplete="off" data-lang-placeholder="selectTransistor">
+      <datalist id="transistorList">
+        <!-- Опциите ще се попълнят динамично -->
+      </datalist>
+    </label>
+  </div>
+
+  <div class="row">
+    <label class="input-group">
+      <span>V<sub>DC</sub> напрежение (V)</span>
+      <span class="tooltip-icon">?</span>
+      <div class="tooltip">DC напрежение на шината (Bus voltage). Това е напрежението, което транзисторът превключва. Трябва да е по-малко от VDS_max на избрания транзистор.</div>
+      <input id="vdc" type="number" value="400">
+    </label>
+
+    <label class="input-group">
+      <span>I<sub>load</sub> ток (A)</span>
+      <span class="tooltip-icon">?</span>
+      <div class="tooltip">RMS ток през товара. Това е ефективната стойност на тока, който преминава през транзистора по време на проводимост.</div>
+      <input id="iLoad" type="number" value="30">
+    </label>
+  </div>
+
+  <div class="row">
+    <label class="input-group">
+      <span>f<sub>sw</sub> честота (kHz)</span>
+      <span class="tooltip-icon">?</span>
+      <div class="tooltip">Честота на превключване. По-високата честота намалява размера на компонентите, но увеличава загубите от превключване. Типични стойности: Si (10-50kHz), SiC (50-200kHz), GaN (100kHz-1MHz).</div>
+      <input id="fsw" type="number" value="100">
+    </label>
+
+    <label class="input-group">
+      <span>T<sub>j</sub> температура (°C)</span>
+      <span class="tooltip-icon">?</span>
+      <div class="tooltip">Температура на p-n съединението (Junction temperature). Влияе на съпротивлението RDS(on). Типични стойности: 25°C (стайна), 100°C (работна), 150°C (максимална).</div>
+      <input id="temp" type="number" value="25">
+    </label>
+  </div>
+
+  <div class="row">
+    <label class="input-group">
+      <span>Duty коефициент запълване</span>
+      <span class="tooltip-icon">?</span>
+      <div class="tooltip">Коефициент на запълване (Duty cycle) - отношението между времето ON и периода. 0.5 означава 50% от времето транзисторът е включен. Влияе на загубите от проводимост.</div>
+      <input id="duty" type="number" value="0.5" step="0.01" min="0.01" max="0.99">
+    </label>
+  </div>
+
+  <div class="button-row">
+    <button id="calcBtn" data-lang="calculate">Изчисли</button>
+    <button id="suggestBtn" disabled data-lang="suggestOptimal">Предложи оптимални параметри</button>
+    <button id="resetBtn" data-lang="reset">Възстанови стойности</button>
+  </div>
 </section>
+
+<section class="results">
+  <h2 data-lang="transistorInfo">Информация за транзистора</h2>
+  <div id="transistorInfo" class="transistor-info" style="display: none;">
+    <table>
+      <tr><td data-lang="model">Модел</td><td id="modelName">—</td></tr>
+      <tr><td data-lang="manufacturer">Производител</td><td id="manufacturer">—</td></tr>
+      <tr><td data-lang="package">Корпус</td><td id="package">—</td></tr>
+      <tr><td>V<sub>DS max</sub></td><td id="vdsMax">—</td></tr>
+      <tr><td>I<sub>D max</sub></td><td id="idMax">—</td></tr>
+      <tr><td>R<sub>DS(on)</sub></td><td id="rdsOn">—</td></tr>
+      <tr><td data-lang="applications">Приложения</td><td id="application">—</td></tr>
+    </table>
+    <div id="parameterSuggestions"></div>
+  </div>
+
+  <div class="educational-info">
+    <h3 data-lang="howToChoose">Как да избера подходящ транзистор?</h3>
+    <p><strong>1. Напрежение:</strong> Изберете VDS_max поне 1.5-2x по-голямо от работното напрежение за марж за безопасност.</p>
+    <p><strong>2. Ток:</strong> ID_max трябва да е по-голям от RMS тока с отчитане на термичните ограничения.</p>
+    <p><strong>3. Честота:</strong> За високи честоти избирайте SiC/GaN с малки времена за превключване.</p>
+    <p><strong>4. Ефективност:</strong> За висока ефективност търсете ниско RDS(on) и бързо превключване.</p>
+  </div>
+
+  <h2 data-lang="results">Резултати</h2>
+  <table>
+    <tr><td data-lang="conductionLosses">Conduction losses</td><td id="pCond">—</td></tr>
+    <tr><td data-lang="switchingLosses">Switching losses</td><td id="pSw">—</td></tr>
+    <tr><td data-lang="totalLosses">Total losses</td><td id="pTotal">—</td></tr>
+    <tr><td data-lang="efficiency">КПД</td><td id="efficiency">—</td></tr>
+  </table>
+
+  <canvas id="lossChart"></canvas>
+  <button id="copyLossChart" class="copy-chart-btn" data-lang="copyChart">📋 Копирай графика</button>
+
+  <div class="explanation">
+    <h2 data-lang="formulasTitle">Формули и обяснение</h2>
+    <div id="explainText"></div>
+  </div>
+</section>
+
+<!-- Overlay и modal за обяснения -->
+<div class="overlay" id="overlay"></div>
+<div class="term-explanation" id="termExplanation">
+  <button class="close-btn" onclick="closeTermExplanation()">×</button>
+  <h3 id="termTitle"></h3>
+  <div id="termContent"></div>
+</div>
 {% endblock %}
