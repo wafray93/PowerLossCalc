@@ -287,6 +287,30 @@ MathJax = {
 
 {% block content %}
 <section class="theory-content">
+    <!-- Selected Transistor Integration -->
+    <div class="selected-transistor-theory" id="selectedTransistorTheory" style="display: none;">
+        <div class="theory-transistor-header">
+            <h3>🎯 <span data-lang="theoryForSelectedTransistor">Теория за избрания транзистор</span></h3>
+            <div class="transistor-theory-info">
+                <span id="theoryTransistorName">-</span> • 
+                <span id="theoryTransistorTech">-</span> • 
+                RDS(on) = <span id="theoryTransistorRds">-</span> mΩ
+            </div>
+            <button id="goToCalculatorFromTheory" class="btn-primary">
+                📊 <span data-lang="goToCalculator">Отиди в калкулатора</span>
+            </button>
+        </div>
+    </div>
+    
+    <div class="no-transistor-theory-warning" id="noTransistorTheoryWarning">
+        <div class="theory-warning-content">
+            ⚠️ <span data-lang="noTransistorForFormulas">За конкретни стойности в формулите, изберете транзистор от калкулатора.</span>
+            <button id="selectTransistorFromTheory" class="btn-secondary">
+                🧮 <span data-lang="selectTransistor">Избери транзистор</span>
+            </button>
+        </div>
+    </div>
+    
     <div class="theory">
         <h2>
             <span class="lang-bg">📖 Физика на полупроводниците и формули</span>
@@ -332,8 +356,11 @@ MathJax = {
                     <span class="lang-bg">Основна формула за загуби от проводимост:</span>
                     <span class="lang-en" style="display: none;">Basic Conduction Loss Formula:</span>
                 </h4>
-                <div class="formula-latex">
+                <div class="formula-latex" id="conductionFormulaGeneric">
                     $$P_{cond} = I_{RMS}^2 \times R_{DS(on)} \times D$$
+                </div>
+                <div class="formula-latex" id="conductionFormulaSpecific" style="display: none;">
+                    $$P_{cond} = I_{RMS}^2 \times <span class="formula-value">R_{DS}</span> \times D$$
                 </div>
             </div>
             

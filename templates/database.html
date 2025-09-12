@@ -8,6 +8,51 @@
 
 {% block content %}
 <section class="database-content">
+    <!-- Selected Transistor Info -->
+    <div class="selected-transistor-info" id="selectedTransistorInfo" style="display: none;">
+        <div class="selected-info-header">
+            <h3>🎯 <span data-lang="selectedTransistorTitle">Избран транзистор</span></h3>
+            <button id="goToCalculator" class="btn-primary">
+                📊 <span data-lang="goToCalculator">Отиди в калкулатора</span>
+            </button>
+        </div>
+        <div class="selected-info-details">
+            <div class="detail-item">
+                <span class="detail-label" data-lang="model">Модел:</span>
+                <span id="selectedModelInfo">-</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label" data-lang="manufacturer">Производител:</span>
+                <span id="selectedManufacturerInfo">-</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">VDS max:</span>
+                <span id="selectedVdsInfo">-</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">ID max:</span>
+                <span id="selectedIdInfo">-</span>
+            </div>
+            <div class="detail-item">
+                <span class="detail-label">RDS(on):</span>
+                <span id="selectedRdsInfo">-</span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="no-transistor-warning" id="noTransistorWarning">
+        <div class="warning-content">
+            <div class="warning-icon">⚠️</div>
+            <div class="warning-text">
+                <h3 data-lang="noTransistorSelected">Няма избран транзистор</h3>
+                <p data-lang="selectFromCalculator">Изберете транзистор от калкулатора за подробна информация и анализ.</p>
+                <button id="goToCalculatorFromWarning" class="btn-primary">
+                    🧮 <span data-lang="goToCalculator">Отиди в калкулатора</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- Search and Filter Controls -->
     <div class="controls">
         <h2 data-lang="databaseTitle">📚 База данни с транзистори</h2>

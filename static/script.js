@@ -41,6 +41,18 @@ const LANGUAGES = {
     frequencyRange: 'Честотен обхват',
     generateChart: 'Генерирай графика',
     
+    // Selected Transistor Integration
+    selectedTransistorTitle: 'Избран транзистор',
+    noTransistorSelected: 'Няма избран транзистор',
+    selectFromCalculator: 'Изберете транзистор от калкулатора за подробна информация и анализ.',
+    goToCalculator: 'Отиди в калкулатора',
+    theoryForSelectedTransistor: 'Теория за избрания транзистор',
+    noTransistorForFormulas: 'За конкретни стойности в формулите, изберете транзистор от калкулатора.',
+    selectTransistor: 'Избери транзистор',
+    toolsForSelectedTransistor: 'Инструменти за избрания транзистор',
+    noTransistorForTools: 'За конкретни изчисления, изберете транзистор от калкулатора.',
+    usingSelectedTransistor: 'Използва избрания транзистор:',
+    
     // Секция с теория и формули
     theoryTitle: '📚 Теория и основни формули',
     theoryDescription: 'Разберете физическите основи на полупроводниковите загуби и формулите зад изчисленията.',
@@ -169,7 +181,13 @@ const LANGUAGES = {
     importSettings: 'Импортирай настройки',
     aboutApp: 'За приложението',
     versionInfo: 'Информация за версията',
-    technicalSupport: 'Техническа поддръжка'
+    technicalSupport: 'Техническа поддръжка',
+    
+    // Analysis tab specific translations
+    noTransistorSelected: '⚠️ Няма избран транзистор от Calculator. Използва се fallback модел за анализ.',
+    goToCalculator: 'Отиди до Calculator',
+    analysisTransistorTitle: 'Използван транзистор за анализ',
+    fallbackTransistorNote: 'Използва се fallback транзистор'
   },
   en: {
     mainTitle: 'Calculator: Si / SiC / GaN Transistors',
@@ -340,7 +358,13 @@ const LANGUAGES = {
     importSettings: 'Import Settings',
     aboutApp: 'About Application',
     versionInfo: 'Version Information',
-    technicalSupport: 'Technical Support'
+    technicalSupport: 'Technical Support',
+    
+    // Analysis tab specific translations
+    noTransistorSelected: '⚠️ No transistor selected from Calculator. Using fallback model for analysis.',
+    goToCalculator: 'Go to Calculator',
+    analysisTransistorTitle: 'Transistor Used for Analysis',
+    fallbackTransistorNote: 'Using fallback transistor'
   }
 };
 
@@ -920,8 +944,172 @@ let ctx = null;
 let chart = null;
 let selectedTransistor = null;
 
+// Функции за интеграция на selectedTransistor
+function updateSelectedTransistorInfo() {
+    if (selectedTransistor) {
+        // Database tab
+        const dbInfo = document.getElementById('selectedTransistorInfo');
+        const dbWarning = document.getElementById('noTransistorWarning');
+        if (dbInfo) {
+            dbInfo.style.display = 'block';
+            document.getElementById('selectedModelInfo').textContent = selectedTransistor.name || '-';
+            document.getElementById('selectedManufacturerInfo').textContent = selectedTransistor.manufacturer || '-';
+            document.getElementById('selectedVdsInfo').textContent = (selectedTransistor.vds_max || '-') + ' V';
+            document.getElementById('selectedIdInfo').textContent = (selectedTransistor.id_max || '-') + ' A';
+            document.getElementById('selectedRdsInfo').textContent = (selectedTransistor.rds_mohm || '-') + ' mΩ';
+        }
+        if (dbWarning) dbWarning.style.display = 'none';
+        
+        // Theory tab
+        const theoryInfo = document.getElementById('selectedTransistorTheory');
+        const theoryWarning = document.getElementById('noTransistorTheoryWarning');
+        if (theoryInfo) {
+            theoryInfo.style.display = 'block';
+            document.getElementById('theoryTransistorName').textContent = selectedTransistor.name || '-';
+            document.getElementById('theoryTransistorTech').textContent = getTransistorTechnology(selectedTransistor.name) || '-';
+            document.getElementById('theoryTransistorRds').textContent = selectedTransistor.rds_mohm || '-';
+        }
+        if (theoryWarning) theoryWarning.style.display = 'none';
+        
+        // Tools tab
+        const toolsInfo = document.getElementById('selectedTransistorTools');
+        const toolsWarning = document.getElementById('noTransistorToolsWarning');
+        if (toolsInfo) {
+            toolsInfo.style.display = 'block';
+            document.getElementById('toolsTransistorName').textContent = selectedTransistor.name || '-';
+            document.getElementById('toolsTransistorVds').textContent = selectedTransistor.vds_max || '-';
+            document.getElementById('toolsTransistorRds').textContent = selectedTransistor.rds_mohm || '-';
+        }
+        if (toolsWarning) toolsWarning.style.display = 'none';
+        
+        // Update parameter calculator hints
+        updateParameterCalculatorHints();
+        
+        // Update theory formulas
+        updateTheoryFormulas();
+        
+        // Highlight in database table
+        highlightSelectedTransistorInTable();
+    } else {
+        // Hide info sections, show warnings
+        const dbInfo = document.getElementById('selectedTransistorInfo');
+        const dbWarning = document.getElementById('noTransistorWarning');
+        if (dbInfo) dbInfo.style.display = 'none';
+        if (dbWarning) dbWarning.style.display = 'block';
+        
+        const theoryInfo = document.getElementById('selectedTransistorTheory');
+        const theoryWarning = document.getElementById('noTransistorTheoryWarning');
+        if (theoryInfo) theoryInfo.style.display = 'none';
+        if (theoryWarning) theoryWarning.style.display = 'block';
+        
+        const toolsInfo = document.getElementById('selectedTransistorTools');
+        const toolsWarning = document.getElementById('noTransistorToolsWarning');
+        if (toolsInfo) toolsInfo.style.display = 'none';
+        if (toolsWarning) toolsWarning.style.display = 'block';
+    }
+}
+
+function getTransistorTechnology(name) {
+    if (!name) return '';
+    if (name.includes('SiC')) return 'SiC';
+    if (name.includes('GaN')) return 'GaN';
+    return 'Si';
+}
+
+function updateParameterCalculatorHints() {
+    if (selectedTransistor) {
+        const integration = document.getElementById('transistorIntegration');
+        const voltageHint = document.getElementById('voltageHint');
+        const currentHint = document.getElementById('currentHint');
+        
+        if (integration) {
+            integration.style.display = 'block';
+            document.getElementById('integrationTransistorName').textContent = selectedTransistor.name;
+            document.getElementById('integrationVds').textContent = selectedTransistor.vds_max;
+            document.getElementById('integrationRds').textContent = selectedTransistor.rds_mohm;
+        }
+        
+        if (voltageHint) {
+            voltageHint.style.display = 'block';
+            document.getElementById('safeVoltage').textContent = Math.floor(selectedTransistor.vds_max * 0.6);
+        }
+        
+        if (currentHint) {
+            currentHint.style.display = 'block';
+            document.getElementById('safeCurrent').textContent = Math.floor(selectedTransistor.id_max * 0.7);
+        }
+    }
+}
+
+function updateTheoryFormulas() {
+    if (selectedTransistor && typeof MathJax !== 'undefined') {
+        const generic = document.getElementById('conductionFormulaGeneric');
+        const specific = document.getElementById('conductionFormulaSpecific');
+        
+        if (generic && specific) {
+            generic.style.display = 'none';
+            specific.style.display = 'block';
+            specific.querySelector('.formula-value').textContent = (selectedTransistor.rds_mohm / 1000).toFixed(4) + 'Ω';
+            
+            // Re-render MathJax for the specific formula
+            if (MathJax.typesetPromise) {
+                MathJax.typesetPromise([specific]).then(() => {
+                    console.log('MathJax formula updated with transistor values');
+                }).catch((err) => console.log('MathJax error:', err));
+            }
+        }
+    }
+}
+
+function highlightSelectedTransistorInTable() {
+    if (selectedTransistor) {
+        const tableRows = document.querySelectorAll('#transistorTableBody tr');
+        tableRows.forEach(row => {
+            const modelCell = row.querySelector('.model-cell');
+            if (modelCell && modelCell.textContent === selectedTransistor.name) {
+                row.classList.add('selected-transistor-row');
+                // Auto-scroll to the row
+                setTimeout(() => {
+                    row.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                }, 500);
+            } else {
+                row.classList.remove('selected-transistor-row');
+            }
+        });
+    }
+}
+
+// Setup event listeners for selectedTransistor integration
+function setupSelectedTransistorIntegration() {
+  // "Go to Calculator" buttons
+  document.addEventListener('click', function(e) {
+    if (e.target.id === 'goToCalculator' || 
+        e.target.id === 'goToCalculatorFromWarning' || 
+        e.target.id === 'goToCalculatorFromTheory' || 
+        e.target.id === 'goToCalculatorFromTools' ||
+        e.target.closest('#goToCalculator') ||
+        e.target.closest('#goToCalculatorFromWarning') ||
+        e.target.closest('#goToCalculatorFromTheory') ||
+        e.target.closest('#goToCalculatorFromTools')) {
+      window.location.href = '/calculator';
+    }
+    
+    if (e.target.id === 'selectTransistorFromTheory' ||
+        e.target.id === 'selectTransistorFromTools' ||
+        e.target.closest('#selectTransistorFromTheory') ||
+        e.target.closest('#selectTransistorFromTools')) {
+      window.location.href = '/calculator';
+    }
+  });
+}
+
 // Initialize chart context only if the canvas element exists
 document.addEventListener('DOMContentLoaded', function() {
+  // Set up selected transistor integration event listeners
+  setupSelectedTransistorIntegration();
+  
+  // Update selected transistor info on page load
+  updateSelectedTransistorInfo();
   const lossChartElement = document.getElementById('lossChart');
   if (lossChartElement) {
     ctx = lossChartElement.getContext('2d');
@@ -975,6 +1163,8 @@ function showTransistorInfo(transistorKey) {
       transistorInfo.style.display = 'none';
     }
     selectedTransistor = null;
+    updateAnalysisTransistorDisplay(); // Update analysis display
+    updateSelectedTransistorInfo(); // Update all tab integrations
     return;
   }
   
@@ -984,6 +1174,8 @@ function showTransistorInfo(transistorKey) {
   if (transistor) {
     // Модел от базата данни
     selectedTransistor = transistor;
+    updateAnalysisTransistorDisplay(); // Update analysis display
+    updateSelectedTransistorInfo(); // Update all tab integrations
     
     const modelName = document.getElementById('modelName');
     const manufacturer = document.getElementById('manufacturer');
@@ -1036,6 +1228,8 @@ function showTransistorInfo(transistorKey) {
     
     // Генерираме предложения с типични параметри
     generateParameterSuggestions(selectedTransistor);
+    updateSelectedTransistorInfo(); // Update all tab integrations after custom transistor creation
+    updateAnalysisTransistorDisplay(); // Update analysis display
     
     if (transistorInfo) {
       transistorInfo.style.display = 'block';
@@ -1628,6 +1822,7 @@ function switchLanguage(lang, button) {
       if (savedValues.transistorSelect && transistorSelectEl) {
         transistorSelectEl.value = savedValues.transistorSelect;
         selectedTransistor = savedValues.selectedTransistor;
+        updateSelectedTransistorInfo(); // Update all tab integrations
         
         // Ако има избран транзистор, показваме информацията за него
         if (selectedTransistor) {
@@ -1795,11 +1990,28 @@ function calculateAdvancedConductionLosses(id, rds_on_25c, duty, temp, technolog
 
 // Функция за генериране на efficiency vs frequency график
 function generateEfficiencyChart() {
+  // Update the Analysis tab transistor display first
+  updateAnalysisTransistorDisplay();
+  
   // Use selected transistor or fallback to a default one
   let transistor = selectedTransistor;
+  let usingFallback = false;
+  
   if (!transistor) {
     // Use a default transistor for analysis
     transistor = TRANSISTOR_DB.Si["IRFP260N"];
+    usingFallback = true;
+    
+    // Show notification about using fallback
+    const message = currentLang === 'bg' ? 
+      'Използва се fallback транзистор IRFP260N. За точен анализ изберете транзистор от Calculator.' : 
+      'Using fallback transistor IRFP260N. For accurate analysis, select transistor from Calculator.';
+    
+    const efficiencyInsights = document.getElementById('efficiencyInsights');
+    if (efficiencyInsights) {
+      efficiencyInsights.innerHTML = `<div class="fallback-warning">⚠️ ${message}</div>`;
+      efficiencyInsights.style.display = 'block';
+    }
   }
   
   const freqMin = parseFloat(document.getElementById('freqMin').value) || 1;
@@ -2753,10 +2965,32 @@ function getTechnologyPhysicsExplanationEn(techType) {
 
 // Thermal modeling function
 function calculateThermalParameters() {
-  if (!selectedTransistor) {
-    const message = currentLang === 'bg' ? 'Моля, първо изберете транзистор!' : 'Please select a transistor first!';
-    alert(message);
-    return;
+  // Update the Analysis tab transistor display first
+  updateAnalysisTransistorDisplay();
+  
+  let transistor = selectedTransistor;
+  let usingFallback = false;
+  
+  if (!transistor) {
+    // Use fallback transistor for thermal analysis
+    transistor = TRANSISTOR_DB.Si["IRFP260N"];
+    usingFallback = true;
+    
+    const message = currentLang === 'bg' ? 
+      'Използва се fallback транзистор IRFP260N за термичен анализ. За точни резултати изберете транзистор от Calculator.' : 
+      'Using fallback transistor IRFP260N for thermal analysis. For accurate results, select transistor from Calculator.';
+    
+    // Show warning in thermal results
+    const thermalResults = document.getElementById('thermalResults');
+    if (thermalResults) {
+      const existingWarning = thermalResults.querySelector('.fallback-thermal-warning');
+      if (!existingWarning) {
+        const warningDiv = document.createElement('div');
+        warningDiv.className = 'fallback-thermal-warning';
+        warningDiv.innerHTML = `⚠️ ${message}`;
+        thermalResults.insertBefore(warningDiv, thermalResults.firstChild);
+      }
+    }
   }
   
   const ambientTemp = parseFloat(document.getElementById('ambientTemp').value);
@@ -2780,26 +3014,26 @@ function calculateThermalParameters() {
   }
   
   // Calculate losses with current parameters
-  const rds_on_ohms = selectedTransistor.rds_mohm / 1000; // Convert milliohm to ohm
+  const rds_on_ohms = transistor.rds_mohm / 1000; // Convert milliohm to ohm
   const pCond = calculateAdvancedConductionLosses(iLoad, rds_on_ohms, duty, temp, techType);
   const pSw = calculateAdvancedSwitchingLosses(vdc, iLoad, fsw, temp, techType);
   const totalLosses = pCond + pSw;
   
   // Thermal resistances - точни datasheet стойности според корпуса
   let rth_jc; // Junction-to-case (точни стойности от производители)
-  if (selectedTransistor.package.includes('TO-220')) {
+  if (transistor.package.includes('TO-220')) {
     rth_jc = 0.5; // TO-220: 0.5 K/W (Infineon, Wolfspeed datasheet)
-  } else if (selectedTransistor.package.includes('D2PAK')) {
+  } else if (transistor.package.includes('D2PAK')) {
     rth_jc = 1.0; // D2PAK: 1.0 K/W (STMicroelectronics datasheet)
-  } else if (selectedTransistor.package.includes('DPAK')) {
+  } else if (transistor.package.includes('DPAK')) {
     rth_jc = 2.5; // DPAK: 2.5 K/W (typical SMD package)
-  } else if (selectedTransistor.package.includes('SO8') || selectedTransistor.package.includes('SO-8')) {
+  } else if (transistor.package.includes('SO8') || transistor.package.includes('SO-8')) {
     rth_jc = 20; // SO8: 20 K/W (GaN Systems datasheet)
-  } else if (selectedTransistor.package.includes('QFN')) {
+  } else if (transistor.package.includes('QFN')) {
     rth_jc = 15; // QFN: 15 K/W (EPC datasheet)
-  } else if (selectedTransistor.package.includes('TO-247')) {
+  } else if (transistor.package.includes('TO-247')) {
     rth_jc = 0.24; // TO-247: 0.24 K/W (Wolfspeed datasheet)
-  } else if (selectedTransistor.package.includes('TO-263')) {
+  } else if (transistor.package.includes('TO-263')) {
     rth_jc = 1.5; // TO-263: 1.5 K/W (Rohm datasheet)
   } else {
     rth_jc = 1.5; // Консервативна стойност за неизвестни корпуси
@@ -2872,9 +3106,10 @@ function calculateThermalParameters() {
   thermalStatusDiv.style.display = 'block';
   
   // Добави научно обяснение с точни источници
+  const transistorModel = usingFallback ? 'IRFP260N (fallback)' : transistor.name;
   const scientificInfo = currentLang === 'bg' ? 
-    `\n\nТочни изчисления (datasheet стойности):\n• Общи загуби: ${totalLosses.toFixed(3)}W\n• Загуби от проводимост: ${pCond.toFixed(3)}W (P = I²×RDS(on)×D)\n• Загуби от превключване: ${pSw.toFixed(3)}W (физични формули за gate charge)\n• Rth(j-c): ${rth_jc.toFixed(2)}K/W (${selectedTransistor.package} - производител datasheet)\n• Rth(c-a): ${rth_ca.toFixed(2)}K/W (проверени измервания)\n• Tj,max ${techType}: ${maxJunctionTemp}°C (semiconductor physics)\n\nТочна формула: Tj = Ta + P×Rth(j-a)\n${junctionTemp.toFixed(1)}°C = ${ambientTemp}°C + ${totalLosses.toFixed(2)}W × ${rth_ja.toFixed(2)}K/W` :
-    `\n\nExact calculations (datasheet values):\n• Total losses: ${totalLosses.toFixed(3)}W\n• Conduction losses: ${pCond.toFixed(3)}W (P = I²×RDS(on)×D)\n• Switching losses: ${pSw.toFixed(3)}W (physics-based gate charge formulas)\n• Rth(j-c): ${rth_jc.toFixed(2)}K/W (${selectedTransistor.package} - manufacturer datasheet)\n• Rth(c-a): ${rth_ca.toFixed(2)}K/W (verified measurements)\n• Tj,max ${techType}: ${maxJunctionTemp}°C (semiconductor physics)\n\nExact formula: Tj = Ta + P×Rth(j-a)\n${junctionTemp.toFixed(1)}°C = ${ambientTemp}°C + ${totalLosses.toFixed(2)}W × ${rth_ja.toFixed(2)}K/W`;
+    `\n\nТочни изчисления (datasheet стойности):\n• Транзистор: ${transistorModel}\n• Общи загуби: ${totalLosses.toFixed(3)}W\n• Загуби от проводимост: ${pCond.toFixed(3)}W (P = I²×RDS(on)×D)\n• Загуби от превключване: ${pSw.toFixed(3)}W (физични формули за gate charge)\n• Rth(j-c): ${rth_jc.toFixed(2)}K/W (${transistor.package} - производител datasheet)\n• Rth(c-a): ${rth_ca.toFixed(2)}K/W (проверени измервания)\n• Tj,max ${techType}: ${maxJunctionTemp}°C (semiconductor physics)\n\nТочна формула: Tj = Ta + P×Rth(j-a)\n${junctionTemp.toFixed(1)}°C = ${ambientTemp}°C + ${totalLosses.toFixed(2)}W × ${rth_ja.toFixed(2)}K/W` :
+    `\n\nExact calculations (datasheet values):\n• Transistor: ${transistorModel}\n• Total losses: ${totalLosses.toFixed(3)}W\n• Conduction losses: ${pCond.toFixed(3)}W (P = I²×RDS(on)×D)\n• Switching losses: ${pSw.toFixed(3)}W (physics-based gate charge formulas)\n• Rth(j-c): ${rth_jc.toFixed(2)}K/W (${transistor.package} - manufacturer datasheet)\n• Rth(c-a): ${rth_ca.toFixed(2)}K/W (verified measurements)\n• Tj,max ${techType}: ${maxJunctionTemp}°C (semiconductor physics)\n\nExact formula: Tj = Ta + P×Rth(j-a)\n${junctionTemp.toFixed(1)}°C = ${ambientTemp}°C + ${totalLosses.toFixed(2)}W × ${rth_ja.toFixed(2)}K/W`;
   
   thermalExplanation.textContent = explanationText + scientificInfo;
   
@@ -3002,6 +3237,70 @@ if (suggestBtn) {
   });
 }
 
+// Function to update Analysis tab transistor info display
+function updateAnalysisTransistorDisplay() {
+  // Get the new Advanced tab display elements
+  const analysisDisplay = document.getElementById('analysisTransistorDisplay');
+  const noTransistorWarning = document.getElementById('noTransistorWarning');
+  
+  // Also support legacy elements if they exist
+  const analysisTransistorAlert = document.getElementById('analysisTransistorAlert');
+  const analysisTransistorData = document.getElementById('analysisTransistorData');
+  
+  if (selectedTransistor) {
+    // Show transistor data in Advanced tab
+    if (analysisDisplay) {
+      analysisDisplay.style.display = 'block';
+      
+      // Update Advanced tab transistor info
+      const analysisModelName = document.getElementById('analysisModelName');
+      const analysisManufacturer = document.getElementById('analysisManufacturer');
+      const analysisPackage = document.getElementById('analysisPackage');
+      const analysisVdsMax = document.getElementById('analysisVdsMax');
+      const analysisIdMax = document.getElementById('analysisIdMax');
+      const analysisRdsOn = document.getElementById('analysisRdsOn');
+      
+      if (analysisModelName) analysisModelName.textContent = selectedTransistor.name || '-';
+      if (analysisManufacturer) analysisManufacturer.textContent = selectedTransistor.manufacturer || '-';
+      if (analysisPackage) analysisPackage.textContent = selectedTransistor.package || '-';
+      if (analysisVdsMax) analysisVdsMax.textContent = (selectedTransistor.vds_max || '-') + ' V';
+      if (analysisIdMax) analysisIdMax.textContent = (selectedTransistor.id_max || '-') + ' A';
+      if (analysisRdsOn) analysisRdsOn.textContent = (selectedTransistor.rds_mohm || '-') + ' mΩ';
+    }
+    
+    if (noTransistorWarning) {
+      noTransistorWarning.style.display = 'none';
+    }
+    
+    // Legacy support for old Analysis tab
+    if (analysisTransistorAlert && analysisTransistorData) {
+      analysisTransistorAlert.style.display = 'none';
+      analysisTransistorData.style.display = 'block';
+    }
+    
+  } else {
+    // Show no transistor warning in Advanced tab
+    if (analysisDisplay) {
+      analysisDisplay.style.display = 'none';
+    }
+    
+    if (noTransistorWarning) {
+      noTransistorWarning.style.display = 'block';
+    }
+    
+    // Legacy support for old Analysis tab
+    if (analysisTransistorAlert && analysisTransistorData) {
+      analysisTransistorAlert.style.display = 'block';
+      analysisTransistorData.style.display = 'none';
+    }
+  }
+  
+  // Notify Advanced tab functions that transistor has changed
+  if (window.updateAdvancedTabFromSelectedTransistor) {
+    window.updateAdvancedTabFromSelectedTransistor(selectedTransistor);
+  }
+}
+
 // Event listeners за новите функции
 const generateEffChart = document.getElementById('generateEffChart');
 if (generateEffChart) {
@@ -3011,6 +3310,71 @@ if (generateEffChart) {
 const calculateThermalBtn = document.getElementById('calculateThermal');
 if (calculateThermalBtn) {
   calculateThermalBtn.addEventListener('click', calculateThermalParameters);
+}
+
+// Go to Calculator button functionality
+const goToCalculatorBtn = document.getElementById('goToCalculator');
+if (goToCalculatorBtn) {
+  goToCalculatorBtn.addEventListener('click', function() {
+    // Switch to Calculator tab
+    const calcTab = document.querySelector('[data-tab="calculator"]');
+    if (calcTab) {
+      calcTab.click();
+    }
+  });
+}
+
+// Tab switching detection and Analysis display update
+function initializeAnalysisTabSupport() {
+  // Update display when Analysis elements are visible
+  const observer = new MutationObserver(function(mutations) {
+    const analysisElements = document.getElementById('analysisTransistorInfo');
+    if (analysisElements && analysisElements.offsetParent !== null) {
+      // Analysis tab is visible, update display
+      updateAnalysisTransistorDisplay();
+    }
+  });
+  
+  // Observe the main content area for visibility changes
+  const mainContent = document.querySelector('.main-content') || document.body;
+  observer.observe(mainContent, {
+    childList: true,
+    subtree: true,
+    attributes: true,
+    attributeFilter: ['style', 'class']
+  });
+  
+  // Also update immediately if Analysis tab is already visible
+  setTimeout(() => {
+    updateAnalysisTransistorDisplay();
+  }, 500);
+  
+  // Listen for tab clicks that might switch to Analysis
+  document.addEventListener('click', function(e) {
+    const target = e.target;
+    if (target.matches('[data-tab="analysis"], .nav-link[href*="analysis"], a[href*="analysis"]')) {
+      // Analysis tab was clicked, update after a short delay
+      setTimeout(() => {
+        updateAnalysisTransistorDisplay();
+      }, 100);
+    }
+  });
+  
+  // Also update when page visibility changes
+  document.addEventListener('visibilitychange', function() {
+    if (!document.hidden) {
+      setTimeout(() => {
+        updateAnalysisTransistorDisplay();
+      }, 200);
+    }
+  });
+}
+
+// Initialize Analysis tab support when DOM is ready
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initializeAnalysisTabSupport);
+} else {
+  initializeAnalysisTabSupport();
 }
 
 // Advanced page event listeners

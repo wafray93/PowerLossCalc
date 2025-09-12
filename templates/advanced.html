@@ -180,10 +180,126 @@
     color: #7f8c8d;
     margin-left: 5px;
 }
+
+.transistor-display {
+    background: linear-gradient(145deg, #e8f4fd, #ffffff);
+    border: 2px solid #3498db;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 25px;
+    box-shadow: 0 4px 15px rgba(52, 152, 219, 0.15);
+}
+
+.transistor-display h3 {
+    color: #2c3e50;
+    margin-bottom: 15px;
+    font-size: 1.2em;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.transistor-display .transistor-info {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin: 15px 0;
+}
+
+.transistor-display .info-item {
+    background: white;
+    padding: 10px 12px;
+    border-radius: 6px;
+    border-left: 3px solid #3498db;
+    font-size: 0.9em;
+}
+
+.transistor-display .info-item strong {
+    color: #2c3e50;
+    display: block;
+    font-size: 0.8em;
+    margin-bottom: 2px;
+}
+
+.no-transistor-warning {
+    background: linear-gradient(145deg, #fff3cd, #ffeaa7);
+    border: 2px solid #f39c12;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 25px;
+    color: #856404;
+    text-align: center;
+}
+
+.no-transistor-warning .warning-title {
+    font-weight: 600;
+    font-size: 1.1em;
+    margin-bottom: 8px;
+}
+
+.go-to-calculator-btn {
+    background: linear-gradient(135deg, #f39c12, #e67e22);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    font-size: 0.9em;
+    font-weight: 500;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: all 0.3s ease;
+}
+
+.go-to-calculator-btn:hover {
+    background: linear-gradient(135deg, #e67e22, #d35400);
+    transform: translateY(-1px);
+}
 </style>
 {% endblock %}
 
 {% block content %}
+<!-- Transistor Information Display -->
+<div id="analysisTransistorDisplay" class="transistor-display" style="display: none;">
+    <h3>
+        <i class="fas fa-microchip"></i>
+        <span data-lang="analysisTransistorTitle">Използван транзистор за анализ</span>
+    </h3>
+    <div class="transistor-info">
+        <div class="info-item">
+            <strong data-lang="model">Модел:</strong>
+            <span id="analysisModelName">-</span>
+        </div>
+        <div class="info-item">
+            <strong data-lang="manufacturer">Производител:</strong>
+            <span id="analysisManufacturer">-</span>
+        </div>
+        <div class="info-item">
+            <strong data-lang="package">Корпус:</strong>
+            <span id="analysisPackage">-</span>
+        </div>
+        <div class="info-item">
+            <strong>VDS max:</strong>
+            <span id="analysisVdsMax">-</span>
+        </div>
+        <div class="info-item">
+            <strong>ID max:</strong>
+            <span id="analysisIdMax">-</span>
+        </div>
+        <div class="info-item">
+            <strong>RDS(on):</strong>
+            <span id="analysisRdsOn">-</span>
+        </div>
+    </div>
+</div>
+
+<!-- Warning for no transistor selected -->
+<div id="noTransistorWarning" class="no-transistor-warning" style="display: none;">
+    <div class="warning-title" data-lang="noTransistorSelected">⚠️ Няма избран транзистор от Calculator. Използва се fallback модел за анализ.</div>
+    <p><span data-lang="fallbackTransistorNote">Използва се fallback транзистор</span>: <strong>IRFP260N (Si MOSFET)</strong></p>
+    <button class="go-to-calculator-btn" onclick="showCalculatorTab()" data-lang="goToCalculator">Отиди до Calculator</button>
+</div>
+
 <div class="advanced-grid">
     <!-- Miller Capacitance Analysis -->
     <div class="analysis-section">
@@ -422,12 +538,98 @@
 // Глобални променливи за графиките
 let millerChart, deadTimeChart, thermalChart, soaChart, voltageSpikesChart, ringingChart;
 
+// Fallback transistor when no selectedTransistor available
+const FALLBACK_TRANSISTOR = {
+    name: "IRFP260N (Si MOSFET)",
+    vds_max: 200,
+    id_max: 50,
+    rds_mohm: 40,
+    tr_ns: 45,
+    tf_ns: 35,
+    alpha: 0.007,
+    package: "TO-247",
+    manufacturer: "International Rectifier",
+    application: "Fallback transistor for advanced analysis"
+};
+
+// Get current transistor for analysis
+function getCurrentTransistorForAnalysis() {
+    // Check if selectedTransistor is available from main script
+    if (window.selectedTransistor && window.selectedTransistor.name) {
+        updateAnalysisDisplay(true, window.selectedTransistor);
+        return window.selectedTransistor;
+    }
+    
+    // Use fallback
+    updateAnalysisDisplay(false, FALLBACK_TRANSISTOR);
+    return FALLBACK_TRANSISTOR;
+}
+
+// Update the analysis display based on transistor availability
+function updateAnalysisDisplay(hasSelectedTransistor, transistor) {
+    const analysisDisplay = document.getElementById('analysisTransistorDisplay');
+    const noTransistorWarning = document.getElementById('noTransistorWarning');
+    
+    if (hasSelectedTransistor) {
+        if (analysisDisplay) {
+            analysisDisplay.style.display = 'block';
+            // Update display elements
+            const modelName = document.getElementById('analysisModelName');
+            const manufacturer = document.getElementById('analysisManufacturer');
+            const pkg = document.getElementById('analysisPackage');
+            const vdsMax = document.getElementById('analysisVdsMax');
+            const idMax = document.getElementById('analysisIdMax');
+            const rdsOn = document.getElementById('analysisRdsOn');
+            
+            if (modelName) modelName.textContent = transistor.name || '-';
+            if (manufacturer) manufacturer.textContent = transistor.manufacturer || '-';
+            if (pkg) pkg.textContent = transistor.package || '-';
+            if (vdsMax) vdsMax.textContent = (transistor.vds_max || '-') + ' V';
+            if (idMax) idMax.textContent = (transistor.id_max || '-') + ' A';
+            if (rdsOn) rdsOn.textContent = (transistor.rds_mohm || '-') + ' mΩ';
+        }
+        if (noTransistorWarning) noTransistorWarning.style.display = 'none';
+    } else {
+        if (analysisDisplay) analysisDisplay.style.display = 'none';
+        if (noTransistorWarning) noTransistorWarning.style.display = 'block';
+    }
+}
+
+// Function to navigate to Calculator tab
+function showCalculatorTab() {
+    const calculatorTab = document.querySelector('[data-target="calculator"]');
+    if (calculatorTab) {
+        calculatorTab.click();
+    }
+}
+
 // Miller Capacitance анализ
 function calculateMillerEffect() {
-    const cgd = parseFloat(document.getElementById('cgd').value);
-    const cgs = parseFloat(document.getElementById('cgs').value);
-    const cds = parseFloat(document.getElementById('cds').value);
+    const transistor = getCurrentTransistorForAnalysis();
+    
+    // Use transistor-specific capacitances or input values
+    let cgd = parseFloat(document.getElementById('cgd').value);
+    let cgs = parseFloat(document.getElementById('cgs').value);
+    let cds = parseFloat(document.getElementById('cds').value);
     const vdr = parseFloat(document.getElementById('vdr').value);
+    
+    // Set realistic values based on transistor technology and size
+    if (transistor.name.includes('GaN')) {
+        // GaN transistors have much lower capacitances
+        cgd = Math.min(cgd, 20); // Typical GaN CGD: 5-20pF
+        cgs = Math.max(50, cgs * 0.3); // GaN CGS much lower
+        cds = Math.min(cds, 30);
+    } else if (transistor.name.includes('SiC')) {
+        // SiC transistors moderate capacitances
+        cgd = Math.min(cgd, 100); // SiC CGD typically lower
+        cgs = Math.max(cgs * 0.6, 200); // SiC CGS lower than Si
+    }
+    
+    // Adjust capacitances based on transistor current rating (larger = higher capacitance)
+    const sizeFactor = Math.sqrt(transistor.id_max / 30); // Normalize to ~30A reference
+    cgd *= sizeFactor;
+    cgs *= sizeFactor;
+    cds *= sizeFactor;
     
     // Miller multiplier calculation
     const millerMultiplier = 1 + cgd/cgs;
@@ -490,10 +692,27 @@ function calculateMillerEffect() {
 
 // Dead-time анализ
 function calculateDeadTime() {
+    const transistor = getCurrentTransistorForAnalysis();
+    
     const deadTime = parseFloat(document.getElementById('deadTime').value) * 1e-9; // Convert to seconds
     const outputCurrent = parseFloat(document.getElementById('outputCurrent').value);
-    const bodyDiodeVf = parseFloat(document.getElementById('bodyDiodeVf').value);
+    let bodyDiodeVf = parseFloat(document.getElementById('bodyDiodeVf').value);
     const switchingFreq = parseFloat(document.getElementById('switchingFreq').value) * 1000; // Convert to Hz
+    
+    // Adjust body diode Vf based on transistor technology
+    if (transistor.name.includes('SiC')) {
+        bodyDiodeVf = Math.max(bodyDiodeVf, 2.5); // SiC body diodes have higher Vf
+        document.getElementById('bodyDiodeVf').value = 3.2; // Update input to realistic SiC value
+    } else if (transistor.name.includes('GaN')) {
+        bodyDiodeVf = 5.0; // GaN typically doesn't have body diode, use external diode
+        document.getElementById('bodyDiodeVf').value = 5.0;
+    }
+    
+    // Scale dead-time recommendations based on switching speed
+    const recommendedDeadTime = transistor.tr_ns + transistor.tf_ns + 20; // Add safety margin
+    if (parseFloat(document.getElementById('deadTime').value) < recommendedDeadTime) {
+        console.warn(`Recommended dead-time for ${transistor.name}: ${recommendedDeadTime}ns`);
+    }
     
     // Dead-time losses calculation
     const deadTimeLoss = outputCurrent * bodyDiodeVf * deadTime * switchingFreq * 2; // Both transitions
@@ -640,16 +859,29 @@ function calculateThermal() {
 
 // Safe Operating Area анализ
 function calculateSOA() {
+    const transistor = getCurrentTransistorForAnalysis();
+    
     const loadInductance = parseFloat(document.getElementById('loadInductance').value) * 1e-6; // Convert to H
     const gateResistance = parseFloat(document.getElementById('gateResistance').value);
     const busVoltage = parseFloat(document.getElementById('busVoltage').value);
     const switchingCurrent = parseFloat(document.getElementById('switchingCurrent').value);
     
-    // SOA boundaries (simplified)
-    const maxContinuousCurrent = 50; // A
-    const maxVoltage = 1200; // V
-    const maxPulseCurrent = 200; // A
-    const thermalLimit = 150; // W
+    // SOA boundaries based on selected transistor
+    const maxContinuousCurrent = transistor.id_max * 0.8; // 80% derating for continuous
+    const maxVoltage = transistor.vds_max * 0.9; // 90% derating for safety
+    const maxPulseCurrent = transistor.id_max * 3; // Typical pulse current capability
+    const thermalLimit = calculateThermalLimitPower(transistor); // Dynamic thermal limit
+    
+    // Check if operating point is safe
+    const voltageSafety = busVoltage / maxVoltage;
+    const currentSafety = switchingCurrent / maxContinuousCurrent;
+    
+    if (voltageSafety > 0.9) {
+        console.warn(`Operating voltage (${busVoltage}V) is ${(voltageSafety*100).toFixed(0)}% of transistor limit`);
+    }
+    if (currentSafety > 0.9) {
+        console.warn(`Operating current (${switchingCurrent}A) is ${(currentSafety*100).toFixed(0)}% of transistor limit`);
+    }
     
     // Create SOA chart
     const ctx = document.getElementById('soaChart').getContext('2d');
@@ -708,12 +940,23 @@ function calculateSOA() {
 
 // Parasitic Effects анализ
 function calculateParasitics() {
-    const packageESR = parseFloat(document.getElementById('packageESR').value) * 1e-3; // Convert to ohms
-    const packageESL = parseFloat(document.getElementById('packageESL').value) * 1e-9; // Convert to H
+    const transistor = getCurrentTransistorForAnalysis();
+    
+    let packageESR = parseFloat(document.getElementById('packageESR').value) * 1e-3; // Convert to ohms
+    let packageESL = parseFloat(document.getElementById('packageESL').value) * 1e-9; // Convert to H
     const traceESR = parseFloat(document.getElementById('traceESR').value) * 1e-3;
     const traceESL = parseFloat(document.getElementById('traceESL').value) * 1e-9;
     const mutualInductance = parseFloat(document.getElementById('mutualInductance').value) * 1e-9;
     const couplingFactor = parseFloat(document.getElementById('couplingFactor').value);
+    
+    // Adjust parasitics based on package type
+    const packageParasitics = getPackageParasitics(transistor.package);
+    packageESR = packageParasitics.esr * 1e-3;
+    packageESL = packageParasitics.esl * 1e-9;
+    
+    // Update input fields to show realistic values
+    document.getElementById('packageESR').value = (packageESR * 1e3).toFixed(1);
+    document.getElementById('packageESL').value = (packageESL * 1e9).toFixed(1);
     
     // Calculate totals
     const totalESR = (packageESR + traceESR) * 1e3; // Convert back to mΩ for display
@@ -857,5 +1100,51 @@ document.addEventListener('DOMContentLoaded', function() {
     calculateSOA();
     calculateParasitics();
 });
+// Helper function to calculate thermal limit based on transistor
+function calculateThermalLimitPower(transistor) {
+    // Estimate thermal limit based on package and RDS(on)
+    const packageThermalMap = {
+        'TO-220': 62.5, // TO-220 typical Rth_ja
+        'TO-247': 40,   // TO-247 better thermal
+        'TO-263': 50,   // D2PAK
+        'SOT-227': 35,  // Better thermal for high power
+        'default': 50
+    };
+    
+    const rthJA = packageThermalMap[transistor.package] || packageThermalMap.default;
+    const maxJunctionTemp = 150; // Typical max
+    const ambientTemp = 25;
+    
+    return (maxJunctionTemp - ambientTemp) / rthJA;
+}
+
+// Helper function to get package parasitics
+function getPackageParasitics(packageType) {
+    const packageMap = {
+        'TO-220': { esr: 3, esl: 8 },
+        'TO-247': { esr: 2, esl: 5 },
+        'TO-263': { esr: 2.5, esl: 6 },
+        'SOT-227': { esr: 1.5, esl: 4 },
+        'QFN': { esr: 1, esl: 2 },
+        'BGA': { esr: 0.5, esl: 1 },
+        'default': { esr: 2.5, esl: 6 }
+    };
+    
+    return packageMap[packageType] || packageMap.default;
+}
+
+// Initialize display on page load
+document.addEventListener('DOMContentLoaded', function() {
+    // Initial update of transistor display
+    updateAnalysisDisplay(false, FALLBACK_TRANSISTOR);
+    
+    // Check periodically for selectedTransistor updates
+    setInterval(function() {
+        if (window.selectedTransistor && window.selectedTransistor !== getCurrentTransistorForAnalysis()) {
+            getCurrentTransistorForAnalysis(); // This will update the display
+        }
+    }, 1000);
+});
+
 </script>
 {% endblock %}

@@ -8,6 +8,30 @@
 
 {% block content %}
 <section class="tools-content">
+    <!-- Selected Transistor Integration -->
+    <div class="selected-transistor-tools" id="selectedTransistorTools" style="display: none;">
+        <div class="tools-transistor-header">
+            <h3>🎯 <span data-lang="toolsForSelectedTransistor">Инструменти за избрания транзистор</span></h3>
+            <div class="tools-transistor-info">
+                <span id="toolsTransistorName">-</span> • 
+                <span id="toolsTransistorVds">-</span>V • 
+                <span id="toolsTransistorRds">-</span>mΩ
+            </div>
+            <button id="goToCalculatorFromTools" class="btn-primary">
+                📊 <span data-lang="goToCalculator">Отиди в калкулатора</span>
+            </button>
+        </div>
+    </div>
+    
+    <div class="no-transistor-tools-warning" id="noTransistorToolsWarning">
+        <div class="tools-warning-content">
+            ⚠️ <span data-lang="noTransistorForTools">За конкретни изчисления, изберете транзистор от калкулатора.</span>
+            <button id="selectTransistorFromTools" class="btn-secondary">
+                🧮 <span data-lang="selectTransistor">Избери транзистор</span>
+            </button>
+        </div>
+    </div>
+    
     <!-- Chart Copying Tools -->
     <div class="controls tool-section">
         <h2><span data-lang="chartCopyTitle">📋 Копиране на графики</span></h2>
@@ -182,6 +206,17 @@
         <p><span data-lang="paramCalculatorDescription">Автоматично предложение на оптимални параметри.</span></p>
         
         <div class="parameter-calculator">
+            <div class="transistor-integration" id="transistorIntegration" style="display: none;">
+                <div class="integration-info">
+                    <h4>🎯 <span data-lang="usingSelectedTransistor">Използва избрания транзистор:</span></h4>
+                    <div class="integration-details">
+                        <span id="integrationTransistorName">-</span> • 
+                        VDS: <span id="integrationVds">-</span>V • 
+                        RDS: <span id="integrationRds">-</span>mΩ
+                    </div>
+                </div>
+            </div>
+            
             <div class="input-group">
                 <span data-lang="powerRating">Номинална мощност (W):</span>
                 <input type="number" id="targetPower" placeholder="100" step="any">
@@ -190,11 +225,13 @@
             <div class="input-group">
                 <span data-lang="voltageRating">Номинално напрежение (V):</span>
                 <input type="number" id="targetVoltage" placeholder="400" step="any">
+                <small id="voltageHint" style="display: none;">Препоръчително: под <span id="safeVoltage">-</span>V (60% от VDS max)</small>
             </div>
             
             <div class="input-group">
                 <span data-lang="currentRating">Номинален ток (A):</span>
                 <input type="number" id="targetCurrent" placeholder="10" step="any">
+                <small id="currentHint" style="display: none;">Препоръчително: под <span id="safeCurrent">-</span>A (70% от ID max)</small>
             </div>
             
             <div class="button-row">

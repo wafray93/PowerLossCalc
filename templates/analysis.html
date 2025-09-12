@@ -12,6 +12,45 @@
 
 {% block content %}
 <section class="analysis-content">
+    <!-- Selected Transistor Info Section -->
+    <div class="analysis-section transistor-info-section">
+        <h2 data-lang="transistorInfo">📦 Използван транзистор за анализ</h2>
+        <div id="analysisTransistorInfo" class="analysis-transistor-info">
+            <div class="transistor-alert" id="analysisTransistorAlert">
+                <div class="alert-content">
+                    <span data-lang="noTransistorSelected">⚠️ Няма избран транзистор от Calculator. Използва се fallback модел за анализ.</span>
+                    <button id="goToCalculator" class="btn-link" data-lang="goToCalculator">Отиди до Calculator</button>
+                </div>
+            </div>
+            <div id="analysisTransistorData" class="transistor-data" style="display:none;">
+                <div class="transistor-info-row">
+                    <span data-lang="model">Модел:</span>
+                    <span id="analysisModelName" class="transistor-value">-</span>
+                </div>
+                <div class="transistor-info-row">
+                    <span data-lang="manufacturer">Производител:</span>
+                    <span id="analysisManufacturer" class="transistor-value">-</span>
+                </div>
+                <div class="transistor-info-row">
+                    <span data-lang="package">Корпус:</span>
+                    <span id="analysisPackage" class="transistor-value">-</span>
+                </div>
+                <div class="transistor-info-row">
+                    <span>VDS max:</span>
+                    <span id="analysisVdsMax" class="transistor-value">-</span>
+                </div>
+                <div class="transistor-info-row">
+                    <span>ID max:</span>
+                    <span id="analysisIdMax" class="transistor-value">-</span>
+                </div>
+                <div class="transistor-info-row">
+                    <span>RDS(on):</span>
+                    <span id="analysisRdsOn" class="transistor-value">-</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Efficiency vs Frequency Analysis Section -->
     <div class="analysis-section">
         <h2 data-lang="efficiencyAnalysis">📈 Анализ на ефективност срещу честота</h2>

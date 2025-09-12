@@ -1,3 +1,77 @@
+/* Selected Transistor Integration Styles */
+.selected-transistor-info {
+    background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+    border: 2px solid var(--primary-blue);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.selected-info-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.selected-info-details {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+}
+
+.detail-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 12px;
+    background: white;
+    border-radius: 6px;
+}
+
+.no-transistor-warning {
+    background: #fff3cd;
+    border: 2px solid #ffeaa7;
+    border-left: 6px solid #f39c12;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.warning-content {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.selected-transistor-theory, .selected-transistor-tools {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border: 2px solid var(--primary-blue);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.theory-transistor-header, .tools-transistor-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.selected-transistor-row {
+    background: linear-gradient(135deg, #fff3e0 0%, #ffecb3 100%) !important;
+    border: 2px solid #ff9800 !important;
+    box-shadow: 0 2px 8px rgba(255, 152, 0, 0.3);
+}
+
+.formula-value {
+    color: #d32f2f;
+    font-weight: bold;
+    background: rgba(255, 235, 235, 0.8);
+    padding: 2px 6px;
+    border-radius: 4px;
+}
+
 /* Professional Scientific Application Design */
 :root {
   --primary-blue: #004aad;
@@ -1693,6 +1767,167 @@ footer {
 .thermal-controls button {
   margin: 15px auto;
   display: inline-block;
+}
+
+/* Analysis tab transistor info display */
+.transistor-info-section {
+  background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 25px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  border: 1px solid #dee2e6;
+}
+
+.analysis-transistor-info {
+  margin-top: 15px;
+}
+
+.transistor-alert {
+  background: linear-gradient(135deg, #fff3cd, #ffeaa7);
+  border: 1px solid #ffc107;
+  border-radius: 8px;
+  padding: 15px;
+  margin-bottom: 15px;
+  position: relative;
+  animation: alertPulse 2s infinite;
+}
+
+.alert-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.transistor-alert span {
+  color: #856404;
+  font-weight: 500;
+  font-size: 14px;
+  flex: 1;
+}
+
+.btn-link {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.btn-link:hover {
+  background: #0056b3;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 6px rgba(0,123,255,0.3);
+}
+
+.transistor-data {
+  background: white;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  padding: 15px;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.05);
+}
+
+.transistor-info-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid #f1f3f4;
+}
+
+.transistor-info-row:last-child {
+  border-bottom: none;
+}
+
+.transistor-info-row span:first-child {
+  font-weight: 600;
+  color: #495057;
+  font-size: 14px;
+}
+
+.transistor-value {
+  color: #007bff;
+  font-weight: 600;
+  font-size: 14px;
+  font-family: 'Courier New', monospace;
+}
+
+.fallback-warning {
+  background: #fff3cd;
+  border: 1px solid #ffc107;
+  border-radius: 6px;
+  padding: 12px;
+  margin: 15px 0;
+  color: #856404;
+  font-weight: 500;
+  animation: warningFlash 3s ease-in-out;
+}
+
+.fallback-thermal-warning {
+  background: linear-gradient(135deg, #fff3cd, #ffeaa7);
+  border: 1px solid #ffc107;
+  border-radius: 8px;
+  padding: 12px;
+  margin: 10px 0;
+  color: #856404;
+  font-weight: 500;
+  font-size: 14px;
+  animation: warningSlide 0.5s ease-out;
+}
+
+/* Animations */
+@keyframes alertPulse {
+  0%, 100% { box-shadow: 0 2px 8px rgba(255,193,7,0.2); }
+  50% { box-shadow: 0 4px 12px rgba(255,193,7,0.4); }
+}
+
+@keyframes warningFlash {
+  0% { opacity: 0; transform: translateY(-10px); }
+  20% { opacity: 1; transform: translateY(0); }
+  80% { opacity: 1; }
+  100% { opacity: 0.9; }
+}
+
+@keyframes warningSlide {
+  0% { opacity: 0; transform: translateX(-20px); }
+  100% { opacity: 1; transform: translateX(0); }
+}
+
+/* Responsive design for transistor info */
+@media (max-width: 768px) {
+  .transistor-info-section {
+    padding: 15px;
+    margin-bottom: 20px;
+  }
+  
+  .alert-content {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+  
+  .transistor-info-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 5px;
+  }
+  
+  .transistor-info-row span:first-child {
+    font-size: 13px;
+  }
+  
+  .transistor-value {
+    font-size: 13px;
+    margin-left: 10px;
+  }
 }
 
 /* Бутони за копиране на графики */
