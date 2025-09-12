@@ -4883,6 +4883,43 @@ function calculateDeadTime() {
     deadTimeResultsDiv.style.display = 'block';
   }
   
+  // Create Dead-time chart
+  const deadTimeChartCanvas = document.getElementById('deadTimeChart');
+  if (deadTimeChartCanvas) {
+    const ctx = deadTimeChartCanvas.getContext('2d');
+    
+    // Destroy existing chart if it exists
+    if (window.deadTimeChart) {
+      window.deadTimeChart.destroy();
+    }
+    
+    // Create pie chart showing loss distribution
+    window.deadTimeChart = new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+        labels: ['Body Diode Losses', 'Dead-time Losses'],
+        datasets: [{
+          data: [bodyDiodeLosses, deadTimeLosses],
+          backgroundColor: ['#e74c3c', '#f39c12'],
+          borderColor: ['#c0392b', '#e67e22'],
+          borderWidth: 2
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          title: {
+            display: true,
+            text: `Dead-time Loss Distribution: ${totalDeadTimeLoss.toFixed(3)} W Total`
+          },
+          legend: {
+            position: 'bottom'
+          }
+        }
+      }
+    });
+  }
+
   // Show success message
   const message = currentLang === 'bg' ? 
     `✅ Dead-time анализ завършен! Общи загуби: ${totalDeadTimeLoss.toFixed(3)} W` : 
