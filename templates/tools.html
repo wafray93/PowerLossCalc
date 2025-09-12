@@ -1,32 +1,48 @@
-<!DOCTYPE html>
-<html lang="bg">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Инструменти - Si/SiC/GaN Транзистори</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
-    <header>
-        <h1>Помощни инструменти</h1>
-        <nav class="tab-navigation">
-            <a href="{{ url_for('calculator') }}" class="tab">Калкулатор</a>
-            <a href="{{ url_for('analysis') }}" class="tab">Анализ</a>
-            <a href="{{ url_for('advanced') }}" class="tab">Разширен</a>
-            <a href="{{ url_for('database') }}" class="tab">База данни</a>
-            <a href="{{ url_for('theory') }}" class="tab">Теория</a>
-            <a href="{{ url_for('tools') }}" class="tab active">Инструменти</a>
-        </nav>
-    </header>
+{% extends "base.html" %}
 
-    <main>
-        <section class="tools-content">
-            <h2>Инструменти за копиране, конвертиране и експорт</h2>
-            <p>Тук ще бъдат chart copying, unit converter, CSV import/export инструменти...</p>
-            <!-- Utility tools will be implemented here -->
-        </section>
-    </main>
+{% block title %}Инструменти{% endblock %}
 
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
-</body>
-</html>
+{% block page_title %}Помощни инструменти{% endblock %}
+
+{% block page_description %}Инструменти за копиране на графики, конвертиране на единици и експорт на данни за научни публикации.{% endblock %}
+
+{% block content %}
+<section class="tools-content">
+    <div class="controls">
+        <h2>⚙️ Инструменти за копиране, конвертиране и експорт</h2>
+        <p>Тук ще бъдат chart copying, unit converter, CSV import/export инструменти...</p>
+        <!-- Utility tools will be implemented here -->
+        
+        <div class="tool-section">
+            <h3>📋 Копиране на графики</h3>
+            <p>Копирайте графики за презентации и документи...</p>
+            <button class="copy-chart-btn">📊 Копирай последна графика</button>
+        </div>
+        
+        <div class="tool-section">
+            <h3>🔄 Конвертор на единици</h3>
+            <p>Конвертирайте между различни единици...</p>
+            <div class="converter-inputs">
+                <input type="number" id="convertInput" placeholder="Въведете стойност">
+                <select id="unitFrom">
+                    <option value="mOhm">mΩ</option>
+                    <option value="Ohm">Ω</option>
+                </select>
+                <span>→</span>
+                <select id="unitTo">
+                    <option value="Ohm">Ω</option>
+                    <option value="mOhm">mΩ</option>
+                </select>
+                <span id="convertResult">-</span>
+            </div>
+        </div>
+        
+        <div class="tool-section">
+            <h3>📂 Експорт на данни</h3>
+            <p>Експортирайте резултати за анализ...</p>
+            <button class="export-btn">💾 Експортирай като CSV</button>
+            <button class="export-btn">📊 Експортирай като PDF</button>
+        </div>
+    </div>
+</section>
+{% endblock %}

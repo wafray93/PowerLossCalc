@@ -1,32 +1,46 @@
-<!DOCTYPE html>
-<html lang="bg">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Разширен анализ - Si/SiC/GaN Транзистори</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
-    <header>
-        <h1>Разширен анализ</h1>
-        <nav class="tab-navigation">
-            <a href="{{ url_for('calculator') }}" class="tab">Калкулатор</a>
-            <a href="{{ url_for('analysis') }}" class="tab">Анализ</a>
-            <a href="{{ url_for('advanced') }}" class="tab active">Разширен</a>
-            <a href="{{ url_for('database') }}" class="tab">База данни</a>
-            <a href="{{ url_for('theory') }}" class="tab">Теория</a>
-            <a href="{{ url_for('tools') }}" class="tab">Инструменти</a>
-        </nav>
-    </header>
+{% extends "base.html" %}
 
-    <main>
-        <section class="advanced-content">
-            <h2>Термичен анализ и разширени параметри</h2>
-            <p>Тук ще бъдат thermal analysis, Miller capacitance, dead-time изчисления...</p>
-            <!-- Advanced analysis tools will be implemented here -->
-        </section>
-    </main>
+{% block title %}Разширен анализ{% endblock %}
 
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
-</body>
-</html>
+{% block page_title %}Термичен анализ и разширени параметри{% endblock %}
+
+{% block page_description %}Разширени инженерни изчисления включително термичен анализ, Miller капацитет и dead-time оптимизация.{% endblock %}
+
+{% block content %}
+<section class="advanced-content">
+    <div class="thermal">
+        <h2>🔬 Термичен анализ</h2>
+        <p>Тук ще бъдат thermal analysis, Miller capacitance, dead-time изчисления...</p>
+        <!-- Advanced analysis tools will be implemented here -->
+        
+        <div class="thermal-controls">
+            <h3>Термични параметри:</h3>
+            <p>Въведете параметри за термичното моделиране...</p>
+            <!-- Controls will be added here -->
+        </div>
+        
+        <div class="thermal-results">
+            <h3>Термични резултати:</h3>
+            <table>
+                <tr><td>Температура на съединението (Tj):</td><td id="junctionTemp">-</td></tr>
+                <tr><td>Температура на корпуса (Tc):</td><td id="caseTemp">-</td></tr>
+                <tr><td>Термично съпротивление (Rth):</td><td id="thermalResistance">-</td></tr>
+                <tr><td>Термичен марж:</td><td id="thermalMargin">-</td></tr>
+            </table>
+        </div>
+    </div>
+    
+    <div class="advanced-explanation">
+        <h2>🧪 Разширени параметри</h2>
+        <div class="science-section">
+            <h4>Miller Capacitance Analysis</h4>
+            <p>Анализ на Miller ефекта и неговото влияние върху превключването...</p>
+        </div>
+        
+        <div class="science-section">
+            <h4>Dead-time Optimization</h4>
+            <p>Оптимизация на мъртвото време за минимизиране на загубите...</p>
+        </div>
+    </div>
+</section>
+{% endblock %}

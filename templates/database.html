@@ -1,32 +1,53 @@
-<!DOCTYPE html>
-<html lang="bg">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>База данни - Si/SiC/GaN Транзистори</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
-    <header>
-        <h1>База данни с транзистори</h1>
-        <nav class="tab-navigation">
-            <a href="{{ url_for('calculator') }}" class="tab">Калкулатор</a>
-            <a href="{{ url_for('analysis') }}" class="tab">Анализ</a>
-            <a href="{{ url_for('advanced') }}" class="tab">Разширен</a>
-            <a href="{{ url_for('database') }}" class="tab active">База данни</a>
-            <a href="{{ url_for('theory') }}" class="tab">Теория</a>
-            <a href="{{ url_for('tools') }}" class="tab">Инструменти</a>
-        </nav>
-    </header>
+{% extends "base.html" %}
 
-    <main>
-        <section class="database-content">
-            <h2>Търсене и филтриране на транзистори</h2>
-            <p>Тук ще бъде базата данни с транзистори и възможности за търсене...</p>
-            <!-- Database search and filter interface will be implemented here -->
-        </section>
-    </main>
+{% block title %}База данни{% endblock %}
 
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
-</body>
-</html>
+{% block page_title %}Търсене и филтриране на транзистори{% endblock %}
+
+{% block page_description %}Обширна база данни с Si/SiC/GaN транзистори от водещи производители с филтриране и сравнение.{% endblock %}
+
+{% block content %}
+<section class="database-content">
+    <div class="controls">
+        <h2>📚 База данни с транзистори</h2>
+        <p>Тук ще бъде базата данни с транзистори и възможности за търсене...</p>
+        <!-- Database search and filter interface will be implemented here -->
+        
+        <div class="database-filters">
+            <h3>Филтри за търсене:</h3>
+            <div class="filter-group">
+                <label>Технология:</label>
+                <select id="techFilter">
+                    <option value="all">Всички</option>
+                    <option value="Si">Si (Silicon)</option>
+                    <option value="SiC">SiC (Silicon Carbide)</option>
+                    <option value="GaN">GaN (Gallium Nitride)</option>
+                </select>
+            </div>
+            
+            <div class="filter-group">
+                <label>Производител:</label>
+                <select id="manufacturerFilter">
+                    <option value="all">Всички</option>
+                    <option value="Infineon">Infineon</option>
+                    <option value="Wolfspeed">Wolfspeed</option>
+                    <option value="GaN Systems">GaN Systems</option>
+                </select>
+            </div>
+            
+            <div class="filter-group">
+                <label>Максимално напрежение (V):</label>
+                <input type="range" id="voltageFilter" min="10" max="1700" value="1700">
+                <span id="voltageDisplay">1700V</span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="results">
+        <h3>Резултати от търсенето:</h3>
+        <div id="transistorDatabase" class="database-results">
+            <!-- Search results will be populated here -->
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -3,7 +3,7 @@ from flask import Flask, render_template, redirect, url_for
 
 # create the app
 app = Flask(__name__)
-app.secret_key = os.environ.get("SESSION_SECRET", "dev-secret-key")
+app.secret_key = os.environ.get("SESSION_SECRET")
 
 @app.route('/')
 def index():

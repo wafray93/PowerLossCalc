@@ -705,41 +705,65 @@ const TRANSISTOR_DB = {
   }
 };
 
-const ctx = document.getElementById('lossChart').getContext('2d');
-let chart=null;
+// Only initialize chart if canvas exists on the page
+let ctx = null;
+let chart = null;
 let selectedTransistor = null;
+
+// Initialize chart context only if the canvas element exists
+document.addEventListener('DOMContentLoaded', function() {
+  const lossChartElement = document.getElementById('lossChart');
+  if (lossChartElement) {
+    ctx = lossChartElement.getContext('2d');
+  }
+});
 
 // Функция за зареждане на всички транзистори
 function populateTransistors() {
-  const tech = document.getElementById('techSelect').value;
+  const techSelect = document.getElementById('techSelect');
+  if (!techSelect) return;
+  
+  const tech = techSelect.value;
   
   const transistorList = document.getElementById('transistorList');
   const transistorInput = document.getElementById('transistorSelect');
   const langData = LANGUAGES[currentLang] || LANGUAGES['bg'];
   
-  // Изчистваме datalist
-  transistorList.innerHTML = '';
+  // Изчистваме datalist ако съществува
+  if (transistorList) {
+    transistorList.innerHTML = '';
+  }
   
-  // Обновяваме placeholder текста
-  transistorInput.placeholder = langData.selectTransistor + '...';
+  // Обновяваме placeholder текста ако съществува
+  if (transistorInput) {
+    transistorInput.placeholder = langData.selectTransistor + '...';
+  }
   
   const transistors = TRANSISTOR_DB[tech] || {};
   
   // Добавяме всички транзистори в datalist
-  Object.entries(transistors).forEach(([key, transistor]) => {
-    const option = document.createElement('option');
-    option.value = key;
-    option.textContent = `${transistor.name} [${transistor.vds_max}V, ${transistor.id_max}A]`;
-    transistorList.appendChild(option);
-  });
+  if (transistorList) {
+    Object.entries(transistors).forEach(([key, transistor]) => {
+      const option = document.createElement('option');
+      option.value = key;
+      option.textContent = `${transistor.name} [${transistor.vds_max}V, ${transistor.id_max}A]`;
+      transistorList.appendChild(option);
+    });
+  }
 }
 
 // Функция за показване на информацията за избрания транзистор
 function showTransistorInfo(transistorKey) {
-  const tech = document.getElementById('techSelect').value;
+  const techSelect = document.getElementById('techSelect');
+  if (!techSelect) return;
+  
+  const tech = techSelect.value;
+  const transistorInfo = document.getElementById('transistorInfo');
   
   if (!transistorKey || transistorKey.trim() === '') {
-    document.getElementById('transistorInfo').style.display = 'none';
+    if (transistorInfo) {
+      transistorInfo.style.display = 'none';
+    }
     selectedTransistor = null;
     return;
   }
@@ -751,18 +775,28 @@ function showTransistorInfo(transistorKey) {
     // Модел от базата данни
     selectedTransistor = transistor;
     
-    document.getElementById('modelName').textContent = transistor.name;
-    document.getElementById('manufacturer').textContent = transistor.manufacturer;
-    document.getElementById('package').textContent = transistor.package;
-    document.getElementById('vdsMax').textContent = transistor.vds_max + ' V';
-    document.getElementById('idMax').textContent = transistor.id_max + ' A';
-    document.getElementById('rdsOn').textContent = transistor.rds_mohm + ' mΩ';
-    document.getElementById('application').textContent = transistor.application;
+    const modelName = document.getElementById('modelName');
+    const manufacturer = document.getElementById('manufacturer');
+    const packageEl = document.getElementById('package');
+    const vdsMax = document.getElementById('vdsMax');
+    const idMax = document.getElementById('idMax');
+    const rdsOn = document.getElementById('rdsOn');
+    const application = document.getElementById('application');
+    
+    if (modelName) modelName.textContent = transistor.name;
+    if (manufacturer) manufacturer.textContent = transistor.manufacturer;
+    if (packageEl) packageEl.textContent = transistor.package;
+    if (vdsMax) vdsMax.textContent = transistor.vds_max + ' V';
+    if (idMax) idMax.textContent = transistor.id_max + ' A';
+    if (rdsOn) rdsOn.textContent = transistor.rds_mohm + ' mΩ';
+    if (application) application.textContent = transistor.application;
     
     // Генерираме предложения за параметри
     generateParameterSuggestions(transistor);
     
-    document.getElementById('transistorInfo').style.display = 'block';
+    if (transistorInfo) {
+      transistorInfo.style.display = 'block';
+    }
   } else {
     // Ръчно въведен модел - използваме типични параметри за технологията
     const typicalParams = getTypicalParameters(tech);
@@ -774,18 +808,28 @@ function showTransistorInfo(transistorKey) {
       application: "Ръчно въведен модел"
     };
     
-    document.getElementById('modelName').textContent = selectedTransistor.name;
-    document.getElementById('manufacturer').textContent = "Ръчно въведен модел";
-    document.getElementById('package').textContent = "Моля въведете параметрите ръчно";
-    document.getElementById('vdsMax').textContent = typicalParams.vds_max + ' V (типично)';
-    document.getElementById('idMax').textContent = typicalParams.id_max + ' A (типично)';
-    document.getElementById('rdsOn').textContent = typicalParams.rds_mohm + ' mΩ (типично)';
-    document.getElementById('application').textContent = "Копирано от datasheet - моля проверете параметрите";
+    const modelName = document.getElementById('modelName');
+    const manufacturer = document.getElementById('manufacturer');
+    const packageEl = document.getElementById('package');
+    const vdsMax = document.getElementById('vdsMax');
+    const idMax = document.getElementById('idMax');
+    const rdsOn = document.getElementById('rdsOn');
+    const application = document.getElementById('application');
+    
+    if (modelName) modelName.textContent = selectedTransistor.name;
+    if (manufacturer) manufacturer.textContent = "Ръчно въведен модел";
+    if (packageEl) packageEl.textContent = "Моля въведете параметрите ръчно";
+    if (vdsMax) vdsMax.textContent = typicalParams.vds_max + ' V (типично)';
+    if (idMax) idMax.textContent = typicalParams.id_max + ' A (типично)';
+    if (rdsOn) rdsOn.textContent = typicalParams.rds_mohm + ' mΩ (типично)';
+    if (application) application.textContent = "Копирано от datasheet - моля проверете параметрите";
     
     // Генерираме предложения с типични параметри
     generateParameterSuggestions(selectedTransistor);
     
-    document.getElementById('transistorInfo').style.display = 'block';
+    if (transistorInfo) {
+      transistorInfo.style.display = 'block';
+    }
   }
 }
 
@@ -802,6 +846,8 @@ function getTypicalParameters(tech) {
 // Функция за генериране на предложения за параметри
 function generateParameterSuggestions(transistor) {
   const suggestionsDiv = document.getElementById('parameterSuggestions');
+  if (!suggestionsDiv) return;
+  
   let suggestions = '';
   
   // Предложения за напрежение
@@ -1082,40 +1128,49 @@ function calc(){
     recommendations.push(`💡 Загубите от превключване са ${swRatio.toFixed(0)}%. За намаляване: използвайте SiC/GaN транзистор или намалете честотата.`);
   }
 
-  document.getElementById('pCond').textContent=pCond.toFixed(2)+" W";
-  document.getElementById('pSw').textContent=pSw.toFixed(2)+" W";
-  document.getElementById('pTotal').textContent=pTotal.toFixed(2)+" W";
-  document.getElementById('efficiency').textContent=eff.toFixed(2)+" %";
+  const pCondEl = document.getElementById('pCond');
+  const pSwEl = document.getElementById('pSw');
+  const pTotalEl = document.getElementById('pTotal');
+  const efficiencyEl = document.getElementById('efficiency');
+  
+  if (pCondEl) pCondEl.textContent=pCond.toFixed(2)+" W";
+  if (pSwEl) pSwEl.textContent=pSw.toFixed(2)+" W";
+  if (pTotalEl) pTotalEl.textContent=pTotal.toFixed(2)+" W";
+  if (efficiencyEl) efficiencyEl.textContent=eff.toFixed(2)+" %";
 
   if(chart) chart.destroy();
-  chart=new Chart(ctx,{
-    type:'pie',
-    data:{
-      labels: currentLang === 'bg' ? ['Проводимост','Превключване'] : ['Conduction','Switching'],
-      datasets:[{data:[pCond,pSw],backgroundColor:['#004aad','#00c896']}]
-    },
-    options:{
-      responsive: true,
-      maintainAspectRatio: true,
-      plugins:{
-        legend:{
-          position:'bottom',
-          labels: {
-            padding: 20,
-            usePointStyle: true
-          }
-        },
-        tooltip: {
-          callbacks: {
-            label: function(context) {
-              const percentage = ((context.parsed / pTotal) * 100).toFixed(1);
-              return `${context.label}: ${context.parsed.toFixed(2)}W (${percentage}%)`;
+  
+  // Only create chart if canvas context exists
+  if (ctx) {
+    chart=new Chart(ctx,{
+      type:'pie',
+      data:{
+        labels: currentLang === 'bg' ? ['Проводимост','Превключване'] : ['Conduction','Switching'],
+        datasets:[{data:[pCond,pSw],backgroundColor:['#004aad','#00c896']}]
+      },
+      options:{
+        responsive: true,
+        maintainAspectRatio: true,
+        plugins:{
+          legend:{
+            position:'bottom',
+            labels: {
+              padding: 20,
+              usePointStyle: true
+            }
+          },
+          tooltip: {
+            callbacks: {
+              label: function(context) {
+                const percentage = ((context.parsed / pTotal) * 100).toFixed(1);
+                return `${context.label}: ${context.parsed.toFixed(2)}W (${percentage}%)`;
+              }
             }
           }
         }
       }
-    }
-  });
+    });
+  }
 
   // Показваме предупреждения и препоръки
   let warningsHtml = '';
@@ -1527,7 +1582,17 @@ function generateEfficiencyChart() {
   }
   
   // Create chart
-  const ctx = document.getElementById('efficiencyChart');
+  const efficiencyChartElement = document.getElementById('efficiencyChart');
+  if (!efficiencyChartElement) {
+    console.warn('Efficiency chart canvas not found');
+    return;
+  }
+  
+  const ctx = efficiencyChartElement.getContext('2d');
+  if (!ctx) {
+    console.warn('Cannot get 2D context for efficiency chart');
+    return;
+  }
   
   // Destroy existing chart if any
   if (window.efficiencyChartInstance) {
@@ -1830,7 +1895,10 @@ function closeTermExplanation() {
 
 // Затваряне при кликване върху overlay
 document.addEventListener('DOMContentLoaded', function() {
-  document.getElementById('overlay').addEventListener('click', closeTermExplanation);
+  const overlay = document.getElementById('overlay');
+  if (overlay) {
+    overlay.addEventListener('click', closeTermExplanation);
+  }
   
   // Инициализираме първия таб с теория след малка забавка
   setTimeout(() => {
@@ -2613,71 +2681,127 @@ function showTemporaryMessage(message, type = 'info', duration = 4000) {
 }
 
 // Event listeners
-document.getElementById('calcBtn').addEventListener('click',calc);
+const calcBtn = document.getElementById('calcBtn');
+if (calcBtn) {
+  calcBtn.addEventListener('click', calc);
+}
 
-document.getElementById('techSelect').addEventListener('change', function() {
-  populateTransistors();
-  document.getElementById('transistorSelect').value = '';
-  showTransistorInfo('');
-  document.getElementById('suggestBtn').disabled = true;
-});
+const techSelect = document.getElementById('techSelect');
+if (techSelect) {
+  techSelect.addEventListener('change', function() {
+    populateTransistors();
+    const transistorSelect = document.getElementById('transistorSelect');
+    const suggestBtn = document.getElementById('suggestBtn');
+    if (transistorSelect) {
+      transistorSelect.value = '';
+    }
+    showTransistorInfo('');
+    if (suggestBtn) {
+      suggestBtn.disabled = true;
+    }
+  });
+}
 
 // Event listener за транзистор input field (поддържа както избиране, така и въвеждане)
-document.getElementById('transistorSelect').addEventListener('input', function() {
-  showTransistorInfo(this.value);
-  document.getElementById('suggestBtn').disabled = !this.value;
-});
+const transistorSelect = document.getElementById('transistorSelect');
+if (transistorSelect) {
+  transistorSelect.addEventListener('input', function() {
+    showTransistorInfo(this.value);
+    const suggestBtn = document.getElementById('suggestBtn');
+    if (suggestBtn) {
+      suggestBtn.disabled = !this.value;
+    }
+  });
 
-document.getElementById('transistorSelect').addEventListener('change', function() {
-  showTransistorInfo(this.value);
-  document.getElementById('suggestBtn').disabled = !this.value;
-});
+  transistorSelect.addEventListener('change', function() {
+    showTransistorInfo(this.value);
+    const suggestBtn = document.getElementById('suggestBtn');
+    if (suggestBtn) {
+      suggestBtn.disabled = !this.value;
+    }
+  });
+}
 
-document.getElementById('suggestBtn').addEventListener('click', function() {
-  suggestOptimalParameters();
-});
+const suggestBtn = document.getElementById('suggestBtn');
+if (suggestBtn) {
+  suggestBtn.addEventListener('click', function() {
+    suggestOptimalParameters();
+  });
+}
 
 // Event listeners за новите функции
-document.getElementById('generateEffChart').addEventListener('click', generateEfficiencyChart);
-document.getElementById('calculateThermal').addEventListener('click', calculateThermalParameters);
+const generateEffChart = document.getElementById('generateEffChart');
+if (generateEffChart) {
+  generateEffChart.addEventListener('click', generateEfficiencyChart);
+}
+
+const calculateThermal = document.getElementById('calculateThermal');
+if (calculateThermal) {
+  calculateThermal.addEventListener('click', calculateThermalParameters);
+}
 
 // Event listeners за копиране на графики
-document.getElementById('copyLossChart').addEventListener('click', () => copyChartToClipboard('lossChart'));
-document.getElementById('copyEfficiencyChart').addEventListener('click', () => copyChartToClipboard('efficiencyChart'));
+const copyLossChart = document.getElementById('copyLossChart');
+if (copyLossChart) {
+  copyLossChart.addEventListener('click', () => copyChartToClipboard('lossChart'));
+}
 
-document.getElementById('resetBtn').addEventListener('click',()=>{
-  document.getElementById('techSelect').value="SiC";
-  document.getElementById('vdc').value=100;
-  document.getElementById('iLoad').value=15;
-  document.getElementById('fsw').value=100;
-  document.getElementById('temp').value=25;
-  document.getElementById('duty').value=0.5;
-  populateTransistors();
-  document.getElementById('transistorSelect').value = '';
-  showTransistorInfo('');
-});
+const copyEfficiencyChart = document.getElementById('copyEfficiencyChart');
+if (copyEfficiencyChart) {
+  copyEfficiencyChart.addEventListener('click', () => copyChartToClipboard('efficiencyChart'));
+}
+
+const resetBtn = document.getElementById('resetBtn');
+if (resetBtn) {
+  resetBtn.addEventListener('click',()=>{
+    const techSelect = document.getElementById('techSelect');
+    const vdc = document.getElementById('vdc');
+    const iLoad = document.getElementById('iLoad');
+    const fsw = document.getElementById('fsw');
+    const temp = document.getElementById('temp');
+    const duty = document.getElementById('duty');
+    const transistorSelect = document.getElementById('transistorSelect');
+    
+    if (techSelect) techSelect.value="SiC";
+    if (vdc) vdc.value=100;
+    if (iLoad) iLoad.value=15;
+    if (fsw) fsw.value=100;
+    if (temp) temp.value=25;
+    if (duty) duty.value=0.5;
+    
+    populateTransistors();
+    if (transistorSelect) transistorSelect.value = '';
+    showTransistorInfo('');
+  });
+}
 
 // стартирай при зареждане
 document.addEventListener('DOMContentLoaded', function() {
-  // Проверяваме дали всички нужни елементи съществуват
-  const requiredElements = ['techSelect', 'transistorSelect', 'suggestBtn', 'calcBtn', 'resetBtn', 'langBG', 'langEN'];
+  // Инициализираме само ако имаме основните елементи за калкулатора
+  const techSelect = document.getElementById('techSelect');
   
-  for (const elementId of requiredElements) {
-    const element = document.getElementById(elementId);
-    if (!element) {
-      console.error(`Element with ID '${elementId}' not found!`);
-      return;
+  if (techSelect) {
+    // Калкулатор страница - инициализираме всичко
+    populateTransistors();
+    
+    // Първоначално disable на suggest бутона
+    const suggestBtn = document.getElementById('suggestBtn');
+    if (suggestBtn) {
+      suggestBtn.disabled = true;
     }
   }
   
-  populateTransistors();
+  // Event listeners за език (ако има такива бутони)
+  const langBG = document.getElementById('langBG');
+  const langEN = document.getElementById('langEN');
   
-  // Първоначално disable на suggest бутона
-  document.getElementById('suggestBtn').disabled = true;
+  if (langBG) {
+    langBG.addEventListener('click', () => switchLanguage('bg'));
+  }
   
-  // Event listeners за език
-  document.getElementById('langBG').addEventListener('click', () => switchLanguage('bg'));
-  document.getElementById('langEN').addEventListener('click', () => switchLanguage('en'));
+  if (langEN) {
+    langEN.addEventListener('click', () => switchLanguage('en'));
+  }
   
   // Задаваме първоначален език
   switchLanguage('bg');

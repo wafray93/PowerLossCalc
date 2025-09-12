@@ -1,33 +1,35 @@
-<!DOCTYPE html>
-<html lang="bg">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Анализ - Si/SiC/GaN Транзистори</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-</head>
-<body>
-    <header>
-        <h1>Анализ на ефективност</h1>
-        <nav class="tab-navigation">
-            <a href="{{ url_for('calculator') }}" class="tab">Калкулатор</a>
-            <a href="{{ url_for('analysis') }}" class="tab active">Анализ</a>
-            <a href="{{ url_for('advanced') }}" class="tab">Разширен</a>
-            <a href="{{ url_for('database') }}" class="tab">База данни</a>
-            <a href="{{ url_for('theory') }}" class="tab">Теория</a>
-            <a href="{{ url_for('tools') }}" class="tab">Инструменти</a>
-        </nav>
-    </header>
+{% extends "base.html" %}
 
-    <main>
-        <section class="analysis-content">
-            <h2>Графики на ефективност и загуби</h2>
-            <p>Тук ще бъдат efficiency charts и loss pie charts...</p>
-            <!-- Analysis charts and tools will be implemented here -->
-        </section>
-    </main>
+{% block title %}Анализ{% endblock %}
 
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
-</body>
-</html>
+{% block page_title %}Графики на ефективност и загуби{% endblock %}
+
+{% block page_description %}Анализирайте ефективността на различни технологии и транзистори чрез интерактивни графики.{% endblock %}
+
+{% block extra_head %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% endblock %}
+
+{% block content %}
+<section class="analysis-content">
+    <div class="analysis">
+        <h2>📈 Анализ на ефективност</h2>
+        <p>Тук ще бъдат efficiency charts и loss pie charts...</p>
+        <!-- Analysis charts and tools will be implemented here -->
+        
+        <div class="analysis-controls">
+            <h3>Параметри за анализ:</h3>
+            <p>Изберете параметри за генериране на графиките...</p>
+            <!-- Controls will be added here -->
+        </div>
+        
+        <div class="chart-container">
+            <canvas id="efficiencyChart" width="800" height="400"></canvas>
+        </div>
+        
+        <div class="chart-container">
+            <canvas id="lossChart" width="400" height="400"></canvas>
+        </div>
+    </div>
+</section>
+{% endblock %}

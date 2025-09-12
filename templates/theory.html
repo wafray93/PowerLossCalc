@@ -1,32 +1,57 @@
-<!DOCTYPE html>
-<html lang="bg">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Теория - Si/SiC/GaN Транзистори</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
-    <header>
-        <h1>Научна теория и формули</h1>
-        <nav class="tab-navigation">
-            <a href="{{ url_for('calculator') }}" class="tab">Калкулатор</a>
-            <a href="{{ url_for('analysis') }}" class="tab">Анализ</a>
-            <a href="{{ url_for('advanced') }}" class="tab">Разширен</a>
-            <a href="{{ url_for('database') }}" class="tab">База данни</a>
-            <a href="{{ url_for('theory') }}" class="tab active">Теория</a>
-            <a href="{{ url_for('tools') }}" class="tab">Инструменти</a>
-        </nav>
-    </header>
+{% extends "base.html" %}
 
-    <main>
-        <section class="theory-content">
-            <h2>Физика на полупроводниците и формули</h2>
-            <p>Тук ще бъдат научните формули, референции и физическите основи...</p>
-            <!-- Theory, formulas and scientific content will be implemented here -->
-        </section>
-    </main>
+{% block title %}Теория{% endblock %}
 
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
-</body>
-</html>
+{% block page_title %}Научна теория и формули{% endblock %}
+
+{% block page_description %}Физика на полупроводниците, математически модели и научни референции за Si/SiC/GaN технологиите.{% endblock %}
+
+{% block content %}
+<section class="theory-content">
+    <div class="theory">
+        <h2>📖 Физика на полупроводниците и формули</h2>
+        <p>Тук ще бъдат научните формули, референции и физическите основи...</p>
+        <!-- Theory, formulas and scientific content will be implemented here -->
+        
+        <div class="theory-tabs">
+            <div class="theory-tab active" data-tab="conduction">Загуби от проводимост</div>
+            <div class="theory-tab" data-tab="switching">Загуби от превключване</div>
+            <div class="theory-tab" data-tab="thermal">Термична теория</div>
+            <div class="theory-tab" data-tab="comparison">Сравнение технологии</div>
+        </div>
+        
+        <div class="theory-tab-content" id="conduction-content">
+            <div class="theory-formula">
+                <h4>Формула за загуби от проводимост:</h4>
+                <p><code>P_cond = I_rms² × R_ds(on) × D</code></p>
+            </div>
+            <div class="theory-explanation">
+                <p>Където D е duty cycle (коефициент на запълване)...</p>
+            </div>
+        </div>
+        
+        <div class="theory-comparison">
+            <div class="tech-card si">
+                <h4>Si (Silicon)</h4>
+                <div class="tech-value">R_ds(on): Висок</div>
+                <div class="tech-value">f_sw: 10-50 kHz</div>
+                <div class="tech-value">Tj_max: 150°C</div>
+            </div>
+            
+            <div class="tech-card sic">
+                <h4>SiC (Silicon Carbide)</h4>
+                <div class="tech-value">R_ds(on): Среден</div>
+                <div class="tech-value">f_sw: 50-200 kHz</div>
+                <div class="tech-value">Tj_max: 200°C</div>
+            </div>
+            
+            <div class="tech-card gan">
+                <h4>GaN (Gallium Nitride)</h4>
+                <div class="tech-value">R_ds(on): Нисък</div>
+                <div class="tech-value">f_sw: 100kHz-1MHz</div>
+                <div class="tech-value">Tj_max: 150°C</div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

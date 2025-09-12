@@ -1,32 +1,35 @@
-<!DOCTYPE html>
-<html lang="bg">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Калкулатор - Si/SiC/GaN Транзистори</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
-    <header>
-        <h1>Калкулатор: Si / SiC / GaN Транзистори</h1>
-        <nav class="tab-navigation">
-            <a href="{{ url_for('calculator') }}" class="tab active">Калкулатор</a>
-            <a href="{{ url_for('analysis') }}" class="tab">Анализ</a>
-            <a href="{{ url_for('advanced') }}" class="tab">Разширен</a>
-            <a href="{{ url_for('database') }}" class="tab">База данни</a>
-            <a href="{{ url_for('theory') }}" class="tab">Теория</a>
-            <a href="{{ url_for('tools') }}" class="tab">Инструменти</a>
-        </nav>
-    </header>
+{% extends "base.html" %}
 
-    <main>
-        <section class="calculator-content">
-            <h2>Основни изчисления и избор на транзистор</h2>
-            <p>Тук ще бъде основният калкулатор интерфейс...</p>
-            <!-- Calculator content will be moved here from index.html -->
-        </section>
-    </main>
+{% block title %}Калкулатор{% endblock %}
 
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
-</body>
-</html>
+{% block page_title %}Основни изчисления и избор на транзистор{% endblock %}
+
+{% block page_description %}Изчислете загуби, ефективност и изберете подходящ Si/SiC/GaN транзистор за вашето приложение.{% endblock %}
+
+{% block content %}
+<section class="calculator-content">
+    <div class="controls">
+        <h2>📊 Въведи параметри</h2>
+        <p>Тук ще бъде основният калкулатор интерфейс...</p>
+        <!-- Calculator content will be moved here from index.html -->
+        
+        <div class="educational-info">
+            <h3>Как да използвате калкулатора:</h3>
+            <ul>
+                <li>Изберете технология: Si за стандартни приложения, SiC за висока ефективност, GaN за високи честоти</li>
+                <li>Въведете параметри на приложението: напрежение, ток, честота</li>
+                <li>Прегледайте резултатите и препоръките за оптимизация</li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="results">
+        <h2>📋 Резултати</h2>
+        <p>Резултатите от изчисленията ще се появят тук след като въведете параметрите и натиснете "Изчисли".</p>
+        
+        <div id="calculationResults" class="calculation-results">
+            <!-- Results will be populated by JavaScript -->
+        </div>
+    </div>
+</section>
+{% endblock %}
