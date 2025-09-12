@@ -259,6 +259,46 @@
     background: linear-gradient(135deg, #e67e22, #d35400);
     transform: translateY(-1px);
 }
+
+.results-section {
+    background: #f8f9fa;
+    border: 1px solid #dee2e6;
+    border-radius: 8px;
+    padding: 15px;
+    margin: 15px 0;
+}
+
+.results-section h4 {
+    color: #495057;
+    margin-bottom: 12px;
+    font-size: 1.1em;
+}
+
+.results-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.results-grid > div {
+    padding: 8px;
+    background: white;
+    border-radius: 4px;
+    font-size: 0.9em;
+}
+
+.soa-status {
+    padding: 10px;
+    border-radius: 6px;
+    margin: 10px 0;
+    font-weight: bold;
+    text-align: center;
+}
+
+.soa-safe { background: #d4edda; border: 1px solid #c3e6cb; color: #155724; }
+.soa-warning { background: #fff3cd; border: 1px solid #ffeaa7; color: #856404; }
+.soa-danger { background: #f8d7da; border: 1px solid #f5c6cb; color: #721c24; }
 </style>
 {% endblock %}
 
@@ -338,12 +378,7 @@
             <canvas id="millerChart"></canvas>
         </div>
         
-        <table class="results-table" id="millerResults">
-            <tr><th data-lang="parameter">Parameter</th><th data-lang="value">Value</th></tr>
-            <tr><td data-lang="millerMultiplier">Miller Multiplier</td><td id="millerMult">-</td></tr>
-            <tr><td data-lang="effectiveCapacitance">Effective Capacitance</td><td id="effectiveCap">-</td></tr>
-            <tr><td data-lang="millerCurrent">Miller Current (A)</td><td id="millerCurrent">-</td></tr>
-        </table>
+        <div class="results-section" id="millerResults" style="display:none;"></div>
     </div>
 
     <!-- Dead-time Analysis -->
@@ -379,12 +414,7 @@
             <canvas id="deadTimeChart"></canvas>
         </div>
         
-        <table class="results-table" id="deadTimeResults">
-            <tr><th data-lang="parameter">Parameter</th><th data-lang="value">Value</th></tr>
-            <tr><td data-lang="deadTimeLosses">Dead-time Losses (W)</td><td id="deadTimeLoss">-</td></tr>
-            <tr><td data-lang="bodyDiodeLosses">Body Diode Losses (W)</td><td id="bodyDiodeLoss">-</td></tr>
-            <tr><td data-lang="totalDeadTimeLoss">Total Dead-time Loss (W)</td><td id="totalDeadLoss">-</td></tr>
-        </table>
+        <div class="results-section" id="deadTimeResults" style="display:none;"></div>
     </div>
 
     <!-- Enhanced Thermal Modeling -->
@@ -471,6 +501,8 @@
             <canvas id="soaChart"></canvas>
         </div>
         
+        <div class="results-section" id="soaResults" style="display:none;"></div>
+        
         <div class="info-box">
             <strong data-lang="soaInfo">SOA Analysis:</strong>
             <span data-lang="soaDescription">This chart shows the Safe Operating Area limits and current switching trajectory. Operating points should remain within the SOA boundaries.</span>
@@ -520,6 +552,8 @@
         </div>
         
         <button class="calculate-btn" onclick="calculateParasitics()" data-lang="calculateParasitics">Calculate Parasitic Effects</button>
+        
+        <div class="results-section" id="parasiticsResults" style="display:none;"></div>
         
         <div class="advanced-grid" style="margin-top: 20px;">
             <div class="canvas-container">
