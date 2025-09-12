@@ -3092,6 +3092,9 @@ function getTechnologyPhysicsExplanationEn(techType) {
 
 // Thermal modeling function - renamed to match advanced.html expectations
 function calculateThermal() {
+  // Force reload selectedTransistor from storage first
+  loadSelectedTransistorFromStorage();
+  
   // Update the Analysis tab transistor display first
   updateAnalysisTransistorDisplay();
   
@@ -4700,11 +4703,14 @@ switchLanguage = function(lang, button) {
 // Miller Capacitance Analysis Function
 function calculateMillerEffect() {
   console.log('🔧 calculateMillerEffect called');
-  console.log('selectedTransistor:', selectedTransistor);
-  console.log('window.selectedTransistor:', window.selectedTransistor);
+  
+  // Force reload selectedTransistor from storage first
+  loadSelectedTransistorFromStorage();
   
   let transistor = selectedTransistor || window.selectedTransistor;
   let usingFallback = false;
+  
+  console.log('Miller - using transistor:', transistor ? transistor.name : 'null');
   
   if (!transistor) {
     // Use fallback transistor for Miller analysis
@@ -4824,10 +4830,14 @@ function calculateMillerEffect() {
 // Dead-time Analysis Function  
 function calculateDeadTime() {
   console.log('🔧 calculateDeadTime called');
-  console.log('selectedTransistor:', selectedTransistor);
+  
+  // Force reload selectedTransistor from storage first
+  loadSelectedTransistorFromStorage();
   
   let transistor = selectedTransistor || window.selectedTransistor;
   let usingFallback = false;
+  
+  console.log('DeadTime - using transistor:', transistor ? transistor.name : 'null');
   
   if (!transistor) {
     // Use fallback transistor for dead-time analysis
@@ -4941,10 +4951,14 @@ function calculateDeadTime() {
 // SOA (Safe Operating Area) Analysis Function
 function calculateSOA() {
   console.log('🔧 calculateSOA called');
-  console.log('selectedTransistor:', selectedTransistor);
+  
+  // Force reload selectedTransistor from storage first
+  loadSelectedTransistorFromStorage();
   
   let transistor = selectedTransistor || window.selectedTransistor;
   let usingFallback = false;
+  
+  console.log('SOA - using transistor:', transistor ? transistor.name : 'null');
   
   if (!transistor) {
     // Use fallback transistor for SOA analysis
