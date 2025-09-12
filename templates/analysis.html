@@ -80,22 +80,6 @@
         <h2 data-lang="totalLosses">🥧 Разпределение на загубите</h2>
         <p>Анализирайте разпределението между загуби от проводимост и превключване.</p>
         
-        <!-- Loss Values Display (for Analysis tab) -->
-        <div class="loss-values" style="display: flex; justify-content: space-around; margin: 20px 0; background: white; padding: 15px; border-radius: 8px; border: 1px solid #dee2e6;">
-            <div class="loss-item">
-                <strong data-lang="conductionLosses">Conduction losses:</strong><br>
-                <span id="pCondAnalysis" style="color: #004aad; font-weight: bold; font-size: 16px;">—</span>
-            </div>
-            <div class="loss-item">
-                <strong data-lang="switchingLosses">Switching losses:</strong><br>
-                <span id="pSwAnalysis" style="color: #00c896; font-weight: bold; font-size: 16px;">—</span>
-            </div>
-            <div class="loss-item">
-                <strong data-lang="totalLosses" style="color: #d32f2f;">Total losses:</strong><br>
-                <span id="pTotalAnalysis" style="color: #d32f2f; font-weight: bold; font-size: 18px; background: rgba(211, 47, 47, 0.1); padding: 5px 10px; border-radius: 4px;">—</span>
-            </div>
-        </div>
-        
         <div class="chart-container">
             <canvas id="lossChart" width="400" height="400"></canvas>
             <button id="copyLossChart" data-lang="copyChart">📋 Копирай графика</button>
