@@ -1005,7 +1005,7 @@ button:hover::before {
 /* Style for when transistor is selected */
 #transistorSelect.has-selection {
   border-color: var(--success-color);
-  background: #f8fff8;
+  /* background: #f8fff8; */ /* REMOVED - no background color to avoid red/pink tinting */
 }
 
 /* Tooltip styles */
