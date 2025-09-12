@@ -40,13 +40,13 @@
 }
 
 .input-group {
-    margin-bottom: 20px;
+    margin-bottom: 15px;
 }
 
 .input-row {
     display: flex;
-    gap: 15px;
-    margin-bottom: 15px;
+    gap: 10px;
+    margin-bottom: 10px;
     align-items: center;
 }
 
@@ -91,26 +91,30 @@
 }
 
 .results-table {
-    width: 100%;
+    width: auto;
+    max-width: 600px;
     border-collapse: collapse;
-    margin-top: 20px;
+    margin-top: 15px;
     background: white;
     border-radius: 8px;
     overflow: hidden;
     box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    font-size: 0.9em;
 }
 
 .results-table th {
     background: #34495e;
     color: white;
-    padding: 12px 15px;
+    padding: 8px 12px;
     text-align: left;
     font-weight: 600;
+    font-size: 0.85em;
 }
 
 .results-table td {
-    padding: 12px 15px;
+    padding: 6px 12px;
     border-bottom: 1px solid #ecf0f1;
+    white-space: nowrap;
 }
 
 .results-table tr:nth-child(even) {
