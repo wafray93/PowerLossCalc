@@ -127,13 +127,13 @@ const LANGUAGES = {
     mutualInductanceLabel: 'Mutual Inductance (nH)',
     couplingFactorLabel: 'Coupling Factor',
     calculateParasitics: 'Изчисли паразитни ефекти',
-    voltageSpikeAnalysis: 'Voltage Spike анализ',
-    ringingAnalysis: 'Ringing анализ',
+    voltageSpikeAnalysis: 'Анализ на скоковете в напрежението',
+    ringingAnalysis: 'Анализ на трептенията',
     impact: 'Въздействие',
     totalESR: 'Общ ESR (mΩ)',
     totalESL: 'Общ ESL (nH)',
-    voltageSpike: 'Макс Voltage Spike (V)',
-    ringingFrequency: 'Ringing честота (MHz)',
+    voltageSpike: 'Макс скок на напрежението (V)',
+    ringingFrequency: 'Честота на трептенията (MHz)',
     warningsTitle: '⚠️ Предупреждения:',
     
     // Tools page translations
@@ -5279,34 +5279,36 @@ function calculateParasitics() {
       `<div class="warnings"><h5>⚠️ Предупреждения:</h5>${warningsArray.map(w => `<p>${w}</p>`).join('')}</div>` : 
       '<div class="warnings success">✅ Паразитните ефекти са в приемливи граници</div>';
     
-    parasiticResultsDiv.innerHTML = `
-      <h4>🔌 Parasitic Effects Results:</h4>
-      <div class="results-grid">
-        <div><strong>Total ESR:</strong> ${totalESR.toFixed(1)} mΩ</div>
-        <div><strong>Total ESL:</strong> ${totalESL.toFixed(1)} nH</div>
-        <div><strong>Voltage Spike:</strong> ${voltageSpike.toFixed(1)} V (Max: ${maxVoltageSpike.toFixed(1)} V)</div>
-        <div><strong>Ringing Frequency:</strong> ${(ringingFreq/1000000).toFixed(1)} MHz</div>
-        <div><strong>Resistive Losses:</strong> ${resistiveLosses.toFixed(3)} W</div>
-        <div><strong>Coupled Noise:</strong> ${coupledNoise.toFixed(2)} V</div>
-      </div>
-      ${warningsHtml}
-      <div class="explanation">
-        <p><strong>🔬 Physics explanation:</strong></p>
-        <p>Паразитните ESR и ESL на корпуса и PCB създават voltage spikes и ringing. 
-        ESR причинява резистивни загуби, ESL причинява L×di/dt spikes.</p>
-        <p><strong>📏 Formulas:</strong><br>
-        Vspike = L × di/dt = ${totalESL}nH × ${(di_dt/1000000).toFixed(1)}MA/s = ${voltageSpike.toFixed(1)}V<br>
-        fringing = 1/(2π√LC) = 1/(2π√(${totalESL}nH × ${(parasiticCapacitance*1e12).toFixed(0)}pF)) = ${(ringingFreq/1000000).toFixed(1)}MHz<br>
-        PESR = I²R = ${iLoad}² × ${totalESR}mΩ = ${resistiveLosses.toFixed(3)}W</p>
-        <div class="recommendations">
-          <strong>💡 Recommendations:</strong><br>
-          • Използвайте кратки и широки PCB traces за намаляване на ESL<br>
-          • Добавете snubber capacitors за потискане на ringing<br>
-          • Използвайте kelvin source connection за намаляване на gate noise<br>
-          • Минимизирайте loop areas за намаляване на mutual inductance
-        </div>
-      </div>
-    `;
+    // Попълни таблицата със стойности
+    const totalESREl = document.getElementById('totalESR');
+    const totalESLEl = document.getElementById('totalESL');
+    const maxVoltageSpikeEl = document.getElementById('maxVoltageSpike');
+    const ringingFreqEl = document.getElementById('ringingFreq');
+    const esrImpactEl = document.getElementById('esrImpact');
+    const eslImpactEl = document.getElementById('eslImpact');
+    const spikeImpactEl = document.getElementById('spikeImpact');
+    const freqImpactEl = document.getElementById('freqImpact');
+    
+    if (totalESREl) totalESREl.textContent = `${totalESR.toFixed(1)}`;
+    if (totalESLEl) totalESLEl.textContent = `${totalESL.toFixed(1)}`;
+    if (maxVoltageSpikeEl) maxVoltageSpikeEl.textContent = `${maxVoltageSpike.toFixed(1)}`;
+    if (ringingFreqEl) ringingFreqEl.textContent = `${(ringingFreq/1000000).toFixed(1)}`;
+    
+    // Попълни въздействието
+    if (esrImpactEl) esrImpactEl.textContent = `${resistiveLosses.toFixed(3)} W загуби`;
+    if (eslImpactEl) eslImpactEl.textContent = `${voltageSpike.toFixed(1)} V скок`;
+    if (spikeImpactEl) spikeImpactEl.textContent = maxVoltageSpike > transistor.vds_max * 0.8 ? '🔥 Опасност' : '✅ Нормално';
+    if (freqImpactEl) freqImpactEl.textContent = ringingFreq < fsw * 1000 * 10 ? '⚠️ Близо до Fsw' : '✅ Добро разделение';
+    
+    // Покажи предупреждения ако има
+    const parasiticWarnings = document.getElementById('parasiticWarnings');
+    const warningsList = document.getElementById('warningsList');
+    if (warningsArray.length > 0 && parasiticWarnings && warningsList) {
+      warningsList.innerHTML = warningsArray.map(w => `<p>${w}</p>`).join('');
+      parasiticWarnings.style.display = 'block';
+    } else if (parasiticWarnings) {
+      parasiticWarnings.style.display = 'none';
+    }
     parasiticResultsDiv.style.display = 'block';
   }
   
@@ -5332,7 +5334,7 @@ function calculateParasitics() {
       data: {
         labels: timePoints,
         datasets: [{
-          label: 'Voltage Spike (V)',
+          label: 'Скок на напрежението (V)',
           data: voltagePoints,
           borderColor: '#e74c3c',
           backgroundColor: 'rgba(231, 76, 60, 0.1)',
@@ -5345,12 +5347,12 @@ function calculateParasitics() {
         plugins: {
           title: {
             display: true,
-            text: `Voltage Spikes: Max ${voltageSpike.toFixed(1)}V`
+            text: `Скокове в напрежението: Макс ${voltageSpike.toFixed(1)}V`
           }
         },
         scales: {
-          x: { title: { display: true, text: 'Time (ns)' } },
-          y: { title: { display: true, text: 'Voltage Spike (V)' } }
+          x: { title: { display: true, text: 'Време (ns)' } },
+          y: { title: { display: true, text: 'Скок на напрежението (V)' } }
         }
       }
     });
@@ -5379,7 +5381,7 @@ function calculateParasitics() {
       data: {
         labels: frequencies,
         datasets: [{
-          label: 'Impedance (mΩ)',
+          label: 'Импеданс (mΩ)',
           data: impedances,
           borderColor: '#f39c12',
           backgroundColor: 'rgba(243, 156, 18, 0.1)',
@@ -5392,12 +5394,12 @@ function calculateParasitics() {
         plugins: {
           title: {
             display: true,
-            text: `Ringing Analysis: ${(ringingFreq/1e6).toFixed(1)}MHz`
+            text: `Анализ на трептенията: ${(ringingFreq/1e6).toFixed(1)}MHz`
           }
         },
         scales: {
-          x: { title: { display: true, text: 'Frequency (MHz)' } },
-          y: { title: { display: true, text: 'Impedance (mΩ)' } }
+          x: { title: { display: true, text: 'Честота (MHz)' } },
+          y: { title: { display: true, text: 'Импеданс (mΩ)' } }
         }
       }
     });
