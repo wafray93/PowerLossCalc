@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Разширен анализ - Si/SiC/GaN Транзистори</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Разширен анализ</h1>
+        <nav class="tab-navigation">
+            <a href="{{ url_for('calculator') }}" class="tab">Калкулатор</a>
+            <a href="{{ url_for('analysis') }}" class="tab">Анализ</a>
+            <a href="{{ url_for('advanced') }}" class="tab active">Разширен</a>
+            <a href="{{ url_for('database') }}" class="tab">База данни</a>
+            <a href="{{ url_for('theory') }}" class="tab">Теория</a>
+            <a href="{{ url_for('tools') }}" class="tab">Инструменти</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="advanced-content">
+            <h2>Термичен анализ и разширени параметри</h2>
+            <p>Тук ще бъдат thermal analysis, Miller capacitance, dead-time изчисления...</p>
+            <!-- Advanced analysis tools will be implemented here -->
+        </section>
+    </main>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

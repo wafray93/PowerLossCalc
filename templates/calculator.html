@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="bg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Калкулатор - Si/SiC/GaN Транзистори</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Калкулатор: Si / SiC / GaN Транзистори</h1>
+        <nav class="tab-navigation">
+            <a href="{{ url_for('calculator') }}" class="tab active">Калкулатор</a>
+            <a href="{{ url_for('analysis') }}" class="tab">Анализ</a>
+            <a href="{{ url_for('advanced') }}" class="tab">Разширен</a>
+            <a href="{{ url_for('database') }}" class="tab">База данни</a>
+            <a href="{{ url_for('theory') }}" class="tab">Теория</a>
+            <a href="{{ url_for('tools') }}" class="tab">Инструменти</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="calculator-content">
+            <h2>Основни изчисления и избор на транзистор</h2>
+            <p>Тук ще бъде основният калкулатор интерфейс...</p>
+            <!-- Calculator content will be moved here from index.html -->
+        </section>
+    </main>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
