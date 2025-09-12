@@ -14,18 +14,21 @@
     grid-template-columns: 1fr;
     gap: 25px;
     margin: 20px auto;
-    max-width: 1200px;
+    max-width: 900px;
+    padding: 0 20px;
 }
 
 .analysis-section {
     background: linear-gradient(145deg, #ffffff, #f8f9fa);
     border: 1px solid #e3e6ea;
     border-radius: 12px;
-    padding: 25px;
+    padding: 20px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.08);
     transition: all 0.3s ease;
-    max-width: 1200px;
-    margin: 0 auto 20px auto;
+    max-width: 100%;
+    margin: 0 0 20px 0;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
 }
 
 .analysis-section:hover {
@@ -271,6 +274,19 @@
     margin: 15px 0;
     max-width: 100%;
     word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.canvas-container {
+    width: 100%;
+    max-width: 100%;
+    margin: 20px 0;
+    text-align: center;
+}
+
+.canvas-container canvas {
+    max-width: 100%;
+    height: auto;
 }
 
 .results-section h4 {

@@ -3281,6 +3281,68 @@ function calculateThermal() {
     thermalExplanation.textContent = explanationText + scientificInfo;
   }
   
+  // Create thermal chart
+  const thermalChartCanvas = document.getElementById('thermalChart');
+  if (thermalChartCanvas) {
+    const ctx = thermalChartCanvas.getContext('2d');
+    
+    if (window.thermalChart && typeof window.thermalChart.destroy === 'function') {
+      window.thermalChart.destroy();
+    }
+    
+    // Generate thermal curve data
+    const powers = [];
+    const junctionTemps = [];
+    const maxTemp = 150;
+    
+    for (let p = 0; p <= 100; p += 5) {
+      powers.push(p);
+      const tj = ambientTemp + (p * rth_ja);
+      junctionTemps.push(tj);
+    }
+    
+    window.thermalChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: powers,
+        datasets: [{
+          label: 'Junction Temperature (°C)',
+          data: junctionTemps,
+          borderColor: '#e74c3c',
+          backgroundColor: 'rgba(231, 76, 60, 0.1)',
+          borderWidth: 2,
+          fill: true
+        }, {
+          label: 'Max Junction Temp (150°C)',
+          data: powers.map(() => maxTemp),
+          borderColor: '#c0392b',
+          backgroundColor: 'transparent',
+          borderDash: [5, 5],
+          borderWidth: 2,
+          pointRadius: 0
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          title: {
+            display: true,
+            text: `Thermal Analysis: ${transistor.name} (${rth_ja.toFixed(2)}K/W)`
+          }
+        },
+        scales: {
+          x: {
+            title: { display: true, text: 'Power Dissipation (W)' }
+          },
+          y: {
+            title: { display: true, text: 'Temperature (°C)' },
+            max: 175
+          }
+        }
+      }
+    });
+  }
+  
   // thermalResultsDiv already declared above, just use it with null safety
   if (thermalResultsDiv) {
     thermalResultsDiv.style.display = 'block';
@@ -5056,6 +5118,71 @@ function calculateSOA() {
                    safetyStatus.includes('CAUTION') ? (currentLang === 'bg' ? 'Внимание' : 'Caution') : 
                    (currentLang === 'bg' ? 'Опасно' : 'Danger');
   
+  // Create SOA chart
+  const soaChartCanvas = document.getElementById('soaChart');
+  if (soaChartCanvas) {
+    const ctx = soaChartCanvas.getContext('2d');
+    
+    if (window.soaChart && typeof window.soaChart.destroy === 'function') {
+      window.soaChart.destroy();
+    }
+    
+    const maxVolts = transistor.vds_max;
+    const maxCurrent = transistor.id_max;
+    const thermalPower = 50;
+    
+    const soaBoundary = [
+      {x: 0, y: maxCurrent},
+      {x: 12, y: Math.min(maxCurrent, thermalPower / 12)},
+      {x: busVoltage, y: Math.min(maxCurrent, thermalPower / busVoltage)},
+      {x: maxVolts, y: thermalPower / maxVolts},
+      {x: maxVolts, y: 0},
+      {x: 0, y: 0}
+    ];
+    
+    const operatingPoint = {x: busVoltage, y: maxSwitchingCurrent};
+    
+    window.soaChart = new Chart(ctx, {
+      type: 'scatter',
+      data: {
+        datasets: [{
+          label: 'SOA Boundary',
+          data: soaBoundary,
+          borderColor: '#3498db',
+          backgroundColor: 'rgba(52, 152, 219, 0.1)',
+          showLine: true,
+          fill: true,
+          pointRadius: 3
+        }, {
+          label: 'Operating Point',
+          data: [operatingPoint],
+          borderColor: voltageMargin > 10 && currentMargin > 10 ? '#27ae60' : '#e74c3c',
+          backgroundColor: voltageMargin > 10 && currentMargin > 10 ? '#27ae60' : '#e74c3c',
+          pointRadius: 8
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          title: {
+            display: true,
+            text: `SOA Analysis: ${safetyStatus}`
+          }
+        },
+        scales: {
+          x: {
+            title: { display: true, text: 'Voltage (V)' },
+            max: maxVolts * 1.1
+          },
+          y: {
+            title: { display: true, text: 'Current (A)' },
+            max: maxCurrent * 1.1
+          }
+        }
+      }
+    });
+  }
+
   const message = currentLang === 'bg' ? 
     `✅ SOA анализ завършен! Статус: ${statusMsg}` : 
     `✅ SOA analysis completed! Status: ${statusMsg}`;
@@ -5181,6 +5308,99 @@ function calculateParasitics() {
       </div>
     `;
     parasiticResultsDiv.style.display = 'block';
+  }
+  
+  // Create voltage spikes chart
+  const voltageSpikesChartCanvas = document.getElementById('voltageSpikesChart');
+  if (voltageSpikesChartCanvas) {
+    const ctx1 = voltageSpikesChartCanvas.getContext('2d');
+    
+    if (window.voltageSpikesChart && typeof window.voltageSpikesChart.destroy === 'function') {
+      window.voltageSpikesChart.destroy();
+    }
+    
+    const timePoints = [];
+    const voltagePoints = [];
+    for (let t = 0; t <= 100; t += 1) {
+      timePoints.push(t);
+      const voltage = voltageSpike * Math.exp(-t/20) * Math.sin(2*Math.PI*ringingFreq*t*1e-9*1e6);
+      voltagePoints.push(voltage);
+    }
+    
+    window.voltageSpikesChart = new Chart(ctx1, {
+      type: 'line',
+      data: {
+        labels: timePoints,
+        datasets: [{
+          label: 'Voltage Spike (V)',
+          data: voltagePoints,
+          borderColor: '#e74c3c',
+          backgroundColor: 'rgba(231, 76, 60, 0.1)',
+          borderWidth: 2,
+          fill: true
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          title: {
+            display: true,
+            text: `Voltage Spikes: Max ${voltageSpike.toFixed(1)}V`
+          }
+        },
+        scales: {
+          x: { title: { display: true, text: 'Time (ns)' } },
+          y: { title: { display: true, text: 'Voltage Spike (V)' } }
+        }
+      }
+    });
+  }
+
+  // Create ringing analysis chart
+  const ringingChartCanvas = document.getElementById('ringingChart');
+  if (ringingChartCanvas) {
+    const ctx2 = ringingChartCanvas.getContext('2d');
+    
+    if (window.ringingChart && typeof window.ringingChart.destroy === 'function') {
+      window.ringingChart.destroy();
+    }
+    
+    const frequencies = [];
+    const impedances = [];
+    for (let f = 0.1; f <= 100; f += 1) {
+      frequencies.push(f);
+      const omega = 2 * Math.PI * f * 1e6;
+      const impedance = Math.sqrt(Math.pow(totalESR*1e-3, 2) + Math.pow(omega * totalESL*1e-9, 2));
+      impedances.push(impedance * 1000);
+    }
+    
+    window.ringingChart = new Chart(ctx2, {
+      type: 'line',
+      data: {
+        labels: frequencies,
+        datasets: [{
+          label: 'Impedance (mΩ)',
+          data: impedances,
+          borderColor: '#f39c12',
+          backgroundColor: 'rgba(243, 156, 18, 0.1)',
+          borderWidth: 2,
+          fill: true
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          title: {
+            display: true,
+            text: `Ringing Analysis: ${(ringingFreq/1e6).toFixed(1)}MHz`
+          }
+        },
+        scales: {
+          x: { title: { display: true, text: 'Frequency (MHz)' } },
+          y: { title: { display: true, text: 'Impedance (mΩ)' } }
+        }
+      }
+    });
   }
   
   // Show success message
