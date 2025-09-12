@@ -1,57 +1,958 @@
 {% extends "base.html" %}
 
-{% block title %}Теория{% endblock %}
+{% block title %}
+<span class="lang-bg">Теория</span>
+<span class="lang-en" style="display: none;">Theory</span>
+{% endblock %}
 
-{% block page_title %}Научна теория и формули{% endblock %}
+{% block page_title %}
+<span class="lang-bg">Научна теория и формули</span>
+<span class="lang-en" style="display: none;">Scientific Theory and Formulas</span>
+{% endblock %}
 
-{% block page_description %}Физика на полупроводниците, математически модели и научни референции за Si/SiC/GaN технологиите.{% endblock %}
+{% block page_description %}
+<span class="lang-bg">Физика на полупроводниците, математически модели и научни референции за Si/SiC/GaN технологиите.</span>
+<span class="lang-en" style="display: none;">Semiconductor physics, mathematical models and scientific references for Si/SiC/GaN technologies.</span>
+{% endblock %}
+
+{% block extra_head %}
+<!-- MathJax Configuration and Loading -->
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+    tags: 'ams',
+    processEscapes: true,
+    processEnvironments: true
+  },
+  options: {
+    skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+    ignoreHtmlClass: 'tex2jax_ignore',
+    processHtmlClass: 'tex2jax_process'
+  },
+  svg: {
+    fontCache: 'global'
+  }
+};
+</script>
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+</script>
+
+<style>
+.theory-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.theory-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 30px;
+  border-bottom: 2px solid var(--primary-color);
+  padding-bottom: 10px;
+}
+
+.theory-tab {
+  background: var(--surface-color);
+  border: 2px solid var(--border-color);
+  border-radius: 8px;
+  padding: 12px 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 500;
+  min-width: 160px;
+  text-align: center;
+}
+
+.theory-tab:hover {
+  background: var(--hover-color);
+  border-color: var(--primary-color);
+}
+
+.theory-tab.active {
+  background: var(--primary-color);
+  color: white;
+  border-color: var(--primary-color);
+}
+
+.theory-tab-content {
+  display: none;
+  background: var(--surface-color);
+  border-radius: 12px;
+  padding: 30px;
+  border: 1px solid var(--border-color);
+  margin-bottom: 30px;
+}
+
+.theory-tab-content.active {
+  display: block;
+}
+
+.theory-formula {
+  background: #f8f9fa;
+  border: 2px solid var(--primary-color);
+  border-radius: 8px;
+  padding: 20px;
+  margin: 20px 0;
+  text-align: center;
+}
+
+.theory-formula h4 {
+  color: var(--primary-color);
+  margin-bottom: 15px;
+}
+
+.formula-latex {
+  font-size: 1.2em;
+  color: #2c3e50;
+  margin: 15px 0;
+}
+
+.theory-explanation {
+  margin: 25px 0;
+  line-height: 1.6;
+}
+
+.theory-explanation h5 {
+  color: var(--primary-color);
+  margin: 20px 0 10px 0;
+}
+
+.parameter-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+}
+
+.parameter-table th,
+.parameter-table td {
+  border: 1px solid var(--border-color);
+  padding: 12px;
+  text-align: left;
+}
+
+.parameter-table th {
+  background: var(--primary-color);
+  color: white;
+  font-weight: 600;
+}
+
+.parameter-table tr:nth-child(even) {
+  background: #f8f9fa;
+}
+
+.tech-comparison-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  margin: 30px 0;
+}
+
+.tech-card {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border-radius: 12px;
+  padding: 25px;
+  text-align: center;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+  transition: transform 0.3s ease;
+}
+
+.tech-card:hover {
+  transform: translateY(-5px);
+}
+
+.tech-card.si {
+  background: linear-gradient(135deg, #FF6B6B 0%, #4ECDC4 100%);
+}
+
+.tech-card.sic {
+  background: linear-gradient(135deg, #4ECDC4 0%, #45B7D1 100%);
+}
+
+.tech-card.gan {
+  background: linear-gradient(135deg, #96CEB4 0%, #FFEAA7 100%);
+  color: #2d3436;
+}
+
+.tech-card h4 {
+  margin-bottom: 20px;
+  font-size: 1.4em;
+  font-weight: 700;
+}
+
+.tech-properties {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.tech-property {
+  background: rgba(255,255,255,0.2);
+  padding: 10px;
+  border-radius: 6px;
+  font-size: 0.9em;
+}
+
+.references-section {
+  background: #f8f9fa;
+  border-radius: 12px;
+  padding: 30px;
+  margin: 30px 0;
+}
+
+.reference-item {
+  margin: 15px 0;
+  padding: 15px;
+  background: white;
+  border-left: 4px solid var(--primary-color);
+  border-radius: 6px;
+}
+
+.reference-authors {
+  font-weight: 600;
+  color: var(--primary-color);
+}
+
+.reference-title {
+  font-style: italic;
+  margin: 5px 0;
+}
+
+.reference-source {
+  color: #666;
+  font-size: 0.9em;
+}
+
+.physics-basics {
+  background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+  border-radius: 12px;
+  padding: 30px;
+  margin: 30px 0;
+}
+
+.physics-concept {
+  margin: 20px 0;
+  padding: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.concept-title {
+  color: var(--primary-color);
+  font-weight: 600;
+  font-size: 1.1em;
+  margin-bottom: 10px;
+}
+
+.warning-box {
+  background: #fff3cd;
+  border: 1px solid #ffeaa7;
+  border-left: 4px solid #f39c12;
+  border-radius: 6px;
+  padding: 15px;
+  margin: 20px 0;
+}
+
+.info-box {
+  background: #d1ecf1;
+  border: 1px solid #bee5eb;
+  border-left: 4px solid #17a2b8;
+  border-radius: 6px;
+  padding: 15px;
+  margin: 20px 0;
+}
+
+@media (max-width: 768px) {
+  .theory-tabs {
+    flex-direction: column;
+  }
+  
+  .tech-comparison-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .tech-properties {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
+{% endblock %}
 
 {% block content %}
 <section class="theory-content">
     <div class="theory">
-        <h2>📖 Физика на полупроводниците и формули</h2>
-        <p>Тук ще бъдат научните формули, референции и физическите основи...</p>
-        <!-- Theory, formulas and scientific content will be implemented here -->
+        <h2>
+            <span class="lang-bg">📖 Физика на полупроводниците и формули</span>
+            <span class="lang-en" style="display: none;">📖 Semiconductor Physics and Formulas</span>
+        </h2>
         
         <div class="theory-tabs">
-            <div class="theory-tab active" data-tab="conduction">Загуби от проводимост</div>
-            <div class="theory-tab" data-tab="switching">Загуби от превключване</div>
-            <div class="theory-tab" data-tab="thermal">Термична теория</div>
-            <div class="theory-tab" data-tab="comparison">Сравнение технологии</div>
+            <div class="theory-tab active" data-tab="conduction">
+                <span class="lang-bg">Загуби от проводимост</span>
+                <span class="lang-en" style="display: none;">Conduction Losses</span>
+            </div>
+            <div class="theory-tab" data-tab="switching">
+                <span class="lang-bg">Загуби от превключване</span>
+                <span class="lang-en" style="display: none;">Switching Losses</span>
+            </div>
+            <div class="theory-tab" data-tab="thermal">
+                <span class="lang-bg">Термична теория</span>
+                <span class="lang-en" style="display: none;">Thermal Theory</span>
+            </div>
+            <div class="theory-tab" data-tab="comparison">
+                <span class="lang-bg">Сравнение технологии</span>
+                <span class="lang-en" style="display: none;">Technology Comparison</span>
+            </div>
+            <div class="theory-tab" data-tab="physics">
+                <span class="lang-bg">Основи физика</span>
+                <span class="lang-en" style="display: none;">Physics Basics</span>
+            </div>
+            <div class="theory-tab" data-tab="references">
+                <span class="lang-bg">Референции</span>
+                <span class="lang-en" style="display: none;">References</span>
+            </div>
         </div>
         
-        <div class="theory-tab-content" id="conduction-content">
+        <!-- Conduction Losses Tab -->
+        <div class="theory-tab-content active" id="conduction-content">
+            <h3>
+                <span class="lang-bg">Загуби от проводимост</span>
+                <span class="lang-en" style="display: none;">Conduction Losses</span>
+            </h3>
+            
             <div class="theory-formula">
-                <h4>Формула за загуби от проводимост:</h4>
-                <p><code>P_cond = I_rms² × R_ds(on) × D</code></p>
+                <h4>
+                    <span class="lang-bg">Основна формула за загуби от проводимост:</span>
+                    <span class="lang-en" style="display: none;">Basic Conduction Loss Formula:</span>
+                </h4>
+                <div class="formula-latex">
+                    $$P_{cond} = I_{RMS}^2 \times R_{DS(on)} \times D$$
+                </div>
             </div>
+            
             <div class="theory-explanation">
-                <p>Където D е duty cycle (коефициент на запълване)...</p>
+                <h5>
+                    <span class="lang-bg">Параметри на формулата:</span>
+                    <span class="lang-en" style="display: none;">Formula Parameters:</span>
+                </h5>
+                <table class="parameter-table">
+                    <thead>
+                        <tr>
+                            <th>
+                                <span class="lang-bg">Параметър</span>
+                                <span class="lang-en" style="display: none;">Parameter</span>
+                            </th>
+                            <th>
+                                <span class="lang-bg">Описание</span>
+                                <span class="lang-en" style="display: none;">Description</span>
+                            </th>
+                            <th>
+                                <span class="lang-bg">Единица</span>
+                                <span class="lang-en" style="display: none;">Unit</span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>$P_{cond}$</td>
+                            <td>
+                                <span class="lang-bg">Загуби от проводимост</span>
+                                <span class="lang-en" style="display: none;">Conduction losses</span>
+                            </td>
+                            <td>W</td>
+                        </tr>
+                        <tr>
+                            <td>$I_{RMS}$</td>
+                            <td>
+                                <span class="lang-bg">RMS стойност на тока</span>
+                                <span class="lang-en" style="display: none;">RMS current value</span>
+                            </td>
+                            <td>A</td>
+                        </tr>
+                        <tr>
+                            <td>$R_{DS(on)}$</td>
+                            <td>
+                                <span class="lang-bg">Съпротивление drain-source при включен транзистор</span>
+                                <span class="lang-en" style="display: none;">Drain-source resistance when transistor is on</span>
+                            </td>
+                            <td>Ω</td>
+                        </tr>
+                        <tr>
+                            <td>$D$</td>
+                            <td>
+                                <span class="lang-bg">Duty cycle (коефициент на запълване)</span>
+                                <span class="lang-en" style="display: none;">Duty cycle</span>
+                            </td>
+                            <td>-</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="theory-formula">
+                <h4>
+                    <span class="lang-bg">Температурна зависимост на RDS(on):</span>
+                    <span class="lang-en" style="display: none;">Temperature Dependency of RDS(on):</span>
+                </h4>
+                <div class="formula-latex">
+                    $$R_{DS(on)}(T) = R_{DS(on)}(25°C) \times [1 + \alpha \times (T - 25)]$$
+                </div>
+            </div>
+            
+            <div class="info-box">
+                <strong>
+                    <span class="lang-bg">Важна информация:</span>
+                    <span class="lang-en" style="display: none;">Important Information:</span>
+                </strong>
+                <p class="lang-bg">Загубите от проводимост се увеличават с температурата, тъй като RDS(on) расте с коефициент α (обикновено 0.004-0.008 /°C за Si MOSFETs).</p>
+                <p class="lang-en" style="display: none;">Conduction losses increase with temperature as RDS(on) grows with coefficient α (typically 0.004-0.008 /°C for Si MOSFETs).</p>
             </div>
         </div>
         
-        <div class="theory-comparison">
-            <div class="tech-card si">
-                <h4>Si (Silicon)</h4>
-                <div class="tech-value">R_ds(on): Висок</div>
-                <div class="tech-value">f_sw: 10-50 kHz</div>
-                <div class="tech-value">Tj_max: 150°C</div>
+        <!-- Switching Losses Tab -->
+        <div class="theory-tab-content" id="switching-content">
+            <h3>
+                <span class="lang-bg">Загуби от превключване</span>
+                <span class="lang-en" style="display: none;">Switching Losses</span>
+            </h3>
+            
+            <div class="theory-formula">
+                <h4>
+                    <span class="lang-bg">Общи загуби от превключване:</span>
+                    <span class="lang-en" style="display: none;">Total Switching Losses:</span>
+                </h4>
+                <div class="formula-latex">
+                    $$P_{sw} = (E_{on} + E_{off}) \times f_{sw}$$
+                </div>
             </div>
             
-            <div class="tech-card sic">
-                <h4>SiC (Silicon Carbide)</h4>
-                <div class="tech-value">R_ds(on): Среден</div>
-                <div class="tech-value">f_sw: 50-200 kHz</div>
-                <div class="tech-value">Tj_max: 200°C</div>
+            <div class="theory-formula">
+                <h4>
+                    <span class="lang-bg">Енергия при включване:</span>
+                    <span class="lang-en" style="display: none;">Turn-on Energy:</span>
+                </h4>
+                <div class="formula-latex">
+                    $$E_{on} = \frac{1}{2} \times V_{DS} \times I_D \times t_r$$
+                </div>
             </div>
             
-            <div class="tech-card gan">
-                <h4>GaN (Gallium Nitride)</h4>
-                <div class="tech-value">R_ds(on): Нисък</div>
-                <div class="tech-value">f_sw: 100kHz-1MHz</div>
-                <div class="tech-value">Tj_max: 150°C</div>
+            <div class="theory-formula">
+                <h4>
+                    <span class="lang-bg">Енергия при изключване:</span>
+                    <span class="lang-en" style="display: none;">Turn-off Energy:</span>
+                </h4>
+                <div class="formula-latex">
+                    $$E_{off} = \frac{1}{2} \times V_{DS} \times I_D \times t_f$$
+                </div>
+            </div>
+            
+            <div class="theory-explanation">
+                <h5>
+                    <span class="lang-bg">Параметри на превключване:</span>
+                    <span class="lang-en" style="display: none;">Switching Parameters:</span>
+                </h5>
+                <table class="parameter-table">
+                    <thead>
+                        <tr>
+                            <th>
+                                <span class="lang-bg">Параметър</span>
+                                <span class="lang-en" style="display: none;">Parameter</span>
+                            </th>
+                            <th>
+                                <span class="lang-bg">Описание</span>
+                                <span class="lang-en" style="display: none;">Description</span>
+                            </th>
+                            <th>
+                                <span class="lang-bg">Типични стойности</span>
+                                <span class="lang-en" style="display: none;">Typical Values</span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>$t_r$</td>
+                            <td>
+                                <span class="lang-bg">Време на нарастване</span>
+                                <span class="lang-en" style="display: none;">Rise time</span>
+                            </td>
+                            <td>Si: 20-100ns, SiC: 10-50ns, GaN: 1-10ns</td>
+                        </tr>
+                        <tr>
+                            <td>$t_f$</td>
+                            <td>
+                                <span class="lang-bg">Време на спадане</span>
+                                <span class="lang-en" style="display: none;">Fall time</span>
+                            </td>
+                            <td>Si: 50-200ns, SiC: 20-80ns, GaN: 2-15ns</td>
+                        </tr>
+                        <tr>
+                            <td>$f_{sw}$</td>
+                            <td>
+                                <span class="lang-bg">Честота на превключване</span>
+                                <span class="lang-en" style="display: none;">Switching frequency</span>
+                            </td>
+                            <td>Si: 10-50kHz, SiC: 50-200kHz, GaN: 100kHz-1MHz</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="warning-box">
+                <strong>
+                    <span class="lang-bg">⚠️ Внимание:</span>
+                    <span class="lang-en" style="display: none;">⚠️ Warning:</span>
+                </strong>
+                <p class="lang-bg">Загубите от превключване растат линейно с честотата и квадратично с напрежението!</p>
+                <p class="lang-en" style="display: none;">Switching losses grow linearly with frequency and quadratically with voltage!</p>
+            </div>
+        </div>
+        
+        <!-- Thermal Theory Tab -->
+        <div class="theory-tab-content" id="thermal-content">
+            <h3>
+                <span class="lang-bg">Термична теория</span>
+                <span class="lang-en" style="display: none;">Thermal Theory</span>
+            </h3>
+            
+            <div class="theory-formula">
+                <h4>
+                    <span class="lang-bg">Термична верига:</span>
+                    <span class="lang-en" style="display: none;">Thermal Circuit:</span>
+                </h4>
+                <div class="formula-latex">
+                    $$T_j = T_a + P_{total} \times R_{th(j-a)}$$
+                </div>
+            </div>
+            
+            <div class="theory-formula">
+                <h4>
+                    <span class="lang-bg">Обобщено термично съпротивление:</span>
+                    <span class="lang-en" style="display: none;">Total Thermal Resistance:</span>
+                </h4>
+                <div class="formula-latex">
+                    $$R_{th(j-a)} = R_{th(j-c)} + R_{th(c-h)} + R_{th(h-a)}$$
+                </div>
+            </div>
+            
+            <div class="theory-explanation">
+                <h5>
+                    <span class="lang-bg">Термични параметри:</span>
+                    <span class="lang-en" style="display: none;">Thermal Parameters:</span>
+                </h5>
+                <table class="parameter-table">
+                    <thead>
+                        <tr>
+                            <th>
+                                <span class="lang-bg">Параметър</span>
+                                <span class="lang-en" style="display: none;">Parameter</span>
+                            </th>
+                            <th>
+                                <span class="lang-bg">Описание</span>
+                                <span class="lang-en" style="display: none;">Description</span>
+                            </th>
+                            <th>
+                                <span class="lang-bg">Типични стойности</span>
+                                <span class="lang-en" style="display: none;">Typical Values</span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>$R_{th(j-c)}$</td>
+                            <td>
+                                <span class="lang-bg">Junction-to-case</span>
+                                <span class="lang-en" style="display: none;">Junction-to-case</span>
+                            </td>
+                            <td>0.3-2.0 °C/W</td>
+                        </tr>
+                        <tr>
+                            <td>$R_{th(c-h)}$</td>
+                            <td>
+                                <span class="lang-bg">Case-to-heatsink</span>
+                                <span class="lang-en" style="display: none;">Case-to-heatsink</span>
+                            </td>
+                            <td>0.1-0.5 °C/W</td>
+                        </tr>
+                        <tr>
+                            <td>$R_{th(h-a)}$</td>
+                            <td>
+                                <span class="lang-bg">Heatsink-to-ambient</span>
+                                <span class="lang-en" style="display: none;">Heatsink-to-ambient</span>
+                            </td>
+                            <td>0.3-50 °C/W</td>
+                        </tr>
+                        <tr>
+                            <td>$T_{j,max}$</td>
+                            <td>
+                                <span class="lang-bg">Максимална junction температура</span>
+                                <span class="lang-en" style="display: none;">Maximum junction temperature</span>
+                            </td>
+                            <td>Si: 150°C, SiC: 200°C, GaN: 150°C</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="physics-concept">
+                <div class="concept-title">
+                    <span class="lang-bg">Термичен марж за сигурност:</span>
+                    <span class="lang-en" style="display: none;">Thermal Safety Margin:</span>
+                </div>
+                <div class="formula-latex">
+                    $$\text{Margin} = T_{j,max} - T_j$$
+                </div>
+                <p class="lang-bg">Препоръчителен марж: мин. 20-30°C за надежна работа</p>
+                <p class="lang-en" style="display: none;">Recommended margin: min. 20-30°C for reliable operation</p>
+            </div>
+        </div>
+        
+        <!-- Technology Comparison Tab -->
+        <div class="theory-tab-content" id="comparison-content">
+            <h3>
+                <span class="lang-bg">Сравнение на технологиите Si/SiC/GaN</span>
+                <span class="lang-en" style="display: none;">Si/SiC/GaN Technology Comparison</span>
+            </h3>
+            
+            <div class="tech-comparison-grid">
+                <div class="tech-card si">
+                    <h4>Si (Silicon)</h4>
+                    <div class="tech-properties">
+                        <div class="tech-property">
+                            <strong>Band Gap:</strong> 1.12 eV
+                        </div>
+                        <div class="tech-property">
+                            <strong>Breakdown Field:</strong> 0.3 MV/cm
+                        </div>
+                        <div class="tech-property">
+                            <strong>Electron Mobility:</strong> 1400 cm²/V·s
+                        </div>
+                        <div class="tech-property">
+                            <strong>Thermal Conductivity:</strong> 1.5 W/cm·K
+                        </div>
+                        <div class="tech-property">
+                            <strong>Max Frequency:</strong> 10-50 kHz
+                        </div>
+                        <div class="tech-property">
+                            <strong>Cost:</strong> <span class="lang-bg">Нисък</span><span class="lang-en" style="display: none;">Low</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="tech-card sic">
+                    <h4>SiC (Silicon Carbide)</h4>
+                    <div class="tech-properties">
+                        <div class="tech-property">
+                            <strong>Band Gap:</strong> 3.26 eV
+                        </div>
+                        <div class="tech-property">
+                            <strong>Breakdown Field:</strong> 2.2 MV/cm
+                        </div>
+                        <div class="tech-property">
+                            <strong>Electron Mobility:</strong> 900 cm²/V·s
+                        </div>
+                        <div class="tech-property">
+                            <strong>Thermal Conductivity:</strong> 4.9 W/cm·K
+                        </div>
+                        <div class="tech-property">
+                            <strong>Max Frequency:</strong> 50-200 kHz
+                        </div>
+                        <div class="tech-property">
+                            <strong>Cost:</strong> <span class="lang-bg">Среден</span><span class="lang-en" style="display: none;">Medium</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="tech-card gan">
+                    <h4>GaN (Gallium Nitride)</h4>
+                    <div class="tech-properties">
+                        <div class="tech-property">
+                            <strong>Band Gap:</strong> 3.39 eV
+                        </div>
+                        <div class="tech-property">
+                            <strong>Breakdown Field:</strong> 3.3 MV/cm
+                        </div>
+                        <div class="tech-property">
+                            <strong>Electron Mobility:</strong> 2000 cm²/V·s
+                        </div>
+                        <div class="tech-property">
+                            <strong>Thermal Conductivity:</strong> 2.3 W/cm·K
+                        </div>
+                        <div class="tech-property">
+                            <strong>Max Frequency:</strong> 100kHz-1MHz
+                        </div>
+                        <div class="tech-property">
+                            <strong>Cost:</strong> <span class="lang-bg">Висок</span><span class="lang-en" style="display: none;">High</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="theory-explanation">
+                <h5>
+                    <span class="lang-bg">Предимства и недостатъци:</span>
+                    <span class="lang-en" style="display: none;">Advantages and Disadvantages:</span>
+                </h5>
+                
+                <div class="physics-concept">
+                    <div class="concept-title">Silicon (Si)</div>
+                    <p class="lang-bg"><strong>Предимства:</strong> Ниска цена, зряла технология, широка наличност</p>
+                    <p class="lang-bg"><strong>Недостатъци:</strong> Ограничена честота, високи загуби при високо напрежение</p>
+                    <p class="lang-en" style="display: none;"><strong>Advantages:</strong> Low cost, mature technology, wide availability</p>
+                    <p class="lang-en" style="display: none;"><strong>Disadvantages:</strong> Limited frequency, high losses at high voltage</p>
+                </div>
+                
+                <div class="physics-concept">
+                    <div class="concept-title">Silicon Carbide (SiC)</div>
+                    <p class="lang-bg"><strong>Предимства:</strong> Високо напрежение, добра термична проводимост, умерено висока честота</p>
+                    <p class="lang-bg"><strong>Недостатъци:</strong> По-висока цена от Si, ограничена високочестотна производителност</p>
+                    <p class="lang-en" style="display: none;"><strong>Advantages:</strong> High voltage, good thermal conductivity, moderate high frequency</p>
+                    <p class="lang-en" style="display: none;"><strong>Disadvantages:</strong> Higher cost than Si, limited high frequency performance</p>
+                </div>
+                
+                <div class="physics-concept">
+                    <div class="concept-title">Gallium Nitride (GaN)</div>
+                    <p class="lang-bg"><strong>Предимства:</strong> Много висока честота, висока мобилност на електроните, малки размери</p>
+                    <p class="lang-bg"><strong>Недостатъци:</strong> Най-висока цена, термично управление, нова технология</p>
+                    <p class="lang-en" style="display: none;"><strong>Advantages:</strong> Very high frequency, high electron mobility, small size</p>
+                    <p class="lang-en" style="display: none;"><strong>Disadvantages:</strong> Highest cost, thermal management, new technology</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Physics Basics Tab -->
+        <div class="theory-tab-content" id="physics-content">
+            <h3>
+                <span class="lang-bg">Основи на физиката на полупроводниците</span>
+                <span class="lang-en" style="display: none;">Semiconductor Physics Basics</span>
+            </h3>
+            
+            <div class="physics-basics">
+                <div class="physics-concept">
+                    <div class="concept-title">
+                        <span class="lang-bg">1. Енергийна лента (Band Gap)</span>
+                        <span class="lang-en" style="display: none;">1. Energy Band Gap</span>
+                    </div>
+                    <p class="lang-bg">Енергийната лента определя минималната енергия, необходима за преминаване на електрон от валентната в проводящата зона. По-широката лента позволява работа при по-високо напрежение.</p>
+                    <p class="lang-en" style="display: none;">The energy band gap determines the minimum energy required for an electron to move from valence to conduction band. Wider bandgap allows higher voltage operation.</p>
+                    <div class="formula-latex">
+                        $$V_{breakdown} \propto E_{critical} \propto E_g^{1.5}$$
+                    </div>
+                </div>
+                
+                <div class="physics-concept">
+                    <div class="concept-title">
+                        <span class="lang-bg">2. Критично електрично поле</span>
+                        <span class="lang-en" style="display: none;">2. Critical Electric Field</span>
+                    </div>
+                    <p class="lang-bg">Максималното електрично поле, което материалът може да издържи без пробив. По-високо поле позволява по-тънки структури и по-ниско съпротивление.</p>
+                    <p class="lang-en" style="display: none;">Maximum electric field the material can withstand without breakdown. Higher field allows thinner structures and lower resistance.</p>
+                    <div class="formula-latex">
+                        $$R_{on} \propto \frac{1}{E_{critical}^2}$$
+                    </div>
+                </div>
+                
+                <div class="physics-concept">
+                    <div class="concept-title">
+                        <span class="lang-bg">3. Мобилност на електроните</span>
+                        <span class="lang-en" style="display: none;">3. Electron Mobility</span>
+                    </div>
+                    <p class="lang-bg">Скоростта на движение на електроните в електрично поле. По-висока мобилност означава по-бързо превключване и по-ниски загуби.</p>
+                    <p class="lang-en" style="display: none;">Speed of electron movement in electric field. Higher mobility means faster switching and lower losses.</p>
+                    <div class="formula-latex">
+                        $$v_{drift} = \mu \times E$$
+                    </div>
+                </div>
+                
+                <div class="physics-concept">
+                    <div class="concept-title">
+                        <span class="lang-bg">4. Термична проводимост</span>
+                        <span class="lang-en" style="display: none;">4. Thermal Conductivity</span>
+                    </div>
+                    <p class="lang-bg">Способността на материала да отвежда топлина. По-висока термична проводимост позволява по-висока плътност на мощността.</p>
+                    <p class="lang-en" style="display: none;">Material's ability to conduct heat. Higher thermal conductivity allows higher power density.</p>
+                    <div class="formula-latex">
+                        $$\frac{dT}{dx} = -\frac{q}{\lambda \times A}$$
+                    </div>
+                </div>
+            </div>
+            
+            <div class="info-box">
+                <strong>
+                    <span class="lang-bg">Практическо приложение:</span>
+                    <span class="lang-en" style="display: none;">Practical Application:</span>
+                </strong>
+                <p class="lang-bg">Тези физически принципи обясняват защо SiC и GaN технологиите могат да работят при по-високи честоти, напрежения и температури от традиционния силиций.</p>
+                <p class="lang-en" style="display: none;">These physical principles explain why SiC and GaN technologies can operate at higher frequencies, voltages and temperatures than traditional silicon.</p>
+            </div>
+        </div>
+        
+        <!-- References Tab -->
+        <div class="theory-tab-content" id="references-content">
+            <h3>
+                <span class="lang-bg">Научни референции и източници</span>
+                <span class="lang-en" style="display: none;">Scientific References and Sources</span>
+            </h3>
+            
+            <div class="references-section">
+                <h4>
+                    <span class="lang-bg">Академични публикации:</span>
+                    <span class="lang-en" style="display: none;">Academic Publications:</span>
+                </h4>
+                
+                <div class="reference-item">
+                    <div class="reference-authors">Baliga, B. J.</div>
+                    <div class="reference-title">"Fundamentals of Power Semiconductor Devices"</div>
+                    <div class="reference-source">Springer, 2019, 2nd Edition</div>
+                    <p class="lang-bg">Основен учебник за силови полупроводникови устройства, включващ теория на Si, SiC и GaN технологиите.</p>
+                    <p class="lang-en" style="display: none;">Fundamental textbook on power semiconductor devices, including theory of Si, SiC and GaN technologies.</p>
+                </div>
+                
+                <div class="reference-item">
+                    <div class="reference-authors">Millán, J., Godignon, P., Perpina, X., Perez-Tomas, A., & Rebollo, J.</div>
+                    <div class="reference-title">"A Survey of Wide Bandgap Power Semiconductor Devices"</div>
+                    <div class="reference-source">IEEE Transactions on Power Electronics, Vol. 29, No. 5, May 2014</div>
+                    <p class="lang-bg">Обзорна статия за широколентовите полупроводникови устройства.</p>
+                    <p class="lang-en" style="display: none;">Survey article on wide bandgap semiconductor devices.</p>
+                </div>
+                
+                <div class="reference-item">
+                    <div class="reference-authors">Chen, Z., Boroyevich, D., Burgos, R., & Mattavelli, P.</div>
+                    <div class="reference-title">"High-Frequency Modeling of the Long Wire Bond and Characterization of GaN Devices"</div>
+                    <div class="reference-source">IEEE Transactions on Power Electronics, Vol. 30, No. 5, May 2015</div>
+                    <p class="lang-bg">Високочестотно моделиране и характеризиране на GaN устройства.</p>
+                    <p class="lang-en" style="display: none;">High-frequency modeling and characterization of GaN devices.</p>
+                </div>
+                
+                <div class="reference-item">
+                    <div class="reference-authors">Kimoto, T., & Cooper, J. A.</div>
+                    <div class="reference-title">"Fundamentals of Silicon Carbide Technology: Growth, Characterization, Devices and Applications"</div>
+                    <div class="reference-source">Wiley-IEEE Press, 2014</div>
+                    <p class="lang-bg">Фундаментални принципи на SiC технологията и приложенията ѝ.</p>
+                    <p class="lang-en" style="display: none;">Fundamental principles of SiC technology and its applications.</p>
+                </div>
+                
+                <h4>
+                    <span class="lang-bg">Производителски документи:</span>
+                    <span class="lang-en" style="display: none;">Manufacturer Documentation:</span>
+                </h4>
+                
+                <div class="reference-item">
+                    <div class="reference-authors">Infineon Technologies</div>
+                    <div class="reference-title">"CoolMOS™ Application Guide"</div>
+                    <div class="reference-source">Application Note AN-CoolMOS-01, 2020</div>
+                    <p class="lang-bg">Ръководство за приложение на CoolMOS™ технологията от Infineon.</p>
+                    <p class="lang-en" style="display: none;">Application guide for Infineon's CoolMOS™ technology.</p>
+                </div>
+                
+                <div class="reference-item">
+                    <div class="reference-authors">Cree/Wolfspeed</div>
+                    <div class="reference-title">"SiC MOSFET Design Considerations"</div>
+                    <div class="reference-source">Application Note CPWR-AN10, 2019</div>
+                    <p class="lang-bg">Съображения за дизайн при използване на SiC MOSFET устройства.</p>
+                    <p class="lang-en" style="display: none;">Design considerations for using SiC MOSFET devices.</p>
+                </div>
+                
+                <div class="reference-item">
+                    <div class="reference-authors">GaN Systems</div>
+                    <div class="reference-title">"GaN Transistor Thermal Design Guide"</div>
+                    <div class="reference-source">Application Note GN005, 2020</div>
+                    <p class="lang-bg">Ръководство за термичен дизайн с GaN транзистори.</p>
+                    <p class="lang-en" style="display: none;">Thermal design guide for GaN transistors.</p>
+                </div>
+                
+                <h4>
+                    <span class="lang-bg">IEEE Стандарти:</span>
+                    <span class="lang-en" style="display: none;">IEEE Standards:</span>
+                </h4>
+                
+                <div class="reference-item">
+                    <div class="reference-authors">IEEE Standards Association</div>
+                    <div class="reference-title">"IEEE Standard for Semiconductor Power Devices"</div>
+                    <div class="reference-source">IEEE Std 1407-2007</div>
+                    <p class="lang-bg">IEEE стандарт за силови полупроводникови устройства.</p>
+                    <p class="lang-en" style="display: none;">IEEE standard for power semiconductor devices.</p>
+                </div>
+                
+                <div class="reference-item">
+                    <div class="reference-authors">IEEE Standards Association</div>
+                    <div class="reference-title">"IEEE Recommended Practice for Thermal Management of Electronic Equipment"</div>
+                    <div class="reference-source">IEEE Std 1596-2008</div>
+                    <p class="lang-bg">Препоръчани практики за термично управление на електронна апаратура.</p>
+                    <p class="lang-en" style="display: none;">Recommended practices for thermal management of electronic equipment.</p>
+                </div>
+            </div>
+            
+            <div class="info-box">
+                <strong>
+                    <span class="lang-bg">Забележка:</span>
+                    <span class="lang-en" style="display: none;">Note:</span>
+                </strong>
+                <p class="lang-bg">Всички параметри и формули в този калкулатор са базирани на публикувани научни данни и datasheet-ове на производителите. За специфични приложения препоръчваме консултация с оригиналните източници.</p>
+                <p class="lang-en" style="display: none;">All parameters and formulas in this calculator are based on published scientific data and manufacturer datasheets. For specific applications, we recommend consultation with original sources.</p>
             </div>
         </div>
     </div>
 </section>
+
+<script>
+// Theory tab functionality
+document.addEventListener('DOMContentLoaded', function() {
+    // Tab switching functionality
+    const theoryTabs = document.querySelectorAll('.theory-tab');
+    const theoryContents = document.querySelectorAll('.theory-tab-content');
+    
+    theoryTabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            // Remove active class from all tabs and contents
+            theoryTabs.forEach(t => t.classList.remove('active'));
+            theoryContents.forEach(c => c.classList.remove('active'));
+            
+            // Add active class to clicked tab
+            tab.classList.add('active');
+            
+            // Show corresponding content
+            const tabId = tab.getAttribute('data-tab');
+            const content = document.getElementById(tabId + '-content');
+            if (content) {
+                content.classList.add('active');
+            }
+        });
+    });
+    
+    // Initialize MathJax rendering for dynamic content
+    if (window.MathJax) {
+        MathJax.typesetPromise().then(() => {
+            console.log('MathJax rendering complete');
+        }).catch((err) => console.log('MathJax rendering failed: ' + err.message));
+    }
+    
+    // Language switching support for theory page
+    window.switchTheoryLanguage = function(lang) {
+        const bgElements = document.querySelectorAll('.lang-bg');
+        const enElements = document.querySelectorAll('.lang-en');
+        
+        if (lang === 'bg') {
+            bgElements.forEach(el => el.style.display = '');
+            enElements.forEach(el => el.style.display = 'none');
+        } else {
+            bgElements.forEach(el => el.style.display = 'none');
+            enElements.forEach(el => el.style.display = '');
+        }
+        
+        // Re-render MathJax if available
+        if (window.MathJax) {
+            MathJax.typesetPromise().then(() => {
+                console.log('MathJax re-rendering after language switch complete');
+            }).catch((err) => console.log('MathJax re-rendering failed: ' + err.message));
+        }
+    };
+});
+</script>
 {% endblock %}

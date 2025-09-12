@@ -8,46 +8,355 @@
 
 {% block content %}
 <section class="database-content">
+    <!-- Search and Filter Controls -->
     <div class="controls">
-        <h2>📚 База данни с транзистори</h2>
-        <p>Тук ще бъде базата данни с транзистори и възможности за търсене...</p>
-        <!-- Database search and filter interface will be implemented here -->
+        <h2 data-lang="databaseTitle">📚 База данни с транзистори</h2>
+        <p data-lang="databaseDescription">Търсете и филтрирайте от над 150 транзистори с реални параметри от datasheet-ове</p>
         
+        <!-- Text Search -->
+        <div class="search-section">
+            <div class="search-box">
+                <input type="text" id="textSearch" placeholder="Търсене по модел, производител или приложение..." data-lang-placeholder="searchPlaceholder">
+                <button id="clearSearch" title="Изчисти търсенето" data-lang-title="clearSearch">✕</button>
+            </div>
+        </div>
+        
+        <!-- Advanced Filters -->
         <div class="database-filters">
-            <h3>Филтри за търсене:</h3>
-            <div class="filter-group">
-                <label>Технология:</label>
-                <select id="techFilter">
-                    <option value="all">Всички</option>
-                    <option value="Si">Si (Silicon)</option>
-                    <option value="SiC">SiC (Silicon Carbide)</option>
-                    <option value="GaN">GaN (Gallium Nitride)</option>
-                </select>
+            <h3 data-lang="advancedFilters">🔍 Разширени филтри:</h3>
+            
+            <div class="filter-row">
+                <div class="filter-group">
+                    <label data-lang="technology">Технология:</label>
+                    <select id="techFilter">
+                        <option value="all" data-lang="allTechnologies">Всички</option>
+                        <option value="Si">Si (Silicon)</option>
+                        <option value="SiC">SiC (Silicon Carbide)</option>
+                        <option value="GaN">GaN (Gallium Nitride)</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label data-lang="manufacturer">Производител:</label>
+                    <select id="manufacturerFilter">
+                        <option value="all" data-lang="allManufacturers">Всички</option>
+                        <option value="Infineon">Infineon</option>
+                        <option value="Wolfspeed">Wolfspeed</option>
+                        <option value="GaN Systems">GaN Systems</option>
+                        <option value="STMicroelectronics">STMicroelectronics</option>
+                        <option value="IXYS">IXYS</option>
+                        <option value="Fairchild">Fairchild</option>
+                        <option value="Toshiba">Toshiba</option>
+                        <option value="Rohm">Rohm</option>
+                        <option value="ON Semiconductor">ON Semiconductor</option>
+                        <option value="EPC">EPC</option>
+                        <option value="Transphorm">Transphorm</option>
+                    </select>
+                </div>
+                
+                <div class="filter-group">
+                    <label data-lang="packageType">Корпус:</label>
+                    <select id="packageFilter">
+                        <option value="all" data-lang="allPackages">Всички</option>
+                        <option value="TO-220">TO-220</option>
+                        <option value="TO-247">TO-247</option>
+                        <option value="D2PAK">D2PAK</option>
+                        <option value="DFN">DFN</option>
+                        <option value="QFN">QFN</option>
+                        <option value="LGA">LGA</option>
+                        <option value="BGA">BGA</option>
+                        <option value="PQFN">PQFN</option>
+                    </select>
+                </div>
             </div>
             
-            <div class="filter-group">
-                <label>Производител:</label>
-                <select id="manufacturerFilter">
-                    <option value="all">Всички</option>
-                    <option value="Infineon">Infineon</option>
-                    <option value="Wolfspeed">Wolfspeed</option>
-                    <option value="GaN Systems">GaN Systems</option>
-                </select>
+            <div class="filter-row">
+                <div class="filter-group range-filter">
+                    <label data-lang="maxVoltage">Максимално напрежение (V):</label>
+                    <div class="range-inputs">
+                        <input type="number" id="voltageMin" value="10" min="10" max="1700" placeholder="Min">
+                        <span>-</span>
+                        <input type="number" id="voltageMax" value="1700" min="10" max="1700" placeholder="Max">
+                    </div>
+                    <input type="range" id="voltageRange" min="10" max="1700" value="1700" class="range-slider">
+                    <span id="voltageDisplay">10V - 1700V</span>
+                </div>
+                
+                <div class="filter-group range-filter">
+                    <label data-lang="maxCurrent">Максимален ток (A):</label>
+                    <div class="range-inputs">
+                        <input type="number" id="currentMin" value="1" min="1" max="200" placeholder="Min">
+                        <span>-</span>
+                        <input type="number" id="currentMax" value="200" min="1" max="200" placeholder="Max">
+                    </div>
+                    <input type="range" id="currentRange" min="1" max="200" value="200" class="range-slider">
+                    <span id="currentDisplay">1A - 200A</span>
+                </div>
+                
+                <div class="filter-group range-filter">
+                    <label data-lang="maxResistance">RDS(on) (mΩ):</label>
+                    <div class="range-inputs">
+                        <input type="number" id="resistanceMin" value="1" min="1" max="2000" placeholder="Min">
+                        <span>-</span>
+                        <input type="number" id="resistanceMax" value="2000" min="1" max="2000" placeholder="Max">
+                    </div>
+                    <input type="range" id="resistanceRange" min="1" max="2000" value="2000" class="range-slider">
+                    <span id="resistanceDisplay">1mΩ - 2000mΩ</span>
+                </div>
             </div>
             
-            <div class="filter-group">
-                <label>Максимално напрежение (V):</label>
-                <input type="range" id="voltageFilter" min="10" max="1700" value="1700">
-                <span id="voltageDisplay">1700V</span>
+            <!-- Filter Controls -->
+            <div class="filter-controls">
+                <button id="applyFilters" class="btn-primary" data-lang="applyFilters">🔍 Приложи филтри</button>
+                <button id="resetFilters" class="btn-secondary" data-lang="resetFilters">🔄 Нулирай филтри</button>
+                <button id="showAdvancedSearch" class="btn-secondary" data-lang="advancedSearch">⚙️ Разширено търсене</button>
             </div>
         </div>
     </div>
     
+    <!-- Results Section -->
     <div class="results">
-        <h3>Резултати от търсенето:</h3>
-        <div id="transistorDatabase" class="database-results">
-            <!-- Search results will be populated here -->
+        <div class="results-header">
+            <div class="results-info">
+                <h3 data-lang="searchResults">📊 Резултати от търсенето:</h3>
+                <div class="results-stats">
+                    <span id="resultsCount">0</span> <span data-lang="resultsFound">резултата намерени</span>
+                    <span class="separator">|</span>
+                    <span id="totalCount">150+</span> <span data-lang="totalTransistors">общо транзистори</span>
+                </div>
+            </div>
+            
+            <!-- Export and View Controls -->
+            <div class="results-controls">
+                <div class="view-controls">
+                    <button id="tableView" class="view-btn active" title="Табличен изглед" data-lang-title="tableView">📋</button>
+                    <button id="gridView" class="view-btn" title="Мрежов изглед" data-lang-title="gridView">⊞</button>
+                    <button id="compareView" class="view-btn" title="Сравнение" data-lang-title="compareView">⚖️</button>
+                </div>
+                
+                <div class="export-controls">
+                    <button id="exportCSV" class="btn-export" data-lang="exportCSV">📊 CSV</button>
+                    <button id="exportPDF" class="btn-export" data-lang="exportPDF">📄 PDF</button>
+                    <button id="exportExcel" class="btn-export" data-lang="exportExcel">📈 Excel</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Database Table -->
+        <div class="database-table-container">
+            <table id="transistorTable" class="database-table">
+                <thead>
+                    <tr>
+                        <th class="sortable" data-sort="model" data-lang="model">
+                            Модел
+                            <span class="sort-indicator">↕️</span>
+                        </th>
+                        <th class="sortable" data-sort="technology" data-lang="technology">
+                            Технология
+                            <span class="sort-indicator">↕️</span>
+                        </th>
+                        <th class="sortable" data-sort="vds_max" data-lang="maxVoltage">
+                            VDS(max) [V]
+                            <span class="sort-indicator">↕️</span>
+                        </th>
+                        <th class="sortable" data-sort="id_max" data-lang="maxCurrent">
+                            ID(max) [A]
+                            <span class="sort-indicator">↕️</span>
+                        </th>
+                        <th class="sortable" data-sort="rds_mohm" data-lang="resistance">
+                            RDS(on) [mΩ]
+                            <span class="sort-indicator">↕️</span>
+                        </th>
+                        <th class="sortable" data-sort="package" data-lang="package">
+                            Корпус
+                            <span class="sort-indicator">↕️</span>
+                        </th>
+                        <th class="sortable" data-sort="manufacturer" data-lang="manufacturer">
+                            Производител
+                            <span class="sort-indicator">↕️</span>
+                        </th>
+                        <th data-lang="applications">Приложения</th>
+                        <th data-lang="actions">Действия</th>
+                    </tr>
+                </thead>
+                <tbody id="transistorTableBody">
+                    <!-- Table rows will be populated by JavaScript -->
+                </tbody>
+            </table>
+            
+            <!-- Loading indicator -->
+            <div id="loadingIndicator" class="loading hidden">
+                <div class="spinner"></div>
+                <span data-lang="loading">Зареждане...</span>
+            </div>
+            
+            <!-- No results message -->
+            <div id="noResults" class="no-results hidden">
+                <div class="no-results-icon">🔍</div>
+                <h3 data-lang="noResultsTitle">Няма намерени резултати</h3>
+                <p data-lang="noResultsMessage">Опитайте да промените филтрите или търсенето</p>
+                <button id="resetAllFilters" class="btn-primary" data-lang="resetAllFilters">🔄 Нулирай всички филтри</button>
+            </div>
+        </div>
+        
+        <!-- Pagination -->
+        <div class="pagination-container">
+            <div class="pagination-info">
+                <span data-lang="showingResults">Показани</span>
+                <span id="startResult">1</span> - <span id="endResult">25</span>
+                <span data-lang="of">от</span>
+                <span id="totalResults">0</span>
+                <span data-lang="results">резултата</span>
+            </div>
+            
+            <div class="pagination-controls">
+                <button id="firstPage" class="page-btn" title="Първа страница" data-lang-title="firstPage">⏮</button>
+                <button id="prevPage" class="page-btn" title="Предишна страница" data-lang-title="prevPage">◀</button>
+                <div id="pageNumbers" class="page-numbers"></div>
+                <button id="nextPage" class="page-btn" title="Следваща страница" data-lang-title="nextPage">▶</button>
+                <button id="lastPage" class="page-btn" title="Последна страница" data-lang-title="lastPage">⏭</button>
+            </div>
+            
+            <div class="page-size-control">
+                <label data-lang="itemsPerPage">Елементи на страница:</label>
+                <select id="pageSize">
+                    <option value="10">10</option>
+                    <option value="25" selected>25</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                    <option value="all" data-lang="showAll">Всички</option>
+                </select>
+            </div>
         </div>
     </div>
 </section>
+
+<!-- Detailed View Modal -->
+<div id="transistorModal" class="modal hidden">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 id="modalTitle" data-lang="transistorDetails">Детайли за транзистор</h2>
+            <button id="closeModal" class="close-btn" title="Затвори" data-lang-title="close">✕</button>
+        </div>
+        
+        <div class="modal-body">
+            <div class="transistor-details">
+                <div class="detail-section">
+                    <h3 data-lang="basicInfo">🔧 Основна информация</h3>
+                    <div class="detail-grid">
+                        <div class="detail-item">
+                            <span class="label" data-lang="model">Модел:</span>
+                            <span id="detailModel" class="value">-</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="label" data-lang="technology">Технология:</span>
+                            <span id="detailTechnology" class="value">-</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="label" data-lang="manufacturer">Производител:</span>
+                            <span id="detailManufacturer" class="value">-</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="label" data-lang="package">Корпус:</span>
+                            <span id="detailPackage" class="value">-</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="detail-section">
+                    <h3 data-lang="electricalParams">⚡ Електрически параметри</h3>
+                    <div class="detail-grid">
+                        <div class="detail-item">
+                            <span class="label">VDS(max):</span>
+                            <span id="detailVds" class="value">-</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="label">ID(max):</span>
+                            <span id="detailId" class="value">-</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="label">RDS(on):</span>
+                            <span id="detailRds" class="value">-</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="label">α (temp coeff):</span>
+                            <span id="detailAlpha" class="value">-</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="detail-section">
+                    <h3 data-lang="switchingParams">🔄 Превключващи параметри</h3>
+                    <div class="detail-grid">
+                        <div class="detail-item">
+                            <span class="label">tr (rise time):</span>
+                            <span id="detailTr" class="value">-</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="label">tf (fall time):</span>
+                            <span id="detailTf" class="value">-</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="label" data-lang="applications">Приложения:</span>
+                            <span id="detailApplications" class="value applications">-</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="detail-section">
+                    <h3 data-lang="performanceAnalysis">📊 Анализ на производителността</h3>
+                    <div class="performance-metrics">
+                        <div class="metric">
+                            <span class="metric-label" data-lang="powerDensity">Плътност на мощността:</span>
+                            <span id="powerDensity" class="metric-value">-</span>
+                            <span class="metric-unit">W/cm²</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label" data-lang="figureMerit">Figure of Merit:</span>
+                            <span id="figureMerit" class="metric-value">-</span>
+                            <span class="metric-unit">mΩ·nC</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-label" data-lang="switchingScore">Превключващ резултат:</span>
+                            <div id="switchingScore" class="score-bar">
+                                <div class="score-fill"></div>
+                                <span class="score-text">-</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="modal-footer">
+            <button id="addToComparison" class="btn-primary" data-lang="addToComparison">⚖️ Добави за сравнение</button>
+            <button id="calculateWithThis" class="btn-primary" data-lang="calculateWithThis">🧮 Изчисли с този</button>
+            <button id="downloadDatasheet" class="btn-secondary" data-lang="downloadDatasheet">📄 Datasheet</button>
+            <button id="closeModalBtn" class="btn-secondary" data-lang="close">Затвори</button>
+        </div>
+    </div>
+</div>
+
+<!-- Comparison Modal -->
+<div id="comparisonModal" class="modal hidden">
+    <div class="modal-content large">
+        <div class="modal-header">
+            <h2 data-lang="compareTransistors">⚖️ Сравнение на транзистори</h2>
+            <button id="closeComparisonModal" class="close-btn" title="Затвори" data-lang-title="close">✕</button>
+        </div>
+        
+        <div class="modal-body">
+            <div id="comparisonTable" class="comparison-table">
+                <!-- Comparison table will be populated by JavaScript -->
+            </div>
+        </div>
+        
+        <div class="modal-footer">
+            <button id="clearComparison" class="btn-secondary" data-lang="clearComparison">🗑️ Изчисти</button>
+            <button id="exportComparison" class="btn-primary" data-lang="exportComparison">📊 Експортирай</button>
+            <button id="closeComparisonBtn" class="btn-secondary" data-lang="close">Затвори</button>
+        </div>
+    </div>
+</div>
+
 {% endblock %}

@@ -64,7 +64,112 @@ const LANGUAGES = {
     mediumHeatsink: 'Среден радиатор (Fischer SK129, 6°C/W)',
     largeHeatsink: 'Голям радиатор (Fischer SK53, 2.5°C/W)',
     forcedAir: 'Принудително въздушно (с вентилатор, 1.5°C/W)',
-    liquidCooling: 'Течно охлаждане (измерено, 0.3°C/W)'
+    liquidCooling: 'Течно охлаждане (измерено, 0.3°C/W)',
+    
+    // Advanced functionality translations
+    millerCapacitance: 'Miller Capacitance Analysis',
+    cgdLabel: 'CGD (pF)',
+    cgsLabel: 'CGS (pF)', 
+    cdsLabel: 'CDS (pF)',
+    vdrLabel: 'VDR Slew Rate (V/ns)',
+    calculateMiller: 'Изчисли Miller ефект',
+    parameter: 'Параметър',
+    value: 'Стойност',
+    millerMultiplier: 'Miller Multiplier',
+    effectiveCapacitance: 'Ефективен капацитет',
+    millerCurrent: 'Miller ток (A)',
+    
+    deadTimeAnalysis: 'Dead-time анализ',
+    deadTimeLabel: 'Dead Time (ns)',
+    outputCurrentLabel: 'Изходен ток (A)',
+    bodyDiodeVfLabel: 'Body Diode Vf (V)',
+    switchingFreqLabel: 'Честота превключване (kHz)',
+    calculateDeadTime: 'Изчисли Dead-time ефекти',
+    deadTimeLosses: 'Dead-time загуби (W)',
+    bodyDiodeLosses: 'Body Diode загуби (W)',
+    totalDeadTimeLoss: 'Общи Dead-time загуби (W)',
+    
+    powerLossesLabel: 'Загуби мощност (W)',
+    ambientTempLabel: 'Околна температура (°C)',
+    thermalResistanceLabel: 'Rth JC (°C/W)',
+    heatsinkRthLabel: 'Радиатор Rth (°C/W)',
+    maxPowerDissipation: 'Макс мощност при 150°C (W)',
+    
+    switchingTrajectory: 'Switching Trajectory & SOA',
+    loadInductanceLabel: 'Товар индуктивност (μH)',
+    gateResistanceLabel: 'Gate съпротивление (Ω)',
+    busVoltageLabel: 'Bus напрежение (V)',
+    switchingCurrentLabel: 'Switching ток (A)',
+    calculateSOA: 'Изчисли SOA & траектория',
+    soaInfo: 'SOA анализ:',
+    soaDescription: 'Тази графика показва границите на Safe Operating Area и текущата switching траектория. Работните точки трябва да остават в SOA границите.',
+    
+    parasiticEffects: 'Parasitic Effects анализ',
+    packageParasitics: 'Package паразитни',
+    packageESRLabel: 'Package ESR (mΩ)',
+    packageESLLabel: 'Package ESL (nH)',
+    pcbParasitics: 'PCB паразитни',
+    traceESRLabel: 'Trace ESR (mΩ)',
+    traceESLLabel: 'Trace ESL (nH)',
+    couplingEffects: 'Coupling ефекти',
+    mutualInductanceLabel: 'Mutual Inductance (nH)',
+    couplingFactorLabel: 'Coupling Factor',
+    calculateParasitics: 'Изчисли паразитни ефекти',
+    voltageSpikeAnalysis: 'Voltage Spike анализ',
+    ringingAnalysis: 'Ringing анализ',
+    impact: 'Въздействие',
+    totalESR: 'Общ ESR (mΩ)',
+    totalESL: 'Общ ESL (nH)',
+    voltageSpike: 'Макс Voltage Spike (V)',
+    ringingFrequency: 'Ringing честота (MHz)',
+    warningsTitle: '⚠️ Предупреждения:',
+    
+    // Tools page translations
+    toolsTitle: '⚙️ Инструменти за копиране, конвертиране и експорт',
+    toolsDescription: 'Професионални инструменти за експорт на графики, конвертиране на единици и управление на данни.',
+    chartCopyTitle: '📋 Копиране на графики',
+    chartCopyDescription: 'Експортирайте графики с висока резолюция за презентации и документи.',
+    exportPNG: 'Експортирай като PNG',
+    exportSVG: 'Експортирай като SVG',
+    qualitySettings: 'Настройки за качество',
+    dpi300: '300 DPI (Print)',
+    dpi150: '150 DPI (Screen)',
+    dpi72: '72 DPI (Web)',
+    copyToClipboard: 'Копирай в клипборда',
+    unitConverterTitle: '🔄 Конвертор на единици',
+    unitConverterDescription: 'Конвертирайте между различни инженерни единици.',
+    convertFrom: 'От',
+    convertTo: 'До',
+    conversionResult: 'Резултат',
+    conversionValue: 'Стойност',
+    clearConversion: 'Изчисти',
+    csvImportExportTitle: '📂 CSV Импорт/Експорт',
+    csvImportExportDescription: 'Импортирайте транзисторни данни или експортирайте резултати.',
+    importCSV: 'Импортирай CSV',
+    exportCalculations: 'Експортирай изчисления',
+    importTransistorData: 'Импортирай транзисторни данни',
+    exportResults: 'Експортирай резултати',
+    downloadCSV: 'Свали CSV файл',
+    downloadPDF: 'Свали PDF отчет',
+    paramCalculatorTitle: '🧮 Калкулатор на параметри',
+    paramCalculatorDescription: 'Автоматично предложение на оптимални параметри.',
+    calculateOptimal: 'Изчисли оптимални параметри',
+    suggestParameters: 'Предложи параметри',
+    powerRating: 'Номинална мощност (W)',
+    voltageRating: 'Номинално напрежение (V)',
+    currentRating: 'Номинален ток (A)',
+    calculateParameters: 'Изчисли параметри',
+    utilityFunctionsTitle: '🛠️ Помощни функции',
+    utilityFunctionsDescription: 'Управление на данни и настройки на приложението.',
+    clearAllData: 'Изчисти всички данни',
+    resetSettings: 'Възстанови настройки',
+    appInfo: 'Информация за приложението',
+    clearCache: 'Изчисти кеша',
+    exportSettings: 'Експортирай настройки',
+    importSettings: 'Импортирай настройки',
+    aboutApp: 'За приложението',
+    versionInfo: 'Информация за версията',
+    technicalSupport: 'Техническа поддръжка'
   },
   en: {
     mainTitle: 'Calculator: Si / SiC / GaN Transistors',
@@ -130,7 +235,112 @@ const LANGUAGES = {
     mediumHeatsink: 'Medium Heatsink (Fischer SK129, 6°C/W)',
     largeHeatsink: 'Large Heatsink (Fischer SK53, 2.5°C/W)',
     forcedAir: 'Forced Air (with fan, 1.5°C/W)',
-    liquidCooling: 'Liquid Cooling (measured, 0.3°C/W)'
+    liquidCooling: 'Liquid Cooling (measured, 0.3°C/W)',
+    
+    // Advanced functionality translations
+    millerCapacitance: 'Miller Capacitance Analysis',
+    cgdLabel: 'CGD (pF)',
+    cgsLabel: 'CGS (pF)', 
+    cdsLabel: 'CDS (pF)',
+    vdrLabel: 'VDR Slew Rate (V/ns)',
+    calculateMiller: 'Calculate Miller Effect',
+    parameter: 'Parameter',
+    value: 'Value',
+    millerMultiplier: 'Miller Multiplier',
+    effectiveCapacitance: 'Effective Capacitance',
+    millerCurrent: 'Miller Current (A)',
+    
+    deadTimeAnalysis: 'Dead-time Analysis',
+    deadTimeLabel: 'Dead Time (ns)',
+    outputCurrentLabel: 'Output Current (A)',
+    bodyDiodeVfLabel: 'Body Diode Vf (V)',
+    switchingFreqLabel: 'Switching Freq (kHz)',
+    calculateDeadTime: 'Calculate Dead-time Effects',
+    deadTimeLosses: 'Dead-time Losses (W)',
+    bodyDiodeLosses: 'Body Diode Losses (W)',
+    totalDeadTimeLoss: 'Total Dead-time Loss (W)',
+    
+    powerLossesLabel: 'Power Losses (W)',
+    ambientTempLabel: 'Ambient Temp (°C)',
+    thermalResistanceLabel: 'Rth JC (°C/W)',
+    heatsinkRthLabel: 'Heatsink Rth (°C/W)',
+    maxPowerDissipation: 'Max Power at 150°C (W)',
+    
+    switchingTrajectory: 'Switching Trajectory & SOA',
+    loadInductanceLabel: 'Load Inductance (μH)',
+    gateResistanceLabel: 'Gate Resistance (Ω)',
+    busVoltageLabel: 'Bus Voltage (V)',
+    switchingCurrentLabel: 'Switching Current (A)',
+    calculateSOA: 'Calculate SOA & Trajectory',
+    soaInfo: 'SOA Analysis:',
+    soaDescription: 'This chart shows the Safe Operating Area limits and current switching trajectory. Operating points should remain within the SOA boundaries.',
+    
+    parasiticEffects: 'Parasitic Effects Analysis',
+    packageParasitics: 'Package Parasitics',
+    packageESRLabel: 'Package ESR (mΩ)',
+    packageESLLabel: 'Package ESL (nH)',
+    pcbParasitics: 'PCB Parasitics',
+    traceESRLabel: 'Trace ESR (mΩ)',
+    traceESLLabel: 'Trace ESL (nH)',
+    couplingEffects: 'Coupling Effects',
+    mutualInductanceLabel: 'Mutual Inductance (nH)',
+    couplingFactorLabel: 'Coupling Factor',
+    calculateParasitics: 'Calculate Parasitic Effects',
+    voltageSpikeAnalysis: 'Voltage Spike Analysis',
+    ringingAnalysis: 'Ringing Analysis',
+    impact: 'Impact',
+    totalESR: 'Total ESR (mΩ)',
+    totalESL: 'Total ESL (nH)',
+    voltageSpike: 'Max Voltage Spike (V)',
+    ringingFrequency: 'Ringing Frequency (MHz)',
+    warningsTitle: '⚠️ Warnings:',
+    
+    // Tools page translations
+    toolsTitle: '⚙️ Chart Copying, Conversion & Export Tools',
+    toolsDescription: 'Professional tools for chart export, unit conversion and data management.',
+    chartCopyTitle: '📋 Chart Copying',
+    chartCopyDescription: 'Export high-resolution charts for presentations and documents.',
+    exportPNG: 'Export as PNG',
+    exportSVG: 'Export as SVG',
+    qualitySettings: 'Quality Settings',
+    dpi300: '300 DPI (Print)',
+    dpi150: '150 DPI (Screen)',
+    dpi72: '72 DPI (Web)',
+    copyToClipboard: 'Copy to Clipboard',
+    unitConverterTitle: '🔄 Unit Converter',
+    unitConverterDescription: 'Convert between different engineering units.',
+    convertFrom: 'From',
+    convertTo: 'To',
+    conversionResult: 'Result',
+    conversionValue: 'Value',
+    clearConversion: 'Clear',
+    csvImportExportTitle: '📂 CSV Import/Export',
+    csvImportExportDescription: 'Import transistor data or export calculation results.',
+    importCSV: 'Import CSV',
+    exportCalculations: 'Export Calculations',
+    importTransistorData: 'Import Transistor Data',
+    exportResults: 'Export Results',
+    downloadCSV: 'Download CSV File',
+    downloadPDF: 'Download PDF Report',
+    paramCalculatorTitle: '🧮 Parameter Calculator',
+    paramCalculatorDescription: 'Automatic optimal parameter suggestions.',
+    calculateOptimal: 'Calculate Optimal Parameters',
+    suggestParameters: 'Suggest Parameters',
+    powerRating: 'Power Rating (W)',
+    voltageRating: 'Voltage Rating (V)',
+    currentRating: 'Current Rating (A)',
+    calculateParameters: 'Calculate Parameters',
+    utilityFunctionsTitle: '🛠️ Utility Functions',
+    utilityFunctionsDescription: 'Data management and application settings.',
+    clearAllData: 'Clear All Data',
+    resetSettings: 'Reset Settings',
+    appInfo: 'Application Info',
+    clearCache: 'Clear Cache',
+    exportSettings: 'Export Settings',
+    importSettings: 'Import Settings',
+    aboutApp: 'About Application',
+    versionInfo: 'Version Information',
+    technicalSupport: 'Technical Support'
   }
 };
 
@@ -1286,8 +1496,10 @@ function calc(){
 }
 
 // Функция за превключване на език
-function switchLanguage(lang) {
+function switchLanguage(lang, button) {
   currentLang = lang;
+  
+  console.log('Language switched to:', lang);
   
   // Запазваме текущо избраните стойности преди смяната на езика (safely)
   const savedValues = {};
@@ -1314,19 +1526,51 @@ function switchLanguage(lang) {
   if (freqMaxEl) savedValues.freqMax = freqMaxEl.value;
   savedValues.selectedTransistor = selectedTransistor; // Запазваме и глобалната променлива
   
-  // Обновяваме активния бутон (само ако съществува)
-  document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
-  const langBtn = document.getElementById('lang' + lang.toUpperCase());
-  if (langBtn && langBtn.classList) {
-    langBtn.classList.add('active');
+  // Обновяваме активния бутон (safely)
+  const langButtons = document.querySelectorAll('.lang-btn');
+  if (langButtons.length > 0) {
+    langButtons.forEach(btn => {
+      if (btn && btn.classList) {
+        btn.classList.remove('active');
+      }
+    });
+    
+    // Build the ID correctly
+    const targetLangId = 'lang' + lang.toUpperCase();
+    const langBtn = document.getElementById(targetLangId);
+    if (langBtn && langBtn.classList) {
+      langBtn.classList.add('active');
+    }
   }
   
   // Обновяваме текстовете
   const langData = LANGUAGES[lang];
   if (langData) {
-    // Основни заглавия
-    document.getElementById('mainTitle').textContent = langData.mainTitle;
-    document.getElementById('subtitle').textContent = langData.subtitle;
+    // Основни заглавия (само ако съществуват)
+    const mainTitle = document.getElementById('mainTitle');
+    const subtitle = document.getElementById('subtitle');
+    
+    if (mainTitle) mainTitle.textContent = langData.mainTitle;
+    if (subtitle) subtitle.textContent = langData.subtitle;
+    
+    // Специфична обработка за theory page
+    if (window.switchTheoryLanguage) {
+      window.switchTheoryLanguage(lang);
+    } else {
+      // Standard language switching for span elements with classes
+      const bgElements = document.querySelectorAll('.lang-bg');
+      const enElements = document.querySelectorAll('.lang-en');
+      
+      if (bgElements.length > 0 || enElements.length > 0) {
+        if (lang === 'bg') {
+          bgElements.forEach(el => el.style.display = '');
+          enElements.forEach(el => el.style.display = 'none');
+        } else {
+          bgElements.forEach(el => el.style.display = 'none');
+          enElements.forEach(el => el.style.display = '');
+        }
+      }
+    }
     
     // Обновяваме всички елементи с data-lang атрибут
     document.querySelectorAll('[data-lang]').forEach(element => {
@@ -2756,9 +3000,37 @@ if (generateEffChart) {
   generateEffChart.addEventListener('click', generateEfficiencyChart);
 }
 
-const calculateThermal = document.getElementById('calculateThermal');
-if (calculateThermal) {
-  calculateThermal.addEventListener('click', calculateThermalParameters);
+const calculateThermalBtn = document.getElementById('calculateThermal');
+if (calculateThermalBtn) {
+  calculateThermalBtn.addEventListener('click', calculateThermalParameters);
+}
+
+// Advanced page event listeners
+const calculateMillerBtn = document.getElementById('calculateMillerBtn');
+if (calculateMillerBtn) {
+  calculateMillerBtn.addEventListener('click', function() {
+    if (typeof calculateMillerEffect === 'function') {
+      calculateMillerEffect();
+    }
+  });
+}
+
+const calculateDeadTimeBtn = document.getElementById('calculateDeadTimeBtn');
+if (calculateDeadTimeBtn) {
+  calculateDeadTimeBtn.addEventListener('click', function() {
+    if (typeof calculateDeadTime === 'function') {
+      calculateDeadTime();
+    }
+  });
+}
+
+const calculateThermalAdvBtn = document.getElementById('calculateThermalBtn');
+if (calculateThermalAdvBtn) {
+  calculateThermalAdvBtn.addEventListener('click', function() {
+    if (typeof calculateThermal === 'function') {
+      calculateThermal(); // This calls the advanced page function
+    }
+  });
 }
 
 // Event listeners за копиране на графики
@@ -2828,4 +3100,1048 @@ document.addEventListener('DOMContentLoaded', function() {
   if (langBG || langEN) {
     switchLanguage('bg');
   }
+  
+  // Инициализация на Database tab functionality
+  initializeDatabaseTab();
 });
+
+// ====== DATABASE TAB FUNCTIONALITY ======
+
+// Global variables for database functionality
+let currentDatabaseData = [];
+let filteredDatabaseData = [];
+let currentSort = { column: null, direction: 'asc' };
+let currentPage = 1;
+let itemsPerPage = 25;
+let comparisonList = [];
+
+// Database language translations
+const databaseLanguages = {
+  bg: {
+    databaseTitle: '📚 База данни с транзистори',
+    databaseDescription: 'Търсете и филтрирайте от над 150 транзистори с реални параметри от datasheet-ове',
+    searchPlaceholder: 'Търсене по модел, производител или приложение...',
+    clearSearch: 'Изчисти търсенето',
+    advancedFilters: '🔍 Разширени филтри:',
+    technology: 'Технология',
+    manufacturer: 'Производител',
+    packageType: 'Корпус',
+    maxVoltage: 'Максимално напрежение (V)',
+    maxCurrent: 'Максимален ток (A)',
+    maxResistance: 'RDS(on) (mΩ)',
+    allTechnologies: 'Всички',
+    allManufacturers: 'Всички',
+    allPackages: 'Всички',
+    applyFilters: '🔍 Приложи филтри',
+    resetFilters: '🔄 Нулирай филтри',
+    advancedSearch: '⚙️ Разширено търсене',
+    searchResults: '📊 Резултати от търсенето:',
+    resultsFound: 'резултата намерени',
+    totalTransistors: 'общо транзистори',
+    tableView: 'Табличен изглед',
+    gridView: 'Мрежов изглед',
+    compareView: 'Сравнение',
+    exportCSV: '📊 CSV',
+    exportPDF: '📄 PDF',
+    exportExcel: '📈 Excel',
+    model: 'Модел',
+    package: 'Корпус',
+    resistance: 'RDS(on) [mΩ]',
+    applications: 'Приложения',
+    actions: 'Действия',
+    loading: 'Зареждане...',
+    noResultsTitle: 'Няма намерени резултати',
+    noResultsMessage: 'Опитайте да промените филтрите или търсенето',
+    resetAllFilters: '🔄 Нулирай всички филтри',
+    showingResults: 'Показани',
+    of: 'от',
+    results: 'резултата',
+    firstPage: 'Първа страница',
+    prevPage: 'Предишна страница',
+    nextPage: 'Следваща страница',
+    lastPage: 'Последна страница',
+    itemsPerPage: 'Елементи на страница',
+    showAll: 'Всички',
+    transistorDetails: 'Детайли за транзистор',
+    close: 'Затвори',
+    basicInfo: '🔧 Основна информация',
+    electricalParams: '⚡ Електрически параметри',
+    switchingParams: '🔄 Превключващи параметри',
+    performanceAnalysis: '📊 Анализ на производителността',
+    powerDensity: 'Плътност на мощността',
+    figureMerit: 'Figure of Merit',
+    switchingScore: 'Превключващ резултат',
+    addToComparison: '⚖️ Добави за сравнение',
+    calculateWithThis: '🧮 Изчисли с този',
+    downloadDatasheet: '📄 Datasheet',
+    compareTransistors: '⚖️ Сравнение на транзистори',
+    clearComparison: '🗑️ Изчисти',
+    exportComparison: '📊 Експортирай'
+  },
+  en: {
+    databaseTitle: '📚 Transistor Database',
+    databaseDescription: 'Search and filter from 150+ transistors with real datasheet parameters',
+    searchPlaceholder: 'Search by model, manufacturer or application...',
+    clearSearch: 'Clear search',
+    advancedFilters: '🔍 Advanced Filters:',
+    technology: 'Technology',
+    manufacturer: 'Manufacturer',
+    packageType: 'Package',
+    maxVoltage: 'Max Voltage (V)',
+    maxCurrent: 'Max Current (A)',
+    maxResistance: 'RDS(on) (mΩ)',
+    allTechnologies: 'All',
+    allManufacturers: 'All',
+    allPackages: 'All',
+    applyFilters: '🔍 Apply Filters',
+    resetFilters: '🔄 Reset Filters',
+    advancedSearch: '⚙️ Advanced Search',
+    searchResults: '📊 Search Results:',
+    resultsFound: 'results found',
+    totalTransistors: 'total transistors',
+    tableView: 'Table View',
+    gridView: 'Grid View',
+    compareView: 'Compare',
+    exportCSV: '📊 CSV',
+    exportPDF: '📄 PDF',
+    exportExcel: '📈 Excel',
+    model: 'Model',
+    package: 'Package',
+    resistance: 'RDS(on) [mΩ]',
+    applications: 'Applications',
+    actions: 'Actions',
+    loading: 'Loading...',
+    noResultsTitle: 'No Results Found',
+    noResultsMessage: 'Try changing the filters or search terms',
+    resetAllFilters: '🔄 Reset All Filters',
+    showingResults: 'Showing',
+    of: 'of',
+    results: 'results',
+    firstPage: 'First Page',
+    prevPage: 'Previous Page',
+    nextPage: 'Next Page',
+    lastPage: 'Last Page',
+    itemsPerPage: 'Items per page',
+    showAll: 'All',
+    transistorDetails: 'Transistor Details',
+    close: 'Close',
+    basicInfo: '🔧 Basic Information',
+    electricalParams: '⚡ Electrical Parameters',
+    switchingParams: '🔄 Switching Parameters',
+    performanceAnalysis: '📊 Performance Analysis',
+    powerDensity: 'Power Density',
+    figureMerit: 'Figure of Merit',
+    switchingScore: 'Switching Score',
+    addToComparison: '⚖️ Add to Comparison',
+    calculateWithThis: '🧮 Calculate with This',
+    downloadDatasheet: '📄 Datasheet',
+    compareTransistors: '⚖️ Compare Transistors',
+    clearComparison: '🗑️ Clear',
+    exportComparison: '📊 Export'
+  }
+};
+
+// Initialize Database Tab
+function initializeDatabaseTab() {
+  // Check if we're on the database page
+  const databaseContent = document.querySelector('.database-content');
+  if (!databaseContent) return;
+  
+  // Load all transistor data
+  loadTransistorDatabase();
+  
+  // Set up event listeners
+  setupDatabaseEventListeners();
+  
+  // Initialize filters
+  initializeFilters();
+  
+  // Populate the table
+  populateDatabaseTable();
+  
+  // Update language elements
+  updateDatabaseLanguage();
+}
+
+// Load all transistor data from TRANSISTOR_DB
+function loadTransistorDatabase() {
+  currentDatabaseData = [];
+  
+  // Flatten all transistors from all technologies
+  Object.keys(TRANSISTOR_DB).forEach(tech => {
+    Object.keys(TRANSISTOR_DB[tech]).forEach(key => {
+      const transistor = TRANSISTOR_DB[tech][key];
+      currentDatabaseData.push({
+        key: key,
+        technology: tech,
+        model: transistor.name,
+        vds_max: transistor.vds_max,
+        id_max: transistor.id_max,
+        rds_mohm: transistor.rds_mohm,
+        tr_ns: transistor.tr_ns || 0,
+        tf_ns: transistor.tf_ns || 0,
+        alpha: transistor.alpha || 0,
+        package: transistor.package,
+        manufacturer: transistor.manufacturer,
+        application: transistor.application,
+        // Calculated fields
+        powerDensity: calculatePowerDensity(transistor),
+        figureMerit: calculateFigureMerit(transistor),
+        switchingScore: calculateSwitchingScore(transistor)
+      });
+    });
+  });
+  
+  filteredDatabaseData = [...currentDatabaseData];
+  console.log(`Loaded ${currentDatabaseData.length} transistors from database`);
+}
+
+// Calculate performance metrics
+function calculatePowerDensity(transistor) {
+  // Simplified power density calculation (W/cm²)
+  const power = (transistor.vds_max * transistor.id_max) / 1000; // Convert to kW
+  const area = getPackageArea(transistor.package);
+  return (power / area).toFixed(2);
+}
+
+function calculateFigureMerit(transistor) {
+  // Figure of Merit: RDS(on) × QG (using approximation)
+  const qg = estimateGateCharge(transistor);
+  return (transistor.rds_mohm * qg).toFixed(1);
+}
+
+function calculateSwitchingScore(transistor) {
+  // Switching performance score (0-100)
+  const trScore = Math.max(0, 100 - (transistor.tr_ns || 50));
+  const tfScore = Math.max(0, 100 - (transistor.tf_ns || 50));
+  return Math.round((trScore + tfScore) / 2);
+}
+
+function getPackageArea(packageType) {
+  // Package area estimates in cm²
+  const areas = {
+    'TO-220': 1.0,
+    'TO-247': 2.0,
+    'D2PAK': 0.8,
+    'TO-263': 0.8,
+    'DFN': 0.3,
+    'QFN': 0.25,
+    'LGA': 0.2,
+    'BGA': 1.5,
+    'PQFN': 0.15
+  };
+  return areas[packageType] || 1.0;
+}
+
+function estimateGateCharge(transistor) {
+  // Estimate gate charge based on VDS and ID
+  return Math.sqrt(transistor.vds_max * transistor.id_max) * 2;
+}
+
+// Set up all event listeners for database functionality
+function setupDatabaseEventListeners() {
+  // Text search
+  const textSearch = document.getElementById('textSearch');
+  if (textSearch) {
+    textSearch.addEventListener('input', debounce(handleTextSearch, 300));
+  }
+  
+  // Clear search
+  const clearSearch = document.getElementById('clearSearch');
+  if (clearSearch) {
+    clearSearch.addEventListener('click', clearTextSearch);
+  }
+  
+  // Filters
+  const filterElements = [
+    'techFilter', 'manufacturerFilter', 'packageFilter',
+    'voltageMin', 'voltageMax', 'currentMin', 'currentMax',
+    'resistanceMin', 'resistanceMax'
+  ];
+  
+  filterElements.forEach(id => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.addEventListener('change', applyFilters);
+    }
+  });
+  
+  // Range sliders
+  const ranges = ['voltageRange', 'currentRange', 'resistanceRange'];
+  ranges.forEach(id => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.addEventListener('input', updateRangeDisplay);
+    }
+  });
+  
+  // Filter buttons
+  const applyBtn = document.getElementById('applyFilters');
+  if (applyBtn) {
+    applyBtn.addEventListener('click', applyFilters);
+  }
+  
+  const resetBtn = document.getElementById('resetFilters');
+  if (resetBtn) {
+    resetBtn.addEventListener('click', resetFilters);
+  }
+  
+  // Export buttons
+  const exportCSV = document.getElementById('exportCSV');
+  if (exportCSV) {
+    exportCSV.addEventListener('click', () => exportData('csv'));
+  }
+  
+  const exportPDF = document.getElementById('exportPDF');
+  if (exportPDF) {
+    exportPDF.addEventListener('click', () => exportData('pdf'));
+  }
+  
+  const exportExcel = document.getElementById('exportExcel');
+  if (exportExcel) {
+    exportExcel.addEventListener('click', () => exportData('excel'));
+  }
+  
+  // View controls
+  const viewBtns = document.querySelectorAll('.view-btn');
+  viewBtns.forEach(btn => {
+    btn.addEventListener('click', handleViewChange);
+  });
+  
+  // Page size control
+  const pageSize = document.getElementById('pageSize');
+  if (pageSize) {
+    pageSize.addEventListener('change', handlePageSizeChange);
+  }
+  
+  // Pagination buttons
+  const paginationBtns = ['firstPage', 'prevPage', 'nextPage', 'lastPage'];
+  paginationBtns.forEach(id => {
+    const btn = document.getElementById(id);
+    if (btn) {
+      btn.addEventListener('click', () => handlePagination(id));
+    }
+  });
+  
+  // Modal close buttons
+  const closeModalBtns = document.querySelectorAll('.close-btn, #closeModalBtn, #closeComparisonBtn');
+  closeModalBtns.forEach(btn => {
+    btn.addEventListener('click', closeModals);
+  });
+  
+  // Modal background click
+  const modals = document.querySelectorAll('.modal');
+  modals.forEach(modal => {
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        closeModals();
+      }
+    });
+  });
+}
+
+// Debounce function for search
+function debounce(func, wait) {
+  let timeout;
+  return function executedFunction(...args) {
+    const later = () => {
+      clearTimeout(timeout);
+      func(...args);
+    };
+    clearTimeout(timeout);
+    timeout = setTimeout(later, wait);
+  };
+}
+
+// Handle text search
+function handleTextSearch() {
+  applyFilters();
+}
+
+// Clear text search
+function clearTextSearch() {
+  const textSearch = document.getElementById('textSearch');
+  if (textSearch) {
+    textSearch.value = '';
+    applyFilters();
+  }
+}
+
+// Initialize filter options
+function initializeFilters() {
+  // Get unique manufacturers
+  const manufacturers = [...new Set(currentDatabaseData.map(t => t.manufacturer))].sort();
+  const manufacturerFilter = document.getElementById('manufacturerFilter');
+  if (manufacturerFilter) {
+    // Clear existing options except "All"
+    const firstOption = manufacturerFilter.firstElementChild;
+    manufacturerFilter.innerHTML = '';
+    manufacturerFilter.appendChild(firstOption);
+    
+    manufacturers.forEach(manufacturer => {
+      const option = document.createElement('option');
+      option.value = manufacturer;
+      option.textContent = manufacturer;
+      manufacturerFilter.appendChild(option);
+    });
+  }
+  
+  // Get unique packages
+  const packages = [...new Set(currentDatabaseData.map(t => t.package))].sort();
+  const packageFilter = document.getElementById('packageFilter');
+  if (packageFilter) {
+    // Clear existing options except "All"
+    const firstOption = packageFilter.firstElementChild;
+    packageFilter.innerHTML = '';
+    packageFilter.appendChild(firstOption);
+    
+    packages.forEach(pkg => {
+      const option = document.createElement('option');
+      option.value = pkg;
+      option.textContent = pkg;
+      packageFilter.appendChild(option);
+    });
+  }
+  
+  // Set range limits
+  const voltages = currentDatabaseData.map(t => t.vds_max);
+  const currents = currentDatabaseData.map(t => t.id_max);
+  const resistances = currentDatabaseData.map(t => t.rds_mohm);
+  
+  updateRangeInputs('voltage', Math.min(...voltages), Math.max(...voltages));
+  updateRangeInputs('current', Math.min(...currents), Math.max(...currents));
+  updateRangeInputs('resistance', Math.min(...resistances), Math.max(...resistances));
+}
+
+// Update range inputs
+function updateRangeInputs(type, min, max) {
+  const minInput = document.getElementById(`${type}Min`);
+  const maxInput = document.getElementById(`${type}Max`);
+  const rangeInput = document.getElementById(`${type}Range`);
+  
+  if (minInput) {
+    minInput.min = min;
+    minInput.max = max;
+    minInput.value = min;
+  }
+  
+  if (maxInput) {
+    maxInput.min = min;
+    maxInput.max = max;
+    maxInput.value = max;
+  }
+  
+  if (rangeInput) {
+    rangeInput.min = min;
+    rangeInput.max = max;
+    rangeInput.value = max;
+  }
+  
+  updateRangeDisplay({ target: rangeInput });
+}
+
+// Update range display
+function updateRangeDisplay(event) {
+  const range = event.target;
+  const type = range.id.replace('Range', '');
+  const display = document.getElementById(`${type}Display`);
+  const minInput = document.getElementById(`${type}Min`);
+  const maxInput = document.getElementById(`${type}Max`);
+  
+  if (display && minInput && maxInput) {
+    const unit = type === 'voltage' ? 'V' : type === 'current' ? 'A' : 'mΩ';
+    display.textContent = `${minInput.value}${unit} - ${range.value}${unit}`;
+    maxInput.value = range.value;
+  }
+}
+
+// Apply all filters
+function applyFilters() {
+  const textSearch = document.getElementById('textSearch')?.value.toLowerCase() || '';
+  const techFilter = document.getElementById('techFilter')?.value || 'all';
+  const manufacturerFilter = document.getElementById('manufacturerFilter')?.value || 'all';
+  const packageFilter = document.getElementById('packageFilter')?.value || 'all';
+  
+  const voltageMin = parseInt(document.getElementById('voltageMin')?.value || 0);
+  const voltageMax = parseInt(document.getElementById('voltageMax')?.value || 9999);
+  const currentMin = parseInt(document.getElementById('currentMin')?.value || 0);
+  const currentMax = parseInt(document.getElementById('currentMax')?.value || 9999);
+  const resistanceMin = parseInt(document.getElementById('resistanceMin')?.value || 0);
+  const resistanceMax = parseInt(document.getElementById('resistanceMax')?.value || 9999);
+  
+  filteredDatabaseData = currentDatabaseData.filter(transistor => {
+    // Text search
+    if (textSearch && !transistor.model.toLowerCase().includes(textSearch) &&
+        !transistor.manufacturer.toLowerCase().includes(textSearch) &&
+        !transistor.application.toLowerCase().includes(textSearch)) {
+      return false;
+    }
+    
+    // Technology filter
+    if (techFilter !== 'all' && transistor.technology !== techFilter) {
+      return false;
+    }
+    
+    // Manufacturer filter
+    if (manufacturerFilter !== 'all' && transistor.manufacturer !== manufacturerFilter) {
+      return false;
+    }
+    
+    // Package filter
+    if (packageFilter !== 'all' && transistor.package !== packageFilter) {
+      return false;
+    }
+    
+    // Range filters
+    if (transistor.vds_max < voltageMin || transistor.vds_max > voltageMax) {
+      return false;
+    }
+    
+    if (transistor.id_max < currentMin || transistor.id_max > currentMax) {
+      return false;
+    }
+    
+    if (transistor.rds_mohm < resistanceMin || transistor.rds_mohm > resistanceMax) {
+      return false;
+    }
+    
+    return true;
+  });
+  
+  // Reset to first page
+  currentPage = 1;
+  
+  // Update table
+  populateDatabaseTable();
+  updateResultsInfo();
+}
+
+// Reset all filters
+function resetFilters() {
+  // Clear text search
+  const textSearch = document.getElementById('textSearch');
+  if (textSearch) textSearch.value = '';
+  
+  // Reset dropdowns
+  const dropdowns = ['techFilter', 'manufacturerFilter', 'packageFilter'];
+  dropdowns.forEach(id => {
+    const element = document.getElementById(id);
+    if (element) element.selectedIndex = 0;
+  });
+  
+  // Reset ranges
+  const types = ['voltage', 'current', 'resistance'];
+  types.forEach(type => {
+    const minInput = document.getElementById(`${type}Min`);
+    const maxInput = document.getElementById(`${type}Max`);
+    const rangeInput = document.getElementById(`${type}Range`);
+    
+    if (minInput && maxInput && rangeInput) {
+      minInput.value = minInput.min;
+      maxInput.value = maxInput.max;
+      rangeInput.value = rangeInput.max;
+      updateRangeDisplay({ target: rangeInput });
+    }
+  });
+  
+  // Apply filters (which will show all data)
+  applyFilters();
+}
+
+// Populate database table
+function populateDatabaseTable() {
+  const tableBody = document.getElementById('transistorTableBody');
+  const loadingIndicator = document.getElementById('loadingIndicator');
+  const noResults = document.getElementById('noResults');
+  
+  if (!tableBody) return;
+  
+  // Show loading
+  showElement(loadingIndicator);
+  hideElement(noResults);
+  tableBody.innerHTML = '';
+  
+  setTimeout(() => {
+    // Apply sorting
+    let sortedData = [...filteredDatabaseData];
+    if (currentSort.column) {
+      sortedData.sort((a, b) => {
+        let aVal = a[currentSort.column];
+        let bVal = b[currentSort.column];
+        
+        // Handle string sorting
+        if (typeof aVal === 'string') {
+          aVal = aVal.toLowerCase();
+          bVal = bVal.toLowerCase();
+        }
+        
+        if (aVal < bVal) return currentSort.direction === 'asc' ? -1 : 1;
+        if (aVal > bVal) return currentSort.direction === 'asc' ? 1 : -1;
+        return 0;
+      });
+    }
+    
+    // Apply pagination
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = itemsPerPage === 'all' ? sortedData.length : startIndex + itemsPerPage;
+    const pageData = sortedData.slice(startIndex, endIndex);
+    
+    // Hide loading
+    hideElement(loadingIndicator);
+    
+    if (pageData.length === 0) {
+      showElement(noResults);
+      return;
+    }
+    
+    // Populate table rows
+    pageData.forEach(transistor => {
+      const row = createTableRow(transistor);
+      tableBody.appendChild(row);
+    });
+    
+    updatePagination(sortedData.length);
+  }, 300); // Small delay to show loading
+}
+
+// Create table row
+function createTableRow(transistor) {
+  const row = document.createElement('tr');
+  
+  row.innerHTML = `
+    <td>
+      <strong>${transistor.model}</strong>
+      <br><small class="manufacturer-badge">${transistor.key}</small>
+    </td>
+    <td>
+      <span class="tech-badge ${transistor.technology.toLowerCase()}">${transistor.technology}</span>
+    </td>
+    <td><strong>${transistor.vds_max}</strong></td>
+    <td><strong>${transistor.id_max}</strong></td>
+    <td><strong>${transistor.rds_mohm}</strong></td>
+    <td>${transistor.package}</td>
+    <td class="manufacturer-badge">${transistor.manufacturer}</td>
+    <td>
+      <span class="applications-text" title="${transistor.application}">
+        ${transistor.application}
+      </span>
+    </td>
+    <td>
+      <button class="action-btn primary" onclick="showTransistorModal('${transistor.key}', '${transistor.technology}')">
+        👁️ Детайли
+      </button>
+      <button class="action-btn" onclick="addToComparison('${transistor.key}', '${transistor.technology}')">
+        ⚖️
+      </button>
+    </td>
+  `;
+  
+  return row;
+}
+
+// Handle table sorting
+function handleTableSort(column) {
+  if (currentSort.column === column) {
+    currentSort.direction = currentSort.direction === 'asc' ? 'desc' : 'asc';
+  } else {
+    currentSort.column = column;
+    currentSort.direction = 'asc';
+  }
+  
+  // Update sort indicators
+  updateSortIndicators();
+  
+  // Repopulate table
+  populateDatabaseTable();
+}
+
+// Update sort indicators
+function updateSortIndicators() {
+  const sortableHeaders = document.querySelectorAll('.sortable');
+  sortableHeaders.forEach(header => {
+    header.classList.remove('sort-asc', 'sort-desc');
+    if (header.dataset.sort === currentSort.column) {
+      header.classList.add(`sort-${currentSort.direction}`);
+    }
+  });
+}
+
+// Set up table sorting event listeners
+document.addEventListener('DOMContentLoaded', () => {
+  const sortableHeaders = document.querySelectorAll('.sortable');
+  sortableHeaders.forEach(header => {
+    header.addEventListener('click', () => {
+      handleTableSort(header.dataset.sort);
+    });
+  });
+});
+
+// Update results info
+function updateResultsInfo() {
+  const resultsCount = document.getElementById('resultsCount');
+  const totalCount = document.getElementById('totalCount');
+  
+  if (resultsCount) {
+    resultsCount.textContent = filteredDatabaseData.length;
+  }
+  
+  if (totalCount) {
+    totalCount.textContent = currentDatabaseData.length + '+';
+  }
+}
+
+// Show transistor modal
+function showTransistorModal(key, technology) {
+  const transistor = TRANSISTOR_DB[technology][key];
+  if (!transistor) return;
+  
+  const modal = document.getElementById('transistorModal');
+  if (!modal) return;
+  
+  // Populate modal with transistor data
+  document.getElementById('detailModel').textContent = transistor.name;
+  document.getElementById('detailTechnology').textContent = technology;
+  document.getElementById('detailManufacturer').textContent = transistor.manufacturer;
+  document.getElementById('detailPackage').textContent = transistor.package;
+  document.getElementById('detailVds').textContent = transistor.vds_max + ' V';
+  document.getElementById('detailId').textContent = transistor.id_max + ' A';
+  document.getElementById('detailRds').textContent = transistor.rds_mohm + ' mΩ';
+  document.getElementById('detailAlpha').textContent = transistor.alpha;
+  document.getElementById('detailTr').textContent = (transistor.tr_ns || 'N/A') + ' ns';
+  document.getElementById('detailTf').textContent = (transistor.tf_ns || 'N/A') + ' ns';
+  document.getElementById('detailApplications').textContent = transistor.application;
+  
+  // Calculate and show performance metrics
+  document.getElementById('powerDensity').textContent = calculatePowerDensity(transistor);
+  document.getElementById('figureMerit').textContent = calculateFigureMerit(transistor);
+  
+  const switchingScore = calculateSwitchingScore(transistor);
+  const scoreElement = document.getElementById('switchingScore');
+  const scoreBar = scoreElement.querySelector('.score-fill');
+  const scoreText = scoreElement.querySelector('.score-text');
+  
+  if (scoreBar && scoreText) {
+    scoreBar.style.width = switchingScore + '%';
+    scoreText.textContent = switchingScore + '%';
+  }
+  
+  // Set up modal buttons
+  const addToComparisonBtn = document.getElementById('addToComparison');
+  if (addToComparisonBtn) {
+    addToComparisonBtn.onclick = () => addToComparison(key, technology);
+  }
+  
+  const calculateBtn = document.getElementById('calculateWithThis');
+  if (calculateBtn) {
+    calculateBtn.onclick = () => {
+      // Navigate to calculator with this transistor
+      window.location.href = `/calculator?transistor=${key}&tech=${technology}`;
+    };
+  }
+  
+  // Show modal
+  modal.classList.remove('hidden');
+  modal.classList.add('show');
+}
+
+// Add to comparison
+function addToComparison(key, technology) {
+  const transistor = TRANSISTOR_DB[technology][key];
+  if (!transistor) return;
+  
+  // Check if already in comparison
+  const exists = comparisonList.find(t => t.key === key && t.technology === technology);
+  if (exists) {
+    alert('Този транзистор вече е добавен в сравнението');
+    return;
+  }
+  
+  // Add to comparison list
+  comparisonList.push({
+    key: key,
+    technology: technology,
+    data: transistor
+  });
+  
+  // Update comparison UI
+  updateComparisonDisplay();
+  
+  alert(`${transistor.name} е добавен в сравнението (${comparisonList.length} транзистора)`);
+}
+
+// Update comparison display
+function updateComparisonDisplay() {
+  // Update comparison button
+  const compareBtn = document.getElementById('compareView');
+  if (compareBtn && comparisonList.length > 0) {
+    compareBtn.textContent = `⚖️ Сравни (${comparisonList.length})`;
+    compareBtn.style.background = 'var(--accent-color)';
+    compareBtn.style.color = 'white';
+  }
+}
+
+// Export data
+function exportData(format) {
+  const data = filteredDatabaseData;
+  const filename = `transistor_database_${new Date().toISOString().split('T')[0]}`;
+  
+  switch (format) {
+    case 'csv':
+      exportToCSV(data, filename);
+      break;
+    case 'pdf':
+      exportToPDF(data, filename);
+      break;
+    case 'excel':
+      exportToExcel(data, filename);
+      break;
+  }
+}
+
+// Export to CSV
+function exportToCSV(data, filename) {
+  const headers = ['Model', 'Technology', 'VDS(max) [V]', 'ID(max) [A]', 'RDS(on) [mΩ]', 'Package', 'Manufacturer', 'Applications'];
+  
+  let csvContent = headers.join(',') + '\n';
+  
+  data.forEach(transistor => {
+    const row = [
+      `"${transistor.model}"`,
+      transistor.technology,
+      transistor.vds_max,
+      transistor.id_max,
+      transistor.rds_mohm,
+      transistor.package,
+      `"${transistor.manufacturer}"`,
+      `"${transistor.application}"`
+    ];
+    csvContent += row.join(',') + '\n';
+  });
+  
+  downloadFile(csvContent, filename + '.csv', 'text/csv');
+}
+
+// Download file
+function downloadFile(content, filename, mimeType) {
+  const blob = new Blob([content], { type: mimeType });
+  const url = window.URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  window.URL.revokeObjectURL(url);
+}
+
+// Handle view changes
+function handleViewChange(event) {
+  const viewBtns = document.querySelectorAll('.view-btn');
+  viewBtns.forEach(btn => btn.classList.remove('active'));
+  event.target.classList.add('active');
+  
+  // Implement different view modes if needed
+  const viewType = event.target.id;
+  switch (viewType) {
+    case 'compareView':
+      if (comparisonList.length > 0) {
+        showComparisonModal();
+      } else {
+        alert('Няма транзистори за сравнение. Добавете транзистори, като кликнете ⚖️ бутона.');
+      }
+      break;
+  }
+}
+
+// Show comparison modal
+function showComparisonModal() {
+  const modal = document.getElementById('comparisonModal');
+  if (!modal || comparisonList.length === 0) return;
+  
+  const comparisonTable = document.getElementById('comparisonTable');
+  if (!comparisonTable) return;
+  
+  // Build comparison table
+  let tableHTML = '<table class="comparison-table"><thead><tr>';
+  tableHTML += '<th>Parameter</th>';
+  comparisonList.forEach(item => {
+    tableHTML += `<th>${item.data.name}</th>`;
+  });
+  tableHTML += '</tr></thead><tbody>';
+  
+  // Add parameter rows
+  const parameters = [
+    { key: 'technology', label: 'Technology' },
+    { key: 'manufacturer', label: 'Manufacturer' },
+    { key: 'package', label: 'Package' },
+    { key: 'vds_max', label: 'VDS(max) [V]' },
+    { key: 'id_max', label: 'ID(max) [A]' },
+    { key: 'rds_mohm', label: 'RDS(on) [mΩ]' },
+    { key: 'tr_ns', label: 'tr [ns]' },
+    { key: 'tf_ns', label: 'tf [ns]' },
+    { key: 'application', label: 'Applications' }
+  ];
+  
+  parameters.forEach(param => {
+    tableHTML += `<tr><td><strong>${param.label}</strong></td>`;
+    comparisonList.forEach(item => {
+      let value = param.key === 'technology' ? item.technology : item.data[param.key];
+      if (value === undefined || value === null) value = 'N/A';
+      tableHTML += `<td>${value}</td>`;
+    });
+    tableHTML += '</tr>';
+  });
+  
+  tableHTML += '</tbody></table>';
+  comparisonTable.innerHTML = tableHTML;
+  
+  // Show modal
+  modal.classList.remove('hidden');
+  modal.classList.add('show');
+}
+
+// Handle pagination
+function handlePagination(action) {
+  const totalPages = Math.ceil(filteredDatabaseData.length / itemsPerPage);
+  
+  switch (action) {
+    case 'firstPage':
+      currentPage = 1;
+      break;
+    case 'prevPage':
+      if (currentPage > 1) currentPage--;
+      break;
+    case 'nextPage':
+      if (currentPage < totalPages) currentPage++;
+      break;
+    case 'lastPage':
+      currentPage = totalPages;
+      break;
+  }
+  
+  populateDatabaseTable();
+}
+
+// Handle page size change
+function handlePageSizeChange(event) {
+  const value = event.target.value;
+  itemsPerPage = value === 'all' ? 'all' : parseInt(value);
+  currentPage = 1;
+  populateDatabaseTable();
+}
+
+// Update pagination
+function updatePagination(totalItems) {
+  const totalPages = itemsPerPage === 'all' ? 1 : Math.ceil(totalItems / itemsPerPage);
+  
+  // Update info
+  const startResult = document.getElementById('startResult');
+  const endResult = document.getElementById('endResult');
+  const totalResults = document.getElementById('totalResults');
+  
+  if (startResult && endResult && totalResults) {
+    const start = itemsPerPage === 'all' ? 1 : (currentPage - 1) * itemsPerPage + 1;
+    const end = itemsPerPage === 'all' ? totalItems : Math.min(currentPage * itemsPerPage, totalItems);
+    
+    startResult.textContent = start;
+    endResult.textContent = end;
+    totalResults.textContent = totalItems;
+  }
+  
+  // Update buttons
+  const firstBtn = document.getElementById('firstPage');
+  const prevBtn = document.getElementById('prevPage');
+  const nextBtn = document.getElementById('nextPage');
+  const lastBtn = document.getElementById('lastPage');
+  
+  if (firstBtn) firstBtn.disabled = currentPage === 1;
+  if (prevBtn) prevBtn.disabled = currentPage === 1;
+  if (nextBtn) nextBtn.disabled = currentPage === totalPages;
+  if (lastBtn) lastBtn.disabled = currentPage === totalPages;
+  
+  // Update page numbers
+  updatePageNumbers(totalPages);
+}
+
+// Update page numbers
+function updatePageNumbers(totalPages) {
+  const pageNumbers = document.getElementById('pageNumbers');
+  if (!pageNumbers) return;
+  
+  pageNumbers.innerHTML = '';
+  
+  // Show max 5 page numbers
+  let startPage = Math.max(1, currentPage - 2);
+  let endPage = Math.min(totalPages, startPage + 4);
+  
+  if (endPage - startPage < 4) {
+    startPage = Math.max(1, endPage - 4);
+  }
+  
+  for (let i = startPage; i <= endPage; i++) {
+    const pageBtn = document.createElement('button');
+    pageBtn.className = `page-number ${i === currentPage ? 'active' : ''}`;
+    pageBtn.textContent = i;
+    pageBtn.onclick = () => {
+      currentPage = i;
+      populateDatabaseTable();
+    };
+    pageNumbers.appendChild(pageBtn);
+  }
+}
+
+// Close modals
+function closeModals() {
+  const modals = document.querySelectorAll('.modal');
+  modals.forEach(modal => {
+    modal.classList.add('hidden');
+    modal.classList.remove('show');
+  });
+}
+
+// Update database language
+function updateDatabaseLanguage() {
+  const langData = databaseLanguages[currentLang] || databaseLanguages['bg'];
+  
+  // Update all elements with data-lang attributes
+  Object.keys(langData).forEach(key => {
+    const elements = document.querySelectorAll(`[data-lang="${key}"]`);
+    elements.forEach(element => {
+      if (element.tagName === 'INPUT' || element.tagName === 'SELECT') {
+        if (element.hasAttribute('data-lang-placeholder')) {
+          element.placeholder = langData[key];
+        }
+      } else {
+        element.textContent = langData[key];
+      }
+    });
+  });
+  
+  // Update placeholders
+  const textSearch = document.getElementById('textSearch');
+  if (textSearch) {
+    textSearch.placeholder = langData.searchPlaceholder;
+  }
+}
+
+// Utility functions
+function showElement(element) {
+  if (element) {
+    element.classList.remove('hidden');
+  }
+}
+
+function hideElement(element) {
+  if (element) {
+    element.classList.add('hidden');
+  }
+}
+
+// Add to existing language switching functionality
+const originalSwitchLanguage = switchLanguage;
+switchLanguage = function(lang, button) {
+  originalSwitchLanguage(lang, button);
+  if (typeof updateDatabaseLanguage === 'function') {
+    updateDatabaseLanguage();
+  }
+};

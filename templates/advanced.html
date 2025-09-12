@@ -6,41 +6,856 @@
 
 {% block page_description %}Разширени инженерни изчисления включително термичен анализ, Miller капацитет и dead-time оптимизация.{% endblock %}
 
-{% block content %}
-<section class="advanced-content">
-    <div class="thermal">
-        <h2>🔬 Термичен анализ</h2>
-        <p>Тук ще бъдат thermal analysis, Miller capacitance, dead-time изчисления...</p>
-        <!-- Advanced analysis tools will be implemented here -->
-        
-        <div class="thermal-controls">
-            <h3>Термични параметри:</h3>
-            <p>Въведете параметри за термичното моделиране...</p>
-            <!-- Controls will be added here -->
-        </div>
-        
-        <div class="thermal-results">
-            <h3>Термични резултати:</h3>
-            <table>
-                <tr><td>Температура на съединението (Tj):</td><td id="junctionTemp">-</td></tr>
-                <tr><td>Температура на корпуса (Tc):</td><td id="caseTemp">-</td></tr>
-                <tr><td>Термично съпротивление (Rth):</td><td id="thermalResistance">-</td></tr>
-                <tr><td>Термичен марж:</td><td id="thermalMargin">-</td></tr>
-            </table>
-        </div>
-    </div>
+{% block extra_head %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+.advanced-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+    margin: 20px 0;
+}
+
+.analysis-section {
+    background: linear-gradient(145deg, #ffffff, #f8f9fa);
+    border: 1px solid #e3e6ea;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    transition: all 0.3s ease;
+}
+
+.analysis-section:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.12);
+}
+
+.analysis-section h3 {
+    color: #2c3e50;
+    margin-bottom: 20px;
+    font-size: 1.3em;
+    font-weight: 600;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 8px;
+}
+
+.input-group {
+    margin-bottom: 20px;
+}
+
+.input-row {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+    align-items: center;
+}
+
+.input-col {
+    flex: 1;
+}
+
+.input-col label {
+    display: block;
+    font-weight: 500;
+    color: #34495e;
+    margin-bottom: 5px;
+    font-size: 0.9em;
+}
+
+.input-col input, .input-col select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 2px solid #bdc3c7;
+    border-radius: 6px;
+    font-size: 14px;
+    transition: border-color 0.3s ease;
+}
+
+.input-col input:focus, .input-col select:focus {
+    outline: none;
+    border-color: #3498db;
+    box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.1);
+}
+
+.canvas-container {
+    margin-top: 20px;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    border: 1px solid #e9ecef;
+}
+
+.canvas-container canvas {
+    max-width: 100%;
+    height: 300px !important;
+}
+
+.results-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+.results-table th {
+    background: #34495e;
+    color: white;
+    padding: 12px 15px;
+    text-align: left;
+    font-weight: 600;
+}
+
+.results-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #ecf0f1;
+}
+
+.results-table tr:nth-child(even) {
+    background: #f8f9fa;
+}
+
+.calculate-btn {
+    background: linear-gradient(135deg, #3498db, #2980b9);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 15px;
+}
+
+.calculate-btn:hover {
+    background: linear-gradient(135deg, #2980b9, #1f5f8b);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+}
+
+.full-width {
+    grid-column: 1 / -1;
+}
+
+.warning-box {
+    background: #fff3cd;
+    border: 1px solid #ffeaa7;
+    border-radius: 6px;
+    padding: 15px;
+    margin: 15px 0;
+    color: #856404;
+}
+
+.info-box {
+    background: #d4edda;
+    border: 1px solid #74c0fc;
+    border-radius: 6px;
+    padding: 15px;
+    margin: 15px 0;
+    color: #155724;
+}
+
+@media (max-width: 768px) {
+    .advanced-grid {
+        grid-template-columns: 1fr;
+    }
     
-    <div class="advanced-explanation">
-        <h2>🧪 Разширени параметри</h2>
-        <div class="science-section">
-            <h4>Miller Capacitance Analysis</h4>
-            <p>Анализ на Miller ефекта и неговото влияние върху превключването...</p>
+    .input-row {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
+
+.soa-canvas-container {
+    position: relative;
+    height: 400px;
+    margin-top: 20px;
+}
+
+.unit {
+    font-size: 0.8em;
+    color: #7f8c8d;
+    margin-left: 5px;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="advanced-grid">
+    <!-- Miller Capacitance Analysis -->
+    <div class="analysis-section">
+        <h3 data-lang="millerCapacitance">🔬 Miller Capacitance Analysis</h3>
+        
+        <div class="input-group">
+            <div class="input-row">
+                <div class="input-col">
+                    <label for="cgd" data-lang="cgdLabel">CGD (pF):</label>
+                    <input type="number" id="cgd" value="50" min="1" max="1000" step="1">
+                </div>
+                <div class="input-col">
+                    <label for="cgs" data-lang="cgsLabel">CGS (pF):</label>
+                    <input type="number" id="cgs" value="1200" min="10" max="5000" step="10">
+                </div>
+            </div>
+            <div class="input-row">
+                <div class="input-col">
+                    <label for="cds" data-lang="cdsLabel">CDS (pF):</label>
+                    <input type="number" id="cds" value="80" min="1" max="1000" step="1">
+                </div>
+                <div class="input-col">
+                    <label for="vdr" data-lang="vdrLabel">VDR Slew Rate (V/ns):</label>
+                    <input type="number" id="vdr" value="10" min="0.1" max="100" step="0.1">
+                </div>
+            </div>
         </div>
         
-        <div class="science-section">
-            <h4>Dead-time Optimization</h4>
-            <p>Оптимизация на мъртвото време за минимизиране на загубите...</p>
+        <button class="calculate-btn" id="calculateMillerBtn" data-lang="calculateMiller">Calculate Miller Effect</button>
+        
+        <div class="canvas-container">
+            <canvas id="millerChart"></canvas>
+        </div>
+        
+        <table class="results-table" id="millerResults">
+            <tr><th data-lang="parameter">Parameter</th><th data-lang="value">Value</th></tr>
+            <tr><td data-lang="millerMultiplier">Miller Multiplier</td><td id="millerMult">-</td></tr>
+            <tr><td data-lang="effectiveCapacitance">Effective Capacitance</td><td id="effectiveCap">-</td></tr>
+            <tr><td data-lang="millerCurrent">Miller Current (A)</td><td id="millerCurrent">-</td></tr>
+        </table>
+    </div>
+
+    <!-- Dead-time Analysis -->
+    <div class="analysis-section">
+        <h3 data-lang="deadTimeAnalysis">⚡ Dead-time Analysis</h3>
+        
+        <div class="input-group">
+            <div class="input-row">
+                <div class="input-col">
+                    <label for="deadTime" data-lang="deadTimeLabel">Dead Time (ns):</label>
+                    <input type="number" id="deadTime" value="100" min="10" max="2000" step="10">
+                </div>
+                <div class="input-col">
+                    <label for="outputCurrent" data-lang="outputCurrentLabel">Output Current (A):</label>
+                    <input type="number" id="outputCurrent" value="20" min="1" max="200" step="1">
+                </div>
+            </div>
+            <div class="input-row">
+                <div class="input-col">
+                    <label for="bodyDiodeVf" data-lang="bodyDiodeVfLabel">Body Diode Vf (V):</label>
+                    <input type="number" id="bodyDiodeVf" value="0.7" min="0.3" max="2.0" step="0.1">
+                </div>
+                <div class="input-col">
+                    <label for="switchingFreq" data-lang="switchingFreqLabel">Switching Freq (kHz):</label>
+                    <input type="number" id="switchingFreq" value="50" min="1" max="500" step="1">
+                </div>
+            </div>
+        </div>
+        
+        <button class="calculate-btn" id="calculateDeadTimeBtn" data-lang="calculateDeadTime">Calculate Dead-time Effects</button>
+        
+        <div class="canvas-container">
+            <canvas id="deadTimeChart"></canvas>
+        </div>
+        
+        <table class="results-table" id="deadTimeResults">
+            <tr><th data-lang="parameter">Parameter</th><th data-lang="value">Value</th></tr>
+            <tr><td data-lang="deadTimeLosses">Dead-time Losses (W)</td><td id="deadTimeLoss">-</td></tr>
+            <tr><td data-lang="bodyDiodeLosses">Body Diode Losses (W)</td><td id="bodyDiodeLoss">-</td></tr>
+            <tr><td data-lang="totalDeadTimeLoss">Total Dead-time Loss (W)</td><td id="totalDeadLoss">-</td></tr>
+        </table>
+    </div>
+
+    <!-- Enhanced Thermal Modeling -->
+    <div class="analysis-section">
+        <h3 data-lang="thermalModeling">🌡️ Enhanced Thermal Modeling</h3>
+        
+        <div class="input-group">
+            <div class="input-row">
+                <div class="input-col">
+                    <label for="powerLosses" data-lang="powerLossesLabel">Power Losses (W):</label>
+                    <input type="number" id="powerLosses" value="25" min="0.1" max="500" step="0.1">
+                </div>
+                <div class="input-col">
+                    <label for="ambientTemp" data-lang="ambientTempLabel">Ambient Temp (°C):</label>
+                    <input type="number" id="ambientTemp" value="25" min="-40" max="85" step="1">
+                </div>
+            </div>
+            <div class="input-row">
+                <div class="input-col">
+                    <label for="thermalResistance" data-lang="thermalResistanceLabel">Rth JC (°C/W):</label>
+                    <input type="number" id="thermalResistance" value="0.5" min="0.1" max="10" step="0.1">
+                </div>
+                <div class="input-col">
+                    <label for="heatsinkRth" data-lang="heatsinkRthLabel">Heatsink Rth (°C/W):</label>
+                    <input type="number" id="heatsinkRth" value="2.0" min="0.1" max="50" step="0.1">
+                </div>
+            </div>
+        </div>
+        
+        <button class="calculate-btn" id="calculateThermalBtn" data-lang="calculateThermal">Calculate Thermal Parameters</button>
+        
+        <div class="canvas-container">
+            <canvas id="thermalChart"></canvas>
+        </div>
+        
+        <table class="results-table" id="thermalResults">
+            <tr><th data-lang="parameter">Parameter</th><th data-lang="value">Value</th></tr>
+            <tr><td data-lang="junctionTemp">Junction Temp (°C)</td><td id="tjTemp">-</td></tr>
+            <tr><td data-lang="caseTemp">Case Temp (°C)</td><td id="tcTemp">-</td></tr>
+            <tr><td data-lang="thermalMargin">Thermal Margin (°C)</td><td id="thermalMargin">-</td></tr>
+            <tr><td data-lang="maxPowerDissipation">Max Power at 150°C (W)</td><td id="maxPower">-</td></tr>
+        </table>
+    </div>
+
+    <!-- Switching Trajectory Analysis -->
+    <div class="analysis-section">
+        <h3 data-lang="switchingTrajectory">📊 Switching Trajectory & SOA</h3>
+        
+        <div class="input-group">
+            <div class="input-row">
+                <div class="input-col">
+                    <label for="loadInductance" data-lang="loadInductanceLabel">Load Inductance (μH):</label>
+                    <input type="number" id="loadInductance" value="100" min="1" max="1000" step="1">
+                </div>
+                <div class="input-col">
+                    <label for="gateResistance" data-lang="gateResistanceLabel">Gate Resistance (Ω):</label>
+                    <input type="number" id="gateResistance" value="10" min="1" max="100" step="1">
+                </div>
+            </div>
+            <div class="input-row">
+                <div class="input-col">
+                    <label for="busVoltage" data-lang="busVoltageLabel">Bus Voltage (V):</label>
+                    <input type="number" id="busVoltage" value="400" min="12" max="1200" step="1">
+                </div>
+                <div class="input-col">
+                    <label for="switchingCurrent" data-lang="switchingCurrentLabel">Switching Current (A):</label>
+                    <input type="number" id="switchingCurrent" value="30" min="1" max="200" step="1">
+                </div>
+            </div>
+        </div>
+        
+        <button class="calculate-btn" onclick="calculateSOA()" data-lang="calculateSOA">Calculate SOA & Trajectory</button>
+        
+        <div class="soa-canvas-container">
+            <canvas id="soaChart"></canvas>
+        </div>
+        
+        <div class="info-box">
+            <strong data-lang="soaInfo">SOA Analysis:</strong>
+            <span data-lang="soaDescription">This chart shows the Safe Operating Area limits and current switching trajectory. Operating points should remain within the SOA boundaries.</span>
         </div>
     </div>
-</section>
+
+    <!-- Parasitic Effects Analysis -->
+    <div class="analysis-section full-width">
+        <h3 data-lang="parasiticEffects">🔧 Parasitic Effects Analysis</h3>
+        
+        <div class="advanced-grid" style="grid-template-columns: 1fr 1fr 1fr;">
+            <div class="input-group">
+                <h4 data-lang="packageParasitics">Package Parasitics</h4>
+                <div class="input-col">
+                    <label for="packageESR" data-lang="packageESRLabel">Package ESR (mΩ):</label>
+                    <input type="number" id="packageESR" value="2" min="0.1" max="50" step="0.1">
+                </div>
+                <div class="input-col">
+                    <label for="packageESL" data-lang="packageESLLabel">Package ESL (nH):</label>
+                    <input type="number" id="packageESL" value="5" min="1" max="100" step="0.5">
+                </div>
+            </div>
+            
+            <div class="input-group">
+                <h4 data-lang="pcbParasitics">PCB Parasitics</h4>
+                <div class="input-col">
+                    <label for="traceESR" data-lang="traceESRLabel">Trace ESR (mΩ):</label>
+                    <input type="number" id="traceESR" value="1" min="0.1" max="20" step="0.1">
+                </div>
+                <div class="input-col">
+                    <label for="traceESL" data-lang="traceESLLabel">Trace ESL (nH):</label>
+                    <input type="number" id="traceESL" value="3" min="0.5" max="50" step="0.5">
+                </div>
+            </div>
+            
+            <div class="input-group">
+                <h4 data-lang="couplingEffects">Coupling Effects</h4>
+                <div class="input-col">
+                    <label for="mutualInductance" data-lang="mutualInductanceLabel">Mutual Inductance (nH):</label>
+                    <input type="number" id="mutualInductance" value="2" min="0.1" max="20" step="0.1">
+                </div>
+                <div class="input-col">
+                    <label for="couplingFactor" data-lang="couplingFactorLabel">Coupling Factor:</label>
+                    <input type="number" id="couplingFactor" value="0.1" min="0.01" max="0.5" step="0.01">
+                </div>
+            </div>
+        </div>
+        
+        <button class="calculate-btn" onclick="calculateParasitics()" data-lang="calculateParasitics">Calculate Parasitic Effects</button>
+        
+        <div class="advanced-grid" style="margin-top: 20px;">
+            <div class="canvas-container">
+                <h4 data-lang="voltageSpikeAnalysis">Voltage Spike Analysis</h4>
+                <canvas id="voltageSpikesChart"></canvas>
+            </div>
+            <div class="canvas-container">
+                <h4 data-lang="ringingAnalysis">Ringing Analysis</h4>
+                <canvas id="ringingChart"></canvas>
+            </div>
+        </div>
+        
+        <table class="results-table">
+            <tr><th data-lang="parameter">Parameter</th><th data-lang="value">Value</th><th data-lang="impact">Impact</th></tr>
+            <tr><td data-lang="totalESR">Total ESR (mΩ)</td><td id="totalESR">-</td><td id="esrImpact">-</td></tr>
+            <tr><td data-lang="totalESL">Total ESL (nH)</td><td id="totalESL">-</td><td id="eslImpact">-</td></tr>
+            <tr><td data-lang="voltageSpike">Max Voltage Spike (V)</td><td id="maxVoltageSpike">-</td><td id="spikeImpact">-</td></tr>
+            <tr><td data-lang="ringingFrequency">Ringing Frequency (MHz)</td><td id="ringingFreq">-</td><td id="freqImpact">-</td></tr>
+        </table>
+        
+        <div class="warning-box" id="parasiticWarnings" style="display: none;">
+            <strong data-lang="warningsTitle">⚠️ Warnings:</strong>
+            <div id="warningsList"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Глобални променливи за графиките
+let millerChart, deadTimeChart, thermalChart, soaChart, voltageSpikesChart, ringingChart;
+
+// Miller Capacitance анализ
+function calculateMillerEffect() {
+    const cgd = parseFloat(document.getElementById('cgd').value);
+    const cgs = parseFloat(document.getElementById('cgs').value);
+    const cds = parseFloat(document.getElementById('cds').value);
+    const vdr = parseFloat(document.getElementById('vdr').value);
+    
+    // Miller multiplier calculation
+    const millerMultiplier = 1 + cgd/cgs;
+    const effectiveCapacitance = cgd * millerMultiplier;
+    const millerCurrent = cgd * vdr * 1e-3; // Convert to amperes
+    
+    // Update results
+    document.getElementById('millerMult').textContent = millerMultiplier.toFixed(2);
+    document.getElementById('effectiveCap').textContent = effectiveCapacitance.toFixed(1) + ' pF';
+    document.getElementById('millerCurrent').textContent = (millerCurrent * 1e6).toFixed(2) + ' μA';
+    
+    // Create Miller effect chart
+    const ctx = document.getElementById('millerChart').getContext('2d');
+    
+    if (millerChart) {
+        millerChart.destroy();
+    }
+    
+    const frequencies = [];
+    const impedances = [];
+    for (let f = 1; f <= 1000; f += 10) {
+        frequencies.push(f);
+        const omega = 2 * Math.PI * f * 1000; // Convert to Hz
+        const impedance = 1 / (omega * effectiveCapacitance * 1e-12);
+        impedances.push(impedance);
+    }
+    
+    millerChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: frequencies,
+            datasets: [{
+                label: 'Miller Impedance (Ω)',
+                data: impedances,
+                borderColor: '#e74c3c',
+                backgroundColor: 'rgba(231, 76, 60, 0.1)',
+                fill: true
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Frequency (kHz)'
+                    }
+                },
+                y: {
+                    type: 'logarithmic',
+                    title: {
+                        display: true,
+                        text: 'Impedance (Ω)'
+                    }
+                }
+            }
+        }
+    });
+}
+
+// Dead-time анализ
+function calculateDeadTime() {
+    const deadTime = parseFloat(document.getElementById('deadTime').value) * 1e-9; // Convert to seconds
+    const outputCurrent = parseFloat(document.getElementById('outputCurrent').value);
+    const bodyDiodeVf = parseFloat(document.getElementById('bodyDiodeVf').value);
+    const switchingFreq = parseFloat(document.getElementById('switchingFreq').value) * 1000; // Convert to Hz
+    
+    // Dead-time losses calculation
+    const deadTimeLoss = outputCurrent * bodyDiodeVf * deadTime * switchingFreq * 2; // Both transitions
+    const bodyDiodeLoss = deadTimeLoss * 0.7; // Approximate body diode conduction loss
+    const totalDeadLoss = deadTimeLoss + bodyDiodeLoss;
+    
+    // Update results
+    document.getElementById('deadTimeLoss').textContent = deadTimeLoss.toFixed(2) + ' W';
+    document.getElementById('bodyDiodeLoss').textContent = bodyDiodeLoss.toFixed(2) + ' W';
+    document.getElementById('totalDeadLoss').textContent = totalDeadLoss.toFixed(2) + ' W';
+    
+    // Create dead-time chart
+    const ctx = document.getElementById('deadTimeChart').getContext('2d');
+    
+    if (deadTimeChart) {
+        deadTimeChart.destroy();
+    }
+    
+    const deadTimes = [];
+    const losses = [];
+    for (let dt = 10; dt <= 500; dt += 10) {
+        deadTimes.push(dt);
+        const dtSec = dt * 1e-9;
+        const loss = outputCurrent * bodyDiodeVf * dtSec * switchingFreq * 2;
+        losses.push(loss);
+    }
+    
+    deadTimeChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: deadTimes,
+            datasets: [{
+                label: 'Dead-time Losses (W)',
+                data: losses,
+                borderColor: '#f39c12',
+                backgroundColor: 'rgba(243, 156, 18, 0.1)',
+                fill: true
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Dead Time (ns)'
+                    }
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: 'Losses (W)'
+                    }
+                }
+            }
+        }
+    });
+}
+
+// Enhanced Thermal анализ
+function calculateThermal() {
+    const powerLosses = parseFloat(document.getElementById('powerLosses').value);
+    const ambientTemp = parseFloat(document.getElementById('ambientTemp').value);
+    const thermalResistance = parseFloat(document.getElementById('thermalResistance').value);
+    const heatsinkRth = parseFloat(document.getElementById('heatsinkRth').value);
+    
+    // Thermal calculations
+    const totalRth = thermalResistance + heatsinkRth;
+    const junctionTemp = ambientTemp + (powerLosses * totalRth);
+    const caseTemp = ambientTemp + (powerLosses * heatsinkRth);
+    const thermalMargin = 150 - junctionTemp; // Assuming 150°C max junction temp
+    const maxPowerAt150C = (150 - ambientTemp) / totalRth;
+    
+    // Update results
+    document.getElementById('tjTemp').textContent = junctionTemp.toFixed(1) + '°C';
+    document.getElementById('tcTemp').textContent = caseTemp.toFixed(1) + '°C';
+    document.getElementById('thermalMargin').textContent = thermalMargin.toFixed(1) + '°C';
+    document.getElementById('maxPower').textContent = maxPowerAt150C.toFixed(1) + ' W';
+    
+    // Create thermal chart
+    const ctx = document.getElementById('thermalChart').getContext('2d');
+    
+    if (thermalChart) {
+        thermalChart.destroy();
+    }
+    
+    const powers = [];
+    const junctionTemps = [];
+    for (let p = 0; p <= 100; p += 2) {
+        powers.push(p);
+        const tj = ambientTemp + (p * totalRth);
+        junctionTemps.push(tj);
+    }
+    
+    thermalChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: powers,
+            datasets: [{
+                label: 'Junction Temperature (°C)',
+                data: junctionTemps,
+                borderColor: '#e74c3c',
+                backgroundColor: 'rgba(231, 76, 60, 0.1)',
+                fill: true
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Power Dissipation (W)'
+                    }
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: 'Junction Temperature (°C)'
+                    }
+                }
+            },
+            plugins: {
+                annotation: {
+                    annotations: {
+                        line1: {
+                            type: 'line',
+                            yMin: 150,
+                            yMax: 150,
+                            borderColor: 'red',
+                            borderWidth: 2,
+                            borderDash: [5, 5],
+                            label: {
+                                content: 'Max Junction Temp',
+                                enabled: true
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    });
+}
+
+// Safe Operating Area анализ
+function calculateSOA() {
+    const loadInductance = parseFloat(document.getElementById('loadInductance').value) * 1e-6; // Convert to H
+    const gateResistance = parseFloat(document.getElementById('gateResistance').value);
+    const busVoltage = parseFloat(document.getElementById('busVoltage').value);
+    const switchingCurrent = parseFloat(document.getElementById('switchingCurrent').value);
+    
+    // SOA boundaries (simplified)
+    const maxContinuousCurrent = 50; // A
+    const maxVoltage = 1200; // V
+    const maxPulseCurrent = 200; // A
+    const thermalLimit = 150; // W
+    
+    // Create SOA chart
+    const ctx = document.getElementById('soaChart').getContext('2d');
+    
+    if (soaChart) {
+        soaChart.destroy();
+    }
+    
+    // SOA boundary points
+    const soaBoundaryVoltages = [0, busVoltage, maxVoltage, maxVoltage, 0, 0];
+    const soaBoundaryCurrents = [maxPulseCurrent, thermalLimit/busVoltage, thermalLimit/maxVoltage, 0, 0, maxPulseCurrent];
+    
+    // Operating point
+    const operatingVoltage = busVoltage;
+    const operatingCurrent = switchingCurrent;
+    
+    soaChart = new Chart(ctx, {
+        type: 'scatter',
+        data: {
+            datasets: [{
+                label: 'SOA Boundary',
+                data: soaBoundaryVoltages.map((v, i) => ({x: v, y: soaBoundaryCurrents[i]})),
+                borderColor: '#e74c3c',
+                backgroundColor: 'rgba(231, 76, 60, 0.1)',
+                showLine: true,
+                fill: true
+            }, {
+                label: 'Operating Point',
+                data: [{x: operatingVoltage, y: operatingCurrent}],
+                borderColor: '#2ecc71',
+                backgroundColor: '#2ecc71',
+                pointRadius: 8
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Voltage (V)'
+                    },
+                    min: 0
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: 'Current (A)'
+                    },
+                    min: 0
+                }
+            }
+        }
+    });
+}
+
+// Parasitic Effects анализ
+function calculateParasitics() {
+    const packageESR = parseFloat(document.getElementById('packageESR').value) * 1e-3; // Convert to ohms
+    const packageESL = parseFloat(document.getElementById('packageESL').value) * 1e-9; // Convert to H
+    const traceESR = parseFloat(document.getElementById('traceESR').value) * 1e-3;
+    const traceESL = parseFloat(document.getElementById('traceESL').value) * 1e-9;
+    const mutualInductance = parseFloat(document.getElementById('mutualInductance').value) * 1e-9;
+    const couplingFactor = parseFloat(document.getElementById('couplingFactor').value);
+    
+    // Calculate totals
+    const totalESR = (packageESR + traceESR) * 1e3; // Convert back to mΩ for display
+    const totalESL = (packageESL + traceESL) * 1e9; // Convert back to nH for display
+    
+    // Voltage spike calculation (simplified)
+    const diDt = 1e9; // A/s (typical fast switching)
+    const maxVoltageSpike = (packageESL + traceESL) * diDt;
+    
+    // Ringing frequency
+    const totalCapacitance = 1e-9; // Assume 1nF total capacitance
+    const ringingFreq = 1 / (2 * Math.PI * Math.sqrt((packageESL + traceESL) * totalCapacitance)) / 1e6; // Convert to MHz
+    
+    // Update results
+    document.getElementById('totalESR').textContent = totalESR.toFixed(1) + ' mΩ';
+    document.getElementById('totalESL').textContent = totalESL.toFixed(1) + ' nH';
+    document.getElementById('maxVoltageSpike').textContent = maxVoltageSpike.toFixed(1) + ' V';
+    document.getElementById('ringingFreq').textContent = ringingFreq.toFixed(1) + ' MHz';
+    
+    // Impact assessment
+    document.getElementById('esrImpact').textContent = totalESR > 10 ? 'High' : totalESR > 5 ? 'Medium' : 'Low';
+    document.getElementById('eslImpact').textContent = totalESL > 20 ? 'High' : totalESL > 10 ? 'Medium' : 'Low';
+    document.getElementById('spikeImpact').textContent = maxVoltageSpike > 50 ? 'High' : maxVoltageSpike > 20 ? 'Medium' : 'Low';
+    document.getElementById('freqImpact').textContent = ringingFreq > 100 ? 'High' : ringingFreq > 50 ? 'Medium' : 'Low';
+    
+    // Create voltage spikes chart
+    const ctx1 = document.getElementById('voltageSpikesChart').getContext('2d');
+    
+    if (voltageSpikesChart) {
+        voltageSpikesChart.destroy();
+    }
+    
+    // Generate voltage spike waveform
+    const timePoints = [];
+    const voltagePoints = [];
+    for (let t = 0; t <= 100; t += 1) {
+        timePoints.push(t);
+        const voltage = maxVoltageSpike * Math.exp(-t/20) * Math.sin(2*Math.PI*ringingFreq*t*1e-9*1e6);
+        voltagePoints.push(voltage);
+    }
+    
+    voltageSpikesChart = new Chart(ctx1, {
+        type: 'line',
+        data: {
+            labels: timePoints,
+            datasets: [{
+                label: 'Voltage Spike (V)',
+                data: voltagePoints,
+                borderColor: '#e74c3c',
+                backgroundColor: 'rgba(231, 76, 60, 0.1)',
+                fill: false
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Time (ns)'
+                    }
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: 'Voltage (V)'
+                    }
+                }
+            }
+        }
+    });
+    
+    // Create ringing analysis chart
+    const ctx2 = document.getElementById('ringingChart').getContext('2d');
+    
+    if (ringingChart) {
+        ringingChart.destroy();
+    }
+    
+    // Generate ringing frequency response
+    const frequencies = [];
+    const impedances = [];
+    for (let f = 1; f <= 1000; f += 10) {
+        frequencies.push(f);
+        const omega = 2 * Math.PI * f * 1e6; // Convert MHz to rad/s
+        const impedance = Math.sqrt(Math.pow(totalESR*1e-3, 2) + Math.pow(omega * totalESL*1e-9, 2));
+        impedances.push(impedance * 1000); // Convert to mΩ
+    }
+    
+    ringingChart = new Chart(ctx2, {
+        type: 'line',
+        data: {
+            labels: frequencies,
+            datasets: [{
+                label: 'Impedance (mΩ)',
+                data: impedances,
+                borderColor: '#f39c12',
+                backgroundColor: 'rgba(243, 156, 18, 0.1)',
+                fill: true
+            }]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Frequency (MHz)'
+                    }
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: 'Impedance (mΩ)'
+                    }
+                }
+            }
+        }
+    });
+    
+    // Show warnings if needed
+    let warnings = [];
+    if (totalESR > 10) warnings.push('High ESR may cause excessive losses');
+    if (totalESL > 20) warnings.push('High ESL may cause voltage spikes');
+    if (maxVoltageSpike > 50) warnings.push('Voltage spikes may exceed device ratings');
+    if (ringingFreq < 10) warnings.push('Low ringing frequency may cause EMI issues');
+    
+    if (warnings.length > 0) {
+        document.getElementById('parasiticWarnings').style.display = 'block';
+        document.getElementById('warningsList').innerHTML = warnings.map(w => `<div>• ${w}</div>`).join('');
+    } else {
+        document.getElementById('parasiticWarnings').style.display = 'none';
+    }
+}
+
+// Initialize calculations on page load
+document.addEventListener('DOMContentLoaded', function() {
+    calculateMillerEffect();
+    calculateDeadTime();
+    calculateThermal();
+    calculateSOA();
+    calculateParasitics();
+});
+</script>
 {% endblock %}
