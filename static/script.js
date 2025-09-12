@@ -1176,7 +1176,7 @@ function highlightSelectedTransistorInTable() {
         tableRows.forEach(row => {
             const modelCell = row.querySelector('.model-cell');
             if (modelCell && modelCell.textContent === selectedTransistor.name) {
-                row.classList.add('selected-transistor-row');
+                // row.classList.add('selected-transistor-row'); // COMPLETELY REMOVED - no highlighting at all
                 // Auto-scroll to the row
                 setTimeout(() => {
                     row.scrollIntoView({ behavior: 'smooth', block: 'center' });
