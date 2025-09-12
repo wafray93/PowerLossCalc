@@ -2996,21 +2996,29 @@ function calculateThermalParameters() {
   const ambientTemp = parseFloat(document.getElementById('ambientTemp').value);
   const coolingType = document.getElementById('coolingType').value;
   
-  // Get current losses
-  const vdc = parseFloat(document.getElementById('vdc').value);
-  const iLoad = parseFloat(document.getElementById('iLoad').value);
-  const fsw = parseFloat(document.getElementById('fsw').value);
-  const temp = parseFloat(document.getElementById('temp').value);
-  const duty = parseFloat(document.getElementById('duty').value);
+  // Get current losses - use fallback values if Calculator elements don't exist
+  const vdcEl = document.getElementById('vdc');
+  const iLoadEl = document.getElementById('iLoad');
+  const fswEl = document.getElementById('fsw');
+  const tempEl = document.getElementById('temp');
+  const dutyEl = document.getElementById('duty');
+  
+  const vdc = vdcEl ? parseFloat(vdcEl.value) || 200 : 200;
+  const iLoad = iLoadEl ? parseFloat(iLoadEl.value) || 10 : 10;
+  const fsw = fswEl ? parseFloat(fswEl.value) || 50 : 50;
+  const temp = tempEl ? parseFloat(tempEl.value) || 100 : 100;
+  const duty = dutyEl ? parseFloat(dutyEl.value) || 0.5 : 0.5;
   
   // Determine technology
   let techType;
-  if (selectedTransistor.name.includes('Si') && !selectedTransistor.name.includes('SiC')) {
+  if (transistor.name.includes('Si') && !transistor.name.includes('SiC')) {
     techType = 'Si';
-  } else if (selectedTransistor.name.includes('SiC')) {
+  } else if (transistor.name.includes('SiC')) {
     techType = 'SiC';
-  } else if (selectedTransistor.name.includes('GaN')) {
+  } else if (transistor.name.includes('GaN')) {
     techType = 'GaN';
+  } else {
+    techType = 'Si'; // fallback
   }
   
   // Calculate losses with current parameters
