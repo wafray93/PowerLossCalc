@@ -1652,10 +1652,20 @@ function calc(){
   const pTotalEl = document.getElementById('pTotal');
   const efficiencyEl = document.getElementById('efficiency');
   
+  // Also update Analysis tab elements if they exist
+  const pCondAnalysisEl = document.getElementById('pCondAnalysis');
+  const pSwAnalysisEl = document.getElementById('pSwAnalysis');
+  const pTotalAnalysisEl = document.getElementById('pTotalAnalysis');
+  
   if (pCondEl) pCondEl.textContent=pCond.toFixed(2)+" W";
   if (pSwEl) pSwEl.textContent=pSw.toFixed(2)+" W";
   if (pTotalEl) pTotalEl.textContent=pTotal.toFixed(2)+" W";
   if (efficiencyEl) efficiencyEl.textContent=eff.toFixed(2)+" %";
+  
+  // Update Analysis tab elements too
+  if (pCondAnalysisEl) pCondAnalysisEl.textContent=pCond.toFixed(2)+" W";
+  if (pSwAnalysisEl) pSwAnalysisEl.textContent=pSw.toFixed(2)+" W";
+  if (pTotalAnalysisEl) pTotalAnalysisEl.textContent=pTotal.toFixed(2)+" W";
 
   if(chart) chart.destroy();
   
