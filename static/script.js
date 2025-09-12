@@ -978,6 +978,7 @@ function loadSelectedTransistorFromStorage() {
     const stored = localStorage.getItem('selectedTransistor');
     if (stored) {
       selectedTransistor = JSON.parse(stored);
+      window.selectedTransistor = selectedTransistor; // Make sure it's globally accessible
       console.log('Loaded transistor from storage:', selectedTransistor.name);
       updateSelectedTransistorInfo();
     }
@@ -1275,6 +1276,7 @@ function showTransistorInfo(transistorKey) {
       transistorInfo.style.display = 'none';
     }
     selectedTransistor = null;
+    window.selectedTransistor = null; // Clear from window too
     saveSelectedTransistorToStorage(); // Save to localStorage
     updateAnalysisTransistorDisplay(); // Update analysis display
     updateSelectedTransistorInfo(); // Update all tab integrations
@@ -1287,6 +1289,7 @@ function showTransistorInfo(transistorKey) {
   if (transistor) {
     // Модел от базата данни
     selectedTransistor = transistor;
+    window.selectedTransistor = selectedTransistor; // Make globally accessible
     saveSelectedTransistorToStorage(); // Save to localStorage
     updateAnalysisTransistorDisplay(); // Update analysis display
     updateSelectedTransistorInfo(); // Update all tab integrations
@@ -1323,6 +1326,7 @@ function showTransistorInfo(transistorKey) {
       ...typicalParams,
       application: "Ръчно въведен модел"
     };
+    window.selectedTransistor = selectedTransistor; // Make globally accessible
     saveSelectedTransistorToStorage(); // Save to localStorage
     
     const modelName = document.getElementById('modelName');
@@ -3096,8 +3100,11 @@ function calculateThermal() {
   const thermalResultsDiv = document.getElementById('thermalResults');
   const thermalExplanation = document.getElementById('thermalExplanation');
   
-  let transistor = selectedTransistor;
+  let transistor = selectedTransistor || window.selectedTransistor;
   let usingFallback = false;
+  
+  console.log('calculateThermal - selectedTransistor:', selectedTransistor);
+  console.log('calculateThermal - window.selectedTransistor:', window.selectedTransistor);
   
   if (!transistor) {
     // Use fallback transistor for thermal analysis
@@ -4693,8 +4700,10 @@ switchLanguage = function(lang, button) {
 // Miller Capacitance Analysis Function
 function calculateMillerEffect() {
   console.log('🔧 calculateMillerEffect called');
+  console.log('selectedTransistor:', selectedTransistor);
+  console.log('window.selectedTransistor:', window.selectedTransistor);
   
-  let transistor = selectedTransistor;
+  let transistor = selectedTransistor || window.selectedTransistor;
   let usingFallback = false;
   
   if (!transistor) {
@@ -4755,7 +4764,7 @@ function calculateMillerEffect() {
     const ctx = millerChartCanvas.getContext('2d');
     
     // Destroy existing chart if it exists
-    if (window.millerChart) {
+    if (window.millerChart && typeof window.millerChart.destroy === 'function') {
       window.millerChart.destroy();
     }
     
@@ -4815,8 +4824,9 @@ function calculateMillerEffect() {
 // Dead-time Analysis Function  
 function calculateDeadTime() {
   console.log('🔧 calculateDeadTime called');
+  console.log('selectedTransistor:', selectedTransistor);
   
-  let transistor = selectedTransistor;
+  let transistor = selectedTransistor || window.selectedTransistor;
   let usingFallback = false;
   
   if (!transistor) {
@@ -4889,7 +4899,7 @@ function calculateDeadTime() {
     const ctx = deadTimeChartCanvas.getContext('2d');
     
     // Destroy existing chart if it exists
-    if (window.deadTimeChart) {
+    if (window.deadTimeChart && typeof window.deadTimeChart.destroy === 'function') {
       window.deadTimeChart.destroy();
     }
     
@@ -4931,8 +4941,9 @@ function calculateDeadTime() {
 // SOA (Safe Operating Area) Analysis Function
 function calculateSOA() {
   console.log('🔧 calculateSOA called');
+  console.log('selectedTransistor:', selectedTransistor);
   
-  let transistor = selectedTransistor;
+  let transistor = selectedTransistor || window.selectedTransistor;
   let usingFallback = false;
   
   if (!transistor) {
