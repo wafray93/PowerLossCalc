@@ -3081,10 +3081,15 @@ function getTechnologyPhysicsExplanationEn(techType) {
   }
 }
 
-// Thermal modeling function
-function calculateThermalParameters() {
+// Thermal modeling function - renamed to match advanced.html expectations
+function calculateThermal() {
   // Update the Analysis tab transistor display first
   updateAnalysisTransistorDisplay();
+  
+  // Get all DOM elements at the beginning with null protection
+  const thermalStatusDiv = document.getElementById('thermalStatus');
+  const thermalResultsDiv = document.getElementById('thermalResults');
+  const thermalExplanation = document.getElementById('thermalExplanation');
   
   let transistor = selectedTransistor;
   let usingFallback = false;
@@ -3111,8 +3116,17 @@ function calculateThermalParameters() {
     }
   }
   
-  const ambientTemp = parseFloat(document.getElementById('ambientTemp').value);
-  const coolingType = document.getElementById('coolingType').value;
+  // Get elements with null protection to prevent console errors
+  const ambientTempEl = document.getElementById('ambientTemp');
+  const coolingTypeEl = document.getElementById('coolingType');
+  
+  if (!ambientTempEl || !coolingTypeEl) {
+    console.warn('Thermal calculation elements not found - advanced tab may not be loaded');
+    return;
+  }
+  
+  const ambientTemp = parseFloat(ambientTempEl.value);
+  const coolingType = coolingTypeEl.value;
   
   // Get current losses - use fallback values if Calculator elements don't exist
   const vdcEl = document.getElementById('vdc');
@@ -3186,50 +3200,61 @@ function calculateThermalParameters() {
   
   const thermalMargin = maxJunctionTemp - junctionTemp;
   
-  // Display results
+  // Display results with null protection to prevent console errors
   const langData = LANGUAGES[currentLang] || LANGUAGES['bg'];
   
-  document.getElementById('junctionTemp').textContent = `${junctionTemp.toFixed(1)}°C`;
-  document.getElementById('caseTemp').textContent = `${caseTemp.toFixed(1)}°C`;
-  document.getElementById('thermalResistance').textContent = `${rth_ja.toFixed(2)} K/W`;
-  document.getElementById('thermalMargin').textContent = `${thermalMargin.toFixed(1)}°C`;
+  const junctionTempEl = document.getElementById('junctionTemp');
+  const caseTempEl = document.getElementById('caseTemp');
+  const thermalResistanceEl = document.getElementById('thermalResistance');
+  const thermalMarginEl = document.getElementById('thermalMargin');
   
-  // Цветово кодиране според термичния марж
-  const thermalStatusDiv = document.getElementById('thermalStatus');
-  const thermalResultsDiv = document.getElementById('thermalResults');
-  const thermalExplanation = document.getElementById('thermalExplanation');
+  if (junctionTempEl) junctionTempEl.textContent = `${junctionTemp.toFixed(1)}°C`;
+  if (caseTempEl) caseTempEl.textContent = `${caseTemp.toFixed(1)}°C`;
+  if (thermalResistanceEl) thermalResistanceEl.textContent = `${rth_ja.toFixed(2)} K/W`;
+  if (thermalMarginEl) thermalMarginEl.textContent = `${thermalMargin.toFixed(1)}°C`;
   
-  // Премахни всички съществуващи класове
-  thermalResultsDiv.classList.remove('thermal-good', 'thermal-warning', 'thermal-danger');
+  // Цветово кодиране според термичния марж - with null safety
+  // Премахни всички съществуващи класове with null safety
+  if (thermalResultsDiv) {
+    thermalResultsDiv.classList.remove('thermal-good', 'thermal-warning', 'thermal-danger');
+  }
   
   let statusText = '';
   let explanationText = '';
   
   if (thermalMargin > 50) {
     // Отлично охлаждане
-    thermalResultsDiv.classList.add('thermal-good');
+    if (thermalResultsDiv) {
+      thermalResultsDiv.classList.add('thermal-good');
+    }
     statusText = currentLang === 'bg' ? '✅ ОТЛИЧНО ОХЛАЖДАНЕ' : '✅ EXCELLENT COOLING';
     explanationText = currentLang === 'bg' ? 
       `Термичният марж от ${thermalMargin.toFixed(1)}°C е много добър. Транзисторът ще работи стабилно дори при повишени товари.` :
       `Thermal margin of ${thermalMargin.toFixed(1)}°C is excellent. The transistor will operate stably even under increased loads.`;
   } else if (thermalMargin > 25) {
     // Добро охлаждане
-    thermalResultsDiv.classList.add('thermal-warning');
+    if (thermalResultsDiv) {
+      thermalResultsDiv.classList.add('thermal-warning');
+    }
     statusText = currentLang === 'bg' ? '⚠️ ДОБРО ОХЛАЖДАНЕ' : '⚠️ GOOD COOLING';
     explanationText = currentLang === 'bg' ? 
       `Термичният марж от ${thermalMargin.toFixed(1)}°C е приемлив, но внимавайте при пикови товари. Може да обмислите по-добро охлаждане.` :
       `Thermal margin of ${thermalMargin.toFixed(1)}°C is acceptable, but be careful with peak loads. Consider better cooling.`;
   } else {
     // Опасно
-    thermalResultsDiv.classList.add('thermal-danger');
+    if (thermalResultsDiv) {
+      thermalResultsDiv.classList.add('thermal-danger');
+    }
     statusText = currentLang === 'bg' ? '🔥 ОПАСНО - НУЖНО ПО-ДОБРО ОХЛАЖДАНЕ' : '🔥 DANGEROUS - BETTER COOLING NEEDED';
     explanationText = currentLang === 'bg' ? 
       `Термичният марж от ${thermalMargin.toFixed(1)}°C е твърде малък! Транзисторът рискува от прегряване. Задължително използвайте по-добро охлаждане.` :
       `Thermal margin of ${thermalMargin.toFixed(1)}°C is too small! The transistor risks overheating. Better cooling is mandatory.`;
   }
   
-  thermalStatusDiv.textContent = statusText;
-  thermalStatusDiv.style.display = 'block';
+  if (thermalStatusDiv) {
+    thermalStatusDiv.textContent = statusText;
+    thermalStatusDiv.style.display = 'block';
+  }
   
   // Добави научно обяснение с точни источници
   const transistorModel = usingFallback ? 'IRFP260N (fallback)' : transistor.name;
@@ -3237,11 +3262,17 @@ function calculateThermalParameters() {
     `\n\nТочни изчисления (datasheet стойности):\n• Транзистор: ${transistorModel}\n• Общи загуби: ${totalLosses.toFixed(3)}W\n• Загуби от проводимост: ${pCond.toFixed(3)}W (P = I²×RDS(on)×D)\n• Загуби от превключване: ${pSw.toFixed(3)}W (физични формули за gate charge)\n• Rth(j-c): ${rth_jc.toFixed(2)}K/W (${transistor.package} - производител datasheet)\n• Rth(c-a): ${rth_ca.toFixed(2)}K/W (проверени измервания)\n• Tj,max ${techType}: ${maxJunctionTemp}°C (semiconductor physics)\n\nТочна формула: Tj = Ta + P×Rth(j-a)\n${junctionTemp.toFixed(1)}°C = ${ambientTemp}°C + ${totalLosses.toFixed(2)}W × ${rth_ja.toFixed(2)}K/W` :
     `\n\nExact calculations (datasheet values):\n• Transistor: ${transistorModel}\n• Total losses: ${totalLosses.toFixed(3)}W\n• Conduction losses: ${pCond.toFixed(3)}W (P = I²×RDS(on)×D)\n• Switching losses: ${pSw.toFixed(3)}W (physics-based gate charge formulas)\n• Rth(j-c): ${rth_jc.toFixed(2)}K/W (${transistor.package} - manufacturer datasheet)\n• Rth(c-a): ${rth_ca.toFixed(2)}K/W (verified measurements)\n• Tj,max ${techType}: ${maxJunctionTemp}°C (semiconductor physics)\n\nExact formula: Tj = Ta + P×Rth(j-a)\n${junctionTemp.toFixed(1)}°C = ${ambientTemp}°C + ${totalLosses.toFixed(2)}W × ${rth_ja.toFixed(2)}K/W`;
   
-  thermalExplanation.textContent = explanationText + scientificInfo;
+  if (thermalExplanation) {
+    thermalExplanation.textContent = explanationText + scientificInfo;
+  }
   
-  document.getElementById('thermalResults').style.display = 'block';
+  // thermalResultsDiv already declared above, just use it with null safety
+  if (thermalResultsDiv) {
+    thermalResultsDiv.style.display = 'block';
+  }
   
   // Show additional warnings if necessary
+  // Show additional warnings if necessary - with null safety
   const warningsDiv = document.getElementById('thermalWarnings');
   let warnings = '';
   
@@ -3255,11 +3286,14 @@ function calculateThermalParameters() {
       `🔥 КРИТИЧНА ТЕМПЕРАТУРА! Транзисторът може да се повреди!<br>` :
       `🔥 CRITICAL TEMPERATURE! The transistor may be damaged!<br>`;
   }
-  if (warnings) {
-    warningsDiv.innerHTML = warnings;
-    warningsDiv.style.display = 'block';
-  } else {
-    warningsDiv.style.display = 'none';
+  
+  if (warningsDiv) {
+    if (warnings) {
+      warningsDiv.innerHTML = warnings;
+      warningsDiv.style.display = 'block';
+    } else {
+      warningsDiv.style.display = 'none';
+    }
   }
 }
 
@@ -3435,7 +3469,7 @@ if (generateEffChart) {
 
 const calculateThermalBtn = document.getElementById('calculateThermal');
 if (calculateThermalBtn) {
-  calculateThermalBtn.addEventListener('click', calculateThermalParameters);
+  calculateThermalBtn.addEventListener('click', calculateThermal);
 }
 
 // Go to Calculator button functionality
@@ -3525,9 +3559,8 @@ if (calculateDeadTimeBtn) {
 const calculateThermalAdvBtn = document.getElementById('calculateThermalBtn');
 if (calculateThermalAdvBtn) {
   calculateThermalAdvBtn.addEventListener('click', function() {
-    if (typeof calculateThermal === 'function') {
-      calculateThermal(); // This calls the advanced page function
-    }
+    console.log('🔧 Thermal button clicked');
+    calculateThermal();
   });
 }
 

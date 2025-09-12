@@ -422,11 +422,20 @@
         
         <table class="results-table" id="thermalResults">
             <tr><th data-lang="parameter">Parameter</th><th data-lang="value">Value</th></tr>
-            <tr><td data-lang="junctionTemp">Junction Temp (°C)</td><td id="tjTemp">-</td></tr>
-            <tr><td data-lang="caseTemp">Case Temp (°C)</td><td id="tcTemp">-</td></tr>
+            <tr><td data-lang="junctionTemp">Junction Temp (°C)</td><td id="junctionTemp">-</td></tr>
+            <tr><td data-lang="caseTemp">Case Temp (°C)</td><td id="caseTemp">-</td></tr>
             <tr><td data-lang="thermalMargin">Thermal Margin (°C)</td><td id="thermalMargin">-</td></tr>
             <tr><td data-lang="maxPowerDissipation">Max Power at 150°C (W)</td><td id="maxPower">-</td></tr>
         </table>
+        
+        <!-- Thermal status display -->
+        <div id="thermalStatus" style="display: none; margin-top: 15px; padding: 10px; border-radius: 6px; font-weight: bold; text-align: center;"></div>
+        
+        <!-- Thermal explanation text -->
+        <div id="thermalExplanation" style="display: block; margin-top: 15px; padding: 15px; background: #f8f9fa; border-radius: 6px; font-size: 0.9em; white-space: pre-line;"></div>
+        
+        <!-- Thermal warnings -->
+        <div id="thermalWarnings" style="display: none; margin-top: 10px; padding: 10px; background: #fff3cd; border: 1px solid #ffeaa7; border-radius: 6px; color: #856404;"></div>
     </div>
 
     <!-- Switching Trajectory Analysis -->
@@ -1098,6 +1107,23 @@ function calculateParasitics() {
 
 // Initialize calculations on page load
 document.addEventListener('DOMContentLoaded', function() {
+    // Add event listeners for buttons
+    document.getElementById('calculateMillerBtn').addEventListener('click', function() {
+        console.log('🔧 Miller button clicked');
+        calculateMillerEffect();
+    });
+    
+    document.getElementById('calculateDeadTimeBtn').addEventListener('click', function() {
+        console.log('🔧 Dead time button clicked');
+        calculateDeadTime();
+    });
+    
+    document.getElementById('calculateThermalBtn').addEventListener('click', function() {
+        console.log('🔧 Thermal button clicked');
+        calculateThermal();
+    });
+    
+    // Initial calculations
     calculateMillerEffect();
     calculateDeadTime();
     calculateThermal();

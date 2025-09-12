@@ -58,11 +58,7 @@
     align-items: center;
 }
 
-.selected-transistor-row {
-    background: linear-gradient(135deg, #fff3e0 0%, #ffecb3 100%) !important;
-    border: 2px solid #ff9800 !important;
-    box-shadow: 0 2px 8px rgba(255, 152, 0, 0.3);
-}
+/* .selected-transistor-row highlighting completely removed as requested by architect */
 
 .formula-value {
     color: #d32f2f;
@@ -175,25 +171,28 @@ body.nav-open {
 }
 
 .lang-btn {
-  background: rgba(255,255,255,0.2);
-  border: 1px solid rgba(255,255,255,0.3);
-  color: white;
+  background: rgba(255,255,255,0.9);
+  border: 1px solid rgba(255,255,255,1);
+  color: var(--primary-blue);
   padding: 8px 12px;
   border-radius: 6px;
   cursor: pointer;
   font-size: 12px;
-  font-weight: 500;
+  font-weight: 600;
   transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 .lang-btn.active {
-  background: rgba(255,255,255,0.3);
-  border-color: rgba(255,255,255,0.6);
-  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  background: white;
+  border-color: white;
+  color: var(--primary-blue);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
 }
 
 .lang-btn:hover {
-  background: rgba(255,255,255,0.25);
+  background: rgba(255,255,255,0.95);
+  color: var(--secondary-blue);
   transform: translateY(-1px);
 }
 
@@ -403,6 +402,7 @@ body.nav-open {
   font-size: 28px;
   font-weight: 700;
   color: var(--text-primary);
+  text-align: center;
 }
 
 .page-description {
@@ -887,6 +887,32 @@ button:hover::before {
   display: block;
 }
 
+/* Ensure Total Losses display is visible and prominent */
+#pTotal {
+  font-weight: bold !important;
+  color: #d32f2f !important;
+  font-size: 1.1em !important;
+}
+
+/* Fix Advanced Analysis results positioning - CRITICAL USER FIX */
+.analysis-section .canvas-container,
+.analysis-section .results-table,
+.advanced-grid .analysis-section {
+  scroll-margin-top: 20px !important;
+  position: relative !important;
+}
+
+/* Prevent scroll jumping in Advanced tab results */
+.advanced-grid {
+  scroll-behavior: auto !important;
+}
+
+/* Ensure analysis results appear in viewport without manual scrolling */
+.analysis-section {
+  scroll-snap-align: start !important;
+  scroll-margin-top: 100px !important;
+}
+
 .explanation {
   margin-top: 15px;
   padding: 10px;
@@ -1016,19 +1042,19 @@ button:hover::before {
   max-width: 280px;
 }
 
-/* Position tooltip to the left when it would go off-screen on the right */
-.input-group:nth-last-child(-n+2) .tooltip,
-.row > .input-group:last-child .tooltip {
-  left: auto;
-  right: 110%;
+/* Force all tooltips to the right side always - USER CRITICAL FIX */
+.tooltip {
+  left: 110% !important;
+  right: auto !important;
+  transform: none !important;
+  z-index: 9999 !important;
 }
 
-/* Position tooltip arrow for left-positioned tooltips */
-.input-group:nth-last-child(-n+2) .tooltip::after,
-.row > .input-group:last-child .tooltip::after {
-  left: auto;
-  right: -8px;
-  border-color: transparent transparent transparent #333;
+/* Force all tooltip arrows to point left consistently */
+.tooltip::after {
+  left: -8px !important;
+  right: auto !important;
+  border-color: transparent #333 transparent transparent !important;
 }
 
 /* Mobile responsive tooltips */
@@ -1414,9 +1440,10 @@ footer {
 }
 
 .status-message .info {
-  color: #17a2b8;
+  color: #0d5f6e;
   background: rgba(23, 162, 184, 0.1);
   border: 1px solid rgba(23, 162, 184, 0.2);
+  font-weight: 500;
 }
 
 .tools-messages {
@@ -2063,8 +2090,8 @@ footer {
 }
 
 .copy-chart-btn:disabled {
-  background: #343a40; /* Much darker gray for better contrast */
-  color: #ffffff; /* Ensure white text for contrast */
+  background: rgba(255, 255, 255, 0.95) !important; /* Force white background for contrast */
+  color: #2d3436 !important; /* Fix white text visibility - use dark text for better contrast */
   cursor: not-allowed;
   opacity: 1; /* Remove transparency for better contrast */
   transform: none;
