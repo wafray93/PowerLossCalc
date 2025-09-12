@@ -1795,26 +1795,34 @@ function calculateAdvancedConductionLosses(id, rds_on_25c, duty, temp, technolog
 
 // Функция за генериране на efficiency vs frequency график
 function generateEfficiencyChart() {
-  if (!selectedTransistor) {
-    const message = currentLang === 'bg' ? 'Моля, първо изберете транзистор!' : 'Please select a transistor first!';
-    alert(message);
-    return;
+  // Use selected transistor or fallback to a default one
+  let transistor = selectedTransistor;
+  if (!transistor) {
+    // Use a default transistor for analysis
+    transistor = TRANSISTOR_DB.Si["IRFP260N"];
   }
   
-  const freqMin = parseFloat(document.getElementById('freqMin').value);
-  const freqMax = parseFloat(document.getElementById('freqMax').value);
-  const vdc = parseFloat(document.getElementById('vdc').value);
-  const iLoad = parseFloat(document.getElementById('iLoad').value);
-  const temp = parseFloat(document.getElementById('temp').value);
-  const duty = parseFloat(document.getElementById('duty').value);
+  const freqMin = parseFloat(document.getElementById('freqMin').value) || 1;
+  const freqMax = parseFloat(document.getElementById('freqMax').value) || 1000;
+  
+  // Try to get values from Calculator tab inputs, or use defaults
+  const vdcElement = document.getElementById('vdc');
+  const iLoadElement = document.getElementById('iLoad');
+  const tempElement = document.getElementById('temp');
+  const dutyElement = document.getElementById('duty');
+  
+  const vdc = vdcElement ? parseFloat(vdcElement.value) || 200 : 200;
+  const iLoad = iLoadElement ? parseFloat(iLoadElement.value) || 10 : 10;
+  const temp = tempElement ? parseFloat(tempElement.value) || 100 : 100;
+  const duty = dutyElement ? parseFloat(dutyElement.value) || 0.5 : 0.5;
   
   // Determine technology
   let techType;
-  if (selectedTransistor.name.includes('Si') && !selectedTransistor.name.includes('SiC')) {
+  if (transistor.name.includes('Si') && !transistor.name.includes('SiC')) {
     techType = 'Si';
-  } else if (selectedTransistor.name.includes('SiC')) {
+  } else if (transistor.name.includes('SiC')) {
     techType = 'SiC';
-  } else if (selectedTransistor.name.includes('GaN')) {
+  } else if (transistor.name.includes('GaN')) {
     techType = 'GaN';
   }
   
@@ -1829,7 +1837,7 @@ function generateEfficiencyChart() {
     frequencies.push(freq);
     
     // Calculate losses at this frequency
-    const rds_on_ohms = selectedTransistor.rds_mohm / 1000; // Convert milliohm to ohm
+    const rds_on_ohms = transistor.rds_mohm / 1000; // Convert milliohm to ohm
     const pCond = calculateAdvancedConductionLosses(iLoad, rds_on_ohms, duty, temp, techType);
     const pSw = calculateAdvancedSwitchingLosses(vdc, iLoad, freq, temp, techType);
     const pTotal = pCond + pSw;
@@ -1862,7 +1870,7 @@ function generateEfficiencyChart() {
     data: {
       labels: frequencies.map(f => f.toFixed(0)),
       datasets: [{
-        label: `${selectedTransistor.name} - ${currentLang === 'bg' ? 'КПД' : 'Efficiency'} (%)`,
+        label: `${transistor.name} - ${currentLang === 'bg' ? 'КПД' : 'Efficiency'} (%)`,
         data: efficiencies,
         borderColor: getTechnologyColor(techType),
         backgroundColor: getTechnologyColor(techType) + '20',
