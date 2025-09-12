@@ -5289,10 +5289,25 @@ function calculateParasitics() {
     const spikeImpactEl = document.getElementById('spikeImpact');
     const freqImpactEl = document.getElementById('freqImpact');
     
-    if (totalESREl) totalESREl.textContent = `${totalESR.toFixed(1)}`;
-    if (totalESLEl) totalESLEl.textContent = `${totalESL.toFixed(1)}`;
-    if (maxVoltageSpikeEl) maxVoltageSpikeEl.textContent = `${maxVoltageSpike.toFixed(1)}`;
-    if (ringingFreqEl) ringingFreqEl.textContent = `${(ringingFreq/1000000).toFixed(1)}`;
+    console.log('Element найден:', {totalESREl, totalESLEl, maxVoltageSpikeEl, ringingFreqEl});
+    console.log('Стойности за попълване:', {totalESR, totalESL, maxVoltageSpike, ringingFreq});
+    
+    if (totalESREl) {
+      totalESREl.textContent = `${totalESR.toFixed(1)}`;
+      console.log('Попълних totalESR:', totalESR.toFixed(1));
+    }
+    if (totalESLEl) {
+      totalESLEl.textContent = `${totalESL.toFixed(1)}`;
+      console.log('Попълних totalESL:', totalESL.toFixed(1));
+    }
+    if (maxVoltageSpikeEl) {
+      maxVoltageSpikeEl.textContent = `${maxVoltageSpike.toFixed(1)}`;
+      console.log('Попълних maxVoltageSpike:', maxVoltageSpike.toFixed(1));
+    }
+    if (ringingFreqEl) {
+      ringingFreqEl.textContent = `${(ringingFreq/1000000).toFixed(1)}`;
+      console.log('Попълних ringingFreq:', (ringingFreq/1000000).toFixed(1));
+    }
     
     // Попълни въздействието
     if (esrImpactEl) esrImpactEl.textContent = `${resistiveLosses.toFixed(3)} W загуби`;
