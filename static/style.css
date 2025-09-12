@@ -59,6 +59,14 @@
 }
 
 /* .selected-transistor-row highlighting completely removed as requested by architect */
+.selected-transistor-row,
+tr.selected-transistor-row,
+.database-table tbody tr.selected-transistor-row {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
 
 .formula-value {
     color: #d32f2f;
