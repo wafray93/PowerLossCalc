@@ -944,6 +944,35 @@ let ctx = null;
 let chart = null;
 let selectedTransistor = null;
 
+// Load selectedTransistor from localStorage on page load
+function loadSelectedTransistorFromStorage() {
+  try {
+    const stored = localStorage.getItem('selectedTransistor');
+    if (stored) {
+      selectedTransistor = JSON.parse(stored);
+      console.log('Loaded transistor from storage:', selectedTransistor.name);
+      updateSelectedTransistorInfo();
+    }
+  } catch (e) {
+    console.warn('Failed to load selectedTransistor from localStorage:', e);
+  }
+}
+
+// Save selectedTransistor to localStorage
+function saveSelectedTransistorToStorage() {
+  try {
+    if (selectedTransistor) {
+      localStorage.setItem('selectedTransistor', JSON.stringify(selectedTransistor));
+      console.log('Saved transistor to storage:', selectedTransistor.name);
+    } else {
+      localStorage.removeItem('selectedTransistor');
+      console.log('Removed transistor from storage');
+    }
+  } catch (e) {
+    console.warn('Failed to save selectedTransistor to localStorage:', e);
+  }
+}
+
 // Функции за интеграция на selectedTransistor
 function updateSelectedTransistorInfo() {
     if (selectedTransistor) {
@@ -1105,6 +1134,9 @@ function setupSelectedTransistorIntegration() {
 
 // Initialize chart context only if the canvas element exists
 document.addEventListener('DOMContentLoaded', function() {
+  // Load selectedTransistor from localStorage first
+  loadSelectedTransistorFromStorage();
+  
   // Set up selected transistor integration event listeners
   setupSelectedTransistorIntegration();
   
@@ -1163,6 +1195,7 @@ function showTransistorInfo(transistorKey) {
       transistorInfo.style.display = 'none';
     }
     selectedTransistor = null;
+    saveSelectedTransistorToStorage(); // Save to localStorage
     updateAnalysisTransistorDisplay(); // Update analysis display
     updateSelectedTransistorInfo(); // Update all tab integrations
     return;
@@ -1174,6 +1207,7 @@ function showTransistorInfo(transistorKey) {
   if (transistor) {
     // Модел от базата данни
     selectedTransistor = transistor;
+    saveSelectedTransistorToStorage(); // Save to localStorage
     updateAnalysisTransistorDisplay(); // Update analysis display
     updateSelectedTransistorInfo(); // Update all tab integrations
     
@@ -1209,6 +1243,7 @@ function showTransistorInfo(transistorKey) {
       ...typicalParams,
       application: "Ръчно въведен модел"
     };
+    saveSelectedTransistorToStorage(); // Save to localStorage
     
     const modelName = document.getElementById('modelName');
     const manufacturer = document.getElementById('manufacturer');
@@ -2380,6 +2415,9 @@ function closeTermExplanation() {
 
 // Затваряне при кликване върху overlay
 document.addEventListener('DOMContentLoaded', function() {
+  // Load selectedTransistor from localStorage
+  loadSelectedTransistorFromStorage();
+  
   const overlay = document.getElementById('overlay');
   if (overlay) {
     overlay.addEventListener('click', closeTermExplanation);
@@ -3450,6 +3488,9 @@ if (resetBtn) {
 
 // стартирай при зареждане
 document.addEventListener('DOMContentLoaded', function() {
+  // Load selectedTransistor from localStorage
+  loadSelectedTransistorFromStorage();
+  
   // Инициализираме само ако имаме основните елементи за калкулатора
   const techSelect = document.getElementById('techSelect');
   
@@ -4148,6 +4189,9 @@ function updateSortIndicators() {
 
 // Set up table sorting event listeners
 document.addEventListener('DOMContentLoaded', () => {
+  // Load selectedTransistor from localStorage
+  loadSelectedTransistorFromStorage();
+  
   const sortableHeaders = document.querySelectorAll('.sortable');
   sortableHeaders.forEach(header => {
     header.addEventListener('click', () => {
