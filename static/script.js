@@ -975,66 +975,118 @@ function saveSelectedTransistorToStorage() {
 
 // Функции за интеграция на selectedTransistor
 function updateSelectedTransistorInfo() {
+    console.log('Updating selected transistor info, selectedTransistor:', selectedTransistor?.name);
+    
     if (selectedTransistor) {
-        // Database tab
+        const technology = getTransistorTechnology(selectedTransistor.name) || 'Unknown';
+        
+        // Database tab elements
         const dbInfo = document.getElementById('selectedTransistorInfo');
         const dbWarning = document.getElementById('noTransistorWarning');
         if (dbInfo) {
             dbInfo.style.display = 'block';
-            document.getElementById('selectedModelInfo').textContent = selectedTransistor.name || '-';
-            document.getElementById('selectedManufacturerInfo').textContent = selectedTransistor.manufacturer || '-';
-            document.getElementById('selectedVdsInfo').textContent = (selectedTransistor.vds_max || '-') + ' V';
-            document.getElementById('selectedIdInfo').textContent = (selectedTransistor.id_max || '-') + ' A';
-            document.getElementById('selectedRdsInfo').textContent = (selectedTransistor.rds_mohm || '-') + ' mΩ';
+            const selectedModelInfo = document.getElementById('selectedModelInfo');
+            const selectedManufacturerInfo = document.getElementById('selectedManufacturerInfo');
+            const selectedVdsInfo = document.getElementById('selectedVdsInfo');
+            const selectedIdInfo = document.getElementById('selectedIdInfo');
+            const selectedRdsInfo = document.getElementById('selectedRdsInfo');
+            
+            if (selectedModelInfo) selectedModelInfo.textContent = selectedTransistor.name || '-';
+            if (selectedManufacturerInfo) selectedManufacturerInfo.textContent = selectedTransistor.manufacturer || '-';
+            if (selectedVdsInfo) selectedVdsInfo.textContent = (selectedTransistor.vds_max || '-') + ' V';
+            if (selectedIdInfo) selectedIdInfo.textContent = (selectedTransistor.id_max || '-') + ' A';
+            if (selectedRdsInfo) selectedRdsInfo.textContent = (selectedTransistor.rds_mohm || '-') + ' mΩ';
         }
         if (dbWarning) dbWarning.style.display = 'none';
         
-        // Theory tab
+        // Analysis tab elements
+        const analysisTransistorAlert = document.getElementById('analysisTransistorAlert');
+        const analysisTransistorData = document.getElementById('analysisTransistorData');
+        if (analysisTransistorAlert) analysisTransistorAlert.style.display = 'none';
+        if (analysisTransistorData) {
+            analysisTransistorData.style.display = 'block';
+            const analysisModelName = document.getElementById('analysisModelName');
+            const analysisManufacturer = document.getElementById('analysisManufacturer');
+            const analysisPackage = document.getElementById('analysisPackage');
+            const analysisVdsMax = document.getElementById('analysisVdsMax');
+            const analysisIdMax = document.getElementById('analysisIdMax');
+            const analysisRdsOn = document.getElementById('analysisRdsOn');
+            
+            if (analysisModelName) analysisModelName.textContent = selectedTransistor.name || '-';
+            if (analysisManufacturer) analysisManufacturer.textContent = selectedTransistor.manufacturer || '-';
+            if (analysisPackage) analysisPackage.textContent = selectedTransistor.package || '-';
+            if (analysisVdsMax) analysisVdsMax.textContent = (selectedTransistor.vds_max || '-') + ' V';
+            if (analysisIdMax) analysisIdMax.textContent = (selectedTransistor.id_max || '-') + ' A';
+            if (analysisRdsOn) analysisRdsOn.textContent = (selectedTransistor.rds_mohm || '-') + ' mΩ';
+        }
+        
+        // Theory tab elements
         const theoryInfo = document.getElementById('selectedTransistorTheory');
         const theoryWarning = document.getElementById('noTransistorTheoryWarning');
         if (theoryInfo) {
             theoryInfo.style.display = 'block';
-            document.getElementById('theoryTransistorName').textContent = selectedTransistor.name || '-';
-            document.getElementById('theoryTransistorTech').textContent = getTransistorTechnology(selectedTransistor.name) || '-';
-            document.getElementById('theoryTransistorRds').textContent = selectedTransistor.rds_mohm || '-';
+            const theoryTransistorName = document.getElementById('theoryTransistorName');
+            const theoryTransistorTech = document.getElementById('theoryTransistorTech');
+            const theoryTransistorRds = document.getElementById('theoryTransistorRds');
+            
+            if (theoryTransistorName) theoryTransistorName.textContent = selectedTransistor.name || '-';
+            if (theoryTransistorTech) theoryTransistorTech.textContent = technology;
+            if (theoryTransistorRds) theoryTransistorRds.textContent = selectedTransistor.rds_mohm || '-';
         }
         if (theoryWarning) theoryWarning.style.display = 'none';
         
-        // Tools tab
+        // Tools tab elements
         const toolsInfo = document.getElementById('selectedTransistorTools');
         const toolsWarning = document.getElementById('noTransistorToolsWarning');
         if (toolsInfo) {
             toolsInfo.style.display = 'block';
-            document.getElementById('toolsTransistorName').textContent = selectedTransistor.name || '-';
-            document.getElementById('toolsTransistorVds').textContent = selectedTransistor.vds_max || '-';
-            document.getElementById('toolsTransistorRds').textContent = selectedTransistor.rds_mohm || '-';
+            const toolsTransistorName = document.getElementById('toolsTransistorName');
+            const toolsTransistorVds = document.getElementById('toolsTransistorVds');
+            const toolsTransistorRds = document.getElementById('toolsTransistorRds');
+            
+            if (toolsTransistorName) toolsTransistorName.textContent = selectedTransistor.name || '-';
+            if (toolsTransistorVds) toolsTransistorVds.textContent = selectedTransistor.vds_max || '-';
+            if (toolsTransistorRds) toolsTransistorRds.textContent = selectedTransistor.rds_mohm || '-';
         }
         if (toolsWarning) toolsWarning.style.display = 'none';
         
-        // Update parameter calculator hints
+        // Update parameter calculator hints and theory formulas
         updateParameterCalculatorHints();
-        
-        // Update theory formulas
         updateTheoryFormulas();
-        
-        // Highlight in database table
         highlightSelectedTransistorInTable();
+        
+        console.log('Successfully updated all tabs with transistor info');
     } else {
-        // Hide info sections, show warnings
+        // No transistor selected - show warnings and hide info sections
+        console.log('No transistor selected, showing warnings');
+        
+        // Database tab - hide info, show warning
         const dbInfo = document.getElementById('selectedTransistorInfo');
         const dbWarning = document.getElementById('noTransistorWarning');
         if (dbInfo) dbInfo.style.display = 'none';
         if (dbWarning) dbWarning.style.display = 'block';
         
+        // Analysis tab - show alert, hide data
+        const analysisTransistorAlert = document.getElementById('analysisTransistorAlert');
+        const analysisTransistorData = document.getElementById('analysisTransistorData');
+        if (analysisTransistorAlert) analysisTransistorAlert.style.display = 'block';
+        if (analysisTransistorData) analysisTransistorData.style.display = 'none';
+        
+        // Theory tab - hide info, show warning
         const theoryInfo = document.getElementById('selectedTransistorTheory');
         const theoryWarning = document.getElementById('noTransistorTheoryWarning');
         if (theoryInfo) theoryInfo.style.display = 'none';
         if (theoryWarning) theoryWarning.style.display = 'block';
         
+        // Tools tab - hide info, show warning
         const toolsInfo = document.getElementById('selectedTransistorTools');
         const toolsWarning = document.getElementById('noTransistorToolsWarning');
         if (toolsInfo) toolsInfo.style.display = 'none';
         if (toolsWarning) toolsWarning.style.display = 'block';
+        
+        // Update parameter calculator hints and theory formulas
+        updateParameterCalculatorHints();
+        updateTheoryFormulas();
     }
 }
 
