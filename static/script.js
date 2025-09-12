@@ -2477,7 +2477,12 @@ function showTermExplanation(termKey) {
   };
 
   const lang = currentLang === 'bg' ? 'bg' : 'en';
-  const explanation = explanations[termKey][lang];
+  const termData = explanations[termKey];
+  if (!termData) {
+    console.warn(`No explanation found for term: ${termKey}`);
+    return;
+  }
+  const explanation = termData[lang];
   
   if (explanation) {
     document.getElementById('termTitle').textContent = explanation.title;
