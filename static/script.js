@@ -4749,6 +4749,61 @@ function calculateMillerEffect() {
     millerResultsDiv.style.display = 'block';
   }
   
+  // Create Miller chart
+  const millerChartCanvas = document.getElementById('millerChart');
+  if (millerChartCanvas) {
+    const ctx = millerChartCanvas.getContext('2d');
+    
+    // Destroy existing chart if it exists
+    if (window.millerChart) {
+      window.millerChart.destroy();
+    }
+    
+    // Generate frequency response data
+    const frequencies = [];
+    const impedances = [];
+    for (let f = 1; f <= 1000; f += 10) {
+      frequencies.push(f);
+      const omega = 2 * Math.PI * f * 1000; // Convert kHz to rad/s
+      const impedance = 1 / (omega * effectiveCapacitance * 1e-12); // |Z| = 1/(ωC)
+      impedances.push(impedance);
+    }
+    
+    // Create chart
+    window.millerChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: frequencies,
+        datasets: [{
+          label: 'Miller Impedance (Ω)',
+          data: impedances,
+          borderColor: '#3498db',
+          backgroundColor: 'rgba(52, 152, 219, 0.1)',
+          borderWidth: 2,
+          fill: true
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          title: {
+            display: true,
+            text: `Miller Effect: ${effectiveCapacitance.toFixed(0)} pF Effective Capacitance`
+          }
+        },
+        scales: {
+          x: {
+            title: { display: true, text: 'Frequency (kHz)' }
+          },
+          y: {
+            type: 'logarithmic',
+            title: { display: true, text: 'Impedance (Ω)' }
+          }
+        }
+      }
+    });
+  }
+
   // Show success message
   const message = currentLang === 'bg' ? 
     `✅ Miller анализ завършен! Ефективен капацитет: ${effectiveCapacitance.toFixed(0)} pF` : 
