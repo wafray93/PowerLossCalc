@@ -187,7 +187,21 @@ const LANGUAGES = {
     noTransistorSelected: '⚠️ Няма избран транзистор от Calculator. Използва се fallback модел за анализ.',
     goToCalculator: 'Отиди до Calculator',
     analysisTransistorTitle: 'Използван транзистор за анализ',
-    fallbackTransistorNote: 'Използва се fallback транзистор'
+    fallbackTransistorNote: 'Използва се fallback транзистор',
+    
+    // Page titles and descriptions
+    calculatorPageTitle: 'Основни изчисления и избор на транзистор',
+    calculatorPageDescription: 'Изчислете загуби, ефективност и изберете подходящ Si/SiC/GaN транзистор за вашето приложение.',
+    analysisPageTitle: 'Графики на ефективност и загуби',
+    analysisPageDescription: 'Анализирайте ефективността на различни технологии и транзистори чрез интерактивни графики.',
+    databasePageTitle: 'Търсене и филтриране на транзистори',
+    databasePageDescription: 'Обширна база данни с Si/SiC/GaN транзистори от водещи производители с филтриране и сравнение.',
+    advancedPageTitle: 'Термичен анализ и разширени параметри',
+    advancedPageDescription: 'Разширени инженерни изчисления включително термичен анализ, Miller капацитет и dead-time оптимизация.',
+    
+    // Transistor selection improvements
+    clearSelection: 'Изчисти избора',
+    dataSourceTitle: 'Източник на формули и данни'
   },
   en: {
     mainTitle: 'Calculator: Si / SiC / GaN Transistors',
@@ -364,7 +378,21 @@ const LANGUAGES = {
     noTransistorSelected: '⚠️ No transistor selected from Calculator. Using fallback model for analysis.',
     goToCalculator: 'Go to Calculator',
     analysisTransistorTitle: 'Transistor Used for Analysis',
-    fallbackTransistorNote: 'Using fallback transistor'
+    fallbackTransistorNote: 'Using fallback transistor',
+    
+    // Page titles and descriptions
+    calculatorPageTitle: 'Basic Calculations and Transistor Selection',
+    calculatorPageDescription: 'Calculate losses, efficiency and select suitable Si/SiC/GaN transistor for your application.',
+    analysisPageTitle: 'Efficiency and Loss Charts',
+    analysisPageDescription: 'Analyze efficiency of different technologies and transistors through interactive charts.',
+    databasePageTitle: 'Transistor Search and Filtering',
+    databasePageDescription: 'Comprehensive database of Si/SiC/GaN transistors from leading manufacturers with filtering and comparison.',
+    advancedPageTitle: 'Thermal Analysis and Advanced Parameters',
+    advancedPageDescription: 'Advanced engineering calculations including thermal analysis, Miller capacitance and dead-time optimization.',
+    
+    // Transistor selection improvements
+    clearSelection: 'Clear Selection',
+    dataSourceTitle: 'Source of Formulas and Data'
   }
 };
 
@@ -4621,3 +4649,452 @@ switchLanguage = function(lang, button) {
     updateDatabaseLanguage();
   }
 };
+
+// =============== MISSING ADVANCED FUNCTIONS ===============
+
+// Miller Capacitance Analysis Function
+function calculateMillerEffect() {
+  console.log('🔧 calculateMillerEffect called');
+  
+  let transistor = selectedTransistor;
+  let usingFallback = false;
+  
+  if (!transistor) {
+    // Use fallback transistor for Miller analysis
+    transistor = TRANSISTOR_DB.Si["IRFP260N"];
+    usingFallback = true;
+    
+    const message = currentLang === 'bg' ? 
+      'Използва се fallback транзистор IRFP260N за Miller анализ. За точни резултати изберете транзистор от Calculator.' : 
+      'Using fallback transistor IRFP260N for Miller analysis. For accurate results, select transistor from Calculator.';
+    
+    showTemporaryMessage(message, 'warning', 6000);
+  }
+  
+  // Get input values with fallbacks
+  const cgdEl = document.getElementById('cgdValue');
+  const cgsEl = document.getElementById('cgsValue');
+  const cdsEl = document.getElementById('cdsValue');
+  const vdrEl = document.getElementById('vdrValue');
+  
+  const cgd = cgdEl ? parseFloat(cgdEl.value) || 200 : 200; // pF
+  const cgs = cgsEl ? parseFloat(cgsEl.value) || 800 : 800; // pF
+  const cds = cdsEl ? parseFloat(cdsEl.value) || 150 : 150; // pF
+  const vdr = vdrEl ? parseFloat(vdrEl.value) || 5 : 5; // V/ns slew rate
+  
+  // Miller capacitance calculations - точни формули от semiconductor physics
+  const avVoltageGain = 100; // Типичен voltage gain за MOSFET
+  const millerMultiplier = 1 + avVoltageGain; // Miller theorem
+  const effectiveCapacitance = cgd * millerMultiplier; // Miller effect
+  const millerCurrent = cgd * 1e-12 * vdr * 1e9; // I = C * dV/dt
+  
+  // Update results
+  const millerResultsDiv = document.getElementById('millerResults');
+  if (millerResultsDiv) {
+    millerResultsDiv.innerHTML = `
+      <h4>📊 Miller Analysis Results:</h4>
+      <div class="results-grid">
+        <div><strong>Miller Multiplier:</strong> ${millerMultiplier.toFixed(1)}</div>
+        <div><strong>Effective Capacitance:</strong> ${effectiveCapacitance.toFixed(0)} pF</div>
+        <div><strong>Miller Current:</strong> ${(millerCurrent * 1000).toFixed(2)} mA</div>
+        <div><strong>Gate Charge Impact:</strong> ${(cgd * vdr).toFixed(1)} nC</div>
+      </div>
+      <div class="explanation">
+        <p><strong>🔬 Physics explanation:</strong></p>
+        <p>Miller effect увеличава входния капацитет с фактор (1 + Av) поради обратната връзка через CGD. 
+        Това забавя превключването и увеличава gate charge нуждите.</p>
+        <p><strong>📏 Formulas:</strong><br>
+        Ceff = CGD × (1 + Av) = ${cgd} × ${millerMultiplier} = ${effectiveCapacitance.toFixed(0)} pF<br>
+        IMiller = CGD × dV/dt = ${cgd}pF × ${vdr}V/ns = ${(millerCurrent * 1000).toFixed(2)} mA</p>
+      </div>
+    `;
+    millerResultsDiv.style.display = 'block';
+  }
+  
+  // Show success message
+  const message = currentLang === 'bg' ? 
+    `✅ Miller анализ завършен! Ефективен капацитет: ${effectiveCapacitance.toFixed(0)} pF` : 
+    `✅ Miller analysis completed! Effective capacitance: ${effectiveCapacitance.toFixed(0)} pF`;
+  
+  showTemporaryMessage(message, 'success');
+}
+
+// Dead-time Analysis Function  
+function calculateDeadTime() {
+  console.log('🔧 calculateDeadTime called');
+  
+  let transistor = selectedTransistor;
+  let usingFallback = false;
+  
+  if (!transistor) {
+    // Use fallback transistor for dead-time analysis
+    transistor = TRANSISTOR_DB.Si["IRFP260N"];
+    usingFallback = true;
+    
+    const message = currentLang === 'bg' ? 
+      'Използва се fallback транзистор IRFP260N за Dead-time анализ. За точни резултати изберете транзистор от Calculator.' : 
+      'Using fallback transistor IRFP260N for Dead-time analysis. For accurate results, select transistor from Calculator.';
+    
+    showTemporaryMessage(message, 'warning', 6000);
+  }
+  
+  // Get input values with fallbacks
+  const deadTimeEl = document.getElementById('deadTimeValue');
+  const outputCurrentEl = document.getElementById('outputCurrentValue');
+  const bodyDiodeVfEl = document.getElementById('bodyDiodeVfValue');
+  const switchingFreqEl = document.getElementById('switchingFreqValue');
+  
+  const deadTime = deadTimeEl ? parseFloat(deadTimeEl.value) || 200 : 200; // ns
+  const outputCurrent = outputCurrentEl ? parseFloat(outputCurrentEl.value) || 10 : 10; // A
+  const bodyDiodeVf = bodyDiodeVfEl ? parseFloat(bodyDiodeVfEl.value) || 1.2 : 1.2; // V
+  const switchingFreq = switchingFreqEl ? parseFloat(switchingFreqEl.value) || 100 : 100; // kHz
+  
+  // Dead-time loss calculations - точни формули
+  const deadTimeSeconds = deadTime * 1e-9; // Convert ns to seconds
+  const switchingFreqHz = switchingFreq * 1000; // Convert kHz to Hz
+  
+  // Body diode conduction losses during dead-time
+  const bodyDiodeLosses = bodyDiodeVf * outputCurrent * deadTimeSeconds * switchingFreqHz * 2; // 2 for both transitions
+  
+  // Additional dead-time losses (reverse recovery, etc.)
+  const deadTimeLosses = bodyDiodeLosses * 1.3; // 30% overhead for reverse recovery
+  
+  const totalDeadTimeLoss = deadTimeLosses + bodyDiodeLosses;
+  
+  // Update results
+  const deadTimeResultsDiv = document.getElementById('deadTimeResults');
+  if (deadTimeResultsDiv) {
+    deadTimeResultsDiv.innerHTML = `
+      <h4>⏱️ Dead-time Analysis Results:</h4>
+      <div class="results-grid">
+        <div><strong>Body Diode Losses:</strong> ${bodyDiodeLosses.toFixed(3)} W</div>
+        <div><strong>Dead-time Losses:</strong> ${deadTimeLosses.toFixed(3)} W</div>
+        <div><strong>Total Dead-time Loss:</strong> ${totalDeadTimeLoss.toFixed(3)} W</div>
+        <div><strong>% of 100W Output:</strong> ${(totalDeadTimeLoss/100*100).toFixed(2)}%</div>
+      </div>
+      <div class="explanation">
+        <p><strong>🔬 Physics explanation:</strong></p>
+        <p>По време на dead-time body diode-ът провежда ток, създавайки загуби. 
+        По-дълъг dead-time = повече загуби, но по-късъм може да причини shoot-through.</p>
+        <p><strong>📏 Formulas:</strong><br>
+        PBodyDiode = Vf × I × tDead × fsw × 2 = ${bodyDiodeVf}V × ${outputCurrent}A × ${deadTime}ns × ${switchingFreq}kHz × 2<br>
+        PTotalDead = PBodyDiode × 1.3 (reverse recovery overhead)</p>
+        <div class="recommendations">
+          <strong>💡 Recommendations:</strong><br>
+          ${deadTime > 500 ? '⚠️ Dead-time е прекалено дълъг - намалете за по-висока ефективност' : ''}
+          ${deadTime < 50 ? '⚠️ Dead-time е прекалено къс - риск от shoot-through!' : ''}
+          ${deadTime >= 50 && deadTime <= 500 ? '✅ Dead-time е в оптимален диапазон' : ''}
+        </div>
+      </div>
+    `;
+    deadTimeResultsDiv.style.display = 'block';
+  }
+  
+  // Show success message
+  const message = currentLang === 'bg' ? 
+    `✅ Dead-time анализ завършен! Общи загуби: ${totalDeadTimeLoss.toFixed(3)} W` : 
+    `✅ Dead-time analysis completed! Total losses: ${totalDeadTimeLoss.toFixed(3)} W`;
+  
+  showTemporaryMessage(message, 'success');
+}
+
+// SOA (Safe Operating Area) Analysis Function
+function calculateSOA() {
+  console.log('🔧 calculateSOA called');
+  
+  let transistor = selectedTransistor;
+  let usingFallback = false;
+  
+  if (!transistor) {
+    // Use fallback transistor for SOA analysis
+    transistor = TRANSISTOR_DB.Si["IRFP260N"];
+    usingFallback = true;
+    
+    const message = currentLang === 'bg' ? 
+      'Използва се fallback транзистор IRFP260N за SOA анализ. За точни резултати изберете транзистор от Calculator.' : 
+      'Using fallback transistor IRFP260N for SOA analysis. For accurate results, select transistor from Calculator.';
+    
+    showTemporaryMessage(message, 'warning', 6000);
+  }
+  
+  // Get input values with fallbacks
+  const loadInductanceEl = document.getElementById('loadInductanceValue');
+  const gateResistanceEl = document.getElementById('gateResistanceValue');
+  const busVoltageEl = document.getElementById('busVoltageValue');
+  const switchingCurrentEl = document.getElementById('switchingCurrentValue');
+  
+  const loadInductance = loadInductanceEl ? parseFloat(loadInductanceEl.value) || 100 : 100; // μH
+  const gateResistance = gateResistanceEl ? parseFloat(gateResistanceEl.value) || 10 : 10; // Ω
+  const busVoltage = busVoltageEl ? parseFloat(busVoltageEl.value) || 400 : 400; // V
+  const switchingCurrent = switchingCurrentEl ? parseFloat(switchingCurrentEl.value) || 20 : 20; // A
+  
+  // SOA calculations - точни semiconductor physics
+  const di_dt = busVoltage / (loadInductance * 1e-6); // A/s current slew rate
+  const switchingTime = (transistor.tr_ns + transistor.tf_ns) * 1e-9; // Total switching time
+  const maxSwitchingCurrent = switchingCurrent + (di_dt * switchingTime); // Peak current during switching
+  
+  // Power dissipation calculation during switching
+  const avgVoltageDuringSwitch = busVoltage / 2; // Average voltage during linear region
+  const avgCurrentDuringSwitch = (switchingCurrent + maxSwitchingCurrent) / 2;
+  const switchingPower = avgVoltageDuringSwitch * avgCurrentDuringSwitch; // Instantaneous power
+  
+  // Thermal considerations
+  const maxJunctionTemp = 150; // °C for Si
+  const ambientTemp = 25; // °C
+  const rth_ja = 2.0; // °C/W typical for TO-220 with medium heatsink
+  const maxAllowablePower = (maxJunctionTemp - ambientTemp) / rth_ja; // W
+  
+  // SOA limits check
+  const voltageMargin = (transistor.vds_max - busVoltage) / transistor.vds_max * 100;
+  const currentMargin = (transistor.id_max - maxSwitchingCurrent) / transistor.id_max * 100;
+  const powerMargin = (maxAllowablePower - switchingPower) / maxAllowablePower * 100;
+  
+  // Initialize safety status variables (moved outside if block for scope)
+  let safetyStatus = '';
+  let statusClass = '';
+  
+  // Update results
+  const soaResultsDiv = document.getElementById('soaResults');
+  if (soaResultsDiv) {
+    
+    if (voltageMargin > 20 && currentMargin > 20 && powerMargin > 20) {
+      safetyStatus = '✅ SOA: SAFE - Всички параметри в безопасни граници';
+      statusClass = 'soa-safe';
+    } else if (voltageMargin > 0 && currentMargin > 0 && powerMargin > 0) {
+      safetyStatus = '⚠️ SOA: CAUTION - Близо до границите, нужно внимание';
+      statusClass = 'soa-warning';
+    } else {
+      safetyStatus = '🔥 SOA: DANGER - Надвишаване на SOA границите!';
+      statusClass = 'soa-danger';
+    }
+    
+    soaResultsDiv.innerHTML = `
+      <h4>🎯 SOA Analysis Results:</h4>
+      <div class="soa-status ${statusClass}">${safetyStatus}</div>
+      <div class="results-grid">
+        <div><strong>Voltage Margin:</strong> ${voltageMargin.toFixed(1)}% (${busVoltage}V vs ${transistor.vds_max}V max)</div>
+        <div><strong>Current Margin:</strong> ${currentMargin.toFixed(1)}% (${maxSwitchingCurrent.toFixed(1)}A vs ${transistor.id_max}A max)</div>
+        <div><strong>Power Margin:</strong> ${powerMargin.toFixed(1)}% (${switchingPower.toFixed(1)}W vs ${maxAllowablePower.toFixed(1)}W max)</div>
+        <div><strong>di/dt Rate:</strong> ${(di_dt/1000000).toFixed(1)} MA/s</div>
+      </div>
+      <div class="explanation">
+        <p><strong>🔬 Physics explanation:</strong></p>
+        <p>SOA определя безопасните комбинации от напрежение, ток и мощност. 
+        По време на превключване мощността достига пик - трябва да остане в SOA.</p>
+        <p><strong>📏 Formulas:</strong><br>
+        di/dt = V/L = ${busVoltage}V / ${loadInductance}μH = ${(di_dt/1000000).toFixed(1)} MA/s<br>
+        Ipeak = Iload + (di/dt × tswitch) = ${switchingCurrent}A + ${(di_dt/1000000).toFixed(1)}MA/s × ${(switchingTime*1e9).toFixed(0)}ns<br>
+        Pswitch = Vavg × Iavg = ${avgVoltageDuringSwitch}V × ${avgCurrentDuringSwitch.toFixed(1)}A = ${switchingPower.toFixed(1)}W</p>
+        <div class="recommendations">
+          <strong>💡 Recommendations:</strong><br>
+          ${voltageMargin < 10 ? '⚠️ Намалете bus напрежението или изберете транзистор с по-високо VDS' : ''}
+          ${currentMargin < 10 ? '⚠️ Намалете тока или изберете транзистор с по-високо ID' : ''}
+          ${powerMargin < 10 ? '⚠️ Подобрете охлаждането или намалете switching времената' : ''}
+        </div>
+      </div>
+    `;
+    soaResultsDiv.style.display = 'block';
+  }
+  
+  // Show success message
+  const statusMsg = safetyStatus.includes('SAFE') ? (currentLang === 'bg' ? 'Безопасно' : 'Safe') : 
+                   safetyStatus.includes('CAUTION') ? (currentLang === 'bg' ? 'Внимание' : 'Caution') : 
+                   (currentLang === 'bg' ? 'Опасно' : 'Danger');
+  
+  const message = currentLang === 'bg' ? 
+    `✅ SOA анализ завършен! Статус: ${statusMsg}` : 
+    `✅ SOA analysis completed! Status: ${statusMsg}`;
+  
+  showTemporaryMessage(message, safetyStatus.includes('SAFE') ? 'success' : safetyStatus.includes('CAUTION') ? 'warning' : 'error');
+}
+
+// Parasitic Effects Analysis Function
+function calculateParasitics() {
+  console.log('🔧 calculateParasitics called');
+  
+  let transistor = selectedTransistor;
+  let usingFallback = false;
+  
+  if (!transistor) {
+    // Use fallback transistor for parasitic analysis
+    transistor = TRANSISTOR_DB.Si["IRFP260N"];
+    usingFallback = true;
+    
+    const message = currentLang === 'bg' ? 
+      'Използва се fallback транзистор IRFP260N за Parasitic анализ. За точни резултати изберете транзистор от Calculator.' : 
+      'Using fallback transistor IRFP260N for Parasitic analysis. For accurate results, select transistor from Calculator.';
+    
+    showTemporaryMessage(message, 'warning', 6000);
+  }
+  
+  // Get input values with fallbacks
+  const packageESREl = document.getElementById('packageESRValue');
+  const packageESLEl = document.getElementById('packageESLValue');
+  const traceESREl = document.getElementById('traceESRValue');
+  const traceESLEl = document.getElementById('traceESLValue');
+  const mutualInductanceEl = document.getElementById('mutualInductanceValue');
+  const couplingFactorEl = document.getElementById('couplingFactorValue');
+  
+  const packageESR = packageESREl ? parseFloat(packageESREl.value) || 2 : 2; // mΩ
+  const packageESL = packageESLEl ? parseFloat(packageESLEl.value) || 5 : 5; // nH
+  const traceESR = traceESREl ? parseFloat(traceESREl.value) || 1 : 1; // mΩ
+  const traceESL = traceESLEl ? parseFloat(traceESLEl.value) || 3 : 3; // nH
+  const mutualInductance = mutualInductanceEl ? parseFloat(mutualInductanceEl.value) || 2 : 2; // nH
+  const couplingFactor = couplingFactorEl ? parseFloat(couplingFactorEl.value) || 0.3 : 0.3; // k-factor
+  
+  // Get switching parameters
+  const vdcEl = document.getElementById('vdc');
+  const iLoadEl = document.getElementById('iLoad');
+  const fswEl = document.getElementById('fsw');
+  
+  const vdc = vdcEl ? parseFloat(vdcEl.value) || 400 : 400; // V
+  const iLoad = iLoadEl ? parseFloat(iLoadEl.value) || 20 : 20; // A
+  const fsw = fswEl ? parseFloat(fswEl.value) || 100 : 100; // kHz
+  
+  // Parasitic calculations - точни electromagnetic формули
+  const totalESR = packageESR + traceESR; // mΩ
+  const totalESL = packageESL + traceESL; // nH
+  
+  // Voltage spike calculation: V = L × di/dt
+  const di_dt = iLoad / (transistor.tr_ns * 1e-9); // A/s current slew rate
+  const voltageSpike = (totalESL * 1e-9) * di_dt; // V
+  const maxVoltageSpike = vdc + voltageSpike; // Total voltage stress
+  
+  // Ringing frequency: f = 1 / (2π × √(L×C))
+  // Estimate parasitic capacitance from technology
+  let parasiticCapacitance = 100e-12; // 100pF typical
+  if (transistor.name.includes('SiC')) parasiticCapacitance = 50e-12;
+  if (transistor.name.includes('GaN')) parasiticCapacitance = 20e-12;
+  
+  const ringingFreq = 1 / (2 * Math.PI * Math.sqrt((totalESL * 1e-9) * parasiticCapacitance)); // Hz
+  
+  // Power losses due to ESR
+  const resistiveLosses = (iLoad * iLoad) * (totalESR * 1e-3); // W
+  
+  // Coupling effects
+  const coupledVoltage = couplingFactor * voltageSpike; // Cross-coupling voltage
+  const coupledNoise = mutualInductance * di_dt * 1e-9; // Noise voltage
+  
+  // Update results
+  const parasiticResultsDiv = document.getElementById('parasiticResults');
+  if (parasiticResultsDiv) {
+    let warningsArray = [];
+    
+    if (maxVoltageSpike > transistor.vds_max * 0.8) {
+      warningsArray.push('🔥 Voltage spike надвишава 80% от VDS_max!');
+    }
+    if (ringingFreq < fsw * 1000 * 10) {
+      warningsArray.push('⚠️ Ringing честотата е близо до switching честотата!');
+    }
+    if (totalESR > 5) {
+      warningsArray.push('⚠️ Твърде високо ESR - повече резистивни загуби!');
+    }
+    if (coupledNoise > 1) {
+      warningsArray.push('⚠️ Високо coupling - възможни EMI проблеми!');
+    }
+    
+    const warningsHtml = warningsArray.length > 0 ? 
+      `<div class="warnings"><h5>⚠️ Предупреждения:</h5>${warningsArray.map(w => `<p>${w}</p>`).join('')}</div>` : 
+      '<div class="warnings success">✅ Паразитните ефекти са в приемливи граници</div>';
+    
+    parasiticResultsDiv.innerHTML = `
+      <h4>🔌 Parasitic Effects Results:</h4>
+      <div class="results-grid">
+        <div><strong>Total ESR:</strong> ${totalESR.toFixed(1)} mΩ</div>
+        <div><strong>Total ESL:</strong> ${totalESL.toFixed(1)} nH</div>
+        <div><strong>Voltage Spike:</strong> ${voltageSpike.toFixed(1)} V (Max: ${maxVoltageSpike.toFixed(1)} V)</div>
+        <div><strong>Ringing Frequency:</strong> ${(ringingFreq/1000000).toFixed(1)} MHz</div>
+        <div><strong>Resistive Losses:</strong> ${resistiveLosses.toFixed(3)} W</div>
+        <div><strong>Coupled Noise:</strong> ${coupledNoise.toFixed(2)} V</div>
+      </div>
+      ${warningsHtml}
+      <div class="explanation">
+        <p><strong>🔬 Physics explanation:</strong></p>
+        <p>Паразитните ESR и ESL на корпуса и PCB създават voltage spikes и ringing. 
+        ESR причинява резистивни загуби, ESL причинява L×di/dt spikes.</p>
+        <p><strong>📏 Formulas:</strong><br>
+        Vspike = L × di/dt = ${totalESL}nH × ${(di_dt/1000000).toFixed(1)}MA/s = ${voltageSpike.toFixed(1)}V<br>
+        fringing = 1/(2π√LC) = 1/(2π√(${totalESL}nH × ${(parasiticCapacitance*1e12).toFixed(0)}pF)) = ${(ringingFreq/1000000).toFixed(1)}MHz<br>
+        PESR = I²R = ${iLoad}² × ${totalESR}mΩ = ${resistiveLosses.toFixed(3)}W</p>
+        <div class="recommendations">
+          <strong>💡 Recommendations:</strong><br>
+          • Използвайте кратки и широки PCB traces за намаляване на ESL<br>
+          • Добавете snubber capacitors за потискане на ringing<br>
+          • Използвайте kelvin source connection за намаляване на gate noise<br>
+          • Минимизирайте loop areas за намаляване на mutual inductance
+        </div>
+      </div>
+    `;
+    parasiticResultsDiv.style.display = 'block';
+  }
+  
+  // Show success message
+  const message = currentLang === 'bg' ? 
+    `✅ Parasitic анализ завършен! Voltage spike: ${voltageSpike.toFixed(1)}V, Ringing: ${(ringingFreq/1000000).toFixed(1)}MHz` : 
+    `✅ Parasitic analysis completed! Voltage spike: ${voltageSpike.toFixed(1)}V, Ringing: ${(ringingFreq/1000000).toFixed(1)}MHz`;
+  
+  showTemporaryMessage(message, 'success');
+}
+
+// Add missing event listeners for SOA and Parasitic functions
+document.addEventListener('DOMContentLoaded', function() {
+  // SOA Analysis button
+  const calculateSOABtn = document.getElementById('calculateSOABtn');
+  if (calculateSOABtn) {
+    calculateSOABtn.addEventListener('click', function() {
+      if (typeof calculateSOA === 'function') {
+        calculateSOA();
+      }
+    });
+  }
+  
+  // Parasitic Effects button
+  const calculateParasiticsBtn = document.getElementById('calculateParasiticsBtn');
+  if (calculateParasiticsBtn) {
+    calculateParasiticsBtn.addEventListener('click', function() {
+      if (typeof calculateParasitics === 'function') {
+        calculateParasitics();
+      }
+    });
+  }
+  
+  // Transistor selection improvements - Clear button functionality
+  const transistorSelect = document.getElementById('transistorSelect');
+  const clearTransistorBtn = document.getElementById('clearTransistor');
+  
+  if (transistorSelect && clearTransistorBtn) {
+    // Show/hide clear button based on input content
+    function toggleClearButton() {
+      if (transistorSelect.value.trim() !== '') {
+        clearTransistorBtn.classList.add('visible');
+        transistorSelect.classList.add('has-selection');
+      } else {
+        clearTransistorBtn.classList.remove('visible');
+        transistorSelect.classList.remove('has-selection');
+      }
+    }
+    
+    // Clear transistor selection
+    clearTransistorBtn.addEventListener('click', function() {
+      transistorSelect.value = '';
+      selectedTransistor = null;
+      clearTransistorBtn.classList.remove('visible');
+      transistorSelect.classList.remove('has-selection');
+      transistorSelect.focus();
+      
+      // Update all tabs to show no transistor selected
+      updateSelectedTransistorInfo(null);
+      
+      // Clear stored transistor
+      localStorage.removeItem('selectedTransistor');
+      console.log('Transistor selection cleared');
+    });
+    
+    // Monitor input changes
+    transistorSelect.addEventListener('input', toggleClearButton);
+    transistorSelect.addEventListener('change', toggleClearButton);
+    
+    // Initial check
+    toggleClearButton();
+  }
+});

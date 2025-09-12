@@ -682,8 +682,10 @@ main {
 .row {
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
-  margin-bottom: 10px;
+  gap: 15px;
+  margin-bottom: 15px;
+  justify-content: center; /* Center the row contents */
+  align-items: flex-start; /* Align items at the top */
 }
 
 label {
@@ -691,6 +693,23 @@ label {
   flex-direction: column;
   font-size: 13px;
   min-width: 120px;
+}
+
+/* Fix text wrapping issues for labels with units */
+.input-group span,
+label span {
+  white-space: nowrap; /* Prevent units like "(A)" from wrapping to new line */
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Ensure labels in advanced sections don't wrap */
+.input-col label,
+.range-filter label,
+.control-group label {
+  white-space: nowrap;
+  font-size: 13px;
+  font-weight: 500;
 }
 
 input, select {
@@ -726,14 +745,13 @@ button {
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
-  margin: 10px;
+  margin: 10px auto; /* Center buttons horizontally */
   transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: 0 4px 20px rgba(102, 126, 234, 0.3);
   position: relative;
   overflow: hidden;
   letter-spacing: 0.5px;
-  text-transform: uppercase;
-  font-size: 14px;
+  display: inline-block; /* Ensure proper centering behavior */
 }
 
 button:hover {
@@ -903,8 +921,57 @@ button:hover::before {
   color: #004aad;
 }
 
+.transistor-selection-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
 #transistorSelect {
   min-width: 250px;
+  flex: 1;
+  padding-right: 40px; /* Make room for clear button */
+}
+
+.clear-transistor-btn {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  font-size: 12px;
+  cursor: pointer;
+  display: none; /* Initially hidden */
+  z-index: 10;
+  transition: all 0.2s ease;
+  margin: 0; /* Override global button margin */
+}
+
+.clear-transistor-btn:hover {
+  background: #c82333;
+  transform: translateY(-50%) scale(1.1);
+}
+
+.clear-transistor-btn.visible {
+  display: block;
+}
+
+/* Improve datalist dropdown visibility */
+#transistorSelect:focus {
+  outline: 2px solid var(--primary-blue);
+  background: white;
+}
+
+/* Style for when transistor is selected */
+#transistorSelect.has-selection {
+  border-color: var(--success-color);
+  background: #f8fff8;
 }
 
 /* Tooltip styles */
@@ -945,6 +1012,44 @@ button:hover::before {
   line-height: 1.4;
   box-shadow: 0 4px 8px rgba(0,0,0,0.3);
   transition: opacity 0.3s;
+  /* Smart positioning to prevent going off-screen */
+  max-width: 280px;
+}
+
+/* Position tooltip to the left when it would go off-screen on the right */
+.input-group:nth-last-child(-n+2) .tooltip,
+.row > .input-group:last-child .tooltip {
+  left: auto;
+  right: 110%;
+}
+
+/* Position tooltip arrow for left-positioned tooltips */
+.input-group:nth-last-child(-n+2) .tooltip::after,
+.row > .input-group:last-child .tooltip::after {
+  left: auto;
+  right: -8px;
+  border-color: transparent transparent transparent #333;
+}
+
+/* Mobile responsive tooltips */
+@media (max-width: 768px) {
+  .tooltip {
+    width: 240px;
+    max-width: calc(100vw - 40px);
+    left: 50%;
+    transform: translateX(-50%);
+    top: 120%;
+    right: auto;
+  }
+  
+  .tooltip::after {
+    top: -8px;
+    left: 50% !important;
+    right: auto !important;
+    transform: translateX(-50%);
+    border-width: 0 8px 8px 8px;
+    border-color: transparent transparent #333 transparent !important;
+  }
 }
 
 .tooltip::after {
@@ -1060,22 +1165,24 @@ footer {
 }
 
 .export-btn {
-  background: linear-gradient(135deg, var(--success-color) 0%, #45a049 100%);
+  background: linear-gradient(135deg, #198754 0%, #157347 100%); /* Darker green for better contrast */
   padding: 12px 20px;
   border-radius: 8px;
   border: none;
   color: white;
-  font-weight: 500;
+  font-weight: 600; /* Bolder text for better readability */
   cursor: pointer;
   transition: all 0.3s ease;
   display: flex;
   align-items: center;
   gap: 8px;
+  min-height: 44px; /* Ensure minimum touch target size */
 }
 
 .export-btn:hover {
+  background: linear-gradient(135deg, #157347 0%, #0f5132 100%); /* Even darker on hover */
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(76, 175, 80, 0.3);
+  box-shadow: 0 6px 20px rgba(21, 115, 71, 0.4); /* Adjusted shadow for new color */
 }
 
 /* Unit Converter Styles */
@@ -1091,10 +1198,11 @@ footer {
 }
 
 .converter-section {
-  background: rgba(255,255,255,0.7);
+  background: #ffffff; /* Solid white for better contrast */
   border-radius: 12px;
   padding: 20px;
   border: 1px solid var(--border-color);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); /* Add subtle shadow for definition */
 }
 
 .converter-inputs {
@@ -1933,25 +2041,34 @@ footer {
 /* Бутони за копиране на графики */
 .copy-chart-btn {
   margin: 10px 0;
-  padding: 8px 16px;
-  background: #28a745;
+  padding: 10px 18px;
+  background: #198754; /* Darker green for better contrast */
   color: white;
   border: none;
-  border-radius: 4px;
+  border-radius: 6px;
   cursor: pointer;
   font-size: 14px;
+  font-weight: 600; /* Bolder text for better readability */
   display: inline-flex;
   align-items: center;
-  gap: 5px;
+  gap: 6px;
+  min-height: 42px; /* Ensure minimum touch target size */
+  transition: all 0.2s ease;
 }
 
 .copy-chart-btn:hover {
-  background: #218838;
+  background: #157347; /* Even darker for clear hover state */
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(21, 115, 71, 0.3);
 }
 
 .copy-chart-btn:disabled {
-  background: #6c757d;
+  background: #343a40; /* Much darker gray for better contrast */
+  color: #ffffff; /* Ensure white text for contrast */
   cursor: not-allowed;
+  opacity: 1; /* Remove transparency for better contrast */
+  transform: none;
+  box-shadow: none;
 }
 
 /* Интерактивни термини с обяснения */
