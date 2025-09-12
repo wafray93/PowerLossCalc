@@ -4710,10 +4710,10 @@ function calculateMillerEffect() {
   }
   
   // Get input values with fallbacks
-  const cgdEl = document.getElementById('cgdValue');
-  const cgsEl = document.getElementById('cgsValue');
-  const cdsEl = document.getElementById('cdsValue');
-  const vdrEl = document.getElementById('vdrValue');
+  const cgdEl = document.getElementById('cgd');
+  const cgsEl = document.getElementById('cgs');
+  const cdsEl = document.getElementById('cds');
+  const vdrEl = document.getElementById('vdr');
   
   const cgd = cgdEl ? parseFloat(cgdEl.value) || 200 : 200; // pF
   const cgs = cgsEl ? parseFloat(cgsEl.value) || 800 : 800; // pF
@@ -4777,10 +4777,10 @@ function calculateDeadTime() {
   }
   
   // Get input values with fallbacks
-  const deadTimeEl = document.getElementById('deadTimeValue');
-  const outputCurrentEl = document.getElementById('outputCurrentValue');
-  const bodyDiodeVfEl = document.getElementById('bodyDiodeVfValue');
-  const switchingFreqEl = document.getElementById('switchingFreqValue');
+  const deadTimeEl = document.getElementById('deadTime');
+  const outputCurrentEl = document.getElementById('outputCurrent');
+  const bodyDiodeVfEl = document.getElementById('bodyDiodeVf');
+  const switchingFreqEl = document.getElementById('switchingFreq');
   
   const deadTime = deadTimeEl ? parseFloat(deadTimeEl.value) || 200 : 200; // ns
   const outputCurrent = outputCurrentEl ? parseFloat(outputCurrentEl.value) || 10 : 10; // A
@@ -4856,10 +4856,10 @@ function calculateSOA() {
   }
   
   // Get input values with fallbacks
-  const loadInductanceEl = document.getElementById('loadInductanceValue');
-  const gateResistanceEl = document.getElementById('gateResistanceValue');
-  const busVoltageEl = document.getElementById('busVoltageValue');
-  const switchingCurrentEl = document.getElementById('switchingCurrentValue');
+  const loadInductanceEl = document.getElementById('loadInductance');
+  const gateResistanceEl = document.getElementById('gateResistance');
+  const busVoltageEl = document.getElementById('busVoltage');
+  const switchingCurrentEl = document.getElementById('switchingCurrent');
   
   const loadInductance = loadInductanceEl ? parseFloat(loadInductanceEl.value) || 100 : 100; // μH
   const gateResistance = gateResistanceEl ? parseFloat(gateResistanceEl.value) || 10 : 10; // Ω
