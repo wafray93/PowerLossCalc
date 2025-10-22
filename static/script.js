@@ -1599,61 +1599,71 @@ const TRANSISTOR_DB = {
         name: "IMW65R027M1H (SiC MOSFET)",
         vds_max: 650, id_max: 90, rds_mohm: 27, tr_ns: 12, tf_ns: 18,
         alpha: 0.0016, package: "TO-247", manufacturer: "Infineon",
-        application: "Server PSU, telecom"
+        application: "Server PSU, telecom",
+        qg_nc: 63, qgs_nc: 22, qgd_nc: 25, ciss: 3200, coss: 210, crss: 5.6
       },
       "SCT2450KE": {
         name: "SCT2450KE (SiC MOSFET)",
         vds_max: 650, id_max: 45, rds_mohm: 45, tr_ns: 18, tf_ns: 12,
         alpha: 0.0018, package: "TO-247", manufacturer: "Rohm",
-        application: "AC servo drives"
+        application: "AC servo drives",
+        qg_nc: 46, qgs_nc: 17, qgd_nc: 18, ciss: 1820, coss: 135, crss: 3.2
       },
       "IMW120R045M1H": {
         name: "IMW120R045M1H (SiC MOSFET)",
         vds_max: 1200, id_max: 45, rds_mohm: 45, tr_ns: 22, tf_ns: 18,
         alpha: 0.0020, package: "TO-247", manufacturer: "Infineon",
-        application: "Traction inverters"
+        application: "Traction inverters",
+        qg_nc: 65, qgs_nc: 22, qgd_nc: 26, ciss: 3300, coss: 215, crss: 5.7
       },
       "SCT2160KE": {
         name: "SCT2160KE (SiC MOSFET)",
         vds_max: 650, id_max: 25, rds_mohm: 160, tr_ns: 15, tf_ns: 22,
         alpha: 0.0025, package: "TO-220", manufacturer: "Rohm",
-        application: "SMPS applications"
+        application: "SMPS applications",
+        qg_nc: 28, qgs_nc: 11, qgd_nc: 12, ciss: 1100, coss: 75, crss: 1.8
       },
       "C3M0032120K": {
         name: "C3M0032120K (SiC MOSFET)",
         vds_max: 1200, id_max: 63, rds_mohm: 32, tr_ns: 10, tf_ns: 14,
         alpha: 0.0015, package: "TO-247-4", manufacturer: "Wolfspeed",
-        application: "EV fast chargers, solar inverters"
+        application: "EV fast chargers, solar inverters",
+        qg_nc: 72, qgs_nc: 24, qgd_nc: 30, ciss: 3600, coss: 240, crss: 6.2
       },
       "C3M0016120K": {
         name: "C3M0016120K (SiC MOSFET)",
         vds_max: 1200, id_max: 115, rds_mohm: 16, tr_ns: 9, tf_ns: 15,
         alpha: 0.0014, package: "TO-247-4", manufacturer: "Wolfspeed",
-        application: "Industrial power supplies, UPS"
+        application: "Industrial power supplies, UPS",
+        qg_nc: 125, qgs_nc: 42, qgd_nc: 55, ciss: 6500, coss: 420, crss: 11.2
       },
       "C3M0021120K": {
         name: "C3M0021120K (SiC MOSFET)",
         vds_max: 1200, id_max: 100, rds_mohm: 21, tr_ns: 11, tf_ns: 16,
         alpha: 0.0016, package: "TO-247-4", manufacturer: "Wolfspeed",
-        application: "Renewable energy systems"
+        application: "Renewable energy systems",
+        qg_nc: 108, qgs_nc: 36, qgd_nc: 48, ciss: 5600, coss: 365, crss: 9.8
       },
       "C3M0040120K": {
         name: "C3M0040120K (SiC MOSFET)",
         vds_max: 1200, id_max: 58, rds_mohm: 40, tr_ns: 12, tf_ns: 18,
         alpha: 0.0017, package: "TO-247-4", manufacturer: "Wolfspeed",
-        application: "Motor drives, traction"
+        application: "Motor drives, traction",
+        qg_nc: 66, qgs_nc: 22, qgd_nc: 27, ciss: 3350, coss: 218, crss: 5.6
       },
       "C3M0060065K": {
         name: "C3M0060065K (SiC MOSFET)",
         vds_max: 650, id_max: 37, rds_mohm: 60, tr_ns: 8, tf_ns: 12,
         alpha: 0.0015, package: "TO-247-4", manufacturer: "Wolfspeed",
-        application: "Server PSU, telecom"
+        application: "Server PSU, telecom",
+        qg_nc: 29, qgs_nc: 12, qgd_nc: 13, ciss: 1450, coss: 105, crss: 2.2
       },
       "C3M0015065K": {
         name: "C3M0015065K (SiC MOSFET)",
         vds_max: 650, id_max: 107, rds_mohm: 15, tr_ns: 10, tf_ns: 15,
         alpha: 0.0013, package: "TO-247-4", manufacturer: "Wolfspeed",
-        application: "EV onboard chargers"
+        application: "EV onboard chargers",
+        qg_nc: 118, qgs_nc: 40, qgd_nc: 52, ciss: 6200, coss: 400, crss: 10.5
       },
       "C3M0025065K": {
         name: "C3M0025065K (SiC MOSFET)",
