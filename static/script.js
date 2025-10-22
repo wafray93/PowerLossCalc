@@ -512,13 +512,16 @@ function animateCounter(element, targetValue) {
   const increment = targetValue / steps;
   const stepDuration = duration / steps;
   
+  // Dynamic formatting - determine number of digits needed
+  const numDigits = Math.max(4, targetValue.toString().length);
+  
   const interval = setInterval(() => {
     currentValue += increment;
     if (currentValue >= targetValue) {
       currentValue = targetValue;
       clearInterval(interval);
     }
-    element.textContent = Math.floor(currentValue).toString().padStart(4, '0');
+    element.textContent = Math.floor(currentValue).toString().padStart(numDigits, '0');
   }, stepDuration);
 }
 
@@ -9275,9 +9278,23 @@ function displayRecommendedDrivers(compatibleDrivers, iSourceNeeded, iSinkNeeded
   // Take top 6 recommendations
   const topDrivers = compatibleDrivers.slice(0, 6);
   
+  // Get transistor parameters for individual calculations
+  const tr_ns = selectedTransistor?.tr_ns || 20;
+  const tf_ns = selectedTransistor?.tf_ns || 20;
+  const transistorTech = selectedTransistor?.name.includes('SiC') ? 'SiC' : 
+                         selectedTransistor?.name.includes('GaN') ? 'GaN' : 'Si';
+  
   container.innerHTML = topDrivers.map((item, index) => {
     const driver = item.driver;
     const rankEmoji = index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : '⭐';
+    
+    // Calculate individual requirements based on THIS driver's Qg_drive
+    // Using formula: I_source = (Qg * Vgs) / tr
+    const driverQg_nC = driver.qg_drive || 100;
+    const vGate = driver.vgs_out || (transistorTech === 'GaN' ? 6 : 15);
+    
+    const thisDriverISourceNeeded = (driverQg_nC * vGate) / tr_ns;
+    const thisDriverISinkNeeded = (driverQg_nC * vGate) / tf_ns;
     
     return `
       <div class="driver-card" onclick="selectRecommendedDriver('${driver.name}')">
@@ -9287,9 +9304,9 @@ function displayRecommendedDrivers(compatibleDrivers, iSourceNeeded, iSinkNeeded
         </div>
         <div class="driver-card-body">
           <p><strong>Производител:</strong> ${driver.manufacturer}</p>
-          <p><strong>I<sub>source</sub>:</strong> ${driver.i_source_max}A (needed: ${iSourceNeeded.toFixed(2)}A)</p>
-          <p><strong>I<sub>sink</sub>:</strong> ${driver.i_sink_max}A (needed: ${iSinkNeeded.toFixed(2)}A)</p>
-          <p><strong>t<sub>delay</sub>:</strong> ${driver.t_delay}ns</p>
+          <p><strong>I<sub>source</sub>:</strong> ${driver.i_source_max}A (needed: ${thisDriverISourceNeeded.toFixed(2)}A)</p>
+          <p><strong>I<sub>sink</sub>:</strong> ${driver.i_sink_max}A (needed: ${thisDriverISinkNeeded.toFixed(2)}A)</p>
+          <p><strong>Qg drive:</strong> ${driverQg_nC}nC | <strong>t<sub>delay</sub>:</strong> ${driver.t_delay}ns</p>
           <p><strong>Характеристики:</strong> ${driver.features}</p>
           <p class="compatibility-score">✅ Съвместимост: ${item.score.toFixed(0)}/100</p>
         </div>
