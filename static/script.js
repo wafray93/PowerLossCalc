@@ -2200,7 +2200,8 @@ const TRANSISTOR_DB = {
       name: "TPH3212PS (GaN HEMT)",
       vds_max: 650, id_max: 18, rds_mohm: 35, tr_ns: 5.2, tf_ns: 7.8,
       alpha: 0.0025, package: "PQFN", manufacturer: "Transphorm",
-      application: "PFC, LLC конвертори"
+      application: "PFC, LLC конвертори",
+      qg_nc: 5.8, qgs_nc: 3.5, qgd_nc: 1.7, ciss: 580, coss: 150, crss: 0.72
     },
     "IGN04N65F5": {
       name: "IGN04N65F5 (GaN HEMT)",
@@ -2487,32 +2488,37 @@ const TRANSISTOR_DB = {
       name: "EPC2001C (GaN HEMT)",
       vds_max: 100, id_max: 13, rds_mohm: 14, tr_ns: 1.4, tf_ns: 3.5,
       alpha: 0.004, package: "LGA", manufacturer: "EPC",
-      application: "DC-DC POL, високочестотни конвертори"
+      application: "DC-DC POL, високочестотни конвертори",
+      qg_nc: 5.2, qgs_nc: 3.1, qgd_nc: 1.5, ciss: 520, coss: 135, crss: 0.62
     },
     "EPC2010C": {
       name: "EPC2010C (GaN HEMT)",
       vds_max: 200, id_max: 12, rds_mohm: 35, tr_ns: 2.1, tf_ns: 1.9,
       alpha: 0.0035, package: "LGA", manufacturer: "EPC",
-      application: "48V системи, телекомуникации"
+      application: "48V системи, телекомуникации",
+      qg_nc: 3.8, qgs_nc: 2.3, qgd_nc: 1.1, ciss: 380, coss: 98, crss: 0.47
     },
     "GS61008T": {
       name: "GS61008T (GaN HEMT)",
       vds_max: 100, id_max: 90, rds_mohm: 8, tr_ns: 3.2, tf_ns: 2.1,
       alpha: 0.003, package: "GaN PX", manufacturer: "GaN Systems",
-      application: "Синхронни конвертори, зарядни"
+      application: "Синхронни конвертори, зарядни",
+      qg_nc: 9.8, qgs_nc: 6.0, qgd_nc: 2.9, ciss: 980, coss: 253, crss: 1.22
     },
     "EPC2007C": {
       name: "EPC2007C (GaN HEMT)",
       vds_max: 100, id_max: 18, rds_mohm: 16, tr_ns: 2.6, tf_ns: 1.4,
       alpha: 0.0032, package: "LGA", manufacturer: "EPC",
-      application: "48V Bus converters"
+      application: "48V Bus converters",
+      qg_nc: 4.5, qgs_nc: 2.7, qgd_nc: 1.3, ciss: 450, coss: 116, crss: 0.55
     },
     // Още GaN HEMTs
     "EPC2036": {
       name: "EPC2036 (GaN HEMT)",
       vds_max: 100, id_max: 16, rds_mohm: 25, tr_ns: 1.9, tf_ns: 1.2,
       alpha: 0.0035, package: "LGA", manufacturer: "EPC",
-      application: "Envelope tracking, wireless charging"
+      application: "Envelope tracking, wireless charging",
+      qg_nc: 3.2, qgs_nc: 1.9, qgd_nc: 0.9, ciss: 320, coss: 83, crss: 0.40
     },
     "GS66516T": {
       name: "GS66516T (GaN HEMT)",
@@ -2597,7 +2603,8 @@ const TRANSISTOR_DB = {
       name: "TPH3212PS (GaN HEMT)",
       vds_max: 650, id_max: 18, rds_mohm: 35, tr_ns: 5.2, tf_ns: 7.8,
       alpha: 0.0025, package: "PQFN", manufacturer: "Transphorm",
-      application: "PFC, LLC конвертори"
+      application: "PFC, LLC конвертори",
+      qg_nc: 5.8, qgs_nc: 3.5, qgd_nc: 1.7, ciss: 580, coss: 150, crss: 0.72
     },
     "IGN04N65F5": {
       name: "IGN04N65F5 (GaN HEMT)",
@@ -2666,31 +2673,36 @@ const TRANSISTOR_DB = {
       name: "TPH3002PS (GaN HEMT)",
       vds_max: 650, id_max: 8.5, rds_mohm: 90, tr_ns: 8.5, tf_ns: 4.2,
       alpha: 0.0030, package: "PQFN", manufacturer: "Transphorm",
-      application: "Малки мощности AC-DC"
+      application: "Малки мощности AC-DC",
+      qg_nc: 3.2, qgs_nc: 1.9, qgd_nc: 0.93, ciss: 320, coss: 83, crss: 0.40
     },
     "EPC2218": {
       name: "EPC2218 (GaN HEMT)",
       vds_max: 600, id_max: 9, rds_mohm: 110, tr_ns: 4.1, tf_ns: 2.5,
       alpha: 0.0035, package: "LGA", manufacturer: "EPC",
-      application: "Industrial power supplies"
+      application: "Industrial power supplies",
+      qg_nc: 3.5, qgs_nc: 2.1, qgd_nc: 1.0, ciss: 350, coss: 90, crss: 0.43
     },
     "GS66502B": {
       name: "GS66502B (GaN HEMT)",
       vds_max: 650, id_max: 3.5, rds_mohm: 150, tr_ns: 5.8, tf_ns: 2.1,
       alpha: 0.0032, package: "GaN PX", manufacturer: "GaN Systems",
-      application: "Compact chargers, LED drivers"
+      application: "Compact chargers, LED drivers",
+      qg_nc: 1.8, qgs_nc: 1.1, qgd_nc: 0.53, ciss: 180, coss: 46, crss: 0.22
     },
     "GAN063-650WSA": {
       name: "GAN063-650WSA (GaN FET)",
       vds_max: 650, id_max: 34.5, rds_mohm: 50, tr_ns: 8.0, tf_ns: 6.0,
       alpha: 0.0028, package: "TO-247", manufacturer: "Nexperia",
-      application: "Hard/soft switching converters, PFC, PV inverters"
+      application: "Hard/soft switching converters, PFC, PV inverters",
+      qg_nc: 14.5, qgs_nc: 8.9, qgd_nc: 4.3, ciss: 1450, coss: 374, crss: 1.81
     },
     "TP65H050G4WS": {
       name: "TP65H050G4WS (GaN FET)",
       vds_max: 650, id_max: 50, rds_mohm: 50, tr_ns: 5.5, tf_ns: 4.8,
       alpha: 0.0025, package: "TO-247", manufacturer: "Transphorm/Renesas",
-      application: "Power conversion 25W-10kW, EV chargers, industrial PSU"
+      application: "Power conversion 25W-10kW, EV chargers, industrial PSU",
+      qg_nc: 19.2, qgs_nc: 11.8, qgd_nc: 5.7, ciss: 1920, coss: 495, crss: 2.40
     }
   }
 };
