@@ -514,13 +514,15 @@ const TRANSISTOR_DB = {
         name: "IRF540N (Si MOSFET)",
         vds_max: 100, id_max: 33, rds_mohm: 44, tr_ns: 23, tf_ns: 17,
         alpha: 0.0065, package: "TO-220", manufacturer: "Infineon",
-        application: "Общо предназначение, DC-DC конвертори"
+        application: "Общо предназначение, DC-DC конвертори",
+        qg_nc: 72, qgs_nc: 23, qgd_nc: 28, ciss: 1800, coss: 390, crss: 150
       },
       "IRFZ44N": {
         name: "IRFZ44N (Si MOSFET)",
         vds_max: 55, id_max: 49, rds_mohm: 17.5, tr_ns: 23, tf_ns: 16,
         alpha: 0.0065, package: "TO-220", manufacturer: "Infineon",
-        application: "Ниско напрежение, високо ефективност"
+        application: "Ниско напрежение, високо ефективност",
+        qg_nc: 63, qgs_nc: 21, qgd_nc: 28, ciss: 1680, coss: 460, crss: 180
       },
       "STB80NF55": {
         name: "STB80NF55 (Si MOSFET)",
@@ -532,7 +534,8 @@ const TRANSISTOR_DB = {
         name: "IRF3205 (Si MOSFET)",
         vds_max: 55, id_max: 110, rds_mohm: 8, tr_ns: 12, tf_ns: 50,
         alpha: 0.0065, package: "TO-220", manufacturer: "Infineon",
-        application: "Високо ток приложения, синхронни rectifiers"
+        application: "Високо ток приложения, синхронни rectifiers",
+        qg_nc: 180, qgs_nc: 37, qgd_nc: 90, ciss: 3900, coss: 760, crss: 390
       },
       "IRLB4132": {
         name: "IRLB4132 (Si MOSFET)",
@@ -1497,7 +1500,8 @@ const TRANSISTOR_DB = {
         name: "C3M0065090D (SiC MOSFET)",
         vds_max: 900, id_max: 36, rds_mohm: 65, tr_ns: 12, tf_ns: 24,
         alpha: 0.002, package: "TO-247-4", manufacturer: "Wolfspeed",
-        application: "Електрически превозни средства"
+        application: "Електрически превозни средства",
+        qg_nc: 27, qgs_nc: 13, qgd_nc: 12, ciss: 1700, coss: 220, crss: 2.4
       },
       "UF3C065030K4S": {
         name: "UF3C065030K4S (SiC MOSFET)",
@@ -1523,7 +1527,8 @@ const TRANSISTOR_DB = {
         name: "SCT2080KE (SiC MOSFET)",
         vds_max: 1200, id_max: 37, rds_mohm: 80, tr_ns: 20, tf_ns: 16,
         alpha: 0.0022, package: "TO-247", manufacturer: "ROHM",
-        application: "Високотемпературни приложения"
+        application: "Високотемпературни приложения",
+        qg_nc: 57, qgs_nc: 19, qgd_nc: 20, ciss: 1800, coss: 130, crss: 3
       },
 
       // 1700V SiC MOSFETs
@@ -2023,7 +2028,8 @@ const TRANSISTOR_DB = {
       name: "GS66516T (GaN HEMT)",
       vds_max: 650, id_max: 60, rds_mohm: 25, tr_ns: 4.7, tf_ns: 8.8,
       alpha: 0.002, package: "GaN PX", manufacturer: "GaN Systems",
-      application: "Industrial motor drives, solar inverters"
+      application: "Industrial motor drives, solar inverters",
+      qg_nc: 7, qgs_nc: 4, qgd_nc: 2.3, ciss: 530, coss: 160, crss: 0.8
     },
     "EPC2218": {
       name: "EPC2218 (GaN HEMT)",
@@ -2163,7 +2169,8 @@ const TRANSISTOR_DB = {
       name: "EPC2045 (GaN HEMT)",
       vds_max: 150, id_max: 16, rds_mohm: 25, tr_ns: 1.8, tf_ns: 1.5,
       alpha: 0.0030, package: "LGA", manufacturer: "EPC",
-      application: "DC-DC converters"
+      application: "DC-DC converters",
+      qg_nc: 4.3, qgs_nc: 2.5, qgd_nc: 1.2, ciss: 430, coss: 110, crss: 0.5
     },
     "EPC2050": {
       name: "EPC2050 (GaN HEMT)",
@@ -2369,7 +2376,8 @@ const TRANSISTOR_DB = {
       name: "GS66516T (GaN HEMT)",
       vds_max: 650, id_max: 60, rds_mohm: 25, tr_ns: 4.7, tf_ns: 8.8,
       alpha: 0.002, package: "GaN PX", manufacturer: "GaN Systems",
-      application: "Industrial motor drives, solar inverters"
+      application: "Industrial motor drives, solar inverters",
+      qg_nc: 7, qgs_nc: 4, qgd_nc: 2.3, ciss: 530, coss: 160, crss: 0.8
     },
     "EPC2218": {
       name: "EPC2218 (GaN HEMT)",
@@ -9615,19 +9623,19 @@ function calculateDriverLosses() {
   const vddDriver = 15; // Typical gate driver supply voltage
   const fswDriver = workingParams.freq * 1000; // Convert kHz to Hz
   
-  // Estimate gate charge based on transistor technology and size
-  let qg_nC = selectedDriver.qg_drive || 100; // Default from driver spec
+  // Use REAL gate charge from transistor datasheet
+  let qg_nC = 100; // Default fallback
   
-  if (selectedTransistor) {
-    // Estimate Qg if not in transistor data
-    // Formula: Qg ≈ k × (Id_max / 10) × (VDS_max / 100)^0.5
-    // where k depends on technology
+  if (selectedTransistor && selectedTransistor.qg_nc) {
+    // Use real datasheet value
+    qg_nC = selectedTransistor.qg_nc;
+  } else if (selectedTransistor) {
+    // Estimate Qg if not in transistor data (for transistors without datasheet params yet)
     const tech = selectedTransistor.name.includes('GaN') ? 'GaN' :
                  selectedTransistor.name.includes('SiC') ? 'SiC' : 'Si';
     const k = tech === 'GaN' ? 20 : tech === 'SiC' ? 70 : 150;
-    
-    qg_nC = selectedTransistor.qg_nc || 
-            (k * (selectedTransistor.id_max / 10) * Math.sqrt(selectedTransistor.vds_max / 100));
+    qg_nC = k * (selectedTransistor.id_max / 10) * Math.sqrt(selectedTransistor.vds_max / 100);
+    console.warn(`Using estimated Qg for ${selectedTransistor.name}: ${qg_nC.toFixed(1)}nC (no datasheet value)`);
   }
   
   // Dynamic losses: P_dynamic = Qg * Vdd * fsw
