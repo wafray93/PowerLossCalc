@@ -4744,6 +4744,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Update selected transistor info on page load
   updateSelectedTransistorInfo();
+  
+  // Load saved working parameters for driver page
+  loadSavedWorkingParameters();
+  
+  // Update transistor card on driver page if applicable
+  updateTransistorCardOnDriverPage();
+  
   const lossChartElement = document.getElementById('lossChart');
   if (lossChartElement) {
     ctx = lossChartElement.getContext('2d');
@@ -9212,8 +9219,7 @@ function updateTransistorCardOnDriverPage() {
   if (!cardBody) return;
   
   if (!selectedTransistor) {
-    cardBody.innerHTML = `<p class="no-transistor-msg">${LANGUAGES[currentLang].noTransistorSelected || 'Няма избран транзистор. Изберете от калкулатора за автоматично препоръчване на драйвери.'}</p>`;
-    if (recommendBtn) recommendBtn.disabled = true;
+    cardBody.innerHTML = `<p class="no-transistor-msg">${LANGUAGES[currentLang].noTransistorSelected || 'Няма избран транзистор. Можете да анализирате драйверите без избран транзистор.'}</p>`;
     return;
   }
   
@@ -9231,61 +9237,204 @@ function updateTransistorCardOnDriverPage() {
       <p><strong>t<sub>r</sub>/t<sub>f</sub>:</strong> ${selectedTransistor.tr_ns}ns / ${selectedTransistor.tf_ns}ns</p>
     </div>
   `;
+}
+
+// ========================
+// WORKING PARAMETERS MANAGEMENT
+// ========================
+
+// Get current working parameters from inputs
+function getWorkingParameters() {
+  return {
+    vdc: parseFloat(document.getElementById('workingVdc')?.value || 400),
+    current: parseFloat(document.getElementById('workingCurrent')?.value || 30),
+    freq: parseFloat(document.getElementById('workingFreq')?.value || 100),
+    temp: parseFloat(document.getElementById('workingTemp')?.value || 75)
+  };
+}
+
+// Update working parameters (called when inputs change)
+function updateWorkingParameters() {
+  const params = getWorkingParameters();
+  localStorage.setItem('driverWorkingParams', JSON.stringify(params));
+  console.log('Working parameters updated:', params);
+}
+
+// Load parameters from calculator page
+function loadFromCalculator() {
+  try {
+    const calcParams = localStorage.getItem('calculatorParams');
+    if (calcParams) {
+      const params = JSON.parse(calcParams);
+      if (document.getElementById('workingVdc')) document.getElementById('workingVdc').value = params.vdc || 400;
+      if (document.getElementById('workingCurrent')) document.getElementById('workingCurrent').value = params.current || 30;
+      if (document.getElementById('workingFreq')) document.getElementById('workingFreq').value = (params.freq / 1000) || 100;
+      if (document.getElementById('workingTemp')) document.getElementById('workingTemp').value = params.temp || 75;
+      updateWorkingParameters();
+      alert('✅ Параметрите са заредени от калкулатора!');
+    } else {
+      alert('⚠️ Няма запазени параметри от калкулатора. Първо направете изчисление в Calculator страницата.');
+    }
+  } catch (e) {
+    console.error('Error loading from calculator:', e);
+    alert('❌ Грешка при зареждане на параметрите.');
+  }
+}
+
+// Save current parameters as default
+function saveAsDefault() {
+  updateWorkingParameters();
+  alert('💾 Параметрите са запазени като подразбиране!');
+}
+
+// Load saved parameters on page load
+function loadSavedWorkingParameters() {
+  try {
+    const saved = localStorage.getItem('driverWorkingParams');
+    if (saved) {
+      const params = JSON.parse(saved);
+      if (document.getElementById('workingVdc')) document.getElementById('workingVdc').value = params.vdc || 400;
+      if (document.getElementById('workingCurrent')) document.getElementById('workingCurrent').value = params.current || 30;
+      if (document.getElementById('workingFreq')) document.getElementById('workingFreq').value = params.freq || 100;
+      if (document.getElementById('workingTemp')) document.getElementById('workingTemp').value = params.temp || 75;
+    }
+  } catch (e) {
+    console.warn('Could not load saved parameters:', e);
+  }
+}
+
+// ========================
+// DRIVER SUITABILITY EVALUATION
+// ========================
+
+// Evaluate if a driver is suitable for given conditions
+// Returns: { status: 'suitable'|'borderline'|'unsuitable', reasons: [], score: number }
+function evaluateDriverSuitability(driver, transistor, workingParams) {
+  const reasons = [];
+  let score = 100;
   
-  if (recommendBtn) recommendBtn.disabled = false;
+  // If no transistor selected, can't fully evaluate
+  if (!transistor) {
+    return {
+      status: 'unknown',
+      reasons: ['Няма избран транзистор за пълна оценка'],
+      score: 50,
+      badge: '❓',
+      badgeClass: 'badge-unknown'
+    };
+  }
+  
+  const transistorTech = transistor.name.includes('SiC') ? 'SiC' : 
+                         transistor.name.includes('GaN') ? 'GaN' : 'Si';
+  
+  const tr_ns = transistor.tr_ns || 20;
+  const tf_ns = transistor.tf_ns || 20;
+  const vGate = driver.vgs_out || (transistorTech === 'GaN' ? 6 : 15);
+  const driverQg_nC = driver.qg_drive || 100;
+  
+  // Calculate required currents
+  const iSourceNeeded = (driverQg_nC * vGate) / tr_ns;
+  const iSinkNeeded = (driverQg_nC * vGate) / tf_ns;
+  
+  // Check 1: Can it provide enough current? (with 20% safety margin)
+  const sourceMargin = driver.i_source_max / iSourceNeeded;
+  const sinkMargin = driver.i_sink_max / iSinkNeeded;
+  
+  if (sourceMargin >= 1.2 && sinkMargin >= 1.2) {
+    reasons.push(`✅ Достатъчен ток (${driver.i_source_max.toFixed(1)}A source, ${driver.i_sink_max.toFixed(1)}A sink)`);
+    score += 20;
+  } else if (sourceMargin >= 1.0 && sinkMargin >= 1.0) {
+    reasons.push(`⚠️ Граничен ток (нужни ${iSourceNeeded.toFixed(1)}A source, ${iSinkNeeded.toFixed(1)}A sink)`);
+    score -= 10;
+  } else {
+    reasons.push(`❌ Недостатъчен ток (нужни ${iSourceNeeded.toFixed(1)}A source, ${iSinkNeeded.toFixed(1)}A sink)`);
+    score -= 50;
+  }
+  
+  // Check 2: Frequency suitability
+  const maxRecommendedFreq = transistorTech === 'GaN' ? 500 : transistorTech === 'SiC' ? 200 : 100;
+  if (workingParams.freq <= maxRecommendedFreq) {
+    reasons.push(`✅ Подходяща честота (${workingParams.freq} kHz)`);
+    score += 10;
+  } else {
+    reasons.push(`⚠️ Висока честота за ${transistorTech} (${workingParams.freq} kHz)`);
+    score -= 15;
+  }
+  
+  // Check 3: Speed (delay time)
+  if (driver.t_delay < 20) {
+    reasons.push(`✅ Бърз драйвер (${driver.t_delay}ns delay)`);
+    score += 10;
+  } else if (driver.t_delay < 40) {
+    reasons.push(`⚠️ Средна скорост (${driver.t_delay}ns delay)`);
+  } else {
+    reasons.push(`⚠️ Бавен драйвер (${driver.t_delay}ns delay)`);
+    score -= 10;
+  }
+  
+  // Determine status
+  let status, badge, badgeClass;
+  if (score >= 90 && sourceMargin >= 1.2 && sinkMargin >= 1.2) {
+    status = 'suitable';
+    badge = '✅';
+    badgeClass = 'badge-suitable';
+  } else if (score >= 60 && sourceMargin >= 1.0 && sinkMargin >= 1.0) {
+    status = 'borderline';
+    badge = '⚠️';
+    badgeClass = 'badge-borderline';
+  } else {
+    status = 'unsuitable';
+    badge = '❌';
+    badgeClass = 'badge-unsuitable';
+  }
+  
+  return { status, reasons, score, badge, badgeClass, iSourceNeeded, iSinkNeeded };
 }
 
 // Intelligent driver recommendation based on selected transistor
 function recommendDriver() {
-  if (!selectedTransistor) {
-    alert(LANGUAGES[currentLang].noTransistorSelected || 'Моля, изберете транзистор от калкулатора.');
-    return;
+  // Get working parameters
+  const workingParams = getWorkingParameters();
+  
+  // Determine transistor technology (or allow "all" if no transistor)
+  let transistorTech = 'all';
+  if (selectedTransistor) {
+    transistorTech = selectedTransistor.name.includes('SiC') ? 'SiC' : 
+                     selectedTransistor.name.includes('GaN') ? 'GaN' : 'Si';
   }
   
-  // Determine transistor technology
-  const transistorTech = selectedTransistor.name.includes('SiC') ? 'SiC' : 
-                         selectedTransistor.name.includes('GaN') ? 'GaN' : 'Si';
+  // Get the selected technology filter from dropdown
+  const techFilter = document.getElementById('driverTechSelect')?.value || transistorTech;
   
-  // Estimate gate charge (Qg) - using typical values based on technology and size
-  // For real implementation, this should come from transistor database
-  const estimatedQg_nC = transistorTech === 'GaN' ? 5 : 
-                         transistorTech === 'SiC' ? 50 : 100;
+  // Collect ALL drivers and evaluate them
+  const allDriversEvaluated = [];
   
-  // Desired gate voltage
-  const vGate = transistorTech === 'GaN' ? 6 : 15;
+  // Determine which technology databases to search
+  const techToSearch = techFilter === 'all' ? ['Si', 'SiC', 'GaN'] : [techFilter];
   
-  // Calculate required source/sink current
-  // I_source_needed >= (Qg * Vgate) / tr
-  const tr_ns = selectedTransistor.tr_ns || 20;
-  const tf_ns = selectedTransistor.tf_ns || 20;
-  
-  const iSourceNeeded = (estimatedQg_nC * vGate) / tr_ns; // in Amperes
-  const iSinkNeeded = (estimatedQg_nC * vGate) / tf_ns;
-  
-  // Filter compatible drivers
-  const compatibleDrivers = [];
-  
-  if (DRIVER_DB[transistorTech]) {
-    Object.values(DRIVER_DB[transistorTech]).forEach(driver => {
-      // Check if driver can provide required current
-      const meetsSourceCurrent = driver.i_source_max >= iSourceNeeded;
-      const meetsSinkCurrent = driver.i_sink_max >= iSinkNeeded;
-      const meetsVoltage = driver.vgs_out >= vGate * 0.8; // Allow 20% margin
-      
-      if (meetsSourceCurrent && meetsSinkCurrent && meetsVoltage) {
-        compatibleDrivers.push({
+  techToSearch.forEach(tech => {
+    if (DRIVER_DB[tech]) {
+      Object.values(DRIVER_DB[tech]).forEach(driver => {
+        const evaluation = evaluateDriverSuitability(driver, selectedTransistor, workingParams);
+        allDriversEvaluated.push({
           driver: driver,
-          score: calculateDriverScore(driver, iSourceNeeded, iSinkNeeded, tr_ns, tf_ns)
+          evaluation: evaluation,
+          technology: tech
         });
-      }
-    });
-  }
+      });
+    }
+  });
   
-  // Sort by score (best first)
-  compatibleDrivers.sort((a, b) => b.score - a.score);
+  // Sort by status priority: suitable > borderline > unsuitable > unknown
+  const statusPriority = { 'suitable': 1, 'borderline': 2, 'unsuitable': 3, 'unknown': 4 };
+  allDriversEvaluated.sort((a, b) => {
+    const priorityDiff = statusPriority[a.evaluation.status] - statusPriority[b.evaluation.status];
+    if (priorityDiff !== 0) return priorityDiff;
+    return b.evaluation.score - a.evaluation.score; // Within same status, sort by score
+  });
   
-  // Display recommended drivers
-  displayRecommendedDrivers(compatibleDrivers, iSourceNeeded, iSinkNeeded);
+  // Display results
+  displayRecommendedDrivers(allDriversEvaluated, workingParams);
 }
 
 // Calculate driver compatibility score
@@ -9312,60 +9461,97 @@ function calculateDriverScore(driver, iSourceNeeded, iSinkNeeded, tr_ns, tf_ns) 
   return Math.max(0, score);
 }
 
-// Display recommended drivers
-function displayRecommendedDrivers(compatibleDrivers, iSourceNeeded, iSinkNeeded) {
+// Display recommended drivers with new visual system
+function displayRecommendedDrivers(evaluatedDrivers, workingParams) {
   const section = document.getElementById('recommendedSection');
   const container = document.getElementById('recommendedDrivers');
   
   if (!section || !container) return;
   
-  if (compatibleDrivers.length === 0) {
-    container.innerHTML = `<p class="no-results">${LANGUAGES[currentLang].noRecommendations || 'Няма намерени препоръчани драйвери за избрания транзистор.'}</p>`;
+  if (evaluatedDrivers.length === 0) {
+    container.innerHTML = `<p class="no-results">Няма намерени драйвери.</p>`;
     section.style.display = 'block';
     return;
   }
   
-  // Take top 6 recommendations
-  const topDrivers = compatibleDrivers.slice(0, 6);
+  // Count by status
+  const suitable = evaluatedDrivers.filter(d => d.evaluation.status === 'suitable');
+  const borderline = evaluatedDrivers.filter(d => d.evaluation.status === 'borderline');
+  const unsuitable = evaluatedDrivers.filter(d => d.evaluation.status === 'unsuitable');
+  const unknown = evaluatedDrivers.filter(d => d.evaluation.status === 'unknown');
   
-  // Get transistor parameters for individual calculations
-  const tr_ns = selectedTransistor?.tr_ns || 20;
-  const tf_ns = selectedTransistor?.tf_ns || 20;
-  const transistorTech = selectedTransistor?.name.includes('SiC') ? 'SiC' : 
-                         selectedTransistor?.name.includes('GaN') ? 'GaN' : 'Si';
+  // Show summary
+  let summaryHTML = '<div class="driver-summary">';
+  summaryHTML += `<h3>📊 Резултати от анализа</h3>`;
+  summaryHTML += `<div class="summary-stats">`;
+  if (suitable.length > 0) summaryHTML += `<span class="stat-badge badge-suitable">✅ ${suitable.length} подходящи</span>`;
+  if (borderline.length > 0) summaryHTML += `<span class="stat-badge badge-borderline">⚠️ ${borderline.length} гранични</span>`;
+  if (unsuitable.length > 0) summaryHTML += `<span class="stat-badge badge-unsuitable">❌ ${unsuitable.length} неподходящи</span>`;
+  if (unknown.length > 0) summaryHTML += `<span class="stat-badge badge-unknown">❓ ${unknown.length} без оценка</span>`;
+  summaryHTML += `</div></div>`;
   
-  container.innerHTML = topDrivers.map((item, index) => {
+  // Show top 12 drivers (suitable first, then borderline, hide unsuitable unless few results)
+  const displayLimit = suitable.length + borderline.length >= 6 ? 12 : 18;
+  const driversToShow = evaluatedDrivers.slice(0, displayLimit);
+  
+  const driversHTML = driversToShow.map((item, index) => {
     const driver = item.driver;
-    const rankEmoji = index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : '⭐';
+    const eval = item.evaluation;
+    const rankEmoji = index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : '';
     
-    // Calculate individual requirements based on THIS driver's Qg_drive
-    // Using formula: I_source = (Qg * Vgs) / tr
-    const driverQg_nC = driver.qg_drive || 100;
-    const vGate = driver.vgs_out || (transistorTech === 'GaN' ? 6 : 15);
-    
-    const thisDriverISourceNeeded = (driverQg_nC * vGate) / tr_ns;
-    const thisDriverISinkNeeded = (driverQg_nC * vGate) / tf_ns;
+    // Calculate losses preview
+    const fsw_Hz = workingParams.freq * 1000;
+    const vdd = 15; // Typical
+    const pDynamic = (driver.qg_drive * 1e-9) * vdd * fsw_Hz;
+    const pStatic = (driver.iq * 1e-3) * vdd;
+    const pDriver = pDynamic + pStatic;
     
     return `
-      <div class="driver-card" onclick="selectRecommendedDriver('${driver.name}')">
+      <div class="driver-card ${eval.badgeClass}" onclick="selectRecommendedDriver('${driver.name}')">
         <div class="driver-card-header">
-          <span class="rank-badge">${rankEmoji} #${index + 1}</span>
+          ${rankEmoji ? `<span class="rank-badge">${rankEmoji}</span>` : ''}
+          <span class="status-badge ${eval.badgeClass}">${eval.badge} ${eval.status.toUpperCase()}</span>
           <h4>${driver.name}</h4>
+          <p class="manufacturer">${driver.manufacturer}</p>
         </div>
         <div class="driver-card-body">
-          <p><strong>Производител:</strong> ${driver.manufacturer}</p>
-          <p><strong>I<sub>source</sub>:</strong> ${driver.i_source_max}A (needed: ${thisDriverISourceNeeded.toFixed(2)}A)</p>
-          <p><strong>I<sub>sink</sub>:</strong> ${driver.i_sink_max}A (needed: ${thisDriverISinkNeeded.toFixed(2)}A)</p>
-          <p><strong>Qg drive:</strong> ${driverQg_nC}nC | <strong>t<sub>delay</sub>:</strong> ${driver.t_delay}ns</p>
-          <p><strong>Характеристики:</strong> ${driver.features}</p>
-          <p class="compatibility-score">✅ Съвместимост: ${item.score.toFixed(0)}/100</p>
+          <div class="driver-stats">
+            <div class="stat-item">
+              <span class="stat-label">I<sub>source/sink</sub></span>
+              <span class="stat-value">${driver.i_source_max}A / ${driver.i_sink_max}A</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">Delay</span>
+              <span class="stat-value">${driver.t_delay}ns</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">Загуби драйвер</span>
+              <span class="stat-value">${pDriver.toFixed(2)}W</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-label">Iq</span>
+              <span class="stat-value">${driver.iq}mA</span>
+            </div>
+          </div>
+          <div class="evaluation-reasons">
+            ${eval.reasons.map(r => `<p class="reason">${r}</p>`).join('')}
+          </div>
+          <div class="driver-features">
+            <small><strong>Характеристики:</strong> ${driver.features}</small>
+          </div>
         </div>
-        <button class="select-driver-btn">Избери този драйвер</button>
+        <button class="select-driver-btn" onclick="event.stopPropagation(); selectRecommendedDriver('${driver.name}')">
+          📌 Избери драйвер
+        </button>
       </div>
     `;
   }).join('');
   
+  container.innerHTML = summaryHTML + driversHTML;
   section.style.display = 'block';
+  
+  // Scroll to results
+  section.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 // Select recommended driver
@@ -9425,12 +9611,13 @@ function calculateCombinedLosses() {
   // Get driver losses
   const pDriverTotal = parseFloat(document.getElementById('driverTotalLosses').textContent);
   
-  // Calculate transistor losses (use parameters from calculator or defaults)
-  const vdc = 400;
-  const iLoad = 30;
-  const fsw = parseFloat(document.getElementById('fswDriver')?.value || 100) * 1000;
-  const temp = 25;
-  const duty = 0.5;
+  // Get REAL working parameters from inputs
+  const workingParams = getWorkingParameters();
+  const vdc = workingParams.vdc;
+  const iLoad = workingParams.current;
+  const fsw = workingParams.freq * 1000; // Convert kHz to Hz
+  const temp = workingParams.temp;
+  const duty = 0.5; // Can be added as input later if needed
   
   // Conduction losses
   const rdsOn = selectedTransistor.rds_mohm * (1 + selectedTransistor.alpha * (temp - 25)) / 1000;
