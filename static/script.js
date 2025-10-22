@@ -1950,13 +1950,15 @@ const TRANSISTOR_DB = {
       name: "C2M0160120D (SiC MOSFET)",
       vds_max: 1200, id_max: 19, rds_mohm: 160, tr_ns: 18, tf_ns: 35,
       alpha: 0.002, package: "TO-247-3", manufacturer: "Wolfspeed",
-      application: "PFC, LLC резонансни конвертори"
+      application: "PFC, LLC резонансни конвертори",
+      qg_nc: 35, qgs_nc: 13, qgd_nc: 14, ciss: 1300, coss: 85, crss: 2.1
     },
     "SCT3030AL": {
       name: "SCT3030AL (SiC MOSFET)",
       vds_max: 650, id_max: 45, rds_mohm: 30, tr_ns: 18, tf_ns: 12,
       alpha: 0.0025, package: "TO-247-4", manufacturer: "ROHM",
-      application: "Бързо превключване, висока ефективност"
+      application: "Бързо превключване, висока ефективност",
+      qg_nc: 44, qgs_nc: 17, qgd_nc: 18, ciss: 1750, coss: 140, crss: 3.1
     },
     "C3M0065090D": {
       name: "C3M0065090D (SiC MOSFET)",
@@ -1969,7 +1971,8 @@ const TRANSISTOR_DB = {
       name: "UF3C065030K4S (SiC MOSFET)",
       vds_max: 650, id_max: 60, rds_mohm: 30, tr_ns: 10, tf_ns: 8,
       alpha: 0.0018, package: "TO-247-4", manufacturer: "UnitedSiC",
-      application: "Бързи DC-DC конвертори"
+      application: "Бързи DC-DC конвертори",
+      qg_nc: 32, qgs_nc: 14, qgd_nc: 13, ciss: 1620, coss: 118, crss: 2.5
     },
 
     // 1200V SiC MOSFETs
@@ -1977,13 +1980,15 @@ const TRANSISTOR_DB = {
       name: "C2M0080120D (SiC MOSFET)",
       vds_max: 1200, id_max: 36, rds_mohm: 80, tr_ns: 13, tf_ns: 24,
       alpha: 0.002, package: "TO-247-3", manufacturer: "Wolfspeed",
-      application: "Соларни инвертори, три-фазни мотори"
+      application: "Соларни инвертори, три-фазни мотори",
+      qg_nc: 52, qgs_nc: 18, qgd_nc: 22, ciss: 2150, coss: 145, crss: 4.2
     },
     "AIMW120R060M1": {
       name: "AIMW120R060M1 (SiC MOSFET)",
       vds_max: 1200, id_max: 31, rds_mohm: 60, tr_ns: 15, tf_ns: 20,
       alpha: 0.002, package: "TO-247-4", manufacturer: "Infineon",
-      application: "Индустриални драйвери, UPS"
+      application: "Индустриални драйвери, UPS",
+      qg_nc: 48, qgs_nc: 17, qgd_nc: 19, ciss: 1950, coss: 135, crss: 3.4
     },
     "SCT2080KE": {
       name: "SCT2080KE (SiC MOSFET)",
@@ -1998,68 +2003,79 @@ const TRANSISTOR_DB = {
       name: "C2M0025170D (SiC MOSFET)",
       vds_max: 1700, id_max: 60, rds_mohm: 25, tr_ns: 25, tf_ns: 45,
       alpha: 0.0015, package: "TO-247-4", manufacturer: "Wolfspeed",
-      application: "Високоволтови преобразуватели"
+      application: "Високоволтови преобразуватели",
+      qg_nc: 88, qgs_nc: 30, qgd_nc: 38, ciss: 4600, coss: 285, crss: 7.8
     },
     // Нови SiC MOSFETs
     "C2M0040120D": {
       name: "C2M0040120D (SiC MOSFET)",
       vds_max: 1200, id_max: 60, rds_mohm: 40, tr_ns: 18, tf_ns: 23,
       alpha: 0.0018, package: "TO-247", manufacturer: "Wolfspeed",
-      application: "Industrial motor drives"
+      application: "Industrial motor drives",
+      qg_nc: 68, qgs_nc: 23, qgd_nc: 28, ciss: 3400, coss: 220, crss: 5.8
     },
     "C2M0025120D": {
       name: "C2M0025120D (SiC MOSFET)",
       vds_max: 1200, id_max: 90, rds_mohm: 25, tr_ns: 20, tf_ns: 26,
       alpha: 0.0015, package: "TO-247", manufacturer: "Wolfspeed",
-      application: "EV charging, grid tie inverters"
+      application: "EV charging, grid tie inverters",
+      qg_nc: 95, qgs_nc: 32, qgd_nc: 42, ciss: 4900, coss: 310, crss: 8.5
     },
     "SCT3120AL": {
       name: "SCT3120AL (SiC MOSFET)",
       vds_max: 1200, id_max: 35, rds_mohm: 120, tr_ns: 22, tf_ns: 28,
       alpha: 0.0025, package: "TO-247", manufacturer: "Rohm",
-      application: "Power supplies"
+      application: "Power supplies",
+      qg_nc: 42, qgs_nc: 16, qgd_nc: 17, ciss: 1650, coss: 115, crss: 2.9
     },
     "SCT3080KL": {
       name: "SCT3080KL (SiC MOSFET)",
       vds_max: 1200, id_max: 52, rds_mohm: 80, tr_ns: 25, tf_ns: 20,
       alpha: 0.0022, package: "TO-247", manufacturer: "Rohm",
-      application: "Motor drives"
+      application: "Motor drives",
+      qg_nc: 58, qgs_nc: 20, qgd_nc: 21, ciss: 2100, coss: 145, crss: 3.5
     },
     "STW88N65M5": {
       name: "STW88N65M5 (SiC MOSFET)",
       vds_max: 650, id_max: 80, rds_mohm: 65, tr_ns: 28, tf_ns: 15,
       alpha: 0.0020, package: "H2PAK", manufacturer: "STMicroelectronics",
-      application: "Automotive OBC"
+      application: "Automotive OBC",
+      qg_nc: 55, qgs_nc: 19, qgd_nc: 20, ciss: 2200, coss: 160, crss: 3.8
     },
     "UF3C120040K4S": {
       name: "UF3C120040K4S (SiC MOSFET)",
       vds_max: 1200, id_max: 72, rds_mohm: 40, tr_ns: 19, tf_ns: 22,
       alpha: 0.0018, package: "TO-247", manufacturer: "UnitedSiC",
-      application: "High efficiency power conversion"
+      application: "High efficiency power conversion",
+      qg_nc: 61, qgs_nc: 21, qgd_nc: 24, ciss: 3100, coss: 195, crss: 5.2
     },
     "IMW65R027M1H": {
       name: "IMW65R027M1H (SiC MOSFET)",
       vds_max: 650, id_max: 90, rds_mohm: 27, tr_ns: 12, tf_ns: 18,
       alpha: 0.0016, package: "TO-247", manufacturer: "Infineon",
-      application: "Server PSU, telecom"
+      application: "Server PSU, telecom",
+      qg_nc: 63, qgs_nc: 22, qgd_nc: 25, ciss: 3200, coss: 210, crss: 5.6
     },
     "SCT2450KE": {
       name: "SCT2450KE (SiC MOSFET)",
       vds_max: 650, id_max: 45, rds_mohm: 45, tr_ns: 18, tf_ns: 12,
       alpha: 0.0018, package: "TO-247", manufacturer: "Rohm",
-      application: "AC servo drives"
+      application: "AC servo drives",
+      qg_nc: 46, qgs_nc: 17, qgd_nc: 18, ciss: 1820, coss: 135, crss: 3.2
     },
     "IMW120R045M1H": {
       name: "IMW120R045M1H (SiC MOSFET)",
       vds_max: 1200, id_max: 45, rds_mohm: 45, tr_ns: 22, tf_ns: 18,
       alpha: 0.0020, package: "TO-247", manufacturer: "Infineon",
-      application: "Traction inverters"
+      application: "Traction inverters",
+      qg_nc: 65, qgs_nc: 22, qgd_nc: 26, ciss: 3300, coss: 215, crss: 5.7
     },
     "SCT2160KE": {
       name: "SCT2160KE (SiC MOSFET)",
       vds_max: 650, id_max: 25, rds_mohm: 160, tr_ns: 15, tf_ns: 22,
       alpha: 0.0025, package: "TO-220", manufacturer: "Rohm",
-      application: "SMPS applications"
+      application: "SMPS applications",
+      qg_nc: 28, qgs_nc: 11, qgd_nc: 12, ciss: 1100, coss: 75, crss: 1.8
     }
   },
 
