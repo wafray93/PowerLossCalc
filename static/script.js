@@ -9497,32 +9497,59 @@ function displayRecommendedDrivers(evaluatedDrivers, workingParams) {
     return;
   }
   
-  // Show only TOP 3 suitable drivers
+  // Always show TOP 3-5 drivers (even if unsuitable)
   const suitable = evaluatedDrivers.filter(d => d.evaluation.status === 'suitable');
   const borderline = evaluatedDrivers.filter(d => d.evaluation.status === 'borderline');
+  const unsuitable = evaluatedDrivers.filter(d => d.evaluation.status === 'unsuitable');
   
-  // If less than 3 suitable, add borderline to reach 3-5 total
-  const topDrivers = suitable.slice(0, 3);
+  // Build top drivers list: prioritize suitable, then borderline, then unsuitable
+  const topDrivers = [];
+  
+  // Add suitable (up to 3)
+  topDrivers.push(...suitable.slice(0, 3));
+  
+  // If less than 3, add borderline
   if (topDrivers.length < 3) {
-    topDrivers.push(...borderline.slice(0, 5 - topDrivers.length));
+    topDrivers.push(...borderline.slice(0, 3 - topDrivers.length));
   }
   
+  // If still less than 3, add unsuitable (better than nothing!)
+  if (topDrivers.length < 3) {
+    topDrivers.push(...unsuitable.slice(0, 3 - topDrivers.length));
+  }
+  
+  // If somehow STILL no drivers (shouldn't happen), show error
   if (topDrivers.length === 0) {
     container.innerHTML = `
       <div class="no-suitable-drivers">
-        <h3>⚠️ Няма подходящи драйвери</h3>
-        <p>За избрания транзистор и параметри не са намерени подходящи драйвери.</p>
-        <p>Опитайте с други параметри в Calculator.</p>
+        <h3>⚠️ Грешка в базата данни</h3>
+        <p>Не са намерени драйвери. Моля, свържете се с администратора.</p>
       </div>
     `;
     section.style.display = 'block';
     return;
   }
   
-  // Show simple header
-  let html = '<div class="simple-header">';
+  // Add warning if no suitable drivers found
+  const hasNoSuitable = suitable.length === 0;
+  const hasNoBorderline = borderline.length === 0;
+  
+  // Show simple header with warning if needed
+  let html = '<div class="simple-header';
+  if (hasNoSuitable && hasNoBorderline) {
+    html += ' warning-header';
+  }
+  html += '">';
   html += `<h3>🎯 Препоръчани драйвери за вас</h3>`;
   html += `<p class="params-used">Използвани параметри: ${workingParams.vdc}V, ${workingParams.current}A, ${workingParams.freq}kHz, ${workingParams.temp}°C</p>`;
+  
+  // Add warning if no ideal drivers
+  if (hasNoSuitable && hasNoBorderline) {
+    html += `<p class="warning-msg">⚠️ Няма идеални драйвери за тези параметри. Показани са най-близките алтернативи.</p>`;
+  } else if (hasNoSuitable) {
+    html += `<p class="info-msg-yellow">⚠️ Няма напълно подходящи драйвери. Показани са гранични варианти.</p>`;
+  }
+  
   html += `</div>`;
   
   // Show simple cards
@@ -9588,8 +9615,20 @@ function calculateDriverLosses() {
   const vddDriver = 15; // Typical gate driver supply voltage
   const fswDriver = workingParams.freq * 1000; // Convert kHz to Hz
   
-  // Use actual gate charge from selected transistor if available
-  const qg_nC = selectedTransistor ? selectedTransistor.qg_nc : (selectedDriver.qg_drive || 100);
+  // Estimate gate charge based on transistor technology and size
+  let qg_nC = selectedDriver.qg_drive || 100; // Default from driver spec
+  
+  if (selectedTransistor) {
+    // Estimate Qg if not in transistor data
+    // Formula: Qg ≈ k × (Id_max / 10) × (VDS_max / 100)^0.5
+    // where k depends on technology
+    const tech = selectedTransistor.name.includes('GaN') ? 'GaN' :
+                 selectedTransistor.name.includes('SiC') ? 'SiC' : 'Si';
+    const k = tech === 'GaN' ? 20 : tech === 'SiC' ? 70 : 150;
+    
+    qg_nC = selectedTransistor.qg_nc || 
+            (k * (selectedTransistor.id_max / 10) * Math.sqrt(selectedTransistor.vds_max / 100));
+  }
   
   // Dynamic losses: P_dynamic = Qg * Vdd * fsw
   const pDynamic = (qg_nC * 1e-9) * vddDriver * fswDriver; // Watts
