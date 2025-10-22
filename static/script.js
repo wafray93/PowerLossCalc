@@ -486,13 +486,20 @@ function initVisitorCounter() {
   const counterElement = document.getElementById('visitorCount');
   if (!counterElement) return;
   
-  // Get or initialize visitor count - increment on EVERY page load
-  let visitorCount = parseInt(localStorage.getItem('siteVisitorCount') || '0');
-  visitorCount++; // Increment on every visit
-  localStorage.setItem('siteVisitorCount', visitorCount.toString());
+  // Check if this session already counted (use sessionStorage - clears on browser close)
+  const sessionCounted = sessionStorage.getItem('visitorCountedThisSession');
   
-  // Display the count directly without animation to avoid showing 0
-  // Optimistic formatting - minimum 7 digits for future high traffic!
+  // Get current visitor count
+  let visitorCount = parseInt(localStorage.getItem('siteVisitorCount') || '0');
+  
+  // Increment ONLY if this is a new session (not counted yet)
+  if (!sessionCounted) {
+    visitorCount++; // Increment once per session
+    localStorage.setItem('siteVisitorCount', visitorCount.toString());
+    sessionStorage.setItem('visitorCountedThisSession', 'true'); // Mark session as counted
+  }
+  
+  // Display the count - minimum 7 digits for scalability
   const numDigits = Math.max(7, visitorCount.toString().length);
   counterElement.textContent = visitorCount.toString().padStart(numDigits, '0');
 }
@@ -9576,11 +9583,13 @@ function calculateDriverLosses() {
     return;
   }
   
-  const vddDriver = parseFloat(document.getElementById('vddDriver')?.value || 15);
-  const fswDriver = parseFloat(document.getElementById('fswDriver')?.value || 100) * 1000; // Convert to Hz
+  // Get REAL working parameters from Calculator (localStorage)
+  const workingParams = getWorkingParameters();
+  const vddDriver = 15; // Typical gate driver supply voltage
+  const fswDriver = workingParams.freq * 1000; // Convert kHz to Hz
   
-  // Estimate gate charge based on driver capability
-  const qg_nC = selectedDriver.qg_drive || 100;
+  // Use actual gate charge from selected transistor if available
+  const qg_nC = selectedTransistor ? selectedTransistor.qg_nc : (selectedDriver.qg_drive || 100);
   
   // Dynamic losses: P_dynamic = Qg * Vdd * fsw
   const pDynamic = (qg_nC * 1e-9) * vddDriver * fswDriver; // Watts
