@@ -492,7 +492,8 @@ function initVisitorCounter() {
   localStorage.setItem('siteVisitorCount', visitorCount.toString());
   
   // Display the count directly without animation to avoid showing 0
-  const numDigits = Math.max(4, visitorCount.toString().length);
+  // Optimistic formatting - minimum 7 digits for future high traffic!
+  const numDigits = Math.max(7, visitorCount.toString().length);
   counterElement.textContent = visitorCount.toString().padStart(numDigits, '0');
 }
 
@@ -3793,10 +3794,10 @@ const DRIVER_DB = {
       t_rise: 12, t_fall: 10,
       t_delay: 22,
       iq: 3.5,
-      channels: "single",
+      channels: "dual",
       package: "PG-DSO-16",
-      features: "Galvanic isolation, Miller clamp, DESAT protection, soft turn-off",
-      application: "SiC MOSFET/IGBT high-power industrial drives",
+      features: "Dual isolated channels, galvanic isolation, Miller clamp, DESAT protection, soft turn-off",
+      application: "SiC MOSFET/IGBT high-power industrial drives, half-bridge",
       vgs_out: 20,
       qg_drive: 250
     }
