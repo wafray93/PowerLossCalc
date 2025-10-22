@@ -201,7 +201,27 @@ const LANGUAGES = {
 
     // Transistor selection improvements
     clearSelection: 'Изчисти избора',
-    dataSourceTitle: 'Източник на формули и данни'
+    dataSourceTitle: 'Източник на формули и данни',
+    
+    // Driver page translations
+    driversPageTitle: 'Драйвери за Si/SiC/GaN транзистори',
+    driversPageDescription: 'Интелигентно препоръчване на драйвери според избран транзистор и изчисление на комбинирани загуби.',
+    driverSelection: 'Избор на драйвер',
+    driverModel: 'Модел драйвер',
+    driverInfo: 'Информация за драйвера',
+    recommendDriver: '🤖 Препоръчай драйвер',
+    calculateDriver: 'Изчисли загуби на драйвера',
+    calculateCombined: 'Изчисли комбинирани загуби',
+    recommendedDrivers: 'Препоръчани драйвери',
+    noRecommendations: 'Няма намерени препоръчани драйвери за избрания транзистор.',
+    driverRequirements: 'Изисквания към драйвера',
+    compatibility: 'Съвместимост',
+    selectDriverFirst: 'Моля, изберете драйвер за изчисления.',
+    driverDynamicLosses: 'Загуби драйвер (динамични)',
+    driverStaticLosses: 'Загуби драйвер (статични)',
+    driverTotalLosses: 'Общо драйвер',
+    combinedTotalLosses: 'Комбинирани загуби',
+    combinedEfficiency: 'Комбинирана ефективност'
   },
   en: {
     mainTitle: 'Calculator: Si / SiC / GaN Transistors',
@@ -392,7 +412,27 @@ const LANGUAGES = {
 
     // Transistor selection improvements
     clearSelection: 'Clear Selection',
-    dataSourceTitle: 'Source of Formulas and Data'
+    dataSourceTitle: 'Source of Formulas and Data',
+    
+    // Driver page translations
+    driversPageTitle: 'Gate Drivers for Si/SiC/GaN Transistors',
+    driversPageDescription: 'Intelligent driver recommendation based on selected transistor and combined loss calculations.',
+    driverSelection: 'Driver Selection',
+    driverModel: 'Driver Model',
+    driverInfo: 'Driver Information',
+    recommendDriver: '🤖 Recommend Driver',
+    calculateDriver: 'Calculate Driver Losses',
+    calculateCombined: 'Calculate Combined Losses',
+    recommendedDrivers: 'Recommended Drivers',
+    noRecommendations: 'No recommended drivers found for selected transistor.',
+    driverRequirements: 'Driver Requirements',
+    compatibility: 'Compatibility',
+    selectDriverFirst: 'Please select a driver for calculations.',
+    driverDynamicLosses: 'Driver Losses (dynamic)',
+    driverStaticLosses: 'Driver Losses (static)',
+    driverTotalLosses: 'Total Driver',
+    combinedTotalLosses: 'Combined Losses',
+    combinedEfficiency: 'Combined Efficiency'
   }
 };
 
@@ -7286,4 +7326,539 @@ document.addEventListener('DOMContentLoaded', function() {
     // Initial check
     toggleClearButton();
   }
+  
+  // Initialize driver page if on drivers page
+  initializeDriversPage();
 });
+
+// ========================
+// DRIVER PAGE FUNCTIONS
+// ========================
+
+let selectedDriver = null;
+let combinedLossChart = null;
+let efficiencyFreqChart = null;
+
+// Initialize drivers page
+function initializeDriversPage() {
+  const driverSelect = document.getElementById('driverSelect');
+  if (!driverSelect) return; // Not on drivers page
+  
+  // Populate driver list based on selected technology
+  filterDrivers();
+  
+  // Update selected transistor card
+  updateTransistorCardOnDriverPage();
+  
+  // Enable recommend button if transistor is selected
+  const recommendBtn = document.getElementById('recommendBtn');
+  if (recommendBtn && selectedTransistor) {
+    recommendBtn.disabled = false;
+  }
+}
+
+// Filter drivers based on selected technology
+function filterDrivers() {
+  const techSelect = document.getElementById('driverTechSelect');
+  const driverList = document.getElementById('driverList');
+  
+  if (!techSelect || !driverList) return;
+  
+  const selectedTech = techSelect.value;
+  driverList.innerHTML = '';
+  
+  // Get all drivers or filter by technology
+  let drivers = [];
+  if (selectedTech === 'all') {
+    // All technologies
+    Object.keys(DRIVER_DB).forEach(tech => {
+      Object.values(DRIVER_DB[tech]).forEach(driver => {
+        drivers.push(driver);
+      });
+    });
+  } else {
+    // Specific technology
+    if (DRIVER_DB[selectedTech]) {
+      drivers = Object.values(DRIVER_DB[selectedTech]);
+    }
+  }
+  
+  // Populate datalist
+  drivers.forEach(driver => {
+    const option = document.createElement('option');
+    option.value = driver.name;
+    option.textContent = `${driver.name} - ${driver.manufacturer}`;
+    driverList.appendChild(option);
+  });
+}
+
+// Update driver info display
+function updateDriverInfo() {
+  const driverSelect = document.getElementById('driverSelect');
+  if (!driverSelect) return;
+  
+  const driverName = driverSelect.value.trim();
+  if (!driverName) {
+    document.getElementById('driverInfo').style.display = 'none';
+    selectedDriver = null;
+    return;
+  }
+  
+  // Find driver in database
+  let foundDriver = null;
+  Object.keys(DRIVER_DB).forEach(tech => {
+    Object.values(DRIVER_DB[tech]).forEach(driver => {
+      if (driver.name === driverName) {
+        foundDriver = driver;
+      }
+    });
+  });
+  
+  if (!foundDriver) {
+    document.getElementById('driverInfo').style.display = 'none';
+    selectedDriver = null;
+    return;
+  }
+  
+  selectedDriver = foundDriver;
+  
+  // Display driver info
+  document.getElementById('driverModelName').textContent = foundDriver.name;
+  document.getElementById('driverManufacturer').textContent = foundDriver.manufacturer;
+  document.getElementById('driverTechnology').textContent = foundDriver.technology.join(', ');
+  document.getElementById('driverVddRange').textContent = `${foundDriver.vdd_min}V - ${foundDriver.vdd_max}V`;
+  document.getElementById('driverISource').textContent = `${foundDriver.i_source_max}A`;
+  document.getElementById('driverISink').textContent = `${foundDriver.i_sink_max}A`;
+  document.getElementById('driverTRise').textContent = `${foundDriver.t_rise}ns`;
+  document.getElementById('driverTFall').textContent = `${foundDriver.t_fall}ns`;
+  document.getElementById('driverTDelay').textContent = `${foundDriver.t_delay}ns`;
+  document.getElementById('driverIq').textContent = `${foundDriver.iq}mA`;
+  document.getElementById('driverChannels').textContent = foundDriver.channels;
+  document.getElementById('driverPackage').textContent = foundDriver.package;
+  document.getElementById('driverFeatures').textContent = foundDriver.features;
+  document.getElementById('driverApplication').textContent = foundDriver.application;
+  
+  document.getElementById('driverInfo').style.display = 'block';
+  document.getElementById('driverLossesSection').style.display = 'block';
+  document.getElementById('efficiencyVsFreqSection').style.display = 'block';
+}
+
+// Clear driver selection
+function clearDriverSelection() {
+  const driverSelect = document.getElementById('driverSelect');
+  if (driverSelect) {
+    driverSelect.value = '';
+    updateDriverInfo();
+  }
+}
+
+// Update transistor card on driver page
+function updateTransistorCardOnDriverPage() {
+  const cardBody = document.getElementById('transistorCardBody');
+  const recommendBtn = document.getElementById('recommendBtn');
+  
+  if (!cardBody) return;
+  
+  if (!selectedTransistor) {
+    cardBody.innerHTML = `<p class="no-transistor-msg">${LANGUAGES[currentLang].noTransistorSelected || 'Няма избран транзистор. Изберете от калкулатора за автоматично препоръчване на драйвери.'}</p>`;
+    if (recommendBtn) recommendBtn.disabled = true;
+    return;
+  }
+  
+  // Display transistor info
+  const tech = selectedTransistor.name.includes('SiC') ? 'SiC' : 
+               selectedTransistor.name.includes('GaN') ? 'GaN' : 'Si';
+  
+  cardBody.innerHTML = `
+    <div class="transistor-quick-info">
+      <p><strong>Модел:</strong> ${selectedTransistor.name}</p>
+      <p><strong>Технология:</strong> ${tech}</p>
+      <p><strong>V<sub>DS max</sub>:</strong> ${selectedTransistor.vds_max}V</p>
+      <p><strong>I<sub>D max</sub>:</strong> ${selectedTransistor.id_max}A</p>
+      <p><strong>R<sub>DS(on)</sub>:</strong> ${selectedTransistor.rds_mohm}mΩ</p>
+      <p><strong>t<sub>r</sub>/t<sub>f</sub>:</strong> ${selectedTransistor.tr_ns}ns / ${selectedTransistor.tf_ns}ns</p>
+    </div>
+  `;
+  
+  if (recommendBtn) recommendBtn.disabled = false;
+}
+
+// Intelligent driver recommendation based on selected transistor
+function recommendDriver() {
+  if (!selectedTransistor) {
+    alert(LANGUAGES[currentLang].noTransistorSelected || 'Моля, изберете транзистор от калкулатора.');
+    return;
+  }
+  
+  // Determine transistor technology
+  const transistorTech = selectedTransistor.name.includes('SiC') ? 'SiC' : 
+                         selectedTransistor.name.includes('GaN') ? 'GaN' : 'Si';
+  
+  // Estimate gate charge (Qg) - using typical values based on technology and size
+  // For real implementation, this should come from transistor database
+  const estimatedQg_nC = transistorTech === 'GaN' ? 5 : 
+                         transistorTech === 'SiC' ? 50 : 100;
+  
+  // Desired gate voltage
+  const vGate = transistorTech === 'GaN' ? 6 : 15;
+  
+  // Calculate required source/sink current
+  // I_source_needed >= (Qg * Vgate) / tr
+  const tr_ns = selectedTransistor.tr_ns || 20;
+  const tf_ns = selectedTransistor.tf_ns || 20;
+  
+  const iSourceNeeded = (estimatedQg_nC * vGate) / tr_ns; // in Amperes
+  const iSinkNeeded = (estimatedQg_nC * vGate) / tf_ns;
+  
+  // Filter compatible drivers
+  const compatibleDrivers = [];
+  
+  if (DRIVER_DB[transistorTech]) {
+    Object.values(DRIVER_DB[transistorTech]).forEach(driver => {
+      // Check if driver can provide required current
+      const meetsSourceCurrent = driver.i_source_max >= iSourceNeeded;
+      const meetsSinkCurrent = driver.i_sink_max >= iSinkNeeded;
+      const meetsVoltage = driver.vgs_out >= vGate * 0.8; // Allow 20% margin
+      
+      if (meetsSourceCurrent && meetsSinkCurrent && meetsVoltage) {
+        compatibleDrivers.push({
+          driver: driver,
+          score: calculateDriverScore(driver, iSourceNeeded, iSinkNeeded, tr_ns, tf_ns)
+        });
+      }
+    });
+  }
+  
+  // Sort by score (best first)
+  compatibleDrivers.sort((a, b) => b.score - a.score);
+  
+  // Display recommended drivers
+  displayRecommendedDrivers(compatibleDrivers, iSourceNeeded, iSinkNeeded);
+}
+
+// Calculate driver compatibility score
+function calculateDriverScore(driver, iSourceNeeded, iSinkNeeded, tr_ns, tf_ns) {
+  let score = 100;
+  
+  // Prefer drivers with current capability close to needed (not excessive)
+  const sourceDiff = Math.abs(driver.i_source_max - iSourceNeeded * 1.5);
+  const sinkDiff = Math.abs(driver.i_sink_max - iSinkNeeded * 1.5);
+  score -= (sourceDiff + sinkDiff) * 5;
+  
+  // Prefer faster drivers
+  score += (30 - driver.t_delay) * 2;
+  score += (20 - driver.t_rise) * 1.5;
+  score += (20 - driver.t_fall) * 1.5;
+  
+  // Prefer lower quiescent current
+  score -= driver.iq * 2;
+  
+  // Bonus for features
+  if (driver.features.includes('isolation')) score += 10;
+  if (driver.features.includes('Miller clamp')) score += 5;
+  
+  return Math.max(0, score);
+}
+
+// Display recommended drivers
+function displayRecommendedDrivers(compatibleDrivers, iSourceNeeded, iSinkNeeded) {
+  const section = document.getElementById('recommendedSection');
+  const container = document.getElementById('recommendedDrivers');
+  
+  if (!section || !container) return;
+  
+  if (compatibleDrivers.length === 0) {
+    container.innerHTML = `<p class="no-results">${LANGUAGES[currentLang].noRecommendations || 'Няма намерени препоръчани драйвери за избрания транзистор.'}</p>`;
+    section.style.display = 'block';
+    return;
+  }
+  
+  // Take top 6 recommendations
+  const topDrivers = compatibleDrivers.slice(0, 6);
+  
+  container.innerHTML = topDrivers.map((item, index) => {
+    const driver = item.driver;
+    const rankEmoji = index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : '⭐';
+    
+    return `
+      <div class="driver-card" onclick="selectRecommendedDriver('${driver.name}')">
+        <div class="driver-card-header">
+          <span class="rank-badge">${rankEmoji} #${index + 1}</span>
+          <h4>${driver.name}</h4>
+        </div>
+        <div class="driver-card-body">
+          <p><strong>Производител:</strong> ${driver.manufacturer}</p>
+          <p><strong>I<sub>source</sub>:</strong> ${driver.i_source_max}A (needed: ${iSourceNeeded.toFixed(2)}A)</p>
+          <p><strong>I<sub>sink</sub>:</strong> ${driver.i_sink_max}A (needed: ${iSinkNeeded.toFixed(2)}A)</p>
+          <p><strong>t<sub>delay</sub>:</strong> ${driver.t_delay}ns</p>
+          <p><strong>Характеристики:</strong> ${driver.features}</p>
+          <p class="compatibility-score">✅ Съвместимост: ${item.score.toFixed(0)}/100</p>
+        </div>
+        <button class="select-driver-btn">Избери този драйвер</button>
+      </div>
+    `;
+  }).join('');
+  
+  section.style.display = 'block';
+}
+
+// Select recommended driver
+function selectRecommendedDriver(driverName) {
+  const driverSelect = document.getElementById('driverSelect');
+  if (driverSelect) {
+    driverSelect.value = driverName;
+    updateDriverInfo();
+    
+    // Scroll to driver info
+    document.getElementById('driverInfo').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+}
+
+// Calculate driver losses
+function calculateDriverLosses() {
+  if (!selectedDriver) {
+    alert(LANGUAGES[currentLang].selectDriverFirst || 'Моля, изберете драйвер за изчисления.');
+    return;
+  }
+  
+  const vddDriver = parseFloat(document.getElementById('vddDriver')?.value || 15);
+  const fswDriver = parseFloat(document.getElementById('fswDriver')?.value || 100) * 1000; // Convert to Hz
+  
+  // Estimate gate charge based on driver capability
+  const qg_nC = selectedDriver.qg_drive || 100;
+  
+  // Dynamic losses: P_dynamic = Qg * Vdd * fsw
+  const pDynamic = (qg_nC * 1e-9) * vddDriver * fswDriver; // Watts
+  
+  // Static losses: P_static = Iq * Vdd
+  const pStatic = (selectedDriver.iq * 1e-3) * vddDriver; // Watts
+  
+  // Total driver losses
+  const pDriverTotal = pDynamic + pStatic;
+  
+  // Display results
+  document.getElementById('driverDynamicLosses').textContent = `${pDynamic.toFixed(3)} W`;
+  document.getElementById('driverStaticLosses').textContent = `${pStatic.toFixed(3)} W`;
+  document.getElementById('driverTotalLosses').textContent = `${pDriverTotal.toFixed(3)} W`;
+}
+
+// Calculate combined losses (driver + transistor)
+function calculateCombinedLosses() {
+  if (!selectedDriver) {
+    alert(LANGUAGES[currentLang].selectDriverFirst || 'Моля, изберете драйвер.');
+    return;
+  }
+  
+  if (!selectedTransistor) {
+    alert(LANGUAGES[currentLang].noTransistorSelected || 'Моля, изберете транзистор.');
+    return;
+  }
+  
+  calculateDriverLosses();
+  
+  // Get driver losses
+  const pDriverTotal = parseFloat(document.getElementById('driverTotalLosses').textContent);
+  
+  // Calculate transistor losses (use parameters from calculator or defaults)
+  const vdc = 400;
+  const iLoad = 30;
+  const fsw = parseFloat(document.getElementById('fswDriver')?.value || 100) * 1000;
+  const temp = 25;
+  const duty = 0.5;
+  
+  // Conduction losses
+  const rdsOn = selectedTransistor.rds_mohm * (1 + selectedTransistor.alpha * (temp - 25)) / 1000;
+  const pCond = Math.pow(iLoad, 2) * rdsOn * duty;
+  
+  // Switching losses
+  const tr = selectedTransistor.tr_ns * 1e-9;
+  const tf = selectedTransistor.tf_ns * 1e-9;
+  const pSw = 0.5 * vdc * iLoad * (tr + tf) * fsw * 2;
+  
+  const pTransistor = pCond + pSw;
+  
+  // Combined
+  const pCombined = pDriverTotal + pTransistor;
+  const pOut = vdc * iLoad * duty;
+  const efficiencyCombined = (pOut / (pOut + pCombined)) * 100;
+  
+  // Display results
+  document.getElementById('transistorLossesInDriver').textContent = `${pTransistor.toFixed(3)} W`;
+  document.getElementById('combinedTotalLosses').textContent = `${pCombined.toFixed(3)} W`;
+  document.getElementById('combinedEfficiency').textContent = `${efficiencyCombined.toFixed(2)}%`;
+  
+  document.getElementById('combinedResults').style.display = 'block';
+  
+  // Create pie chart
+  createCombinedLossChart(pDriverTotal, pCond, pSw);
+}
+
+// Create combined loss pie chart
+function createCombinedLossChart(pDriver, pCond, pSw) {
+  const canvas = document.getElementById('combinedLossChart');
+  if (!canvas) return;
+  
+  const ctx = canvas.getContext('2d');
+  
+  if (combinedLossChart) {
+    combinedLossChart.destroy();
+  }
+  
+  combinedLossChart = new Chart(ctx, {
+    type: 'pie',
+    data: {
+      labels: ['Драйвер', 'Проводими загуби', 'Превключващи загуби'],
+      datasets: [{
+        data: [pDriver, pCond, pSw],
+        backgroundColor: ['#3498db', '#e74c3c', '#f39c12'],
+        borderWidth: 2,
+        borderColor: '#fff'
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        title: {
+          display: true,
+          text: 'Разпределение на загубите (Драйвер + Транзистор)',
+          font: { size: 16 }
+        },
+        legend: {
+          position: 'bottom'
+        },
+        tooltip: {
+          callbacks: {
+            label: function(context) {
+              const label = context.label || '';
+              const value = context.parsed || 0;
+              const total = context.dataset.data.reduce((a, b) => a + b, 0);
+              const percentage = ((value / total) * 100).toFixed(1);
+              return `${label}: ${value.toFixed(3)}W (${percentage}%)`;
+            }
+          }
+        }
+      }
+    }
+  });
+}
+
+// Generate efficiency vs frequency chart
+function generateEfficiencyVsFrequency() {
+  if (!selectedDriver || !selectedTransistor) {
+    alert('Моля, изберете драйвер и транзистор.');
+    return;
+  }
+  
+  const freqMin = parseFloat(document.getElementById('freqMin')?.value || 10) * 1000;
+  const freqMax = parseFloat(document.getElementById('freqMax')?.value || 500) * 1000;
+  
+  const frequencies = [];
+  const efficiencies = [];
+  
+  // Generate frequency points
+  const numPoints = 50;
+  for (let i = 0; i < numPoints; i++) {
+    const freq = freqMin + (freqMax - freqMin) * i / (numPoints - 1);
+    frequencies.push(freq / 1000); // Convert to kHz for display
+    
+    // Calculate efficiency at this frequency
+    const vdc = 400;
+    const iLoad = 30;
+    const duty = 0.5;
+    const temp = 25;
+    
+    // Driver losses
+    const qg_nC = selectedDriver.qg_drive || 100;
+    const vddDriver = 15;
+    const pDriverDynamic = (qg_nC * 1e-9) * vddDriver * freq;
+    const pDriverStatic = (selectedDriver.iq * 1e-3) * vddDriver;
+    const pDriver = pDriverDynamic + pDriverStatic;
+    
+    // Transistor losses
+    const rdsOn = selectedTransistor.rds_mohm * (1 + selectedTransistor.alpha * (temp - 25)) / 1000;
+    const pCond = Math.pow(iLoad, 2) * rdsOn * duty;
+    
+    const tr = selectedTransistor.tr_ns * 1e-9;
+    const tf = selectedTransistor.tf_ns * 1e-9;
+    const pSw = 0.5 * vdc * iLoad * (tr + tf) * freq * 2;
+    
+    const pTotal = pDriver + pCond + pSw;
+    const pOut = vdc * iLoad * duty;
+    const efficiency = (pOut / (pOut + pTotal)) * 100;
+    
+    efficiencies.push(efficiency);
+  }
+  
+  // Create line chart
+  const canvas = document.getElementById('efficiencyFreqChart');
+  if (!canvas) return;
+  
+  const ctx = canvas.getContext('2d');
+  
+  if (efficiencyFreqChart) {
+    efficiencyFreqChart.destroy();
+  }
+  
+  efficiencyFreqChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: frequencies,
+      datasets: [{
+        label: `${selectedTransistor.name} + ${selectedDriver.name}`,
+        data: efficiencies,
+        borderColor: '#2ecc71',
+        backgroundColor: 'rgba(46, 204, 113, 0.1)',
+        borderWidth: 3,
+        fill: true,
+        tension: 0.4
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        title: {
+          display: true,
+          text: 'Комбинирана ефективност спрямо честота',
+          font: { size: 16 }
+        },
+        legend: {
+          display: true,
+          position: 'top'
+        }
+      },
+      scales: {
+        x: {
+          title: {
+            display: true,
+            text: 'Честота (kHz)'
+          }
+        },
+        y: {
+          title: {
+            display: true,
+            text: 'Ефективност (%)'
+          },
+          min: 80,
+          max: 100
+        }
+      }
+    }
+  });
+}
+
+// Copy combined chart to clipboard
+function copyCombinedChart() {
+  const canvas = document.getElementById('combinedLossChart');
+  if (!canvas) return;
+  
+  canvas.toBlob(blob => {
+    navigator.clipboard.write([
+      new ClipboardItem({ 'image/png': blob })
+    ]).then(() => {
+      showTemporaryMessage('✅ Графиката е копирана!', 'success');
+    }).catch(err => {
+      console.error('Failed to copy chart:', err);
+      showTemporaryMessage('❌ Грешка при копиране', 'error');
+    });
+  });
+}

@@ -85,6 +85,14 @@
                         <div class="nav-tooltip">База данни с транзистори и спецификации</div>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a href="{{ url_for('drivers') }}" class="nav-link {% if request.endpoint == 'drivers' %}active{% endif %}"
+                       data-tooltip="Драйвери за Si/SiC/GaN с интелигентно препоръчване" role="menuitem">
+                        <span class="nav-icon">🔌</span>
+                        <span class="nav-text">Драйвери</span>
+                        <div class="nav-tooltip">Драйвери за Si/SiC/GaN с интелигентно препоръчване</div>
+                    </a>
+                </li>
             </ul>
         </div>
 
