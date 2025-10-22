@@ -152,6 +152,89 @@
       <tr><td><strong>Комбинирана ефективност</strong></td><td id="combinedEfficiency">—</td></tr>
     </table>
     
+    <!-- Educational Explanation Section - НАУЧНИ ФОРМУЛИ -->
+    <div id="driverFormulaExplanation" style="margin-top: 20px; padding: 20px; background: #f8f9fa; border-left: 4px solid #3498db; border-radius: 5px;">
+      <h4 style="color: #2c3e50; margin-top: 0;">📚 Как се изчисляват загубите? (Образователно обяснение)</h4>
+      
+      <div style="margin-bottom: 15px;">
+        <strong style="color: #e74c3c;">1️⃣ Gate Driving Power (Мощност за зареждане на gate):</strong>
+        <div style="background: white; padding: 10px; margin: 5px 0; border-radius: 3px; font-family: 'Courier New', monospace;">
+          P<sub>gate</sub> = Q<sub>g</sub> × V<sub>gs</sub> × f<sub>sw</sub> × 2
+        </div>
+        <p style="margin: 5px 0; color: #555;">
+          <strong>Обяснение:</strong> Енергията за зареждане на gate capacitance е E = Q×V. 
+          При всеки цикъл драйверът зарежда (charging) и разрежда (discharging) gate-а, затова × 2.
+          Мощност = Енергия × Честота.
+        </p>
+      </div>
+      
+      <div style="margin-bottom: 15px;">
+        <strong style="color: #f39c12;">2️⃣ Gate Charging Time (Време за зареждане):</strong>
+        <div style="background: white; padding: 10px; margin: 5px 0; border-radius: 3px; font-family: 'Courier New', monospace;">
+          t<sub>charge</sub> = Q<sub>g</sub> / I<sub>source</sub>
+          <br>
+          t<sub>discharge</sub> = Q<sub>g</sub> / I<sub>sink</sub>
+        </div>
+        <p style="margin: 5px 0; color: #555;">
+          <strong>Обяснение:</strong> Времето за зареждане зависи от тока който драйверът може да доставя (I = Q / t).
+          <span style="color: #27ae60; font-weight: bold;">По-силен драйвер (по-голям I<sub>source</sub>) → по-бързо зареждане → по-малки switching загуби!</span>
+        </p>
+      </div>
+      
+      <div style="margin-bottom: 15px;">
+        <strong style="color: #9b59b6;">3️⃣ Switching Overlap Losses (Загуби от overlap при превключване):</strong>
+        <div style="background: white; padding: 10px; margin: 5px 0; border-radius: 3px; font-family: 'Courier New', monospace;">
+          P<sub>overlap</sub> = 0.5 × V<sub>dc</sub> × I<sub>load</sub> × (t<sub>charge</sub> + t<sub>discharge</sub> + t<sub>rise</sub> + t<sub>fall</sub>) × f<sub>sw</sub>
+        </div>
+        <p style="margin: 5px 0; color: #555;">
+          <strong>Обяснение:</strong> По време на превключване има момент когато и напрежението и токът са ненулеви → instantaneous power dissipation.
+          <span style="color: #e74c3c; font-weight: bold;">По-бавен драйвер → по-дълги switching времена → повече overlap загуби!</span>
+          Различните драйвери имат различни t<sub>rise</sub>, t<sub>fall</sub> и I<sub>source</sub>/I<sub>sink</sub> → различни загуби.
+        </p>
+      </div>
+      
+      <div style="margin-bottom: 15px;">
+        <strong style="color: #16a085;">4️⃣ Static Losses (Статични загуби - Quiescent Current):</strong>
+        <div style="background: white; padding: 10px; margin: 5px 0; border-radius: 3px; font-family: 'Courier New', monospace;">
+          P<sub>static</sub> = I<sub>q</sub> × V<sub>dd</sub>
+        </div>
+        <p style="margin: 5px 0; color: #555;">
+          <strong>Обяснение:</strong> Драйверът консумира ток (I<sub>q</sub>) дори когато не превключва.
+          По-ефективен драйвер има по-малък quiescent current.
+        </p>
+      </div>
+      
+      <div style="background: #fff3cd; padding: 15px; border-radius: 5px; border: 1px solid #ffc107;">
+        <strong style="color: #856404;">💡 Защо различните драйвери дават различни резултати?</strong>
+        <ul style="margin: 10px 0; padding-left: 20px; color: #555;">
+          <li><strong>По-силен драйвер</strong> (по-голям I<sub>source</sub>/I<sub>sink</sub>) → по-бързо зареждане → <span style="color: #27ae60;">по-малки switching загуби</span></li>
+          <li><strong>По-бърз драйвер</strong> (по-малки t<sub>rise</sub>/t<sub>fall</sub>) → по-къс overlap → <span style="color: #27ae60;">по-малки загуби</span></li>
+          <li><strong>По-ефективен драйвер</strong> (по-малък I<sub>q</sub>) → <span style="color: #27ae60;">по-малки статични загуби</span></li>
+        </ul>
+      </div>
+      
+      <div id="detailedCalculations" style="margin-top: 15px; padding: 15px; background: #e8f4f8; border-radius: 5px; display: none;">
+        <strong style="color: #2980b9;">🔬 Подробни изчисления за текущия драйвер:</strong>
+        <table style="width: 100%; margin-top: 10px; font-size: 14px;">
+          <tr><td>Q<sub>g</sub> (транзистор):</td><td id="calc_qg">—</td></tr>
+          <tr><td>V<sub>gs</sub> (драйвер output):</td><td id="calc_vgs">—</td></tr>
+          <tr><td>I<sub>source</sub> (драйвер):</td><td id="calc_isource">—</td></tr>
+          <tr><td>I<sub>sink</sub> (драйвер):</td><td id="calc_isink">—</td></tr>
+          <tr><td>t<sub>charge</sub> (изчислен):</td><td id="calc_tcharge">—</td></tr>
+          <tr><td>t<sub>discharge</sub> (изчислен):</td><td id="calc_tdischarge">—</td></tr>
+          <tr><td>t<sub>rise</sub> (драйвер):</td><td id="calc_trise">—</td></tr>
+          <tr><td>t<sub>fall</sub> (драйвер):</td><td id="calc_tfall">—</td></tr>
+          <tr style="border-top: 2px solid #3498db;"><td><strong>P<sub>gate driving</sub>:</strong></td><td id="calc_pgate"><strong>—</strong></td></tr>
+          <tr><td><strong>P<sub>switching overlap</sub>:</strong></td><td id="calc_poverlap"><strong>—</strong></td></tr>
+        </table>
+        <button onclick="document.getElementById('detailedCalculations').style.display='none'" style="margin-top: 10px; padding: 5px 15px; background: #95a5a6; color: white; border: none; border-radius: 3px; cursor: pointer;">Скрий</button>
+      </div>
+      
+      <button onclick="document.getElementById('detailedCalculations').style.display='block'" style="margin-top: 10px; padding: 8px 20px; background: #3498db; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">
+        🔍 Покажи подробни изчисления
+      </button>
+    </div>
+    
     <canvas id="combinedLossChart"></canvas>
     <button id="copyCombinedChart" class="copy-chart-btn" onclick="copyCombinedChart()">📋 Копирай графика</button>
   </div>

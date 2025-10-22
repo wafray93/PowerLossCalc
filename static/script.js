@@ -572,7 +572,8 @@ const TRANSISTOR_DB = {
         name: "IPW60R070C6 (Si MOSFET)",
         vds_max: 600, id_max: 39, rds_mohm: 70, tr_ns: 38, tf_ns: 25,
         alpha: 0.0070, package: "TO-247", manufacturer: "Infineon",
-        application: "PFC, hard switching"
+        application: "PFC, hard switching",
+        qg_nc: 170, qgs_nc: 48, qgd_nc: 72, ciss: 3800, coss: 520, crss: 200
       },
       "FCP190N60E": {
         name: "FCP190N60E (Si MOSFET)",
@@ -629,7 +630,8 @@ const TRANSISTOR_DB = {
         name: "IRFP260N (Si MOSFET)",
         vds_max: 200, id_max: 50, rds_mohm: 40, tr_ns: 43, tf_ns: 35,
         alpha: 0.0065, package: "TO-247", manufacturer: "Infineon",
-        application: "Audio amplifiers, motor control"
+        application: "Audio amplifiers, motor control",
+        qg_nc: 210, qgs_nc: 67, qgd_nc: 82, ciss: 5100, coss: 1100, crss: 440
       },
       "STF13NM60N": {
         name: "STF13NM60N (Si MOSFET)",
@@ -647,43 +649,50 @@ const TRANSISTOR_DB = {
         name: "IRF740 (Si MOSFET)",
         vds_max: 400, id_max: 10, rds_mohm: 480, tr_ns: 50, tf_ns: 85,
         alpha: 0.0070, package: "TO-220", manufacturer: "Infineon",
-        application: "Medium power switching"
+        application: "Medium power switching",
+        qg_nc: 63, qgs_nc: 11, qgd_nc: 32, ciss: 1400, coss: 330, crss: 80
       },
       "BUZ11": {
         name: "BUZ11 (Si MOSFET)",
         vds_max: 50, id_max: 30, rds_mohm: 40, tr_ns: 15, tf_ns: 25,
         alpha: 0.0065, package: "TO-220", manufacturer: "STMicroelectronics",
-        application: "Audio, linear regulators"
+        application: "Audio, linear regulators",
+        qg_nc: 50, qgs_nc: 15, qgd_nc: 20, ciss: 1500, coss: 600, crss: 150
       },
       "IRF9540N": {
         name: "IRF9540N (Si P-MOSFET)",
         vds_max: 100, id_max: 23, rds_mohm: 117, tr_ns: 95, tf_ns: 50,
         alpha: 0.0070, package: "TO-220", manufacturer: "Infineon",
-        application: "P-channel applications"
+        application: "P-channel applications",
+        qg_nc: 110, qgs_nc: 20, qgd_nc: 57, ciss: 1300, coss: 400, crss: 240
       },
       "IRLB3034PBF": {
         name: "IRLB3034PBF (Si MOSFET)",
         vds_max: 40, id_max: 195, rds_mohm: 1.7, tr_ns: 46, tf_ns: 12,
         alpha: 0.0055, package: "TO-220AB", manufacturer: "Infineon",
-        application: "DC-DC converters, motor control"
+        application: "DC-DC converters, motor control",
+        qg_nc: 108, qgs_nc: 29, qgd_nc: 54, ciss: 10315, coss: 1980, crss: 935
       },
       "IRFZ46N": {
         name: "IRFZ46N (Si MOSFET)",
         vds_max: 55, id_max: 53, rds_mohm: 16, tr_ns: 23, tf_ns: 16,
         alpha: 0.0065, package: "TO-220", manufacturer: "Infineon",
-        application: "Synchronous rectifiers"
+        application: "Synchronous rectifiers",
+        qg_nc: 72, qgs_nc: 11, qgd_nc: 26, ciss: 1696, coss: 407, crss: 110
       },
       "IRLB4030PBF": {
         name: "IRLB4030PBF (Si MOSFET)",
         vds_max: 100, id_max: 180, rds_mohm: 3.7, tr_ns: 33, tf_ns: 27,
         alpha: 0.0060, package: "TO-220AB", manufacturer: "Infineon",
-        application: "Motor control, DC-DC"
+        application: "Motor control, DC-DC",
+        qg_nc: 87, qgs_nc: 25, qgd_nc: 35, ciss: 11360, coss: 670, crss: 190
       },
       "IRF520N": {
         name: "IRF520N (Si MOSFET)",
         vds_max: 100, id_max: 9.7, rds_mohm: 270, tr_ns: 43, tf_ns: 28,
         alpha: 0.0065, package: "TO-220", manufacturer: "Infineon",
-        application: "General purpose switching"
+        application: "General purpose switching",
+        qg_nc: 35, qgs_nc: 11, qgd_nc: 14, ciss: 870, coss: 190, crss: 75
       },
       "STP10NK60Z": {
         name: "STP10NK60Z (Si MOSFET)",
@@ -708,7 +717,8 @@ const TRANSISTOR_DB = {
         name: "IRFP4568PBF (Si MOSFET)",
         vds_max: 150, id_max: 171, rds_mohm: 5.5, tr_ns: 50, tf_ns: 35,
         alpha: 0.0065, package: "TO-247AC", manufacturer: "Infineon",
-        application: "High current applications, DC motor drives"
+        application: "High current applications, DC motor drives",
+        qg_nc: 227, qgs_nc: 52, qgd_nc: 55, ciss: 10470, coss: 977, crss: 203
       },
       "STB16NK50Z": {
         name: "STB16NK50Z (Si MOSFET)",
@@ -720,7 +730,8 @@ const TRANSISTOR_DB = {
         name: "IRFP360LC (Si MOSFET)",
         vds_max: 400, id_max: 23, rds_mohm: 200, tr_ns: 110, tf_ns: 160,
         alpha: 0.0070, package: "TO-247AC", manufacturer: "Infineon",
-        application: "Switching power supplies"
+        application: "Switching power supplies",
+        qg_nc: 110, qgs_nc: 28, qgd_nc: 45, ciss: 2250, coss: 540, crss: 245
       },
       "STP75NF75": {
         name: "STP75NF75 (Si MOSFET)",
@@ -732,7 +743,8 @@ const TRANSISTOR_DB = {
         name: "IRFB7546PBF (Si MOSFET)",
         vds_max: 60, id_max: 78, rds_mohm: 5.9, tr_ns: 24, tf_ns: 12,
         alpha: 0.0058, package: "TO-220AB", manufacturer: "Infineon",
-        application: "Synchronous rectification"
+        application: "Synchronous rectification",
+        qg_nc: 58, qgs_nc: 18, qgd_nc: 24, ciss: 2950, coss: 280, crss: 95
       },
       "IXFN55N50": {
         name: "IXFN55N50 (Si MOSFET)",
@@ -750,7 +762,8 @@ const TRANSISTOR_DB = {
         name: "IRFB4227 (Si MOSFET)",
         vds_max: 200, id_max: 65, rds_mohm: 18, tr_ns: 43, tf_ns: 35,
         alpha: 0.0065, package: "TO-220AB", manufacturer: "Infineon",
-        application: "DC-DC converters, motor drives"
+        application: "DC-DC converters, motor drives",
+        qg_nc: 70, qgs_nc: 21, qgd_nc: 23, ciss: 4600, coss: 460, crss: 91
       },
       "STP140N10F7": {
         name: "STP140N10F7 (Si MOSFET)",
@@ -762,7 +775,8 @@ const TRANSISTOR_DB = {
         name: "IRFB3607 (Si MOSFET)",
         vds_max: 75, id_max: 80, rds_mohm: 7.5, tr_ns: 22, tf_ns: 18,
         alpha: 0.0058, package: "TO-220AB", manufacturer: "Infineon",
-        application: "Synchronous rectification"
+        application: "Synchronous rectification",
+        qg_nc: 56, qgs_nc: 18, qgd_nc: 16, ciss: 3070, coss: 280, crss: 130
       },
       "APT10M16JVR": {
         name: "APT10M16JVR (Si MOSFET)",
@@ -774,19 +788,22 @@ const TRANSISTOR_DB = {
         name: "IRFP4668PBF (Si MOSFET)",
         vds_max: 200, id_max: 130, rds_mohm: 9.7, tr_ns: 80, tf_ns: 100,
         alpha: 0.0060, package: "TO-247AC", manufacturer: "Infineon",
-        application: "High efficiency synchronous rectification in SMPS"
+        application: "High efficiency synchronous rectification in SMPS",
+        qg_nc: 161, qgs_nc: 26, qgd_nc: 42, ciss: 14000, coss: 810, crss: 140
       },
       "IRFP4710": {
         name: "IRFP4710 (Si MOSFET)",
         vds_max: 100, id_max: 72, rds_mohm: 14, tr_ns: 55, tf_ns: 95,
         alpha: 0.0065, package: "TO-247AC", manufacturer: "Infineon",
-        application: "Motor drives, DC-DC converters"
+        application: "Motor drives, DC-DC converters",
+        qg_nc: 110, qgs_nc: 32, qgd_nc: 45, ciss: 6500, coss: 440, crss: 150
       },
       "IRFP4768PBF": {
         name: "IRFP4768PBF (Si MOSFET)",
         vds_max: 250, id_max: 93, rds_mohm: 17.5, tr_ns: 105, tf_ns: 93,
         alpha: 0.0068, package: "TO-247AC", manufacturer: "Infineon",
-        application: "Solar inverters, UPS systems"
+        application: "Solar inverters, UPS systems",
+        qg_nc: 180, qgs_nc: 40, qgd_nc: 60, ciss: 6300, coss: 700, crss: 240
       },
       "IXFH40N50Q3": {
         name: "IXFH40N50Q3 (Si MOSFET)",
@@ -9784,7 +9801,8 @@ function selectRecommendedDriver(driverName) {
   }
 }
 
-// Calculate driver losses
+// Calculate driver losses - SCIENTIFIC FORMULAS with real driver parameters
+// Изчисление на загубите на драйвера - НАУЧНИ ФОРМУЛИ с реални параметри на драйвера
 function calculateDriverLosses() {
   if (!selectedDriver) {
     alert(LANGUAGES[currentLang].selectDriverFirst || 'Моля, изберете драйвер за изчисления.');
@@ -9793,11 +9811,14 @@ function calculateDriverLosses() {
   
   // Get REAL working parameters from Calculator (localStorage)
   const workingParams = getWorkingParameters();
-  const vddDriver = 15; // Typical gate driver supply voltage
+  const vddDriver = 15; // Typical gate driver supply voltage (V)
+  const vdc = workingParams.vdc; // DC bus voltage (V)
+  const iLoad = workingParams.current; // Load current (A)
   const fswDriver = workingParams.freq * 1000; // Convert kHz to Hz
   
   // Use REAL gate charge from transistor datasheet
   let qg_nC = 100; // Default fallback
+  let vgsDriver = selectedDriver.vgs_out || 15; // Driver output voltage (V)
   
   if (selectedTransistor && selectedTransistor.qg_nc) {
     // Use real datasheet value
@@ -9811,19 +9832,91 @@ function calculateDriverLosses() {
     console.warn(`Using estimated Qg for ${selectedTransistor.name}: ${qg_nC.toFixed(1)}nC (no datasheet value)`);
   }
   
-  // Dynamic losses: P_dynamic = Qg * Vdd * fsw
-  const pDynamic = (qg_nC * 1e-9) * vddDriver * fswDriver; // Watts
+  // ===== GATE DRIVING POWER LOSSES =====
+  // Формула: P_gate = Q_g × V_gs × f_sw × 2 (charge + discharge)
+  // Обяснение: Енергията за зареждане на gate capacitance е E = Q×V
+  // При всеки цикъл драйверът зарежда (charging) и разрежда (discharging) gate-а
+  // Мощност = Енергия × Честота
+  const qg_C = qg_nC * 1e-9; // Convert nC to Coulombs
+  const pGateDriving = qg_C * vgsDriver * fswDriver * 2; // Watts (× 2 for charge + discharge)
   
-  // Static losses: P_static = Iq * Vdd
+  // ===== GATE CHARGING/DISCHARGING TIME (влияе на switching losses) =====
+  // Формула: t_charge = Q_g / I_source (секунди)
+  // Обяснение: Времето за зареждане зависи от тока който драйверът може да доставя
+  // По-силен драйвер (по-голям I_source) → по-бързо зареждане → по-малки switching загуби
+  const iSource = selectedDriver.i_source_max; // Driver source current (A)
+  const iSink = selectedDriver.i_sink_max; // Driver sink current (A)
+  
+  const tCharge = qg_C / iSource; // Gate charging time (s)
+  const tDischarge = qg_C / iSink; // Gate discharging time (s)
+  
+  // ===== DRIVER PROPAGATION DELAY LOSSES =====
+  // Формула: t_total = t_rise_driver + t_fall_driver + t_delay
+  // Обяснение: Драйверът добавя собствено време за превключване
+  // По-бавен драйвер → по-дълги switching времена → повече overlap загуби
+  const tRiseDriver = selectedDriver.t_rise * 1e-9; // Convert ns to s
+  const tFallDriver = selectedDriver.t_fall * 1e-9; // Convert ns to s
+  const tDelayDriver = selectedDriver.t_delay * 1e-9; // Convert ns to s
+  
+  // ===== SWITCHING OVERLAP LOSSES (поради драйвера) =====
+  // Формула: P_overlap = 0.5 × V_dc × I_load × (t_rise + t_fall + t_charge + t_discharge) × f_sw
+  // Обяснение: По време на превключване има момент когато и напрежението и токът са ненулеви
+  // Това създава instantaneous power dissipation
+  // Различните драйвери имат различни времена → различни overlap загуби
+  const tSwitchingTotal = tCharge + tDischarge + tRiseDriver + tFallDriver;
+  const pSwitchingOverlap = 0.5 * vdc * iLoad * tSwitchingTotal * fswDriver; // Watts
+  
+  // ===== TOTAL DYNAMIC LOSSES =====
+  // Динамичните загуби = Gate driving + Switching overlap
+  const pDynamic = pGateDriving + pSwitchingOverlap; // Watts
+  
+  // ===== STATIC LOSSES (Quiescent current) =====
+  // Формула: P_static = I_q × V_dd
+  // Обяснение: Драйверът консумира ток дори когато не превключва
+  // По-ефективен драйвер има по-малък I_q
   const pStatic = (selectedDriver.iq * 1e-3) * vddDriver; // Watts
   
-  // Total driver losses
+  // ===== TOTAL DRIVER LOSSES =====
   const pDriverTotal = pDynamic + pStatic;
   
-  // Display results
+  // Display results with detailed breakdown
   document.getElementById('driverDynamicLosses').textContent = `${pDynamic.toFixed(3)} W`;
   document.getElementById('driverStaticLosses').textContent = `${pStatic.toFixed(3)} W`;
   document.getElementById('driverTotalLosses').textContent = `${pDriverTotal.toFixed(3)} W`;
+  
+  // Store detailed calculations for educational display
+  window.driverCalcDetails = {
+    qg_nC: qg_nC,
+    vgsDriver: vgsDriver,
+    iSource: iSource,
+    iSink: iSink,
+    tCharge: tCharge * 1e9, // Convert back to ns for display
+    tDischarge: tDischarge * 1e9,
+    tRiseDriver: tRiseDriver * 1e9,
+    tFallDriver: tFallDriver * 1e9,
+    pGateDriving: pGateDriving,
+    pSwitchingOverlap: pSwitchingOverlap,
+    pDynamic: pDynamic,
+    pStatic: pStatic,
+    pDriverTotal: pDriverTotal
+  };
+  
+  console.log('📊 Driver Loss Breakdown:', window.driverCalcDetails);
+  
+  // Populate detailed calculations table for educational purposes
+  const detailsAvailable = document.getElementById('calc_qg');
+  if (detailsAvailable) {
+    document.getElementById('calc_qg').textContent = `${qg_nC.toFixed(1)} nC`;
+    document.getElementById('calc_vgs').textContent = `${vgsDriver.toFixed(1)} V`;
+    document.getElementById('calc_isource').textContent = `${iSource.toFixed(1)} A`;
+    document.getElementById('calc_isink').textContent = `${iSink.toFixed(1)} A`;
+    document.getElementById('calc_tcharge').textContent = `${(tCharge * 1e9).toFixed(2)} ns`;
+    document.getElementById('calc_tdischarge').textContent = `${(tDischarge * 1e9).toFixed(2)} ns`;
+    document.getElementById('calc_trise').textContent = `${selectedDriver.t_rise} ns`;
+    document.getElementById('calc_tfall').textContent = `${selectedDriver.t_fall} ns`;
+    document.getElementById('calc_pgate').textContent = `${pGateDriving.toFixed(4)} W`;
+    document.getElementById('calc_poverlap').textContent = `${pSwitchingOverlap.toFixed(4)} W`;
+  }
 }
 
 // Calculate combined losses (driver + transistor)
