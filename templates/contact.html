@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block title %}Контакти{% endblock %}
+
+{% block page_title %}<span data-lang="contactPageTitle">Контакти</span>{% endblock %}
+
+{% block page_description %}<span data-lang="contactPageDescription">Свържете се с нас за въпроси, консултации или сътрудничество.</span>{% endblock %}
+
+{% block content %}
+<section class="controls">
+  <h2 data-lang="contactTitle">📧 Свържете се с нас</h2>
+  
+  <div class="contact-container">
+    <div class="contact-intro">
+      <p data-lang="contactIntro">За въпроси, консултации или техническа поддръжка относно Si/SiC/GaN транзисторите и приложенията им, моля свържете се с нас:</p>
+    </div>
+    
+    <div class="contact-cards">
+      <div class="contact-card">
+        <div class="contact-icon">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+            <polyline points="22,6 12,13 2,6"></polyline>
+          </svg>
+        </div>
+        <h3 data-lang="primaryContact">Основен контакт</h3>
+        <a href="mailto:p.marinov@tugab.bg" class="email-link">p.marinov@tugab.bg</a>
+        <p class="contact-description" data-lang="primaryContactDesc">Основен имейл за технически въпроси и консултации</p>
+      </div>
+      
+      <div class="contact-card">
+        <div class="contact-icon">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+            <polyline points="22,6 12,13 2,6"></polyline>
+          </svg>
+        </div>
+        <h3 data-lang="alternativeContact">Алтернативен контакт</h3>
+        <a href="mailto:pepimarinov@abv.bg" class="email-link">pepimarinov@abv.bg</a>
+        <p class="contact-description" data-lang="alternativeContactDesc">Допълнителен имейл за бързи запитвания</p>
+      </div>
+    </div>
+    
+    <div class="contact-info-box">
+      <h3 data-lang="aboutApplication">За приложението</h3>
+      <p data-lang="applicationDescription">Това е научно-образователно приложение за изчисления и анализ на Si/SiC/GaN транзистори, предназначено за инженери, преподаватели, студенти и любители в областта на силовата електроника.</p>
+      
+      <div class="features-list">
+        <div class="feature-item">
+          <span class="feature-icon">✓</span>
+          <span data-lang="feature1">База данни с над 230 реални транзистора от водещи производители</span>
+        </div>
+        <div class="feature-item">
+          <span class="feature-icon">✓</span>
+          <span data-lang="feature2">Интелигентно препоръчване на gate драйвери</span>
+        </div>
+        <div class="feature-item">
+          <span class="feature-icon">✓</span>
+          <span data-lang="feature3">Термичен анализ и разширени параметри</span>
+        </div>
+        <div class="feature-item">
+          <span class="feature-icon">✓</span>
+          <span data-lang="feature4">Научни формули базирани на IEEE стандарти</span>
+        </div>
+        <div class="feature-item">
+          <span class="feature-icon">✓</span>
+          <span data-lang="feature5">Мултиезична поддръжка (Български/English)</span>
+        </div>
+      </div>
+    </div>
+    
+    <div class="contact-footer-note">
+      <p data-lang="responseTime">⏱️ Обикновено отговаряме в рамките на 24-48 часа</p>
+    </div>
+  </div>
+</section>
+{% endblock %}

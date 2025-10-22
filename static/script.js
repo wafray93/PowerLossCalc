@@ -221,7 +221,25 @@ const LANGUAGES = {
     driverStaticLosses: 'Загуби драйвер (статични)',
     driverTotalLosses: 'Общо драйвер',
     combinedTotalLosses: 'Комбинирани загуби',
-    combinedEfficiency: 'Комбинирана ефективност'
+    combinedEfficiency: 'Комбинирана ефективност',
+    
+    // Contact page translations
+    contactPageTitle: 'Контакти',
+    contactPageDescription: 'Свържете се с нас за въпроси, консултации или сътрудничество.',
+    contactTitle: '📧 Свържете се с нас',
+    contactIntro: 'За въпроси, консултации или техническа поддръжка относно Si/SiC/GaN транзисторите и приложенията им, моля свържете се с нас:',
+    primaryContact: 'Основен контакт',
+    primaryContactDesc: 'Основен имейл за технически въпроси и консултации',
+    alternativeContact: 'Алтернативен контакт',
+    alternativeContactDesc: 'Допълнителен имейл за бързи запитвания',
+    aboutApplication: 'За приложението',
+    applicationDescription: 'Това е научно-образователно приложение за изчисления и анализ на Si/SiC/GaN транзистори, предназначено за инженери, преподаватели, студенти и любители в областта на силовата електроника.',
+    feature1: 'База данни с над 230 реални транзистора от водещи производители',
+    feature2: 'Интелигентно препоръчване на gate драйвери',
+    feature3: 'Термичен анализ и разширени параметри',
+    feature4: 'Научни формули базирани на IEEE стандарти',
+    feature5: 'Мултиезична поддръжка (Български/English)',
+    responseTime: '⏱️ Обикновено отговаряме в рамките на 24-48 часа'
   },
   en: {
     mainTitle: 'Calculator: Si / SiC / GaN Transistors',
@@ -432,7 +450,25 @@ const LANGUAGES = {
     driverStaticLosses: 'Driver Losses (static)',
     driverTotalLosses: 'Total Driver',
     combinedTotalLosses: 'Combined Losses',
-    combinedEfficiency: 'Combined Efficiency'
+    combinedEfficiency: 'Combined Efficiency',
+    
+    // Contact page translations
+    contactPageTitle: 'Contact',
+    contactPageDescription: 'Contact us for questions, consultations or collaboration.',
+    contactTitle: '📧 Contact Us',
+    contactIntro: 'For questions, consultations or technical support regarding Si/SiC/GaN transistors and their applications, please contact us:',
+    primaryContact: 'Primary Contact',
+    primaryContactDesc: 'Primary email for technical questions and consultations',
+    alternativeContact: 'Alternative Contact',
+    alternativeContactDesc: 'Additional email for quick inquiries',
+    aboutApplication: 'About the Application',
+    applicationDescription: 'This is a scientific-educational application for calculations and analysis of Si/SiC/GaN transistors, designed for engineers, teachers, students and enthusiasts in the field of power electronics.',
+    feature1: 'Database with over 230 real transistors from leading manufacturers',
+    feature2: 'Intelligent gate driver recommendation',
+    feature3: 'Thermal analysis and advanced parameters',
+    feature4: 'Scientific formulas based on IEEE standards',
+    feature5: 'Multilingual support (Bulgarian/English)',
+    responseTime: '⏱️ We usually respond within 24-48 hours'
   }
 };
 
