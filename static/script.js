@@ -2662,6 +2662,90 @@ const DRIVER_DB = {
       application: "Automotive Si MOSFETs, battery management",
       vgs_out: 18,
       qg_drive: 60
+    },
+    // Additional TI Si drivers
+    "UCC27322": {
+      name: "UCC27322",
+      manufacturer: "Texas Instruments",
+      technology: ["Si"],
+      vdd_min: 4, vdd_max: 18,
+      i_source_max: 9, i_sink_max: 9,
+      t_rise: 7, t_fall: 6,
+      t_delay: 16,
+      iq: 2.1,
+      channels: "dual",
+      package: "SOIC-8",
+      features: "High current dual driver, enable pins",
+      application: "Synchronous buck converters, half-bridge",
+      vgs_out: 18,
+      qg_drive: 300
+    },
+    "UCC27211A": {
+      name: "UCC27211A",
+      manufacturer: "Texas Instruments",
+      technology: ["Si"],
+      vdd_min: 4.5, vdd_max: 18,
+      i_source_max: 3, i_sink_max: 3,
+      t_rise: 11, t_fall: 9,
+      t_delay: 20,
+      iq: 0.12,
+      channels: "dual",
+      package: "SOIC-8",
+      features: "Independent inputs, improved version",
+      application: "DC-DC converters, motor drives",
+      vgs_out: 18,
+      qg_drive: 120
+    },
+    // Infineon additional Si drivers
+    "2EDL8024G": {
+      name: "2EDL8024G",
+      manufacturer: "Infineon",
+      technology: ["Si"],
+      vdd_min: 10, vdd_max: 18,
+      i_source_max: 8, i_sink_max: 8,
+      t_rise: 7, t_fall: 6,
+      t_delay: 14,
+      iq: 2.8,
+      channels: "dual",
+      package: "PG-DSO-14",
+      features: "Integrated deadtime, shoot-through protection",
+      application: "Half-bridge converters, motor control",
+      vgs_out: 18,
+      qg_drive: 280
+    },
+    // ON Semiconductor additional Si drivers
+    "NCD57000": {
+      name: "NCD57000",
+      manufacturer: "ON Semiconductor",
+      technology: ["Si"],
+      vdd_min: 10, vdd_max: 20,
+      i_source_max: 2.5, i_sink_max: 2.5,
+      t_rise: 20, t_fall: 18,
+      t_delay: 30,
+      iq: 0.25,
+      channels: "single",
+      package: "SOIC-8",
+      features: "IGBT/MOSFET compatible",
+      application: "Industrial IGBT drives, general purpose",
+      vgs_out: 15,
+      qg_drive: 100
+    },
+    // ROHM Si drivers
+    "BD2311NVX": {
+      name: "BD2311NVX",
+      manufacturer: "ROHM",
+      technology: ["Si", "GaN"],
+      vdd_min: 4.5, vdd_max: 18,
+      i_source_max: 5, i_sink_max: 5,
+      t_rise: 5, t_fall: 4,
+      t_delay: 12,
+      iq: 1.5,
+      channels: "single",
+      package: "HSOP-8",
+      features: "High-speed ultrafast driver, optimized for GaN/Si",
+      application: "High-frequency switching, GaN optimized",
+      vgs_out: 18,
+      qg_drive: 180
     }
   },
   
