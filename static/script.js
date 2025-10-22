@@ -1523,7 +1523,8 @@ const TRANSISTOR_DB = {
         name: "C2M0080120D (SiC MOSFET)",
         vds_max: 1200, id_max: 36, rds_mohm: 80, tr_ns: 13, tf_ns: 24,
         alpha: 0.002, package: "TO-247-3", manufacturer: "Wolfspeed",
-        application: "Соларни инвертори, три-фазни мотори"
+        application: "Соларни инвертори, три-фазни мотори",
+        qg_nc: 52, qgs_nc: 18, qgd_nc: 22, ciss: 2150, coss: 145, crss: 4.2
       },
       "AIMW120R060M1": {
         name: "AIMW120R060M1 (SiC MOSFET)",
@@ -1557,7 +1558,8 @@ const TRANSISTOR_DB = {
         name: "C2M0025120D (SiC MOSFET)",
         vds_max: 1200, id_max: 90, rds_mohm: 25, tr_ns: 20, tf_ns: 26,
         alpha: 0.0015, package: "TO-247", manufacturer: "Wolfspeed",
-        application: "EV charging, grid tie inverters"
+        application: "EV charging, grid tie inverters",
+        qg_nc: 95, qgs_nc: 32, qgd_nc: 42, ciss: 4900, coss: 310, crss: 8.5
       },
       "SCT3120AL": {
         name: "SCT3120AL (SiC MOSFET)",
@@ -1797,7 +1799,8 @@ const TRANSISTOR_DB = {
         name: "SCT3060AL (SiC MOSFET)",
         vds_max: 650, id_max: 39, rds_mohm: 60, tr_ns: 16, tf_ns: 23,
         alpha: 0.0019, package: "TO-247N", manufacturer: "ROHM",
-        application: "Power conditioners"
+        application: "Power conditioners",
+        qg_nc: 39, qgs_nc: 15, qgd_nc: 16, ciss: 1550, coss: 125, crss: 2.8
       },
       "SCT3080AL": {
         name: "SCT3080AL (SiC MOSFET)",
