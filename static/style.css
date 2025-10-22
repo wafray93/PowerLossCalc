@@ -98,7 +98,7 @@ tr.selected-transistor-row,
   --shadow-heavy: 0 8px 30px rgba(0,0,0,0.2);
 }
 
-* {
+*, *::before, *::after {
   box-sizing: border-box;
 }
 
@@ -106,11 +106,13 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Inter', sans-serif;
   background: linear-gradient(135deg, #f5f6fa 0%, #e9ecef 100%);
   margin: 0;
+  padding: 0;
   color: var(--text-primary);
   line-height: 1.7;
   font-size: 16px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
 }
 
 body.scientific-app {
@@ -390,12 +392,14 @@ body.nav-open {
   min-height: calc(100vh - var(--header-height));
   background: var(--bg-light);
   transition: all 0.3s ease;
+  width: 100%;
 }
 
 .content-wrapper {
   padding: 30px;
   max-width: var(--content-max-width);
   margin: 0 auto;
+  width: 100%;
 }
 
 .page-header {
@@ -551,11 +555,12 @@ body.nav-open {
   }
 
   .main-content {
-    margin-left: calc(50% - (var(--app-max-width) / 2) + var(--sidebar-width));
+    margin-left: var(--sidebar-width);
+    max-width: calc(100vw - var(--sidebar-width));
   }
 
   .app-footer {
-    margin-left: calc(50% - (var(--app-max-width) / 2) + var(--sidebar-width));
+    margin-left: var(--sidebar-width);
   }
 }
 
@@ -607,14 +612,19 @@ body.nav-open {
 
   .main-content {
     margin-left: 0;
+    width: 100%;
   }
 
   .app-footer {
     margin-left: 0;
+    width: 100%;
   }
 
   .content-wrapper {
     padding: 15px;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
   }
 
   .page-header {
@@ -669,6 +679,8 @@ main {
   backdrop-filter: blur(10px);
   transition: all 0.3s ease;
   position: relative;
+  width: 100%;
+  max-width: 100%;
 }
 
 .controls h2,
