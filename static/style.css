@@ -82,6 +82,8 @@ tr.selected-transistor-row,
   --secondary-blue: #0066cc;
   --sidebar-width: 250px;
   --header-height: 70px;
+  --content-max-width: 1000px;
+  --app-max-width: calc(var(--sidebar-width) + var(--content-max-width));
   --accent-color: #667eea;
   --success-color: #4caf50;
   --warning-color: #ff9800;
@@ -109,7 +111,6 @@ body {
   font-size: 16px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden;
 }
 
 body.scientific-app {
@@ -144,7 +145,7 @@ body.nav-open {
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  max-width: 1400px;
+  max-width: var(--app-max-width);
   margin: 0 auto;
 }
 
@@ -393,7 +394,8 @@ body.nav-open {
 
 .content-wrapper {
   padding: 30px;
-  max-width: 1200px;
+  max-width: var(--content-max-width);
+  margin: 0 auto;
 }
 
 .page-header {
@@ -513,7 +515,7 @@ body.nav-open {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 30px;
-  max-width: 1200px;
+  max-width: var(--content-max-width);
   padding: 0 30px;
   margin: 0 auto;
 }
@@ -542,20 +544,35 @@ body.nav-open {
   opacity: 0.8;
 }
 
+/* Centering adjustments for larger screens */
+@media (min-width: calc(var(--app-max-width) + 1px)) {
+  .sidebar-nav {
+    left: calc(50% - (var(--app-max-width) / 2));
+  }
+
+  .main-content {
+    margin-left: calc(50% - (var(--app-max-width) / 2) + var(--sidebar-width));
+  }
+
+  .app-footer {
+    margin-left: calc(50% - (var(--app-max-width) / 2) + var(--sidebar-width));
+  }
+}
+
 /* ====== RESPONSIVE DESIGN ====== */
 @media (max-width: 1024px) {
   :root {
     --sidebar-width: 220px;
   }
-  
+
   .content-wrapper {
     padding: 20px;
   }
-  
+
   .nav-section-title {
     font-size: 12px;
   }
-  
+
   .nav-link {
     padding: 10px 15px;
     font-size: 14px;
@@ -566,58 +583,58 @@ body.nav-open {
   body.scientific-app {
     padding-top: calc(var(--header-height) + 50px);
   }
-  
+
   .mobile-nav-toggle {
     display: block;
   }
-  
+
   .sidebar-nav {
     transform: translateX(-100%);
     transition: transform 0.3s ease;
   }
-  
+
   .sidebar-nav.mobile-open {
     transform: translateX(0);
   }
-  
+
   .mobile-nav-overlay {
     display: block;
   }
-  
+
   .mobile-top-nav {
     display: block;
   }
-  
+
   .main-content {
     margin-left: 0;
   }
-  
+
   .app-footer {
     margin-left: 0;
   }
-  
+
   .content-wrapper {
     padding: 15px;
   }
-  
+
   .page-header {
     padding: 20px;
   }
-  
+
   .page-title {
     font-size: 24px;
   }
-  
+
   .page-content {
     padding: 20px;
   }
-  
+
   .footer-content {
     grid-template-columns: 1fr;
     gap: 20px;
     padding: 0 15px;
   }
-  
+
   .nav-tooltip {
     display: none;
   }
@@ -652,7 +669,6 @@ main {
   backdrop-filter: blur(10px);
   transition: all 0.3s ease;
   position: relative;
-  overflow: hidden;
 }
 
 .controls h2,
@@ -1075,7 +1091,7 @@ button:hover::before {
     top: 120%;
     right: auto;
   }
-  
+
   .tooltip::after {
     top: -8px;
     left: 50% !important;
@@ -1580,11 +1596,11 @@ footer {
   .converter-grid {
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   }
-  
+
   .csv-tools {
     grid-template-columns: 1fr;
   }
-  
+
   .utility-grid {
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   }
@@ -1594,30 +1610,30 @@ footer {
   .converter-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .converter-inputs {
     flex-direction: column;
   }
-  
+
   .converter-inputs input,
   .converter-inputs select,
   .converter-inputs .result {
     min-width: 100%;
   }
-  
+
   .button-row {
     flex-direction: column;
   }
-  
+
   .utility-grid {
     grid-template-columns: 1fr;
   }
-  
+
   .modal-content {
     margin: 10px;
     max-height: 90vh;
   }
-  
+
   .modal-header,
   .modal-body {
     padding: 15px;
@@ -1845,52 +1861,52 @@ footer {
   .row {
     flex-direction: column;
   }
-  
+
   label {
     min-width: auto;
   }
-  
+
   main {
     padding: 10px;
   }
-  
+
   header {
     padding: 10px;
   }
-  
+
   h1 {
     font-size: 18px;
   }
-  
+
   .optimization-explanation {
     padding: 15px;
     margin: 10px 0;
   }
-  
+
   .param-explanation {
     padding: 10px 12px;
     margin: 8px 0;
   }
-  
+
   .analysis, .thermal {
     padding: 15px;
     margin: 15px 0;
   }
-  
+
   .frequency-range {
     flex-direction: column;
     gap: 10px;
   }
-  
+
   .frequency-range input {
     width: 100px;
   }
-  
+
   .scientific-insights {
     padding: 15px;
     margin: 15px 0;
   }
-  
+
   .insight-item {
     padding: 10px 12px;
     margin: 8px 0;
@@ -2050,23 +2066,23 @@ footer {
     padding: 15px;
     margin-bottom: 20px;
   }
-  
+
   .alert-content {
     flex-direction: column;
     align-items: flex-start;
     gap: 15px;
   }
-  
+
   .transistor-info-row {
     flex-direction: column;
     align-items: flex-start;
     gap: 5px;
   }
-  
+
   .transistor-info-row span:first-child {
     font-size: 13px;
   }
-  
+
   .transistor-value {
     font-size: 13px;
     margin-left: 10px;
@@ -2293,11 +2309,11 @@ footer {
   .theory-tabs {
     flex-direction: column;
   }
-  
+
   .theory-tab {
     text-align: center;
   }
-  
+
   .theory-comparison {
     grid-template-columns: 1fr;
   }
@@ -2308,7 +2324,7 @@ footer {
 /* Database Content Layout */
 .database-content {
   padding: 30px;
-  max-width: 1400px;
+  max-width: var(--content-max-width);
   margin: 0 auto;
 }
 
@@ -3164,7 +3180,7 @@ footer {
   .database-content {
     padding: 20px;
   }
-  
+
   .filter-row {
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   }
@@ -3174,53 +3190,53 @@ footer {
   .database-content {
     padding: 15px;
   }
-  
+
   .results-header {
     flex-direction: column;
     align-items: stretch;
   }
-  
+
   .results-controls {
     justify-content: space-between;
   }
-  
+
   .filter-row {
     grid-template-columns: 1fr;
   }
-  
+
   .filter-controls {
     flex-direction: column;
   }
-  
+
   .pagination-container {
     flex-direction: column;
     text-align: center;
   }
-  
+
   .database-table {
     font-size: 12px;
   }
-  
+
   .database-table th,
   .database-table td {
     padding: 8px 6px;
   }
-  
+
   .applications-text {
     max-width: 120px;
   }
-  
+
   .modal-content {
     margin: 10px;
     max-height: 95vh;
   }
-  
+
   .modal-header,
   .modal-body,
   .modal-footer {
     padding: 20px;
   }
-  
+
   .detail-grid {
     grid-template-columns: 1fr;
   }

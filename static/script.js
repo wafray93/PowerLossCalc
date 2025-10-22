@@ -40,7 +40,7 @@ const LANGUAGES = {
     efficiencyDescription: 'Тази графика показва как се променя ефективността при различни честоти за Si, SiC и GaN технологиите.',
     frequencyRange: 'Честотен обхват',
     generateChart: 'Генерирай графика',
-    
+
     // Selected Transistor Integration
     selectedTransistorTitle: 'Избран транзистор',
     noTransistorSelected: 'Няма избран транзистор',
@@ -52,7 +52,7 @@ const LANGUAGES = {
     toolsForSelectedTransistor: 'Инструменти за избрания транзистор',
     noTransistorForTools: 'За конкретни изчисления, изберете транзистор от калкулатора.',
     usingSelectedTransistor: 'Използва избрания транзистор:',
-    
+
     // Секция с теория и формули
     theoryTitle: '📚 Теория и основни формули',
     theoryDescription: 'Разберете физическите основи на полупроводниковите загуби и формулите зад изчисленията.',
@@ -60,7 +60,7 @@ const LANGUAGES = {
     switchingLosses: 'Превключващи загуби',
     thermalTheory: 'Термична теория',
     techComparison: 'Сравнение на технологиите',
-    
+
     thermalModeling: 'Термично моделиране',
     thermalDescription: 'Анализира как се загрява транзисторът и дали е необходимо охлаждане. Изчислява температурите на полупроводниковия чип (junction) и корпуса въз основа на мощността на загубите.',
     ambientTemp: 'Околна температура (°C)',
@@ -77,7 +77,7 @@ const LANGUAGES = {
     largeHeatsink: 'Голям радиатор (Fischer SK53, 2.5°C/W)',
     forcedAir: 'Принудително въздушно (с вентилатор, 1.5°C/W)',
     liquidCooling: 'Течно охлаждане (измерено, 0.3°C/W)',
-    
+
     // Advanced functionality translations
     millerCapacitance: 'Miller Capacitance Analysis',
     cgdLabel: 'CGD (pF)',
@@ -90,7 +90,7 @@ const LANGUAGES = {
     millerMultiplier: 'Miller Multiplier',
     effectiveCapacitance: 'Ефективен капацитет',
     millerCurrent: 'Miller ток (A)',
-    
+
     deadTimeAnalysis: 'Dead-time анализ',
     deadTimeLabel: 'Dead Time (ns)',
     outputCurrentLabel: 'Изходен ток (A)',
@@ -100,13 +100,13 @@ const LANGUAGES = {
     deadTimeLosses: 'Dead-time загуби (W)',
     bodyDiodeLosses: 'Body Diode загуби (W)',
     totalDeadTimeLoss: 'Общи Dead-time загуби (W)',
-    
+
     powerLossesLabel: 'Загуби мощност (W)',
     ambientTempLabel: 'Околна температура (°C)',
     thermalResistanceLabel: 'Rth JC (°C/W)',
     heatsinkRthLabel: 'Радиатор Rth (°C/W)',
     maxPowerDissipation: 'Макс мощност при 150°C (W)',
-    
+
     switchingTrajectory: 'Switching Trajectory & SOA',
     loadInductanceLabel: 'Товар индуктивност (μH)',
     gateResistanceLabel: 'Gate съпротивление (Ω)',
@@ -115,7 +115,7 @@ const LANGUAGES = {
     calculateSOA: 'Изчисли SOA & траектория',
     soaInfo: 'SOA анализ:',
     soaDescription: 'Тази графика показва границите на Safe Operating Area и текущата switching траектория. Работните точки трябва да остават в SOA границите.',
-    
+
     parasiticEffects: 'Parasitic Effects анализ',
     packageParasitics: 'Package паразитни',
     packageESRLabel: 'Package ESR (mΩ)',
@@ -135,7 +135,7 @@ const LANGUAGES = {
     voltageSpike: 'Макс скок на напрежението (V)',
     ringingFrequency: 'Честота на трептенията (MHz)',
     warningsTitle: '⚠️ Предупреждения:',
-    
+
     // Tools page translations
     toolsTitle: '⚙️ Инструменти за копиране, конвертиране и експорт',
     toolsDescription: 'Професионални инструменти за експорт на графики, конвертиране на единици и управление на данни.',
@@ -182,13 +182,13 @@ const LANGUAGES = {
     aboutApp: 'За приложението',
     versionInfo: 'Информация за версията',
     technicalSupport: 'Техническа поддръжка',
-    
+
     // Analysis tab specific translations
     noTransistorSelected: '⚠️ Няма избран транзистор от Calculator. Използва се fallback модел за анализ.',
     goToCalculator: 'Отиди до Calculator',
     analysisTransistorTitle: 'Използван транзистор за анализ',
     fallbackTransistorNote: 'Използва се fallback транзистор',
-    
+
     // Page titles and descriptions
     calculatorPageTitle: 'Основни изчисления и избор на транзистор',
     calculatorPageDescription: 'Изчислете загуби, ефективност и изберете подходящ Si/SiC/GaN транзистор за вашето приложение.',
@@ -198,7 +198,7 @@ const LANGUAGES = {
     databasePageDescription: 'Обширна база данни с Si/SiC/GaN транзистори от водещи производители с филтриране и сравнение.',
     advancedPageTitle: 'Термичен анализ и разширени параметри',
     advancedPageDescription: 'Разширени инженерни изчисления включително термичен анализ, Miller капацитет и dead-time оптимизация.',
-    
+
     // Transistor selection improvements
     clearSelection: 'Изчисти избора',
     dataSourceTitle: 'Източник на формули и данни'
@@ -243,7 +243,7 @@ const LANGUAGES = {
     efficiencyDescription: 'This chart shows how efficiency changes with different frequencies for Si, SiC and GaN technologies.',
     frequencyRange: 'Frequency Range',
     generateChart: 'Generate Chart',
-    
+
     // Theory and formulas section
     theoryTitle: '📚 Theory and Basic Formulas',
     theoryDescription: 'Understand the physical foundations of semiconductor losses and formulas behind calculations.',
@@ -251,7 +251,7 @@ const LANGUAGES = {
     switchingLosses: 'Switching Losses',
     thermalTheory: 'Thermal Theory',
     techComparison: 'Technology Comparison',
-    
+
     thermalModeling: 'Thermal Modeling',
     thermalDescription: 'Analyzes how the transistor heats up and whether cooling is necessary. Calculates temperatures of the semiconductor chip (junction) and case based on power losses.',
     ambientTemp: 'Ambient Temperature (°C)',
@@ -268,7 +268,7 @@ const LANGUAGES = {
     largeHeatsink: 'Large Heatsink (Fischer SK53, 2.5°C/W)',
     forcedAir: 'Forced Air (with fan, 1.5°C/W)',
     liquidCooling: 'Liquid Cooling (measured, 0.3°C/W)',
-    
+
     // Advanced functionality translations
     millerCapacitance: 'Miller Capacitance Analysis',
     cgdLabel: 'CGD (pF)',
@@ -281,7 +281,7 @@ const LANGUAGES = {
     millerMultiplier: 'Miller Multiplier',
     effectiveCapacitance: 'Effective Capacitance',
     millerCurrent: 'Miller Current (A)',
-    
+
     deadTimeAnalysis: 'Dead-time Analysis',
     deadTimeLabel: 'Dead Time (ns)',
     outputCurrentLabel: 'Output Current (A)',
@@ -291,13 +291,13 @@ const LANGUAGES = {
     deadTimeLosses: 'Dead-time Losses (W)',
     bodyDiodeLosses: 'Body Diode Losses (W)',
     totalDeadTimeLoss: 'Total Dead-time Loss (W)',
-    
+
     powerLossesLabel: 'Power Losses (W)',
     ambientTempLabel: 'Ambient Temp (°C)',
     thermalResistanceLabel: 'Rth JC (°C/W)',
     heatsinkRthLabel: 'Heatsink Rth (°C/W)',
     maxPowerDissipation: 'Max Power at 150°C (W)',
-    
+
     switchingTrajectory: 'Switching Trajectory & SOA',
     loadInductanceLabel: 'Load Inductance (μH)',
     gateResistanceLabel: 'Gate Resistance (Ω)',
@@ -306,7 +306,7 @@ const LANGUAGES = {
     calculateSOA: 'Calculate SOA & Trajectory',
     soaInfo: 'SOA Analysis:',
     soaDescription: 'This chart shows the Safe Operating Area limits and current switching trajectory. Operating points should remain within the SOA boundaries.',
-    
+
     parasiticEffects: 'Parasitic Effects Analysis',
     packageParasitics: 'Package Parasitics',
     packageESRLabel: 'Package ESR (mΩ)',
@@ -326,7 +326,7 @@ const LANGUAGES = {
     voltageSpike: 'Max Voltage Spike (V)',
     ringingFrequency: 'Ringing Frequency (MHz)',
     warningsTitle: '⚠️ Warnings:',
-    
+
     // Tools page translations
     toolsTitle: '⚙️ Chart Copying, Conversion & Export Tools',
     toolsDescription: 'Professional tools for chart export, unit conversion and data management.',
@@ -373,13 +373,13 @@ const LANGUAGES = {
     aboutApp: 'About Application',
     versionInfo: 'Version Information',
     technicalSupport: 'Technical Support',
-    
+
     // Analysis tab specific translations
     noTransistorSelected: '⚠️ No transistor selected from Calculator. Using fallback model for analysis.',
     goToCalculator: 'Go to Calculator',
     analysisTransistorTitle: 'Transistor Used for Analysis',
     fallbackTransistorNote: 'Using fallback transistor',
-    
+
     // Page titles and descriptions
     calculatorPageTitle: 'Basic Calculations and Transistor Selection',
     calculatorPageDescription: 'Calculate losses, efficiency and select suitable Si/SiC/GaN transistor for your application.',
@@ -389,7 +389,7 @@ const LANGUAGES = {
     databasePageDescription: 'Comprehensive database of Si/SiC/GaN transistors from leading manufacturers with filtering and comparison.',
     advancedPageTitle: 'Thermal Analysis and Advanced Parameters',
     advancedPageDescription: 'Advanced engineering calculations including thermal analysis, Miller capacitance and dead-time optimization.',
-    
+
     // Transistor selection improvements
     clearSelection: 'Clear Selection',
     dataSourceTitle: 'Source of Formulas and Data'
@@ -401,6 +401,721 @@ let currentLang = 'bg';
 // Разширена база данни с реални транзистори и техните характеристики
 const TRANSISTOR_DB = {
   Si: {
+    // Ниско напрежение Si MOSFETs (12V-100V)
+      "IRF540N": {
+        name: "IRF540N (Si MOSFET)",
+        vds_max: 100, id_max: 33, rds_mohm: 44, tr_ns: 23, tf_ns: 17,
+        alpha: 0.0065, package: "TO-220", manufacturer: "Infineon",
+        application: "Общо предназначение, DC-DC конвертори"
+      },
+      "IRFZ44N": {
+        name: "IRFZ44N (Si MOSFET)",
+        vds_max: 55, id_max: 49, rds_mohm: 17.5, tr_ns: 23, tf_ns: 16,
+        alpha: 0.0065, package: "TO-220", manufacturer: "Infineon",
+        application: "Ниско напрежение, високо ефективност"
+      },
+      "STB80NF55": {
+        name: "STB80NF55 (Si MOSFET)",
+        vds_max: 55, id_max: 80, rds_mohm: 6.5, tr_ns: 27, tf_ns: 19,
+        alpha: 0.006, package: "D2PAK", manufacturer: "STMicroelectronics",
+        application: "Автомобилни приложения, синхронни конвертори"
+      },
+      "IRF3205": {
+        name: "IRF3205 (Si MOSFET)",
+        vds_max: 55, id_max: 110, rds_mohm: 8, tr_ns: 12, tf_ns: 50,
+        alpha: 0.0065, package: "TO-220", manufacturer: "Infineon",
+        application: "Високо ток приложения, синхронни rectifiers"
+      },
+      "IRLB4132": {
+        name: "IRLB4132 (Si MOSFET)",
+        vds_max: 100, id_max: 30, rds_mohm: 10, tr_ns: 24, tf_ns: 12,
+        alpha: 0.0060, package: "TO-220AB", manufacturer: "Infineon",
+        application: "Logic level gate drive, DC-DC"
+      },
+
+      // Средно напрежение Si MOSFETs (200V-600V)
+      "IRF840": {
+        name: "IRF840 (Si MOSFET)",
+        vds_max: 500, id_max: 8, rds_mohm: 850, tr_ns: 90, tf_ns: 170,
+        alpha: 0.007, package: "TO-220", manufacturer: "Infineon",
+        application: "Switching режими, инвертори"
+      },
+      "IXFH26N50P": {
+        name: "IXFH26N50P (Si MOSFET)", 
+        vds_max: 500, id_max: 26, rds_mohm: 140, tr_ns: 65, tf_ns: 85,
+        alpha: 0.007, package: "TO-247", manufacturer: "IXYS",
+        application: "Среден power, индустриални приложения"
+      },
+      "STW57N65M5": {
+        name: "STW57N65M5 (Si MOSFET)",
+        vds_max: 650, id_max: 57, rds_mohm: 65, tr_ns: 120, tf_ns: 95,
+        alpha: 0.0075, package: "TO-247", manufacturer: "STMicroelectronics",
+        application: "PFC, резонансни конвертори"
+      },
+      "IPW60R070C6": {
+        name: "IPW60R070C6 (Si MOSFET)",
+        vds_max: 600, id_max: 39, rds_mohm: 70, tr_ns: 38, tf_ns: 25,
+        alpha: 0.0070, package: "TO-247", manufacturer: "Infineon",
+        application: "PFC, hard switching"
+      },
+      "FCP190N60E": {
+        name: "FCP190N60E (Si MOSFET)",
+        vds_max: 600, id_max: 19, rds_mohm: 190, tr_ns: 45, tf_ns: 60,
+        alpha: 0.0075, package: "TO-220", manufacturer: "Fairchild",
+        application: "SMPS, UPS systems"
+      },
+
+      // Високо напрежение Si MOSFETs и IGBTs (600V+)
+      "2SK4017": {
+        name: "2SK4017 (Si MOSFET)",
+        vds_max: 900, id_max: 7, rds_mohm: 1600, tr_ns: 150, tf_ns: 200,
+        alpha: 0.008, package: "TO-3P", manufacturer: "Toshiba",
+        application: "Високо напрежение, малък ток"
+      },
+      "IGW60T120": {
+        name: "IGW60T120 (Si IGBT)",
+        vds_max: 1200, id_max: 60, rds_mohm: 28, tr_ns: 170, tf_ns: 340,
+        alpha: 0.005, package: "TO-247", manufacturer: "Infineon",
+        application: "Мотор контрол, UPS, инвертори"
+      },
+      "FGH40N60SFD": {
+        name: "FGH40N60SFD (Si IGBT)",
+        vds_max: 600, id_max: 40, rds_mohm: 45, tr_ns: 85, tf_ns: 200,
+        alpha: 0.0045, package: "TO-247", manufacturer: "Fairchild",
+        application: "Индукционно отопление, UPS"
+      },
+      "STGW40H65FB": {
+        name: "STGW40H65FB (Si IGBT)",
+        vds_max: 650, id_max: 40, rds_mohm: 40, tr_ns: 55, tf_ns: 180,
+        alpha: 0.0048, package: "TO-247", manufacturer: "STMicroelectronics",
+        application: "Фотоволтаици, мотор драйвери"
+      },
+      "IRGP50B60PD1": {
+        name: "IRGP50B60PD1 (Si IGBT)",
+        vds_max: 600, id_max: 75, rds_mohm: 34, tr_ns: 80, tf_ns: 200,
+        alpha: 0.0050, package: "TO-247AC", manufacturer: "Infineon",
+        application: "Инвертори, welding equipment"
+      },
+      // Нови Si MOSFETs
+      "IPP60R125CP": {
+        name: "IPP60R125CP (Si MOSFET)",
+        vds_max: 600, id_max: 23, rds_mohm: 125, tr_ns: 45, tf_ns: 35,
+        alpha: 0.0070, package: "TO-220", manufacturer: "Infineon",
+        application: "PFC, SMPS"
+      },
+      "SPP20N60C3": {
+        name: "SPP20N60C3 (Si MOSFET)",
+        vds_max: 600, id_max: 20, rds_mohm: 190, tr_ns: 38, tf_ns: 25,
+        alpha: 0.0075, package: "TO-220", manufacturer: "Infineon",
+        application: "SMPS, UPS"
+      },
+      "IRFP260N": {
+        name: "IRFP260N (Si MOSFET)",
+        vds_max: 200, id_max: 50, rds_mohm: 40, tr_ns: 43, tf_ns: 35,
+        alpha: 0.0065, package: "TO-247", manufacturer: "Infineon",
+        application: "Audio amplifiers, motor control"
+      },
+      "STF13NM60N": {
+        name: "STF13NM60N (Si MOSFET)",
+        vds_max: 600, id_max: 13, rds_mohm: 300, tr_ns: 25, tf_ns: 40,
+        alpha: 0.0080, package: "TO-220FP", manufacturer: "STMicroelectronics",
+        application: "Lighting, SMPS"
+      },
+      "STP6NK60Z": {
+        name: "STP6NK60Z (Si MOSFET)",
+        vds_max: 600, id_max: 6, rds_mohm: 1000, tr_ns: 25, tf_ns: 60,
+        alpha: 0.0085, package: "TO-220", manufacturer: "STMicroelectronics",
+        application: "Low power SMPS"
+      },
+      "IRF740": {
+        name: "IRF740 (Si MOSFET)",
+        vds_max: 400, id_max: 10, rds_mohm: 480, tr_ns: 50, tf_ns: 85,
+        alpha: 0.0070, package: "TO-220", manufacturer: "Infineon",
+        application: "Medium power switching"
+      },
+      "BUZ11": {
+        name: "BUZ11 (Si MOSFET)",
+        vds_max: 50, id_max: 30, rds_mohm: 40, tr_ns: 15, tf_ns: 25,
+        alpha: 0.0065, package: "TO-220", manufacturer: "STMicroelectronics",
+        application: "Audio, linear regulators"
+      },
+      "IRF9540N": {
+        name: "IRF9540N (Si P-MOSFET)",
+        vds_max: 100, id_max: 23, rds_mohm: 117, tr_ns: 95, tf_ns: 50,
+        alpha: 0.0070, package: "TO-220", manufacturer: "Infineon",
+        application: "P-channel applications"
+      },
+      "IRLB3034PBF": {
+        name: "IRLB3034PBF (Si MOSFET)",
+        vds_max: 40, id_max: 195, rds_mohm: 1.7, tr_ns: 46, tf_ns: 12,
+        alpha: 0.0055, package: "TO-220AB", manufacturer: "Infineon",
+        application: "DC-DC converters, motor control"
+      },
+      "IRFZ46N": {
+        name: "IRFZ46N (Si MOSFET)",
+        vds_max: 55, id_max: 53, rds_mohm: 16, tr_ns: 23, tf_ns: 16,
+        alpha: 0.0065, package: "TO-220", manufacturer: "Infineon",
+        application: "Synchronous rectifiers"
+      },
+      "IRLB4030PBF": {
+        name: "IRLB4030PBF (Si MOSFET)",
+        vds_max: 100, id_max: 180, rds_mohm: 3.7, tr_ns: 33, tf_ns: 27,
+        alpha: 0.0060, package: "TO-220AB", manufacturer: "Infineon",
+        application: "Motor control, DC-DC"
+      },
+      "IRF520N": {
+        name: "IRF520N (Si MOSFET)",
+        vds_max: 100, id_max: 9.7, rds_mohm: 270, tr_ns: 43, tf_ns: 28,
+        alpha: 0.0065, package: "TO-220", manufacturer: "Infineon",
+        application: "General purpose switching"
+      },
+      "STP10NK60Z": {
+        name: "STP10NK60Z (Si MOSFET)",
+        vds_max: 600, id_max: 10, rds_mohm: 650, tr_ns: 35, tf_ns: 80,
+        alpha: 0.0080, package: "TO-220", manufacturer: "STMicroelectronics",
+        application: "SMPS, lighting"
+      },
+      "IXFK55N50": {
+        name: "IXFK55N50 (Si MOSFET)",
+        vds_max: 500, id_max: 55, rds_mohm: 90, tr_ns: 60, tf_ns: 100,
+        alpha: 0.0070, package: "TO-264", manufacturer: "IXYS",
+        application: "Power switching, motor control, power supplies"
+      },
+      "GT60M322": {
+        name: "GT60M322 (Si IGBT)",
+        vds_max: 900, id_max: 60, rds_mohm: 35, tr_ns: 120, tf_ns: 250,
+        alpha: 0.0045, package: "TO-3P", manufacturer: "Toshiba",
+        application: "Voltage resonance inverters, current resonance"
+      },
+      // Още много Si MOSFETs
+      "IRFP4568PBF": {
+        name: "IRFP4568PBF (Si MOSFET)",
+        vds_max: 150, id_max: 171, rds_mohm: 5.5, tr_ns: 50, tf_ns: 35,
+        alpha: 0.0065, package: "TO-247AC", manufacturer: "Infineon",
+        application: "High current applications, DC motor drives"
+      },
+      "STB16NK50Z": {
+        name: "STB16NK50Z (Si MOSFET)",
+        vds_max: 500, id_max: 16, rds_mohm: 250, tr_ns: 60, tf_ns: 120,
+        alpha: 0.0075, package: "D2PAK", manufacturer: "STMicroelectronics",
+        application: "SMPS, automotive"
+      },
+      "IRFP360LC": {
+        name: "IRFP360LC (Si MOSFET)",
+        vds_max: 400, id_max: 23, rds_mohm: 200, tr_ns: 110, tf_ns: 160,
+        alpha: 0.0070, package: "TO-247AC", manufacturer: "Infineon",
+        application: "Switching power supplies"
+      },
+      "STP75NF75": {
+        name: "STP75NF75 (Si MOSFET)",
+        vds_max: 75, id_max: 80, rds_mohm: 8.5, tr_ns: 85, tf_ns: 85,
+        alpha: 0.0060, package: "TO-220", manufacturer: "STMicroelectronics",
+        application: "Automotive, motor control"
+      },
+      "IRFB7546PBF": {
+        name: "IRFB7546PBF (Si MOSFET)",
+        vds_max: 60, id_max: 78, rds_mohm: 5.9, tr_ns: 24, tf_ns: 12,
+        alpha: 0.0058, package: "TO-220AB", manufacturer: "Infineon",
+        application: "Synchronous rectification"
+      },
+      "IXFN55N50": {
+        name: "IXFN55N50 (Si MOSFET)",
+        vds_max: 500, id_max: 55, rds_mohm: 90, tr_ns: 60, tf_ns: 100,
+        alpha: 0.0070, package: "TO-220", manufacturer: "IXYS",
+        application: "UPS, welding, motor drives"
+      },
+      "STW42N65M5": {
+        name: "STW42N65M5 (Si MOSFET)",
+        vds_max: 650, id_max: 42, rds_mohm: 65, tr_ns: 85, tf_ns: 45,
+        alpha: 0.0075, package: "TO-247", manufacturer: "STMicroelectronics",
+        application: "PFC, resonant converters"
+      },
+      "IRFB4227": {
+        name: "IRFB4227 (Si MOSFET)",
+        vds_max: 200, id_max: 65, rds_mohm: 18, tr_ns: 43, tf_ns: 35,
+        alpha: 0.0065, package: "TO-220AB", manufacturer: "Infineon",
+        application: "DC-DC converters, motor drives"
+      },
+      "STP140N10F7": {
+        name: "STP140N10F7 (Si MOSFET)",
+        vds_max: 100, id_max: 120, rds_mohm: 4.6, tr_ns: 90, tf_ns: 170,
+        alpha: 0.0058, package: "TO-220", manufacturer: "STMicroelectronics",
+        application: "High current switching"
+      },
+      "IRFB3607": {
+        name: "IRFB3607 (Si MOSFET)",
+        vds_max: 75, id_max: 80, rds_mohm: 7.5, tr_ns: 22, tf_ns: 18,
+        alpha: 0.0058, package: "TO-220AB", manufacturer: "Infineon",
+        application: "Synchronous rectification"
+      },
+      "APT10M16JVR": {
+        name: "APT10M16JVR (Si MOSFET)",
+        vds_max: 160, id_max: 75, rds_mohm: 10, tr_ns: 25, tf_ns: 40,
+        alpha: 0.0062, package: "TO-247", manufacturer: "Microsemi",
+        application: "Motor drives, DC-DC converters"
+      },
+      "IRFP4668PBF": {
+        name: "IRFP4668PBF (Si MOSFET)",
+        vds_max: 200, id_max: 130, rds_mohm: 9.7, tr_ns: 80, tf_ns: 100,
+        alpha: 0.0060, package: "TO-247AC", manufacturer: "Infineon",
+        application: "High efficiency synchronous rectification in SMPS"
+      },
+      "IRFP4710": {
+        name: "IRFP4710 (Si MOSFET)",
+        vds_max: 100, id_max: 72, rds_mohm: 14, tr_ns: 55, tf_ns: 95,
+        alpha: 0.0065, package: "TO-247AC", manufacturer: "Infineon",
+        application: "Motor drives, DC-DC converters"
+      },
+      "IRFP4768PBF": {
+        name: "IRFP4768PBF (Si MOSFET)",
+        vds_max: 250, id_max: 93, rds_mohm: 17.5, tr_ns: 105, tf_ns: 93,
+        alpha: 0.0068, package: "TO-247AC", manufacturer: "Infineon",
+        application: "Solar inverters, UPS systems"
+      },
+      "IXFH40N50Q3": {
+        name: "IXFH40N50Q3 (Si MOSFET)",
+        vds_max: 500, id_max: 40, rds_mohm: 160, tr_ns: 25, tf_ns: 42,
+        alpha: 0.0070, package: "TO-247", manufacturer: "IXYS",
+        application: "Switch-mode and resonant-mode power supplies"
+      },
+      "IXFH50N50P3": {
+        name: "IXFH50N50P3 (Si MOSFET)",
+        vds_max: 500, id_max: 50, rds_mohm: 120, tr_ns: 20, tf_ns: 30,
+        alpha: 0.0072, package: "TO-247", manufacturer: "IXYS",
+        application: "DC-DC converters, UPS, motor control"
+      },
+      "IXFH60N50P3": {
+        name: "IXFH60N50P3 (Si MOSFET)",
+        vds_max: 500, id_max: 60, rds_mohm: 95, tr_ns: 22, tf_ns: 35,
+        alpha: 0.0070, package: "TO-247", manufacturer: "IXYS",
+        application: "PFC circuits, solar energy systems"
+      },
+      "IXFH70N30Q3": {
+        name: "IXFH70N30Q3 (Si MOSFET)",
+        vds_max: 300, id_max: 70, rds_mohm: 54, tr_ns: 18, tf_ns: 28,
+        alpha: 0.0065, package: "TO-247", manufacturer: "IXYS",
+        application: "Motor drives, inverters"
+      },
+      "IXFH80N65X2": {
+        name: "IXFH80N65X2 (Si MOSFET)",
+        vds_max: 650, id_max: 80, rds_mohm: 42, tr_ns: 45, tf_ns: 80,
+        alpha: 0.0075, package: "TO-247", manufacturer: "IXYS",
+        application: "High efficiency switching applications"
+      },
+      "IXFH90N20X3": {
+        name: "IXFH90N20X3 (Si MOSFET)",
+        vds_max: 200, id_max: 90, rds_mohm: 13.5, tr_ns: 20, tf_ns: 40,
+        alpha: 0.0060, package: "TO-247", manufacturer: "IXYS",
+        application: "DC-DC converters, synchronous rectification"
+      },
+      "IXFH100N65X3": {
+        name: "IXFH100N65X3 (Si MOSFET)",
+        vds_max: 650, id_max: 100, rds_mohm: 33, tr_ns: 50, tf_ns: 90,
+        alpha: 0.0078, package: "TO-247", manufacturer: "IXYS",
+        application: "Solar inverters, EV chargers"
+      },
+      "IXFH110N10P": {
+        name: "IXFH110N10P (Si MOSFET)",
+        vds_max: 100, id_max: 110, rds_mohm: 11, tr_ns: 30, tf_ns: 50,
+        alpha: 0.0055, package: "TO-247", manufacturer: "IXYS",
+        application: "Motor control, power supplies"
+      },
+      "IXFH120N20P": {
+        name: "IXFH120N20P (Si MOSFET)",
+        vds_max: 200, id_max: 120, rds_mohm: 18, tr_ns: 35, tf_ns: 55,
+        alpha: 0.0062, package: "TO-247", manufacturer: "IXYS",
+        application: "UPS systems, welding machines"
+      },
+      "IXFH150N17T2": {
+        name: "IXFH150N17T2 (Si MOSFET)",
+        vds_max: 170, id_max: 150, rds_mohm: 12, tr_ns: 40, tf_ns: 60,
+        alpha: 0.0060, package: "TO-247", manufacturer: "IXYS",
+        application: "High current switching, automotive"
+      },
+      "IXFH180N10T": {
+        name: "IXFH180N10T (Si MOSFET)",
+        vds_max: 100, id_max: 180, rds_mohm: 6.5, tr_ns: 45, tf_ns: 70,
+        alpha: 0.0058, package: "TO-247", manufacturer: "IXYS",
+        application: "Battery management systems"
+      },
+      "IXFH200N10P": {
+        name: "IXFH200N10P (Si MOSFET)",
+        vds_max: 100, id_max: 200, rds_mohm: 6.5, tr_ns: 50, tf_ns: 80,
+        alpha: 0.0055, package: "TO-247", manufacturer: "IXYS",
+        application: "DC motor drives, power tools"
+      },
+      "IXFH220N06T3": {
+        name: "IXFH220N06T3 (Si MOSFET)",
+        vds_max: 60, id_max: 220, rds_mohm: 3.5, tr_ns: 25, tf_ns: 40,
+        alpha: 0.0050, package: "TO-247", manufacturer: "IXYS",
+        application: "Synchronous rectification, low voltage applications"
+      },
+      "IXFH230N075T2": {
+        name: "IXFH230N075T2 (Si MOSFET)",
+        vds_max: 75, id_max: 230, rds_mohm: 3.5, tr_ns: 30, tf_ns: 50,
+        alpha: 0.0052, package: "TO-247", manufacturer: "IXYS",
+        application: "Automotive power systems"
+      },
+      "IXFH240N075X3": {
+        name: "IXFH240N075X3 (Si MOSFET)",
+        vds_max: 75, id_max: 240, rds_mohm: 2.8, tr_ns: 35, tf_ns: 55,
+        alpha: 0.0050, package: "TO-247", manufacturer: "IXYS",
+        application: "EV auxiliary systems"
+      },
+      "IXFH250N10T": {
+        name: "IXFH250N10T (Si MOSFET)",
+        vds_max: 100, id_max: 250, rds_mohm: 5, tr_ns: 40, tf_ns: 60,
+        alpha: 0.0055, package: "TO-247", manufacturer: "IXYS",
+        application: "High power converters"
+      },
+      "IXFH300N07T2": {
+        name: "IXFH300N07T2 (Si MOSFET)",
+        vds_max: 70, id_max: 300, rds_mohm: 2.5, tr_ns: 45, tf_ns: 70,
+        alpha: 0.0048, package: "TO-247", manufacturer: "IXYS",
+        application: "Power factor correction"
+      },
+      "IXFH320N10T2": {
+        name: "IXFH320N10T2 (Si MOSFET)",
+        vds_max: 100, id_max: 320, rds_mohm: 3.5, tr_ns: 50, tf_ns: 80,
+        alpha: 0.0050, package: "TO-247", manufacturer: "IXYS",
+        application: "Industrial motor drives"
+      },
+      "IXFH360N10T": {
+        name: "IXFH360N10T (Si MOSFET)",
+        vds_max: 100, id_max: 360, rds_mohm: 3, tr_ns: 55, tf_ns: 90,
+        alpha: 0.0052, package: "TO-247", manufacturer: "IXYS",
+        application: "Renewable energy systems"
+      },
+      "IXFH400N075T2": {
+        name: "IXFH400N075T2 (Si MOSFET)",
+        vds_max: 75, id_max: 400, rds_mohm: 2, tr_ns: 60, tf_ns: 100,
+        alpha: 0.0045, package: "TO-247", manufacturer: "IXYS",
+        application: "High current applications"
+      },
+      "IXFH500N10P": {
+        name: "IXFH500N10P (Si MOSFET)",
+        vds_max: 100, id_max: 500, rds_mohm: 2.5, tr_ns: 65, tf_ns: 110,
+        alpha: 0.0050, package: "TO-247", manufacturer: "IXYS",
+        application: "Welding equipment, plasma cutters"
+      },
+      "IXFH600N07T": {
+        name: "IXFH600N07T (Si MOSFET)",
+        vds_max: 70, id_max: 600, rds_mohm: 1.8, tr_ns: 70, tf_ns: 120,
+        alpha: 0.0045, package: "TO-247", manufacturer: "IXYS",
+        application: "Battery chargers, power supplies"
+      },
+      "IXFH700N06T": {
+        name: "IXFH700N06T (Si MOSFET)",
+        vds_max: 60, id_max: 700, rds_mohm: 1.5, tr_ns: 75, tf_ns: 130,
+        alpha: 0.0042, package: "TO-247", manufacturer: "IXYS",
+        application: "Electric vehicle systems"
+      },
+      "IXFH800N075T": {
+        name: "IXFH800N075T (Si MOSFET)",
+        vds_max: 75, id_max: 800, rds_mohm: 1.2, tr_ns: 80, tf_ns: 140,
+        alpha: 0.0040, package: "TO-247", manufacturer: "IXYS",
+        application: "High power audio amplifiers"
+      },
+      "IXFH900N10T": {
+        name: "IXFH900N10T (Si MOSFET)",
+        vds_max: 100, id_max: 900, rds_mohm: 1.1, tr_ns: 85, tf_ns: 150,
+        alpha: 0.0045, package: "TO-247", manufacturer: "IXYS",
+        application: "Induction heating systems"
+      },
+      "IXFH1000N08T": {
+        name: "IXFH1000N08T (Si MOSFET)",
+        vds_max: 80, id_max: 1000, rds_mohm: 1.0, tr_ns: 90, tf_ns: 160,
+        alpha: 0.0040, package: "TO-247", manufacturer: "IXYS",
+        application: "Medical power supplies"
+      },
+      "STW9NK90Z": {
+        name: "STW9NK90Z (Si MOSFET)",
+        vds_max: 900, id_max: 8, rds_mohm: 1200, tr_ns: 30, tf_ns: 70,
+        alpha: 0.0085, package: "TO-247", manufacturer: "STMicroelectronics",
+        application: "High voltage switching"
+      },
+      "STW11NK100Z": {
+        name: "STW11NK100Z (Si MOSFET)",
+        vds_max: 1000, id_max: 8.3, rds_mohm: 1300, tr_ns: 35, tf_ns: 75,
+        alpha: 0.0090, package: "TO-247", manufacturer: "STMicroelectronics",
+        application: "SMPS, lighting ballasts"
+      },
+      "STW13NK100Z": {
+        name: "STW13NK100Z (Si MOSFET)",
+        vds_max: 1000, id_max: 10, rds_mohm: 850, tr_ns: 40, tf_ns: 80,
+        alpha: 0.0088, package: "TO-247", manufacturer: "STMicroelectronics",
+        application: "Industrial power supplies"
+      },
+      "STW15NK90Z": {
+        name: "STW15NK90Z (Si MOSFET)",
+        vds_max: 900, id_max: 15, rds_mohm: 450, tr_ns: 45, tf_ns: 85,
+        alpha: 0.0080, package: "TO-247", manufacturer: "STMicroelectronics",
+        application: "Welding machines, UPS"
+      },
+      "STW18NK80Z": {
+        name: "STW18NK80Z (Si MOSFET)",
+        vds_max: 800, id_max: 18, rds_mohm: 350, tr_ns: 50, tf_ns: 90,
+        alpha: 0.0075, package: "TO-247", manufacturer: "STMicroelectronics",
+        application: "Motor control, inverters"
+      },
+      "STW20NK50Z": {
+        name: "STW20NK50Z (Si MOSFET)",
+        vds_max: 500, id_max: 17, rds_mohm: 230, tr_ns: 25, tf_ns: 45,
+        alpha: 0.0070, package: "TO-247", manufacturer: "STMicroelectronics",
+        application: "Audio amplifiers, power supplies"
+      },
+      "STW21N150K5": {
+        name: "STW21N150K5 (Si MOSFET)",
+        vds_max: 1500, id_max: 14, rds_mohm: 750, tr_ns: 60, tf_ns: 100,
+        alpha: 0.0095, package: "TO-247", manufacturer: "STMicroelectronics",
+        application: "High voltage applications, X-ray generators"
+      },
+      "STW24N60M2": {
+        name: "STW24N60M2 (Si MOSFET)",
+        vds_max: 600, id_max: 18, rds_mohm: 190, tr_ns: 20, tf_ns: 40,
+        alpha: 0.0075, package: "TO-247", manufacturer: "STMicroelectronics",
+        application: "SMPS, solar inverters"
+      },
+      "STW26NM60N": {
+        name: "STW26NM60N (Si MOSFET)",
+        vds_max: 600, id_max: 20, rds_mohm: 160, tr_ns: 25, tf_ns: 50,
+        alpha: 0.0072, package: "TO-247", manufacturer: "STMicroelectronics",
+        application: "PFC stages, resonant converters"
+      },
+      "STW28N60DM2": {
+        name: "STW28N60DM2 (Si MOSFET)",
+        vds_max: 600, id_max: 21, rds_mohm: 150, tr_ns: 30, tf_ns: 60,
+        alpha: 0.0070, package: "TO-247", manufacturer: "STMicroelectronics",
+        application: "Telecom power supplies"
+      },
+      "STW30N80K5": {
+        name: "STW30N80K5 (Si MOSFET)",
+        vds_max: 800, id_max: 24, rds_mohm: 175, tr_ns: 35, tf_ns: 70,
+        alpha: 0.0078, package: "TO-247", manufacturer: "STMicroelectronics",
+        application: "Industrial drives, UPS"
+      },
+      "STW33N60M2": {
+        name: "STW33N60M2 (Si MOSFET)",
+        vds_max: 600, id_max: 26, rds_mohm: 115, tr_ns: 40, tf_ns: 80,
+        alpha: 0.0070, package: "TO-247", manufacturer: "STMicroelectronics",
+        application: "EV chargers, renewable energy"
+      },
+      "STW34NM60N": {
+        name: "STW34NM60N (Si MOSFET)",
+        vds_max: 600, id_max: 29, rds_mohm: 99, tr_ns: 45, tf_ns: 90,
+        alpha: 0.0068, package: "TO-247", manufacturer: "STMicroelectronics",
+        application: "Motor control systems"
+      },
+      "STW36N55M5": {
+        name: "STW36N55M5 (Si MOSFET)",
+        vds_max: 550, id_max: 33, rds_mohm: 80, tr_ns: 50, tf_ns: 100,
+        alpha: 0.0065, package: "TO-247", manufacturer: "STMicroelectronics",
+        application: "High efficiency converters"
+      },
+      "STW40N95DK5": {
+        name: "STW40N95DK5 (Si MOSFET)",
+        vds_max: 950, id_max: 38, rds_mohm: 110, tr_ns: 55, tf_ns: 110,
+        alpha: 0.0080, package: "TO-247", manufacturer: "STMicroelectronics",
+        application: "High voltage power supplies"
+      },
+      "STW45NM60": {
+        name: "STW45NM60 (Si MOSFET)",
+        vds_max: 600, id_max: 45, rds_mohm: 90, tr_ns: 60, tf_ns: 120,
+        alpha: 0.0070, package: "TO-247", manufacturer: "STMicroelectronics",
+        application: "Industrial applications"
+      },
+      "STW48N60M2": {
+        name: "STW48N60M2 (Si MOSFET)",
+        vds_max: 600, id_max: 37, rds_mohm: 69, tr_ns: 65, tf_ns: 130,
+        alpha: 0.0068, package: "TO-247", manufacturer: "STMicroelectronics",
+        application: "Server power supplies"
+      },
+      "STW50N65DM2AG": {
+        name: "STW50N65DM2AG (Si MOSFET)",
+        vds_max: 650, id_max: 38, rds_mohm: 76, tr_ns: 70, tf_ns: 140,
+        alpha: 0.0072, package: "TO-247", manufacturer: "STMicroelectronics",
+        application: "Automotive grade, EV systems"
+      },
+      "STW55NM60N": {
+        name: "STW55NM60N (Si MOSFET)",
+        vds_max: 600, id_max: 51, rds_mohm: 50, tr_ns: 75, tf_ns: 150,
+        alpha: 0.0065, package: "TO-247", manufacturer: "STMicroelectronics",
+        application: "High power inverters"
+      },
+      "STW60NM50N": {
+        name: "STW60NM50N (Si MOSFET)",
+        vds_max: 500, id_max: 60, rds_mohm: 45, tr_ns: 80, tf_ns: 160,
+        alpha: 0.0062, package: "TO-247", manufacturer: "STMicroelectronics",
+        application: "Renewable energy converters"
+      },
+      "STW65N65DM2AG": {
+        name: "STW65N65DM2AG (Si MOSFET)",
+        vds_max: 650, id_max: 48, rds_mohm: 50, tr_ns: 85, tf_ns: 170,
+        alpha: 0.0070, package: "TO-247", manufacturer: "STMicroelectronics",
+        application: "Automotive power systems"
+      },
+      "STW69N65M5": {
+        name: "STW69N65M5 (Si MOSFET)",
+        vds_max: 650, id_max: 58, rds_mohm: 45, tr_ns: 90, tf_ns: 180,
+        alpha: 0.0072, package: "TO-247", manufacturer: "STMicroelectronics",
+        application: "Industrial motor drives"
+      },
+      "STW70N60DM2": {
+        name: "STW70N60DM2 (Si MOSFET)",
+        vds_max: 600, id_max: 66, rds_mohm: 40, tr_ns: 95, tf_ns: 190,
+        alpha: 0.0068, package: "TO-247", manufacturer: "STMicroelectronics",
+        application: "High efficiency SMPS"
+      },
+      "STW75NF30": {
+        name: "STW75NF30 (Si MOSFET)",
+        vds_max: 300, id_max: 60, rds_mohm: 33, tr_ns: 100, tf_ns: 200,
+        alpha: 0.0065, package: "TO-247", manufacturer: "STMicroelectronics",
+        application: "DC-DC converters"
+      },
+      "STW77N65M5": {
+        name: "STW77N65M5 (Si MOSFET)",
+        vds_max: 650, id_max: 69, rds_mohm: 38, tr_ns: 105, tf_ns: 210,
+        alpha: 0.0070, package: "TO-247", manufacturer: "STMicroelectronics",
+        application: "Solar inverters"
+      },
+      "STW80N70F6": {
+        name: "STW80N70F6 (Si MOSFET)",
+        vds_max: 68, id_max: 74, rds_mohm: 5.8, tr_ns: 20, tf_ns: 40,
+        alpha: 0.0050, package: "TO-247", manufacturer: "STMicroelectronics",
+        application: "Low voltage high current applications"
+      },
+      "STW88N65M5": {
+        name: "STW88N65M5 (Si MOSFET)",
+        vds_max: 650, id_max: 69, rds_mohm: 29, tr_ns: 110, tf_ns: 220,
+        alpha: 0.0072, package: "TO-247", manufacturer: "STMicroelectronics",
+        application: "High power applications"
+      },
+      "STW90NK80Z": {
+        name: "STW90NK80Z (Si MOSFET)",
+        vds_max: 800, id_max: 90, rds_mohm: 40, tr_ns: 115, tf_ns: 230,
+        alpha: 0.0075, package: "TO-247", manufacturer: "STMicroelectronics",
+        application: "Industrial power systems"
+      },
+      "IRF1010E": {
+        name: "IRF1010E (Si MOSFET)",
+        vds_max: 60, id_max: 84, rds_mohm: 12, tr_ns: 25, tf_ns: 50,
+        alpha: 0.0055, package: "TO-220AB", manufacturer: "Infineon",
+        application: "Automotive applications"
+      },
+      "IRF1404": {
+        name: "IRF1404 (Si MOSFET)",
+        vds_max: 40, id_max: 202, rds_mohm: 4, tr_ns: 30, tf_ns: 60,
+        alpha: 0.0050, package: "TO-220AB", manufacturer: "Infineon",
+        application: "DC motor control"
+      },
+      "IRF2804": {
+        name: "IRF2804 (Si MOSFET)",
+        vds_max: 40, id_max: 280, rds_mohm: 2.3, tr_ns: 35, tf_ns: 70,
+        alpha: 0.0048, package: "TO-220AB", manufacturer: "Infineon",
+        application: "High current switching"
+      },
+      "IRF2903Z": {
+        name: "IRF2903Z (Si MOSFET)",
+        vds_max: 30, id_max: 260, rds_mohm: 2.4, tr_ns: 40, tf_ns: 80,
+        alpha: 0.0045, package: "TO-220AB", manufacturer: "Infineon",
+        application: "Synchronous rectification"
+      },
+      "IRF3710": {
+        name: "IRF3710 (Si MOSFET)",
+        vds_max: 100, id_max: 57, rds_mohm: 23, tr_ns: 45, tf_ns: 90,
+        alpha: 0.0060, package: "TO-220AB", manufacturer: "Infineon",
+        application: "Power supplies"
+      },
+      "IRF530N": {
+        name: "IRF530N (Si MOSFET)",
+        vds_max: 100, id_max: 17, rds_mohm: 90, tr_ns: 50, tf_ns: 100,
+        alpha: 0.0065, package: "TO-220AB", manufacturer: "Infineon",
+        application: "General purpose"
+      },
+      "IRF640N": {
+        name: "IRF640N (Si MOSFET)",
+        vds_max: 200, id_max: 18, rds_mohm: 150, tr_ns: 55, tf_ns: 110,
+        alpha: 0.0068, package: "TO-220AB", manufacturer: "Infineon",
+        application: "Switching applications"
+      },
+      "IRF830": {
+        name: "IRF830 (Si MOSFET)",
+        vds_max: 500, id_max: 4.5, rds_mohm: 1500, tr_ns: 60, tf_ns: 120,
+        alpha: 0.0075, package: "TO-220AB", manufacturer: "Infineon",
+        application: "High voltage switching"
+      },
+      "IRFBC40": {
+        name: "IRFBC40 (Si MOSFET)",
+        vds_max: 600, id_max: 6.2, rds_mohm: 1200, tr_ns: 65, tf_ns: 130,
+        alpha: 0.0080, package: "TO-220AB", manufacturer: "Infineon",
+        application: "SMPS"
+      },
+      "IRFP450": {
+        name: "IRFP450 (Si MOSFET)",
+        vds_max: 500, id_max: 14, rds_mohm: 400, tr_ns: 70, tf_ns: 140,
+        alpha: 0.0072, package: "TO-247AC", manufacturer: "Infineon",
+        application: "Power amplifiers"
+      },
+      "IRFPS37N50A": {
+        name: "IRFPS37N50A (Si MOSFET)",
+        vds_max: 500, id_max: 36, rds_mohm: 130, tr_ns: 75, tf_ns: 150,
+        alpha: 0.0070, package: "Super-247", manufacturer: "Infineon",
+        application: "High power switching"
+      },
+      "IRFPS40N50L": {
+        name: "IRFPS40N50L (Si MOSFET)",
+        vds_max: 500, id_max: 46, rds_mohm: 100, tr_ns: 80, tf_ns: 160,
+        alpha: 0.0068, package: "Super-247", manufacturer: "Infineon",
+        application: "Motor drives"
+      },
+      "IRFPS43N50K": {
+        name: "IRFPS43N50K (Si MOSFET)",
+        vds_max: 500, id_max: 47, rds_mohm: 85, tr_ns: 85, tf_ns: 170,
+        alpha: 0.0065, package: "Super-247", manufacturer: "Infineon",
+        application: "UPS systems"
+      },
+      "IRFPS60N50C": {
+        name: "IRFPS60N50C (Si MOSFET)",
+        vds_max: 500, id_max: 57, rds_mohm: 70, tr_ns: 90, tf_ns: 180,
+        alpha: 0.0062, package: "Super-247", manufacturer: "Infineon",
+        application: "Industrial inverters"
+      },
+      "IPB60R099C6": {
+        name: "IPB60R099C6 (Si MOSFET)",
+        vds_max: 600, id_max: 38, rds_mohm: 99, tr_ns: 12, tf_ns: 26,
+        alpha: 0.0070, package: "TO-263", manufacturer: "Infineon",
+        application: "Solar inverters, EV chargers"
+      },
+      "IPB60R040C7": {
+        name: "IPB60R040C7 (Si MOSFET)",
+        vds_max: 600, id_max: 46, rds_mohm: 40, tr_ns: 18, tf_ns: 38,
+        alpha: 0.0068, package: "TO-263", manufacturer: "Infineon",
+        application: "Server power supplies"
+      },
+      "IPW65R041CFD": {
+        name: "IPW65R041CFD (Si MOSFET)",
+        vds_max: 650, id_max: 68.5, rds_mohm: 41, tr_ns: 22, tf_ns: 48,
+        alpha: 0.0072, package: "TO-247", manufacturer: "Infineon",
+        application: "Telecom power supplies"
+      },
+      "IPW65R019C7": {
+        name: "IPW65R019C7 (Si MOSFET)",
+        vds_max: 650, id_max: 75, rds_mohm: 19, tr_ns: 28, tf_ns: 58,
+        alpha: 0.0065, package: "TO-247", manufacturer: "Infineon",
+        application: "Industrial drives"
+      },
+      "IPW90R120C3": {
+        name: "IPW90R120C3 (Si MOSFET)",
+        vds_max: 900, id_max: 36, rds_mohm: 120, tr_ns: 32, tf_ns: 68,
+        alpha: 0.0080, package: "TO-247", manufacturer: "Infineon",
+        application: "High voltage applications"
+      },
+      "IPW60R017C7": {
+        name: "IPW60R017C7 (Si MOSFET)",
+        vds_max: 600, id_max: 109, rds_mohm: 17, tr_ns: 35, tf_ns: 75,
+        alpha: 0.0062, package: "TO-247", manufacturer: "Infineon",
+        application: "High power SMPS"
+    },
     // Ниско напрежение Si MOSFETs (12V-100V)
     "IRF540N": {
       name: "IRF540N (Si MOSFET)",
@@ -432,7 +1147,7 @@ const TRANSISTOR_DB = {
       alpha: 0.0060, package: "TO-220AB", manufacturer: "Infineon",
       application: "Logic level gate drive, DC-DC"
     },
-    
+
     // Средно напрежение Si MOSFETs (200V-600V)
     "IRF840": {
       name: "IRF840 (Si MOSFET)",
@@ -464,7 +1179,7 @@ const TRANSISTOR_DB = {
       alpha: 0.0075, package: "TO-220", manufacturer: "Fairchild",
       application: "SMPS, UPS systems"
     },
-    
+
     // Високо напрежение Si MOSFETs и IGBTs (600V+)
     "2SK4017": {
       name: "2SK4017 (Si MOSFET)",
@@ -655,8 +1370,398 @@ const TRANSISTOR_DB = {
       application: "Motor drives, DC-DC converters"
     }
   },
-  
+
   SiC: {
+    // 650V SiC MOSFETs
+      "C2M0160120D": {
+        name: "C2M0160120D (SiC MOSFET)",
+        vds_max: 1200, id_max: 19, rds_mohm: 160, tr_ns: 18, tf_ns: 35,
+        alpha: 0.002, package: "TO-247-3", manufacturer: "Wolfspeed",
+        application: "PFC, LLC резонансни конвертори"
+      },
+      "SCT3030AL": {
+        name: "SCT3030AL (SiC MOSFET)",
+        vds_max: 650, id_max: 45, rds_mohm: 30, tr_ns: 18, tf_ns: 12,
+        alpha: 0.0025, package: "TO-247-4", manufacturer: "ROHM",
+        application: "Бързо превключване, висока ефективност"
+      },
+      "C3M0065090D": {
+        name: "C3M0065090D (SiC MOSFET)",
+        vds_max: 900, id_max: 36, rds_mohm: 65, tr_ns: 12, tf_ns: 24,
+        alpha: 0.002, package: "TO-247-4", manufacturer: "Wolfspeed",
+        application: "Електрически превозни средства"
+      },
+      "UF3C065030K4S": {
+        name: "UF3C065030K4S (SiC MOSFET)",
+        vds_max: 650, id_max: 60, rds_mohm: 30, tr_ns: 10, tf_ns: 8,
+        alpha: 0.0018, package: "TO-247-4", manufacturer: "UnitedSiC",
+        application: "Бързи DC-DC конвертори"
+      },
+
+      // 1200V SiC MOSFETs
+      "C2M0080120D": {
+        name: "C2M0080120D (SiC MOSFET)",
+        vds_max: 1200, id_max: 36, rds_mohm: 80, tr_ns: 13, tf_ns: 24,
+        alpha: 0.002, package: "TO-247-3", manufacturer: "Wolfspeed",
+        application: "Соларни инвертори, три-фазни мотори"
+      },
+      "AIMW120R060M1": {
+        name: "AIMW120R060M1 (SiC MOSFET)",
+        vds_max: 1200, id_max: 31, rds_mohm: 60, tr_ns: 15, tf_ns: 20,
+        alpha: 0.002, package: "TO-247-4", manufacturer: "Infineon",
+        application: "Индустриални драйвери, UPS"
+      },
+      "SCT2080KE": {
+        name: "SCT2080KE (SiC MOSFET)",
+        vds_max: 1200, id_max: 37, rds_mohm: 80, tr_ns: 20, tf_ns: 16,
+        alpha: 0.0022, package: "TO-247", manufacturer: "ROHM",
+        application: "Високотемпературни приложения"
+      },
+
+      // 1700V SiC MOSFETs
+      "C2M0025170D": {
+        name: "C2M0025170D (SiC MOSFET)",
+        vds_max: 1700, id_max: 60, rds_mohm: 25, tr_ns: 25, tf_ns: 45,
+        alpha: 0.0015, package: "TO-247-4", manufacturer: "Wolfspeed",
+        application: "Високоволтови преобразуватели"
+      },
+      // Нови SiC MOSFETs
+      "C2M0040120D": {
+        name: "C2M0040120D (SiC MOSFET)",
+        vds_max: 1200, id_max: 60, rds_mohm: 40, tr_ns: 18, tf_ns: 23,
+        alpha: 0.0018, package: "TO-247", manufacturer: "Wolfspeed",
+        application: "Industrial motor drives"
+      },
+      "C2M0025120D": {
+        name: "C2M0025120D (SiC MOSFET)",
+        vds_max: 1200, id_max: 90, rds_mohm: 25, tr_ns: 20, tf_ns: 26,
+        alpha: 0.0015, package: "TO-247", manufacturer: "Wolfspeed",
+        application: "EV charging, grid tie inverters"
+      },
+      "SCT3120AL": {
+        name: "SCT3120AL (SiC MOSFET)",
+        vds_max: 1200, id_max: 35, rds_mohm: 120, tr_ns: 22, tf_ns: 28,
+        alpha: 0.0025, package: "TO-247", manufacturer: "Rohm",
+        application: "Power supplies"
+      },
+      "SCT3080KL": {
+        name: "SCT3080KL (SiC MOSFET)",
+        vds_max: 1200, id_max: 52, rds_mohm: 80, tr_ns: 25, tf_ns: 20,
+        alpha: 0.0022, package: "TO-247", manufacturer: "Rohm",
+        application: "Motor drives"
+      },
+      "STW88N65M5": {
+        name: "STW88N65M5 (SiC MOSFET)",
+        vds_max: 650, id_max: 80, rds_mohm: 65, tr_ns: 28, tf_ns: 15,
+        alpha: 0.0020, package: "H2PAK", manufacturer: "STMicroelectronics",
+        application: "Automotive OBC"
+      },
+      "UF3C120040K4S": {
+        name: "UF3C120040K4S (SiC MOSFET)",
+        vds_max: 1200, id_max: 72, rds_mohm: 40, tr_ns: 19, tf_ns: 22,
+        alpha: 0.0018, package: "TO-247", manufacturer: "UnitedSiC",
+        application: "High efficiency power conversion"
+      },
+      "IMW65R027M1H": {
+        name: "IMW65R027M1H (SiC MOSFET)",
+        vds_max: 650, id_max: 90, rds_mohm: 27, tr_ns: 12, tf_ns: 18,
+        alpha: 0.0016, package: "TO-247", manufacturer: "Infineon",
+        application: "Server PSU, telecom"
+      },
+      "SCT2450KE": {
+        name: "SCT2450KE (SiC MOSFET)",
+        vds_max: 650, id_max: 45, rds_mohm: 45, tr_ns: 18, tf_ns: 12,
+        alpha: 0.0018, package: "TO-247", manufacturer: "Rohm",
+        application: "AC servo drives"
+      },
+      "IMW120R045M1H": {
+        name: "IMW120R045M1H (SiC MOSFET)",
+        vds_max: 1200, id_max: 45, rds_mohm: 45, tr_ns: 22, tf_ns: 18,
+        alpha: 0.0020, package: "TO-247", manufacturer: "Infineon",
+        application: "Traction inverters"
+      },
+      "SCT2160KE": {
+        name: "SCT2160KE (SiC MOSFET)",
+        vds_max: 650, id_max: 25, rds_mohm: 160, tr_ns: 15, tf_ns: 22,
+        alpha: 0.0025, package: "TO-220", manufacturer: "Rohm",
+        application: "SMPS applications"
+      },
+      "C3M0032120K": {
+        name: "C3M0032120K (SiC MOSFET)",
+        vds_max: 1200, id_max: 63, rds_mohm: 32, tr_ns: 10, tf_ns: 14,
+        alpha: 0.0015, package: "TO-247-4", manufacturer: "Wolfspeed",
+        application: "EV fast chargers, solar inverters"
+      },
+      "C3M0016120K": {
+        name: "C3M0016120K (SiC MOSFET)",
+        vds_max: 1200, id_max: 115, rds_mohm: 16, tr_ns: 9, tf_ns: 15,
+        alpha: 0.0014, package: "TO-247-4", manufacturer: "Wolfspeed",
+        application: "Industrial power supplies, UPS"
+      },
+      "C3M0021120K": {
+        name: "C3M0021120K (SiC MOSFET)",
+        vds_max: 1200, id_max: 100, rds_mohm: 21, tr_ns: 11, tf_ns: 16,
+        alpha: 0.0016, package: "TO-247-4", manufacturer: "Wolfspeed",
+        application: "Renewable energy systems"
+      },
+      "C3M0040120K": {
+        name: "C3M0040120K (SiC MOSFET)",
+        vds_max: 1200, id_max: 58, rds_mohm: 40, tr_ns: 12, tf_ns: 18,
+        alpha: 0.0017, package: "TO-247-4", manufacturer: "Wolfspeed",
+        application: "Motor drives, traction"
+      },
+      "C3M0060065K": {
+        name: "C3M0060065K (SiC MOSFET)",
+        vds_max: 650, id_max: 37, rds_mohm: 60, tr_ns: 8, tf_ns: 12,
+        alpha: 0.0015, package: "TO-247-4", manufacturer: "Wolfspeed",
+        application: "Server PSU, telecom"
+      },
+      "C3M0015065K": {
+        name: "C3M0015065K (SiC MOSFET)",
+        vds_max: 650, id_max: 107, rds_mohm: 15, tr_ns: 10, tf_ns: 15,
+        alpha: 0.0013, package: "TO-247-4", manufacturer: "Wolfspeed",
+        application: "EV onboard chargers"
+      },
+      "C3M0025065K": {
+        name: "C3M0025065K (SiC MOSFET)",
+        vds_max: 650, id_max: 76, rds_mohm: 25, tr_ns: 9, tf_ns: 14,
+        alpha: 0.0014, package: "TO-247-4", manufacturer: "Wolfspeed",
+        application: "Solar inverters"
+      },
+      "C3M0030065K": {
+        name: "C3M0030065K (SiC MOSFET)",
+        vds_max: 650, id_max: 63, rds_mohm: 30, tr_ns: 11, tf_ns: 16,
+        alpha: 0.0015, package: "TO-247-4", manufacturer: "Wolfspeed",
+        application: "Industrial drives"
+      },
+      "C3M0075120K": {
+        name: "C3M0075120K (SiC MOSFET)",
+        vds_max: 1200, id_max: 30, rds_mohm: 75, tr_ns: 13, tf_ns: 19,
+        alpha: 0.0018, package: "TO-247-4", manufacturer: "Wolfspeed",
+        application: "High frequency switching"
+      },
+      "C3M0120090J": {
+        name: "C3M0120090J (SiC MOSFET)",
+        vds_max: 900, id_max: 23, rds_mohm: 120, tr_ns: 14, tf_ns: 20,
+        alpha: 0.0020, package: "TO-263-7", manufacturer: "Wolfspeed",
+        application: "Compact power modules"
+      },
+      "IMW120R027M1H": {
+        name: "IMW120R027M1H (SiC MOSFET)",
+        vds_max: 1200, id_max: 80, rds_mohm: 27, tr_ns: 15, tf_ns: 22,
+        alpha: 0.0016, package: "TO-247", manufacturer: "Infineon",
+        application: "EV traction inverters"
+      },
+      "IMW120R040M1H": {
+        name: "IMW120R040M1H (SiC MOSFET)",
+        vds_max: 1200, id_max: 56, rds_mohm: 40, tr_ns: 16, tf_ns: 24,
+        alpha: 0.0017, package: "TO-247", manufacturer: "Infineon",
+        application: "Solar central inverters"
+      },
+      "IMW120R060M1H": {
+        name: "IMW120R060M1H (SiC MOSFET)",
+        vds_max: 1200, id_max: 37, rds_mohm: 60, tr_ns: 17, tf_ns: 25,
+        alpha: 0.0018, package: "TO-247", manufacturer: "Infineon",
+        application: "UPS systems"
+      },
+      "IMW120R090M1H": {
+        name: "IMW120R090M1H (SiC MOSFET)",
+        vds_max: 1200, id_max: 26, rds_mohm: 90, tr_ns: 18, tf_ns: 26,
+        alpha: 0.0020, package: "TO-247", manufacturer: "Infineon",
+        application: "Industrial welders"
+      },
+      "IMW120R220M1H": {
+        name: "IMW120R220M1H (SiC MOSFET)",
+        vds_max: 1200, id_max: 13, rds_mohm: 220, tr_ns: 19, tf_ns: 28,
+        alpha: 0.0022, package: "TO-247", manufacturer: "Infineon",
+        application: "Medical equipment"
+      },
+      "IMZA65R027M1H": {
+        name: "IMZA65R027M1H (SiC MOSFET)",
+        vds_max: 650, id_max: 63, rds_mohm: 27, tr_ns: 10, tf_ns: 15,
+        alpha: 0.0015, package: "TO-247-4", manufacturer: "Infineon",
+        application: "Server PSU"
+      },
+      "IMZA65R048M1H": {
+        name: "IMZA65R048M1H (SiC MOSFET)",
+        vds_max: 650, id_max: 39, rds_mohm: 48, tr_ns: 11, tf_ns: 16,
+        alpha: 0.0016, package: "TO-247-4", manufacturer: "Infineon",
+        application: "Telecom rectifiers"
+      },
+      "IMZA65R072M1H": {
+        name: "IMZA65R072M1H (SiC MOSFET)",
+        vds_max: 650, id_max: 26, rds_mohm: 72, tr_ns: 12, tf_ns: 18,
+        alpha: 0.0017, package: "TO-247-4", manufacturer: "Infineon",
+        application: "EV chargers"
+      },
+      "IMZA65R107M1H": {
+        name: "IMZA65R107M1H (SiC MOSFET)",
+        vds_max: 650, id_max: 18, rds_mohm: 107, tr_ns: 13, tf_ns: 19,
+        alpha: 0.0018, package: "TO-247-4", manufacturer: "Infineon",
+        application: "Solar microinverters"
+      },
+      "IMZA120R027M1H": {
+        name: "IMZA120R027M1H (SiC MOSFET)",
+        vds_max: 1200, id_max: 75, rds_mohm: 27, tr_ns: 14, tf_ns: 20,
+        alpha: 0.0016, package: "TO-247-4", manufacturer: "Infineon",
+        application: "Traction systems"
+      },
+      "IMZA120R040M1H": {
+        name: "IMZA120R040M1H (SiC MOSFET)",
+        vds_max: 1200, id_max: 52, rds_mohm: 40, tr_ns: 15, tf_ns: 22,
+        alpha: 0.0017, package: "TO-247-4", manufacturer: "Infineon",
+        application: "Wind turbine converters"
+      },
+      "IMZA120R060M1H": {
+        name: "IMZA120R060M1H (SiC MOSFET)",
+        vds_max: 1200, id_max: 36, rds_mohm: 60, tr_ns: 16, tf_ns: 24,
+        alpha: 0.0018, package: "TO-247-4", manufacturer: "Infineon",
+        application: "Grid-tied inverters"
+      },
+      "IMZA120R090M1H": {
+        name: "IMZA120R090M1H (SiC MOSFET)",
+        vds_max: 1200, id_max: 25, rds_mohm: 90, tr_ns: 17, tf_ns: 25,
+        alpha: 0.0020, package: "TO-247-4", manufacturer: "Infineon",
+        application: "Industrial automation"
+      },
+      "SCTW90N65G2V": {
+        name: "SCTW90N65G2V (SiC MOSFET)",
+        vds_max: 650, id_max: 119, rds_mohm: 18, tr_ns: 20, tf_ns: 30,
+        alpha: 0.0015, package: "TO-247", manufacturer: "STMicroelectronics",
+        application: "EV fast charging stations"
+      },
+      "SCTW100N120G2AG": {
+        name: "SCTW100N120G2AG (SiC MOSFET)",
+        vds_max: 1200, id_max: 75, rds_mohm: 30, tr_ns: 22, tf_ns: 32,
+        alpha: 0.0017, package: "TO-247", manufacturer: "STMicroelectronics",
+        application: "Automotive traction inverters"
+      },
+      "SCTW35N65G2VAG": {
+        name: "SCTW35N65G2VAG (SiC MOSFET)",
+        vds_max: 650, id_max: 45, rds_mohm: 52, tr_ns: 18, tf_ns: 28,
+        alpha: 0.0018, package: "TO-247", manufacturer: "STMicroelectronics",
+        application: "Solar inverters"
+      },
+      "SCTWA50N120": {
+        name: "SCTWA50N120 (SiC MOSFET)",
+        vds_max: 1200, id_max: 65, rds_mohm: 52, tr_ns: 24, tf_ns: 34,
+        alpha: 0.0019, package: "HiP247", manufacturer: "STMicroelectronics",
+        application: "Industrial motor drives"
+      },
+      "SCTWA90N65G2V-4": {
+        name: "SCTWA90N65G2V-4 (SiC MOSFET)",
+        vds_max: 650, id_max: 119, rds_mohm: 18, tr_ns: 20, tf_ns: 30,
+        alpha: 0.0015, package: "HiP247-4", manufacturer: "STMicroelectronics",
+        application: "High power density applications"
+      },
+      "SCTH90N65G2V-7": {
+        name: "SCTH90N65G2V-7 (SiC MOSFET)",
+        vds_max: 650, id_max: 116, rds_mohm: 18, tr_ns: 21, tf_ns: 31,
+        alpha: 0.0015, package: "H2PAK-7", manufacturer: "STMicroelectronics",
+        application: "Server power supplies"
+      },
+      "SCTH100N120G2AG": {
+        name: "SCTH100N120G2AG (SiC MOSFET)",
+        vds_max: 1200, id_max: 56, rds_mohm: 45, tr_ns: 23, tf_ns: 33,
+        alpha: 0.0018, package: "H2PAK-2", manufacturer: "STMicroelectronics",
+        application: "Automotive OBC"
+      },
+      "SCTH35N65G2V-7AG": {
+        name: "SCTH35N65G2V-7AG (SiC MOSFET)",
+        vds_max: 650, id_max: 45, rds_mohm: 52, tr_ns: 19, tf_ns: 29,
+        alpha: 0.0018, package: "H2PAK-7", manufacturer: "STMicroelectronics",
+        application: "Telecom power"
+      },
+      "SCT3060AL": {
+        name: "SCT3060AL (SiC MOSFET)",
+        vds_max: 650, id_max: 39, rds_mohm: 60, tr_ns: 16, tf_ns: 23,
+        alpha: 0.0019, package: "TO-247N", manufacturer: "ROHM",
+        application: "Power conditioners"
+      },
+      "SCT3080AL": {
+        name: "SCT3080AL (SiC MOSFET)",
+        vds_max: 650, id_max: 30, rds_mohm: 80, tr_ns: 17, tf_ns: 24,
+        alpha: 0.0020, package: "TO-247N", manufacturer: "ROHM",
+        application: "Industrial equipment"
+      },
+      "SCT3105KL": {
+        name: "SCT3105KL (SiC MOSFET)",
+        vds_max: 1200, id_max: 24, rds_mohm: 105, tr_ns: 18, tf_ns: 25,
+        alpha: 0.0021, package: "TO-247N", manufacturer: "ROHM",
+        application: "EV charging stations"
+      },
+      "SCT3160KL": {
+        name: "SCT3160KL (SiC MOSFET)",
+        vds_max: 1200, id_max: 17, rds_mohm: 160, tr_ns: 19, tf_ns: 26,
+        alpha: 0.0022, package: "TO-247N", manufacturer: "ROHM",
+        application: "Solar power conditioners"
+      },
+      "SCT4013DR": {
+        name: "SCT4013DR (SiC MOSFET)",
+        vds_max: 750, id_max: 42, rds_mohm: 13, tr_ns: 14, tf_ns: 20,
+        alpha: 0.0016, package: "TO-247-4D", manufacturer: "ROHM",
+        application: "Data center power supplies"
+      },
+      "SCT4026DR": {
+        name: "SCT4026DR (SiC MOSFET)",
+        vds_max: 750, id_max: 30, rds_mohm: 26, tr_ns: 15, tf_ns: 22,
+        alpha: 0.0017, package: "TO-247-4D", manufacturer: "ROHM",
+        application: "Medical power supplies"
+      },
+      "SCT4036DR": {
+        name: "SCT4036DR (SiC MOSFET)",
+        vds_max: 750, id_max: 24, rds_mohm: 36, tr_ns: 16, tf_ns: 23,
+        alpha: 0.0018, package: "TO-247-4D", manufacturer: "ROHM",
+        application: "Industrial inverters"
+      },
+      "SCT4045DR": {
+        name: "SCT4045DR (SiC MOSFET)",
+        vds_max: 750, id_max: 20, rds_mohm: 45, tr_ns: 17, tf_ns: 24,
+        alpha: 0.0019, package: "TO-247-4D", manufacturer: "ROHM",
+        application: "Renewable energy"
+      },
+      "UF3C065080K4S": {
+        name: "UF3C065080K4S (SiC MOSFET)",
+        vds_max: 650, id_max: 31, rds_mohm: 80, tr_ns: 12, tf_ns: 18,
+        alpha: 0.0018, package: "TO-247-4", manufacturer: "UnitedSiC",
+        application: "High frequency converters"
+      },
+      "UF3C120080K4S": {
+        name: "UF3C120080K4S (SiC MOSFET)",
+        vds_max: 1200, id_max: 33, rds_mohm: 80, tr_ns: 13, tf_ns: 19,
+        alpha: 0.0020, package: "TO-247-4", manufacturer: "UnitedSiC",
+        application: "Solar inverters"
+      },
+      "UF3C120150K4S": {
+        name: "UF3C120150K4S (SiC MOSFET)",
+        vds_max: 1200, id_max: 18, rds_mohm: 150, tr_ns: 14, tf_ns: 20,
+        alpha: 0.0022, package: "TO-247-4", manufacturer: "UnitedSiC",
+        application: "EV chargers"
+      },
+      "UF3SC065007K4S": {
+        name: "UF3SC065007K4S (SiC MOSFET)",
+        vds_max: 650, id_max: 285, rds_mohm: 7, tr_ns: 15, tf_ns: 22,
+        alpha: 0.0012, package: "TO-247-4", manufacturer: "UnitedSiC",
+        application: "High power applications"
+      },
+      "UF3SC120009K4S": {
+        name: "UF3SC120009K4S (SiC MOSFET)",
+        vds_max: 1200, id_max: 215, rds_mohm: 9, tr_ns: 16, tf_ns: 24,
+        alpha: 0.0014, package: "TO-247-4", manufacturer: "UnitedSiC",
+        application: "Traction inverters"
+      },
+      "UF3SC120016K4S": {
+        name: "UF3SC120016K4S (SiC MOSFET)",
+        vds_max: 1200, id_max: 120, rds_mohm: 16, tr_ns: 17, tf_ns: 25,
+        alpha: 0.0016, package: "TO-247-4", manufacturer: "UnitedSiC",
+        application: "Wind power converters"
+      },
+      "UF3SC120040K4S": {
+        name: "UF3SC120040K4S (SiC MOSFET)",
+        vds_max: 1200, id_max: 53, rds_mohm: 40, tr_ns: 18, tf_ns: 26,
+        alpha: 0.0018, package: "TO-247-4", manufacturer: "UnitedSiC",
+        application: "Grid storage systems"
+    },
     // 650V SiC MOSFETs
     "C2M0160120D": {
       name: "C2M0160120D (SiC MOSFET)",
@@ -682,7 +1787,7 @@ const TRANSISTOR_DB = {
       alpha: 0.0018, package: "TO-247-4", manufacturer: "UnitedSiC",
       application: "Бързи DC-DC конвертори"
     },
-    
+
     // 1200V SiC MOSFETs
     "C2M0080120D": {
       name: "C2M0080120D (SiC MOSFET)",
@@ -702,7 +1807,7 @@ const TRANSISTOR_DB = {
       alpha: 0.0022, package: "TO-247", manufacturer: "ROHM",
       application: "Високотемпературни приложения"
     },
-    
+
     // 1700V SiC MOSFETs
     "C2M0025170D": {
       name: "C2M0025170D (SiC MOSFET)",
@@ -772,7 +1877,7 @@ const TRANSISTOR_DB = {
       application: "SMPS applications"
     }
   },
-  
+
   GaN: {
     // Ниско напрежение GaN HEMTs (80V-200V)
     "EPC2001C": {
@@ -866,7 +1971,353 @@ const TRANSISTOR_DB = {
       alpha: 0.0030, package: "GaN PX", manufacturer: "GaN Systems",
       application: "Малки адаптери, USB-C PD"
     },
-    
+
+    // Средно напрежение GaN HEMTs (400V-650V)
+    "GS66516T": {
+      name: "GS66516T (GaN HEMT)",
+      vds_max: 650, id_max: 30, rds_mohm: 16, tr_ns: 8.5, tf_ns: 2.7,
+      alpha: 0.003, package: "GaN PX", manufacturer: "GaN Systems",
+      application: "Фотоволтаични инвертори"
+    },
+    "TPH3212PS": {
+      name: "TPH3212PS (GaN HEMT)",
+      vds_max: 650, id_max: 18, rds_mohm: 35, tr_ns: 5.2, tf_ns: 7.8,
+      alpha: 0.0025, package: "PQFN", manufacturer: "Transphorm",
+      application: "PFC, LLC конвертори"
+    },
+    "IGN04N65F5": {
+      name: "IGN04N65F5 (GaN HEMT)",
+      vds_max: 650, id_max: 4, rds_mohm: 150, tr_ns: 3.5, tf_ns: 4.2,
+      alpha: 0.003, package: "TO-263", manufacturer: "Infineon",
+      application: "Малки зарядни устройства"
+    },
+    "EPC2206": {
+      name: "EPC2206 (GaN HEMT)",
+      vds_max: 400, id_max: 4.5, rds_mohm: 290, tr_ns: 1.7, tf_ns: 1.4,
+      alpha: 0.0035, package: "LGA", manufacturer: "EPC",
+      application: "Безжично зареждане, LiDAR"
+    },
+    "GS66508T": {
+      name: "GS66508T (GaN HEMT)",
+      vds_max: 650, id_max: 15, rds_mohm: 50, tr_ns: 4.2, tf_ns: 3.1,
+      alpha: 0.0028, package: "GaN PX", manufacturer: "GaN Systems",
+      application: "Компактни адаптери"
+    },
+    "TPH3205WS": {
+      name: "TPH3205WS (GaN HEMT)",
+      vds_max: 650, id_max: 36, rds_mohm: 25, tr_ns: 12, tf_ns: 5.5,
+      alpha: 0.0025, package: "TO-247", manufacturer: "Transphorm",
+      application: "Фотоволтаични инвертори, мотор драйвери"
+    },
+    "EPC2059": {
+      name: "EPC2059 (GaN HEMT)",
+      vds_max: 600, id_max: 16, rds_mohm: 65, tr_ns: 3.2, tf_ns: 2.8,
+      alpha: 0.0032, package: "LGA", manufacturer: "EPC",
+      application: "Automotive onboard chargers"
+    },
+    "GS66504B": {
+      name: "GS66504B (GaN HEMT)",
+      vds_max: 650, id_max: 7.5, rds_mohm: 67, tr_ns: 6.5, tf_ns: 2.8,
+      alpha: 0.0028, package: "GaN PX", manufacturer: "GaN Systems",
+      application: "AC-DC адаптери, зарядни станции"
+    },
+    "TPH3206LD": {
+      name: "TPH3206LD (GaN HEMT)",
+      vds_max: 650, id_max: 43, rds_mohm: 21, tr_ns: 14, tf_ns: 6.2,
+      alpha: 0.0022, package: "TO-220", manufacturer: "Transphorm",
+      application: "Industrial motor drives"
+    },
+    "EPC2302": {
+      name: "EPC2302 (GaN HEMT)",
+      vds_max: 400, id_max: 15, rds_mohm: 45, tr_ns: 2.8, tf_ns: 1.9,
+      alpha: 0.0030, package: "LGA", manufacturer: "EPC",
+      application: "Server power supplies"
+    },
+    "GS66511T": {
+      name: "GS66511T (GaN HEMT)",
+      vds_max: 650, id_max: 22, rds_mohm: 25, tr_ns: 7.2, tf_ns: 3.5,
+      alpha: 0.0026, package: "GaN PX", manufacturer: "GaN Systems",
+      application: "Automotive applications"
+    },
+    "TPH3002PS": {
+      name: "TPH3002PS (GaN HEMT)",
+      vds_max: 650, id_max: 8.5, rds_mohm: 90, tr_ns: 3, tf_ns: 5,
+      alpha: 0.0025, package: "TO-220", manufacturer: "Transphorm",
+      application: "Compact adapters"
+    },
+    "EPC2034": {
+      name: "EPC2034 (GaN HEMT)",
+      vds_max: 150, id_max: 48, rds_mohm: 7, tr_ns: 1.5, tf_ns: 1.2,
+      alpha: 0.0028, package: "LGA", manufacturer: "EPC",
+      application: "Lidar, wireless power"
+    },
+    "EPC2045": {
+      name: "EPC2045 (GaN HEMT)",
+      vds_max: 150, id_max: 16, rds_mohm: 25, tr_ns: 1.8, tf_ns: 1.5,
+      alpha: 0.0030, package: "LGA", manufacturer: "EPC",
+      application: "DC-DC converters"
+    },
+    "EPC2050": {
+      name: "EPC2050 (GaN HEMT)",
+      vds_max: 350, id_max: 6.3, rds_mohm: 80, tr_ns: 2.0, tf_ns: 1.7,
+      alpha: 0.0032, package: "LGA", manufacturer: "EPC",
+      application: "High voltage POL converters"
+    },
+    "EPC2065": {
+      name: "EPC2065 (GaN HEMT)",
+      vds_max: 80, id_max: 60, rds_mohm: 3.6, tr_ns: 1.2, tf_ns: 1.0,
+      alpha: 0.0025, package: "LGA", manufacturer: "EPC",
+      application: "Buck converters, motor drives"
+    },
+    "EPC2066": {
+      name: "EPC2066 (GaN HEMT)",
+      vds_max: 40, id_max: 94, rds_mohm: 1.8, tr_ns: 1.0, tf_ns: 0.8,
+      alpha: 0.0022, package: "LGA", manufacturer: "EPC",
+      application: "Low voltage high current"
+    },
+    "EPC2204": {
+      name: "EPC2204 (GaN HEMT)",
+      vds_max: 80, id_max: 125, rds_mohm: 6, tr_ns: 1.7, tf_ns: 1.4,
+      alpha: 0.0027, package: "LGA", manufacturer: "EPC",
+      application: "Synchronous buck converters"
+    },
+    "EPC2212": {
+      name: "EPC2212 (GaN HEMT)",
+      vds_max: 100, id_max: 75, rds_mohm: 13, tr_ns: 1.9, tf_ns: 1.6,
+      alpha: 0.0030, package: "LGA", manufacturer: "EPC",
+      application: "Wireless charging"
+    },
+    "EPC2215": {
+      name: "EPC2215 (GaN HEMT)",
+      vds_max: 200, id_max: 32, rds_mohm: 58, tr_ns: 2.2, tf_ns: 1.8,
+      alpha: 0.0033, package: "LGA", manufacturer: "EPC",
+      application: "48V systems"
+    },
+    "GS-010-120-1-P": {
+      name: "GS-010-120-1-P (GaN HEMT)",
+      vds_max: 100, id_max: 120, rds_mohm: 5, tr_ns: 2.5, tf_ns: 2.0,
+      alpha: 0.0028, package: "GaNPX", manufacturer: "GaN Systems",
+      application: "High density power supplies"
+    },
+    "GS-065-011-1-L": {
+      name: "GS-065-011-1-L (GaN HEMT)",
+      vds_max: 650, id_max: 11, rds_mohm: 150, tr_ns: 3.0, tf_ns: 2.5,
+      alpha: 0.0030, package: "PDFN", manufacturer: "GaN Systems",
+      application: "Adapters, chargers"
+    },
+    "GS-065-018-1-L": {
+      name: "GS-065-018-1-L (GaN HEMT)",
+      vds_max: 650, id_max: 18, rds_mohm: 90, tr_ns: 3.5, tf_ns: 3.0,
+      alpha: 0.0028, package: "PDFN", manufacturer: "GaN Systems",
+      application: "Consumer electronics"
+    },
+    "GS-065-030-1-L": {
+      name: "GS-065-030-1-L (GaN HEMT)",
+      vds_max: 650, id_max: 30, rds_mohm: 50, tr_ns: 4.0, tf_ns: 3.5,
+      alpha: 0.0026, package: "PDFN", manufacturer: "GaN Systems",
+      application: "Solar microinverters"
+    },
+    "GS-065-060-1-L": {
+      name: "GS-065-060-1-L (GaN HEMT)",
+      vds_max: 650, id_max: 60, rds_mohm: 25, tr_ns: 4.5, tf_ns: 4.0,
+      alpha: 0.0024, package: "PDFN", manufacturer: "GaN Systems",
+      application: "EV auxiliary converters"
+    },
+    "GS66502B": {
+      name: "GS66502B (GaN HEMT)",
+      vds_max: 650, id_max: 7.5, rds_mohm: 200, tr_ns: 2.8, tf_ns: 2.3,
+      alpha: 0.0032, package: "GaNPX", manufacturer: "GaN Systems",
+      application: "Wireless power transfer"
+    },
+    "GS66504B": {
+      name: "GS66504B (GaN HEMT)",
+      vds_max: 650, id_max: 15, rds_mohm: 100, tr_ns: 3.2, tf_ns: 2.7,
+      alpha: 0.0030, package: "GaNPX", manufacturer: "GaN Systems",
+      application: "Laptop adapters"
+    },
+    "GS66506T": {
+      name: "GS66506T (GaN HEMT)",
+      vds_max: 650, id_max: 22, rds_mohm: 70, tr_ns: 3.5, tf_ns: 3.0,
+      alpha: 0.0028, package: "GaNPX", manufacturer: "GaN Systems",
+      application: "Data center power"
+    },
+    "GS66508B": {
+      name: "GS66508B (GaN HEMT)",
+      vds_max: 650, id_max: 30, rds_mohm: 50, tr_ns: 3.8, tf_ns: 3.3,
+      alpha: 0.0026, package: "GaNPX", manufacturer: "GaN Systems",
+      application: "Telecom infrastructure"
+    },
+    "GS66512T": {
+      name: "GS66512T (GaN HEMT)",
+      vds_max: 650, id_max: 45, rds_mohm: 35, tr_ns: 4.2, tf_ns: 3.7,
+      alpha: 0.0024, package: "GaNPX", manufacturer: "GaN Systems",
+      application: "Industrial robotics"
+    },
+    "GS66516B": {
+      name: "GS66516B (GaN HEMT)",
+      vds_max: 650, id_max: 60, rds_mohm: 25, tr_ns: 4.5, tf_ns: 4.0,
+      alpha: 0.0022, package: "GaNPX", manufacturer: "GaN Systems",
+      application: "Renewable energy inverters"
+    },
+    "TP65H035WS": {
+      name: "TP65H035WS (GaN HEMT)",
+      vds_max: 650, id_max: 47, rds_mohm: 35, tr_ns: 5.0, tf_ns: 7.0,
+      alpha: 0.0023, package: "TO-247", manufacturer: "Transphorm",
+      application: "Bridgeless totem-pole PFC"
+    },
+    "TP65H050WS": {
+      name: "TP65H050WS (GaN HEMT)",
+      vds_max: 650, id_max: 34, rds_mohm: 50, tr_ns: 4.5, tf_ns: 6.5,
+      alpha: 0.0025, package: "TO-247", manufacturer: "Transphorm",
+      application: "Solar inverters"
+    },
+    "TP65H070LDG": {
+      name: "TP65H070LDG (GaN HEMT)",
+      vds_max: 650, id_max: 25, rds_mohm: 72, tr_ns: 4.0, tf_ns: 6.0,
+      alpha: 0.0027, package: "PQFN", manufacturer: "Transphorm",
+      application: "AC-DC converters"
+    },
+    "TP65H150G4LSG": {
+      name: "TP65H150G4LSG (GaN HEMT)",
+      vds_max: 650, id_max: 10, rds_mohm: 150, tr_ns: 3.5, tf_ns: 5.5,
+      alpha: 0.0030, package: "PQFN", manufacturer: "Transphorm",
+      application: "Consumer adapters"
+    },
+    "TP90H050WS": {
+      name: "TP90H050WS (GaN HEMT)",
+      vds_max: 900, id_max: 34, rds_mohm: 50, tr_ns: 6.0, tf_ns: 8.0,
+      alpha: 0.0025, package: "TO-247", manufacturer: "Transphorm",
+      application: "High voltage applications"
+    },
+    "TP90H180PS": {
+      name: "TP90H180PS (GaN HEMT)",
+      vds_max: 900, id_max: 15, rds_mohm: 170, tr_ns: 5.5, tf_ns: 7.5,
+      alpha: 0.0030, package: "TO-220", manufacturer: "Transphorm",
+      application: "Industrial power"
+    },
+    "IGLD60DL060D1": {
+      name: "IGLD60DL060D1 (GaN HEMT)",
+      vds_max: 600, id_max: 15, rds_mohm: 53, tr_ns: 4.0, tf_ns: 6.0,
+      alpha: 0.0025, package: "DFN 8x8", manufacturer: "Infineon",
+      application: "Class D audio"
+    },
+    "IGOT60R070D1": {
+      name: "IGOT60R070D1 (GaN HEMT)",
+      vds_max: 600, id_max: 31, rds_mohm: 70, tr_ns: 4.5, tf_ns: 6.5,
+      alpha: 0.0027, package: "HSOF-8-1", manufacturer: "Infineon",
+      application: "Server PSU"
+    },
+    "IGT40R070D1": {
+      name: "IGT40R070D1 (GaN HEMT)",
+      vds_max: 400, id_max: 44, rds_mohm: 70, tr_ns: 3.5, tf_ns: 5.5,
+      alpha: 0.0025, package: "HSOF-8-1", manufacturer: "Infineon",
+      application: "48V systems"
+    },
+    "IGT60R070D1": {
+      name: "IGT60R070D1 (GaN HEMT)",
+      vds_max: 600, id_max: 31, rds_mohm: 70, tr_ns: 4.0, tf_ns: 6.0,
+      alpha: 0.0026, package: "HSOF-8-1", manufacturer: "Infineon",
+      application: "Telecom power"
+    },
+    "IGT60R190D1S": {
+      name: "IGT60R190D1S (GaN HEMT)",
+      vds_max: 600, id_max: 12, rds_mohm: 190, tr_ns: 3.0, tf_ns: 5.0,
+      alpha: 0.0030, package: "HSOF-8-1", manufacturer: "Infineon",
+      application: "Compact chargers"
+    },
+    // Ниско напрежение GaN HEMTs (80V-200V)
+    "EPC2001C": {
+      name: "EPC2001C (GaN HEMT)",
+      vds_max: 100, id_max: 13, rds_mohm: 14, tr_ns: 1.4, tf_ns: 3.5,
+      alpha: 0.004, package: "LGA", manufacturer: "EPC",
+      application: "DC-DC POL, високочестотни конвертори"
+    },
+    "EPC2010C": {
+      name: "EPC2010C (GaN HEMT)",
+      vds_max: 200, id_max: 12, rds_mohm: 35, tr_ns: 2.1, tf_ns: 1.9,
+      alpha: 0.0035, package: "LGA", manufacturer: "EPC",
+      application: "48V системи, телекомуникации"
+    },
+    "GS61008T": {
+      name: "GS61008T (GaN HEMT)",
+      vds_max: 100, id_max: 90, rds_mohm: 8, tr_ns: 3.2, tf_ns: 2.1,
+      alpha: 0.003, package: "GaN PX", manufacturer: "GaN Systems",
+      application: "Синхронни конвертори, зарядни"
+    },
+    "EPC2007C": {
+      name: "EPC2007C (GaN HEMT)",
+      vds_max: 100, id_max: 18, rds_mohm: 16, tr_ns: 2.6, tf_ns: 1.4,
+      alpha: 0.0032, package: "LGA", manufacturer: "EPC",
+      application: "48V Bus converters"
+    },
+    // Още GaN HEMTs
+    "EPC2036": {
+      name: "EPC2036 (GaN HEMT)",
+      vds_max: 100, id_max: 16, rds_mohm: 25, tr_ns: 1.9, tf_ns: 1.2,
+      alpha: 0.0035, package: "LGA", manufacturer: "EPC",
+      application: "Envelope tracking, wireless charging"
+    },
+    "GS66516T": {
+      name: "GS66516T (GaN HEMT)",
+      vds_max: 650, id_max: 60, rds_mohm: 25, tr_ns: 4.7, tf_ns: 8.8,
+      alpha: 0.002, package: "GaN PX", manufacturer: "GaN Systems",
+      application: "Industrial motor drives, solar inverters"
+    },
+    "EPC2218": {
+      name: "EPC2218 (GaN HEMT)",
+      vds_max: 80, id_max: 120, rds_mohm: 4.8, tr_ns: 1.8, tf_ns: 4.5,
+      alpha: 0.0028, package: "LGA", manufacturer: "EPC",
+      application: "High current POL, battery management"
+    },
+    "TPH3212PS": {
+      name: "TPH3212PS (GaN HEMT)",
+      vds_max: 650, id_max: 36, rds_mohm: 62, tr_ns: 3.5, tf_ns: 5.4,
+      alpha: 0.0022, package: "TOLL", manufacturer: "Transphorm",
+      application: "PFC, LLC converters"
+    },
+    "GS66508P": {
+      name: "GS66508P (GaN HEMT)",
+      vds_max: 650, id_max: 30, rds_mohm: 50, tr_ns: 3.8, tf_ns: 4.7,
+      alpha: 0.0025, package: "GaN PX", manufacturer: "GaN Systems",
+      application: "Server PSU, telecom"
+    },
+    "EPC2152": {
+      name: "EPC2152 (GaN HEMT)",
+      vds_max: 80, id_max: 35, rds_mohm: 14, tr_ns: 2.1, tf_ns: 1.8,
+      alpha: 0.003, package: "LGA", manufacturer: "EPC",
+      application: "DC-DC step down converters"
+    },
+    "EPC2015C": {
+      name: "EPC2015C (GaN HEMT)",
+      vds_max: 200, id_max: 16, rds_mohm: 25, tr_ns: 1.8, tf_ns: 2.2,
+      alpha: 0.0032, package: "LGA", manufacturer: "EPC",
+      application: "48V-12V конвертори, телеком"
+    },
+    "GS61004B": {
+      name: "GS61004B (GaN HEMT)",
+      vds_max: 100, id_max: 4, rds_mohm: 25, tr_ns: 2.1, tf_ns: 1.8,
+      alpha: 0.0035, package: "GaN PX", manufacturer: "GaN Systems",
+      application: "USB-C PD, безжични зарядни"
+    },
+    "EPC8009": {
+      name: "EPC8009 (GaN HEMT)",
+      vds_max: 100, id_max: 1.6, rds_mohm: 300, tr_ns: 0.9, tf_ns: 0.7,
+      alpha: 0.004, package: "WLB", manufacturer: "EPC",
+      application: "Envelope tracking, RF applications"
+    },
+    "EPC2040": {
+      name: "EPC2040 (GaN HEMT)",
+      vds_max: 200, id_max: 6, rds_mohm: 75, tr_ns: 2.3, tf_ns: 1.5,
+      alpha: 0.0033, package: "LGA", manufacturer: "EPC",
+      application: "48V системи, LED драйвери"
+    },
+    "GS61202B": {
+      name: "GS61202B (GaN HEMT)",
+      vds_max: 200, id_max: 2, rds_mohm: 110, tr_ns: 1.5, tf_ns: 1.2,
+      alpha: 0.0030, package: "GaN PX", manufacturer: "GaN Systems",
+      application: "Малки адаптери, USB-C PD"
+    },
+
     // Средно напрежение GaN HEMTs (400V-650V)
     "GS66516T": {
       name: "GS66516T (GaN HEMT)",
@@ -1005,10 +2456,10 @@ function saveSelectedTransistorToStorage() {
 // Функции за интеграция на selectedTransistor
 function updateSelectedTransistorInfo() {
     console.log('Updating selected transistor info, selectedTransistor:', selectedTransistor?.name);
-    
+
     if (selectedTransistor) {
         const technology = getTransistorTechnology(selectedTransistor.name) || 'Unknown';
-        
+
         // Database tab elements
         const dbInfo = document.getElementById('selectedTransistorInfo');
         const dbWarning = document.getElementById('noTransistorWarning');
@@ -1019,7 +2470,7 @@ function updateSelectedTransistorInfo() {
             const selectedVdsInfo = document.getElementById('selectedVdsInfo');
             const selectedIdInfo = document.getElementById('selectedIdInfo');
             const selectedRdsInfo = document.getElementById('selectedRdsInfo');
-            
+
             if (selectedModelInfo) selectedModelInfo.textContent = selectedTransistor.name || '-';
             if (selectedManufacturerInfo) selectedManufacturerInfo.textContent = selectedTransistor.manufacturer || '-';
             if (selectedVdsInfo) selectedVdsInfo.textContent = (selectedTransistor.vds_max || '-') + ' V';
@@ -1027,7 +2478,7 @@ function updateSelectedTransistorInfo() {
             if (selectedRdsInfo) selectedRdsInfo.textContent = (selectedTransistor.rds_mohm || '-') + ' mΩ';
         }
         if (dbWarning) dbWarning.style.display = 'none';
-        
+
         // Analysis tab elements
         const analysisTransistorAlert = document.getElementById('analysisTransistorAlert');
         const analysisTransistorData = document.getElementById('analysisTransistorData');
@@ -1040,7 +2491,7 @@ function updateSelectedTransistorInfo() {
             const analysisVdsMax = document.getElementById('analysisVdsMax');
             const analysisIdMax = document.getElementById('analysisIdMax');
             const analysisRdsOn = document.getElementById('analysisRdsOn');
-            
+
             if (analysisModelName) analysisModelName.textContent = selectedTransistor.name || '-';
             if (analysisManufacturer) analysisManufacturer.textContent = selectedTransistor.manufacturer || '-';
             if (analysisPackage) analysisPackage.textContent = selectedTransistor.package || '-';
@@ -1048,7 +2499,7 @@ function updateSelectedTransistorInfo() {
             if (analysisIdMax) analysisIdMax.textContent = (selectedTransistor.id_max || '-') + ' A';
             if (analysisRdsOn) analysisRdsOn.textContent = (selectedTransistor.rds_mohm || '-') + ' mΩ';
         }
-        
+
         // Theory tab elements
         const theoryInfo = document.getElementById('selectedTransistorTheory');
         const theoryWarning = document.getElementById('noTransistorTheoryWarning');
@@ -1057,13 +2508,13 @@ function updateSelectedTransistorInfo() {
             const theoryTransistorName = document.getElementById('theoryTransistorName');
             const theoryTransistorTech = document.getElementById('theoryTransistorTech');
             const theoryTransistorRds = document.getElementById('theoryTransistorRds');
-            
+
             if (theoryTransistorName) theoryTransistorName.textContent = selectedTransistor.name || '-';
             if (theoryTransistorTech) theoryTransistorTech.textContent = technology;
             if (theoryTransistorRds) theoryTransistorRds.textContent = selectedTransistor.rds_mohm || '-';
         }
         if (theoryWarning) theoryWarning.style.display = 'none';
-        
+
         // Tools tab elements
         const toolsInfo = document.getElementById('selectedTransistorTools');
         const toolsWarning = document.getElementById('noTransistorToolsWarning');
@@ -1072,47 +2523,47 @@ function updateSelectedTransistorInfo() {
             const toolsTransistorName = document.getElementById('toolsTransistorName');
             const toolsTransistorVds = document.getElementById('toolsTransistorVds');
             const toolsTransistorRds = document.getElementById('toolsTransistorRds');
-            
+
             if (toolsTransistorName) toolsTransistorName.textContent = selectedTransistor.name || '-';
             if (toolsTransistorVds) toolsTransistorVds.textContent = selectedTransistor.vds_max || '-';
             if (toolsTransistorRds) toolsTransistorRds.textContent = selectedTransistor.rds_mohm || '-';
         }
         if (toolsWarning) toolsWarning.style.display = 'none';
-        
+
         // Update parameter calculator hints and theory formulas
         updateParameterCalculatorHints();
         updateTheoryFormulas();
         highlightSelectedTransistorInTable();
-        
+
         console.log('Successfully updated all tabs with transistor info');
     } else {
         // No transistor selected - show warnings and hide info sections
         console.log('No transistor selected, showing warnings');
-        
+
         // Database tab - hide info, show warning
         const dbInfo = document.getElementById('selectedTransistorInfo');
         const dbWarning = document.getElementById('noTransistorWarning');
         if (dbInfo) dbInfo.style.display = 'none';
         if (dbWarning) dbWarning.style.display = 'block';
-        
+
         // Analysis tab - show alert, hide data
         const analysisTransistorAlert = document.getElementById('analysisTransistorAlert');
         const analysisTransistorData = document.getElementById('analysisTransistorData');
         if (analysisTransistorAlert) analysisTransistorAlert.style.display = 'block';
         if (analysisTransistorData) analysisTransistorData.style.display = 'none';
-        
+
         // Theory tab - hide info, show warning
         const theoryInfo = document.getElementById('selectedTransistorTheory');
         const theoryWarning = document.getElementById('noTransistorTheoryWarning');
         if (theoryInfo) theoryInfo.style.display = 'none';
         if (theoryWarning) theoryWarning.style.display = 'block';
-        
+
         // Tools tab - hide info, show warning
         const toolsInfo = document.getElementById('selectedTransistorTools');
         const toolsWarning = document.getElementById('noTransistorToolsWarning');
         if (toolsInfo) toolsInfo.style.display = 'none';
         if (toolsWarning) toolsWarning.style.display = 'block';
-        
+
         // Update parameter calculator hints and theory formulas
         updateParameterCalculatorHints();
         updateTheoryFormulas();
@@ -1131,19 +2582,19 @@ function updateParameterCalculatorHints() {
         const integration = document.getElementById('transistorIntegration');
         const voltageHint = document.getElementById('voltageHint');
         const currentHint = document.getElementById('currentHint');
-        
+
         if (integration) {
             integration.style.display = 'block';
             document.getElementById('integrationTransistorName').textContent = selectedTransistor.name;
             document.getElementById('integrationVds').textContent = selectedTransistor.vds_max;
             document.getElementById('integrationRds').textContent = selectedTransistor.rds_mohm;
         }
-        
+
         if (voltageHint) {
             voltageHint.style.display = 'block';
             document.getElementById('safeVoltage').textContent = Math.floor(selectedTransistor.vds_max * 0.6);
         }
-        
+
         if (currentHint) {
             currentHint.style.display = 'block';
             document.getElementById('safeCurrent').textContent = Math.floor(selectedTransistor.id_max * 0.7);
@@ -1155,12 +2606,12 @@ function updateTheoryFormulas() {
     if (selectedTransistor && typeof MathJax !== 'undefined') {
         const generic = document.getElementById('conductionFormulaGeneric');
         const specific = document.getElementById('conductionFormulaSpecific');
-        
+
         if (generic && specific) {
             generic.style.display = 'none';
             specific.style.display = 'block';
             specific.querySelector('.formula-value').textContent = (selectedTransistor.rds_mohm / 1000).toFixed(4) + 'Ω';
-            
+
             // Re-render MathJax for the specific formula
             if (MathJax.typesetPromise) {
                 MathJax.typesetPromise([specific]).then(() => {
@@ -1203,7 +2654,7 @@ function setupSelectedTransistorIntegration() {
         e.target.closest('#goToCalculatorFromTools')) {
       window.location.href = '/calculator';
     }
-    
+
     if (e.target.id === 'selectTransistorFromTheory' ||
         e.target.id === 'selectTransistorFromTools' ||
         e.target.closest('#selectTransistorFromTheory') ||
@@ -1217,10 +2668,10 @@ function setupSelectedTransistorIntegration() {
 document.addEventListener('DOMContentLoaded', function() {
   // Load selectedTransistor from localStorage first
   loadSelectedTransistorFromStorage();
-  
+
   // Set up selected transistor integration event listeners
   setupSelectedTransistorIntegration();
-  
+
   // Update selected transistor info on page load
   updateSelectedTransistorInfo();
   const lossChartElement = document.getElementById('lossChart');
@@ -1233,25 +2684,25 @@ document.addEventListener('DOMContentLoaded', function() {
 function populateTransistors() {
   const techSelect = document.getElementById('techSelect');
   if (!techSelect) return;
-  
+
   const tech = techSelect.value;
-  
+
   const transistorList = document.getElementById('transistorList');
   const transistorInput = document.getElementById('transistorSelect');
   const langData = LANGUAGES[currentLang] || LANGUAGES['bg'];
-  
+
   // Изчистваме datalist ако съществува
   if (transistorList) {
     transistorList.innerHTML = '';
   }
-  
+
   // Обновяваме placeholder текста ако съществува
   if (transistorInput) {
     transistorInput.placeholder = langData.selectTransistor + '...';
   }
-  
+
   const transistors = TRANSISTOR_DB[tech] || {};
-  
+
   // Добавяме всички транзистори в datalist
   if (transistorList) {
     Object.entries(transistors).forEach(([key, transistor]) => {
@@ -1267,10 +2718,10 @@ function populateTransistors() {
 function showTransistorInfo(transistorKey) {
   const techSelect = document.getElementById('techSelect');
   if (!techSelect) return;
-  
+
   const tech = techSelect.value;
   const transistorInfo = document.getElementById('transistorInfo');
-  
+
   if (!transistorKey || transistorKey.trim() === '') {
     if (transistorInfo) {
       transistorInfo.style.display = 'none';
@@ -1282,10 +2733,10 @@ function showTransistorInfo(transistorKey) {
     updateSelectedTransistorInfo(); // Update all tab integrations
     return;
   }
-  
+
   // Проверяваме дали моделът е в базата данни
   let transistor = TRANSISTOR_DB[tech] && TRANSISTOR_DB[tech][transistorKey];
-  
+
   if (transistor) {
     // Модел от базата данни
     selectedTransistor = transistor;
@@ -1293,7 +2744,7 @@ function showTransistorInfo(transistorKey) {
     saveSelectedTransistorToStorage(); // Save to localStorage
     updateAnalysisTransistorDisplay(); // Update analysis display
     updateSelectedTransistorInfo(); // Update all tab integrations
-    
+
     const modelName = document.getElementById('modelName');
     const manufacturer = document.getElementById('manufacturer');
     const packageEl = document.getElementById('package');
@@ -1301,7 +2752,7 @@ function showTransistorInfo(transistorKey) {
     const idMax = document.getElementById('idMax');
     const rdsOn = document.getElementById('rdsOn');
     const application = document.getElementById('application');
-    
+
     if (modelName) modelName.textContent = transistor.name;
     if (manufacturer) manufacturer.textContent = transistor.manufacturer;
     if (packageEl) packageEl.textContent = transistor.package;
@@ -1309,10 +2760,10 @@ function showTransistorInfo(transistorKey) {
     if (idMax) idMax.textContent = transistor.id_max + ' A';
     if (rdsOn) rdsOn.textContent = transistor.rds_mohm + ' mΩ';
     if (application) application.textContent = transistor.application;
-    
+
     // Генерираме предложения за параметри
     generateParameterSuggestions(transistor);
-    
+
     if (transistorInfo) {
       transistorInfo.style.display = 'block';
     }
@@ -1328,7 +2779,7 @@ function showTransistorInfo(transistorKey) {
     };
     window.selectedTransistor = selectedTransistor; // Make globally accessible
     saveSelectedTransistorToStorage(); // Save to localStorage
-    
+
     const modelName = document.getElementById('modelName');
     const manufacturer = document.getElementById('manufacturer');
     const packageEl = document.getElementById('package');
@@ -1336,7 +2787,7 @@ function showTransistorInfo(transistorKey) {
     const idMax = document.getElementById('idMax');
     const rdsOn = document.getElementById('rdsOn');
     const application = document.getElementById('application');
-    
+
     if (modelName) modelName.textContent = selectedTransistor.name;
     if (manufacturer) manufacturer.textContent = "Ръчно въведен модел";
     if (packageEl) packageEl.textContent = "Моля въведете параметрите ръчно";
@@ -1344,12 +2795,12 @@ function showTransistorInfo(transistorKey) {
     if (idMax) idMax.textContent = typicalParams.id_max + ' A (типично)';
     if (rdsOn) rdsOn.textContent = typicalParams.rds_mohm + ' mΩ (типично)';
     if (application) application.textContent = "Копирано от datasheet - моля проверете параметрите";
-    
+
     // Генерираме предложения с типични параметри
     generateParameterSuggestions(selectedTransistor);
     updateSelectedTransistorInfo(); // Update all tab integrations after custom transistor creation
     updateAnalysisTransistorDisplay(); // Update analysis display
-    
+
     if (transistorInfo) {
       transistorInfo.style.display = 'block';
     }
@@ -1370,21 +2821,21 @@ function getTypicalParameters(tech) {
 function generateParameterSuggestions(transistor) {
   const suggestionsDiv = document.getElementById('parameterSuggestions');
   if (!suggestionsDiv) return;
-  
+
   let suggestions = '';
-  
+
   // Предложения за напрежение
   const safeVoltage = Math.floor(transistor.vds_max * 0.6); // 60% от максималното
   suggestions += `<div class="parameter-suggestion">
     <strong>Препоръчано VDC:</strong> До ${safeVoltage}V за безопасна работа (60% от VDS_max)
   </div>`;
-  
+
   // Предложения за ток
   const safeCurrent = Math.floor(transistor.id_max * 0.7); // 70% от максималния
   suggestions += `<div class="parameter-suggestion">
     <strong>Препоръчан ток:</strong> До ${safeCurrent}A с добро охлаждане (70% от ID_max)
   </div>`;
-  
+
   // Предложения за честота според технологията
   let freqRange = '';
   if (transistor.name.includes('Si')) {
@@ -1394,63 +2845,63 @@ function generateParameterSuggestions(transistor) {
   } else if (transistor.name.includes('GaN')) {
     freqRange = '100 kHz - 1 MHz за максимална power density';
   }
-  
+
   suggestions += `<div class="parameter-suggestion">
     <strong>Препоръчана честота:</strong> ${freqRange}
   </div>`;
-  
+
   // Предложения за температура
   suggestions += `<div class="parameter-suggestion">
     <strong>Работна температура:</strong> 25°C (стайна), 100°C (типична работна), 150°C (максимална)
   </div>`;
-  
+
   suggestionsDiv.innerHTML = suggestions;
 }
 
 // Нова функция за обяснение на оптимизацията
 function showOptimizationExplanation(voltage, current, frequency, techType) {
   const langData = LANGUAGES[currentLang] || LANGUAGES['bg'];
-  
+
   let explanation = '';
-  
+
   if (currentLang === 'bg') {
     explanation = `
       <div class="optimization-explanation">
         <h4>🧠 Научно обосноване на оптималните параметри:</h4>
-        
+
         <div class="param-explanation">
           <strong>📊 Напрежение: ${voltage}V (60% от макс.)</strong><br>
           • <u>Марж за безопасност:</u> Оставя 40% резерв за възмущения и отклонения<br>
           • <u>IEC 61000 стандарт:</u> Препоръчва намаляване на номиналните стойности 1.5-2x за надеждност<br>
           • <u>Термична стабилност:</u> Намалява топлинното натоварване
         </div>
-        
+
         <div class="param-explanation">
           <strong>⚡ Ток: ${current}A (70% от макс.)</strong><br>
           • <u>Охладителна способност:</u> I²R загубите растат квадратично<br>
           • <u>Сравнение:</u> 70% ток = 49% от загубите на пълен ток<br>
           • <u>Безопасна работна област:</u> Осигурява стабилна работа при високи температури
         </div>
-        
+
         <div class="param-explanation">
           <strong>🌊 Честота: ${frequency}kHz (${techType} оптимум)</strong><br>
           ${getFrequencyExplanation(techType)}
         </div>
-        
+
         <div class="param-explanation">
           <strong>🌡️ Температура: 100°C (реалистична работна)</strong><br>
           • <u>Практичност:</u> 100°C е типична работна температура<br>
           • <u>RDS(on) увеличение:</u> +30-50% при 100°C спрямо 25°C<br>
           • <u>Надеждност:</u> Позволява реалистично планиране на охлаждането
         </div>
-        
+
         <div class="param-explanation">
           <strong>🔄 Коефициент на запълване: 50% (оптимален баланс)</strong><br>
           • <u>Математически:</u> Минимизира d×(1-d) за най-ниски загуби<br>
           • <u>Кондензатори:</u> Минимален пулсиращ ток в изходния кондензатор<br>
           • <u>Магнитни елементи:</u> Оптимално използване на магнитното ядро
         </div>
-        
+
         <p><strong>🎯 Извод:</strong> Тези параметри осигуряват оптимален баланс между ефективност, надеждност и практичност.</p>
       </div>
     `;
@@ -1458,45 +2909,45 @@ function showOptimizationExplanation(voltage, current, frequency, techType) {
     explanation = `
       <div class="optimization-explanation">
         <h4>🧠 Scientific Justification of Optimal Parameters:</h4>
-        
+
         <div class="param-explanation">
           <strong>📊 Voltage: ${voltage}V (60% of max)</strong><br>
           • <u>Safety margin:</u> Leaves 40% headroom for spikes and deviations<br>
           • <u>IEC 61000 standard:</u> Recommends 1.5-2x derating for reliability<br>
           • <u>Thermal stability:</u> Reduces thermal stress
         </div>
-        
+
         <div class="param-explanation">
           <strong>⚡ Current: ${current}A (70% of max)</strong><br>
           • <u>Cooling capability:</u> I²R losses grow quadratically<br>
           • <u>Comparison:</u> 70% current = 49% of full current losses<br>
           • <u>SOA region:</u> Ensures Safe Operating Area at high temperatures
         </div>
-        
+
         <div class="param-explanation">
           <strong>🌊 Frequency: ${frequency}kHz (${techType} optimum)</strong><br>
           ${getFrequencyExplanationEn(techType)}
         </div>
-        
+
         <div class="param-explanation">
           <strong>🌡️ Temperature: 100°C (realistic operating)</strong><br>
           • <u>Practicality:</u> 100°C is typical operating temperature<br>
           • <u>RDS(on) increase:</u> +30-50% at 100°C vs 25°C<br>
           • <u>Reliability:</u> Allows realistic thermal planning
         </div>
-        
+
         <div class="param-explanation">
           <strong>🔄 Duty Cycle: 50% (optimal balance)</strong><br>
           • <u>Mathematical:</u> Minimizes d×(1-d) for lowest losses<br>
           • <u>Capacitors:</u> Minimal ripple current in output capacitor<br>
           • <u>Magnetics:</u> Optimal core utilization
         </div>
-        
+
         <p><strong>🎯 Conclusion:</strong> These parameters ensure optimal balance between efficiency, reliability and practicality.</p>
       </div>
     `;
   }
-  
+
   // Покажи обяснението в parameterSuggestions div
   const suggestionsDiv = document.getElementById('parameterSuggestions');
   suggestionsDiv.innerHTML = explanation;
@@ -1556,13 +3007,13 @@ function getFrequencyExplanationEn(techType) {
 // Функция за автоматично предлагане на подходящи параметри
 function suggestOptimalParameters() {
   if (!selectedTransistor) return;
-  
+
   const safeVoltage = Math.floor(selectedTransistor.vds_max * 0.6);
   const safeCurrent = Math.floor(selectedTransistor.id_max * 0.7);
-  
+
   let suggestedFreq;
   let techType = '';
-  
+
   // Определи технологията и оптималната честота
   if (selectedTransistor.name.includes('Si') && !selectedTransistor.name.includes('SiC')) {
     suggestedFreq = 20;
@@ -1574,14 +3025,14 @@ function suggestOptimalParameters() {
     suggestedFreq = 300;
     techType = 'GaN';
   }
-  
+
   // Задай параметрите
   document.getElementById('vdc').value = safeVoltage;
   document.getElementById('iLoad').value = safeCurrent;
   document.getElementById('fsw').value = suggestedFreq;
   document.getElementById('temp').value = 100;
   document.getElementById('duty').value = 0.5;
-  
+
   // Покажи научно обяснение
   showOptimizationExplanation(safeVoltage, safeCurrent, suggestedFreq, techType);
 }
@@ -1591,30 +3042,30 @@ function calc(){
     alert('Моля, изберете транзистор за изчисляване!');
     return;
   }
-  
+
   const Vdc=+document.getElementById('vdc').value;
   const I=+document.getElementById('iLoad').value;
   const fsw=+document.getElementById('fsw').value*1000;
   const T=+document.getElementById('temp').value;
   const D=+document.getElementById('duty').value;
-  
+
   let warnings = [];
   let recommendations = [];
-  
+
   // Детайлни проверки и препоръки
   const safetyMarginV = Vdc / selectedTransistor.vds_max;
   const safetyMarginI = I / selectedTransistor.id_max;
-  
+
   if (safetyMarginV > 0.8) {
     warnings.push(`⚠️ Напрежението е ${(safetyMarginV*100).toFixed(0)}% от максималното. Препоръчва се под 80% за безопасност.`);
   } else if (safetyMarginV > 0.6) {
     recommendations.push(`💡 Напрежението е ${(safetyMarginV*100).toFixed(0)}% от максималното - добър марж за безопасност.`);
   }
-  
+
   if (safetyMarginI > 0.8) {
     warnings.push(`⚠️ Токът е ${(safetyMarginI*100).toFixed(0)}% от максималния. Необходимо е отлично охлаждане!`);
   }
-  
+
   // Препоръки за честота
   let optimalFreqRange = '';
   if (selectedTransistor.name.includes('Si')) {
@@ -1638,15 +3089,15 @@ function calc(){
   const pTotal=pCond+pSw;
   const pout=Vdc*I*D;
   const eff=100*pout/(pout+pTotal);
-  
+
   // Анализ на загубите
   const condRatio = pCond / pTotal * 100;
   const swRatio = pSw / pTotal * 100;
-  
+
   if (condRatio > 70) {
     recommendations.push(`💡 Загубите от проводимост са ${condRatio.toFixed(0)}%. За намаляване: използвайте транзистор с по-ниско RDS(on) или намалете тока.`);
   }
-  
+
   if (swRatio > 70) {
     recommendations.push(`💡 Загубите от превключване са ${swRatio.toFixed(0)}%. За намаляване: използвайте SiC/GaN транзистор или намалете честотата.`);
   }
@@ -1655,14 +3106,14 @@ function calc(){
   const pSwEl = document.getElementById('pSw');
   const pTotalEl = document.getElementById('pTotal');
   const efficiencyEl = document.getElementById('efficiency');
-  
+
   if (pCondEl) pCondEl.textContent=pCond.toFixed(2)+" W";
   if (pSwEl) pSwEl.textContent=pSw.toFixed(2)+" W";
   if (pTotalEl) pTotalEl.textContent=pTotal.toFixed(2)+" W";
   if (efficiencyEl) efficiencyEl.textContent=eff.toFixed(2)+" %";
 
   if(chart) chart.destroy();
-  
+
   // Only create chart if canvas context exists
   if (ctx) {
     chart=new Chart(ctx,{
@@ -1700,7 +3151,7 @@ function calc(){
   if (warnings.length > 0) {
     warningsHtml = `<div class="warning-box">${warnings.join('<br>')}</div>`;
   }
-  
+
   let recommendationsHtml = '';
   if (recommendations.length > 0) {
     recommendationsHtml = `<div class="parameter-suggestion">${recommendations.join('<br>')}</div>`;
@@ -1708,7 +3159,7 @@ function calc(){
 
   const comparisonSection = currentLang === 'en' ? `
     <p><b>🔄 Why do different technologies have different losses?</b></p>
-    
+
     <div class="tech-comparison">
       <div class="tech-card">
         <h4>🟡 Silicon (Si) - Classical Technology</h4>
@@ -1717,7 +3168,7 @@ function calc(){
         <p><strong>Efficiency:</strong> 92-96% at low frequencies</p>
         <p><strong>Best for:</strong> Low frequencies (under 50kHz), low cost</p>
       </div>
-      
+
       <div class="tech-card">
         <h4>🟢 Silicon Carbide (SiC) - Balanced Technology</h4>
         <p><strong>Losses:</strong> Medium, decrease with frequency</p>
@@ -1725,7 +3176,7 @@ function calc(){
         <p><strong>Efficiency:</strong> 96-98% at medium frequencies</p>
         <p><strong>Best for:</strong> Medium frequencies (50-200kHz), high temperature</p>
       </div>
-      
+
       <div class="tech-card">
         <h4>🔵 Gallium Nitride (GaN) - Newest Technology</h4>
         <p><strong>Losses:</strong> Lowest at high frequencies</p>
@@ -1734,11 +3185,11 @@ function calc(){
         <p><strong>Best for:</strong> High frequencies (over 100kHz), compact devices</p>
       </div>
     </div>
-    
+
     <p><b>💡 Key Principle:</b> The faster the transistor switches, the less time it spends in the mixed region (where there is both current and voltage) → lower switching losses.</p>
   ` : `
     <p><b>🔄 Защо различните технологии имат различни загуби?</b></p>
-    
+
     <div class="tech-comparison">
       <div class="tech-card">
         <h4>🟡 Силиций (Si) - Класическа технология</h4>
@@ -1747,7 +3198,7 @@ function calc(){
         <p><strong>КПД:</strong> 92-96% при ниски честоти</p>
         <p><strong>Най-добре за:</strong> Ниски честоти (под 50kHz), ниска цена</p>
       </div>
-      
+
       <div class="tech-card">
         <h4>🟢 Силициев карбид (SiC) - Балансирана технология</h4>
         <p><strong>Загуби:</strong> Средни, намаляват с честотата</p>
@@ -1755,7 +3206,7 @@ function calc(){
         <p><strong>КПД:</strong> 96-98% при средни честоти</p>
         <p><strong>Най-добре за:</strong> Средни честоти (50-200kHz), висока температура</p>
       </div>
-      
+
       <div class="tech-card">
         <h4>🔵 Галиев нитрид (GaN) - Най-нова технология</h4>
         <p><strong>Загуби:</strong> Най-ниски при високи честоти</p>
@@ -1764,7 +3215,7 @@ function calc(){
         <p><strong>Най-добре за:</strong> Високи честоти (над 100kHz), компактни устройства</p>
       </div>
     </div>
-    
+
     <p><b>💡 Ключовият принцип:</b> Колкото по-бързо превключва транзисторът, толкова по-малко време прекарва в смесената област (където има и ток, и напрежение) → по-малки switching загуби.</p>
   `;
 
@@ -1811,12 +3262,12 @@ function calc(){
 // Функция за превключване на език
 function switchLanguage(lang, button) {
   currentLang = lang;
-  
+
   console.log('Language switched to:', lang);
-  
+
   // Запазваме текущо избраните стойности преди смяната на езика (safely)
   const savedValues = {};
-  
+
   // Safely get values from elements that might not exist
   const techSelectEl = document.getElementById('techSelect');
   const transistorSelectEl = document.getElementById('transistorSelect');
@@ -1827,7 +3278,7 @@ function switchLanguage(lang, button) {
   const dutyEl = document.getElementById('duty');
   const freqMinEl = document.getElementById('freqMin');
   const freqMaxEl = document.getElementById('freqMax');
-  
+
   if (techSelectEl) savedValues.techSelect = techSelectEl.value;
   if (transistorSelectEl) savedValues.transistorSelect = transistorSelectEl.value;
   if (vdcEl) savedValues.vdc = vdcEl.value;
@@ -1838,7 +3289,7 @@ function switchLanguage(lang, button) {
   if (freqMinEl) savedValues.freqMin = freqMinEl.value;
   if (freqMaxEl) savedValues.freqMax = freqMaxEl.value;
   savedValues.selectedTransistor = selectedTransistor; // Запазваме и глобалната променлива
-  
+
   // Обновяваме активния бутон (safely)
   const langButtons = document.querySelectorAll('.lang-btn');
   if (langButtons.length > 0) {
@@ -1847,7 +3298,7 @@ function switchLanguage(lang, button) {
         btn.classList.remove('active');
       }
     });
-    
+
     // Build the ID correctly
     const targetLangId = 'lang' + lang.toUpperCase();
     const langBtn = document.getElementById(targetLangId);
@@ -1855,17 +3306,17 @@ function switchLanguage(lang, button) {
       langBtn.classList.add('active');
     }
   }
-  
+
   // Обновяваме текстовете
   const langData = LANGUAGES[lang];
   if (langData) {
     // Основни заглавия (само ако съществуват)
     const mainTitle = document.getElementById('mainTitle');
     const subtitle = document.getElementById('subtitle');
-    
+
     if (mainTitle) mainTitle.textContent = langData.mainTitle;
     if (subtitle) subtitle.textContent = langData.subtitle;
-    
+
     // Специфична обработка за theory page
     if (window.switchTheoryLanguage) {
       window.switchTheoryLanguage(lang);
@@ -1873,7 +3324,7 @@ function switchLanguage(lang, button) {
       // Standard language switching for span elements with classes
       const bgElements = document.querySelectorAll('.lang-bg');
       const enElements = document.querySelectorAll('.lang-en');
-      
+
       if (bgElements.length > 0 || enElements.length > 0) {
         if (lang === 'bg') {
           bgElements.forEach(el => el.style.display = '');
@@ -1884,7 +3335,7 @@ function switchLanguage(lang, button) {
         }
       }
     }
-    
+
     // Обновяваме всички елементи с data-lang атрибут
     document.querySelectorAll('[data-lang]').forEach(element => {
       const key = element.getAttribute('data-lang');
@@ -1892,7 +3343,7 @@ function switchLanguage(lang, button) {
         element.textContent = langData[key];
       }
     });
-    
+
     // Обновяваме tooltip съобщенията
     if (langData.tooltips) {
       const tooltips = document.querySelectorAll('.tooltip');
@@ -1922,10 +3373,10 @@ function switchLanguage(lang, button) {
         }
       });
     }
-    
+
     // Обновяваме транзисторния select но запазваме стойностите
     populateTransistors();
-    
+
     // Възстановяваме всички запазени стойности след филтрирането (safely)
     setTimeout(() => {
       if (techSelectEl && savedValues.techSelect) techSelectEl.value = savedValues.techSelect;
@@ -1936,22 +3387,22 @@ function switchLanguage(lang, button) {
       if (dutyEl && savedValues.duty) dutyEl.value = savedValues.duty;
       if (freqMinEl && savedValues.freqMin) freqMinEl.value = savedValues.freqMin;
       if (freqMaxEl && savedValues.freqMax) freqMaxEl.value = savedValues.freqMax;
-      
+
       // Възстановяваме избрания транзистор
       if (savedValues.transistorSelect && transistorSelectEl) {
         transistorSelectEl.value = savedValues.transistorSelect;
         selectedTransistor = savedValues.selectedTransistor;
         updateSelectedTransistorInfo(); // Update all tab integrations
-        
+
         // Ако има избран транзистор, показваме информацията за него
         if (selectedTransistor) {
           showTransistorInfo(savedValues.transistorSelect);
         }
       }
-      
+
       // Регенерираме активните графики с новия език
       regenerateChartsWithNewLanguage();
-      
+
     }, 50); // Малка забавка за да се зареди select-ът
   }
 }
@@ -1963,7 +3414,7 @@ function regenerateChartsWithNewLanguage() {
     // Пресъздаваме calc() функцията за да обновим graphikata
     calc();
   }
-  
+
   // Проверяваме дали има активна efficiency chart и я регенерираме
   if (window.efficiencyChartInstance && selectedTransistor) {
     // Пресъздаваме efficiency chart-а
@@ -1999,24 +3450,26 @@ const PHYSICS_CONSTANTS = {
 // Термични съпротивления според типа охлаждане (K/W) - базирани на реални тестове
 const THERMAL_RESISTANCES = {
   natural: 50,           // Natural convection - Fischer/Aavid datasheet
+  forced: 1.5,           // Forced air cooling 1-2 m/s - Sunon/Delta fans
+  liquid: 0.5,           // Liquid cooling - water block systems
   small_heatsink: 15,    // Small heatsink 10-20cm² - Fischer SK104/SK105
   medium_heatsink: 6,    // Medium heatsink 50-100cm² - Fischer SK129/SK96
   large_heatsink: 2.5,   // Large heatsink >200cm² - Fischer SK53/SK54
-  forced_air: 1.5,       // Forced air cooling 1-2 m/s - Sunon/Delta fans
+  forced_air: 1.5,       // Forced air cooling 1-2 m/s - Sunon/Delta fans (legacy)
   liquid_cooling: 0.3    // Liquid cooling - Corsair/NZXT measurements
 };
 
 // Научно точна функция за изчисление на switching losses
 function calculateAdvancedSwitchingLosses(vds, id, fsw_khz, temp, technology) {
   if (!vds || !id || !fsw_khz || !temp || !technology) return 0;
-  
+
   const fsw = fsw_khz * 1000; // Convert to Hz
   const constants = PHYSICS_CONSTANTS[technology];
   if (!constants) return 0;
-  
+
   // Temperature derating на RDS(on)
   const temp_factor = 1 + constants.temp_coeff_rds * (temp - 25);
-  
+
   // Реалистични switching времена от datasheet (ns)
   let t_rise_ns, t_fall_ns;
   if (technology === 'Si') {
@@ -2029,14 +3482,14 @@ function calculateAdvancedSwitchingLosses(vds, id, fsw_khz, temp, technology) {
     t_rise_ns = 5;  // Най-бързи за GaN
     t_fall_ns = 4;
   }
-  
+
   const t_rise = t_rise_ns * 1e-9; // Convert to seconds
   const t_fall = t_fall_ns * 1e-9;
-  
+
   // Реалистични switching energies (по-консервативни коефициенти)
   const E_on = 0.5 * vds * id * t_rise * 0.3; // 30% ефективност на превключването
   const E_off = 0.5 * vds * id * t_fall * 0.3;
-  
+
   // Miller capacitance effects (Cgd) - критични за switching performance
   let typical_Cgd; // Miller capacitance (pF)
   if (technology === 'Si') {
@@ -2046,18 +3499,18 @@ function calculateAdvancedSwitchingLosses(vds, id, fsw_khz, temp, technology) {
   } else if (technology === 'GaN') {
     typical_Cgd = 15e-12;  // 15 pF typical за GaN HEMTs - най-малка
   }
-  
+
   // Miller plateau losses - gateway charge енергия загуби 
   // P_miller = Vgs * Cgd * Vds * fsw (според IEEE standards)
   const vgs_typical = 10; // Типично gate-source voltage
   const E_miller = vgs_typical * typical_Cgd * vds * 0.7; // 70% efficiency factor
-  
+
   // Output capacitance losses (намалени за реалистичност)
   const E_coss = 0.5 * constants.typical_Coss * vds * vds * 0.5;
-  
+
   // Gate charge losses от разреждане на input капацитетите
   const E_gate = typical_Cgd * vgs_typical * vgs_typical * 0.5;
-  
+
   // Dead-time загуби в PWM конвертори (критично за научна точност)
   // Dead-time е времето между изключване на upper switch и включване на lower switch
   let typical_dead_time_ns;
@@ -2068,9 +3521,9 @@ function calculateAdvancedSwitchingLosses(vds, id, fsw_khz, temp, technology) {
   } else if (technology === 'GaN') {
     typical_dead_time_ns = 50;  // 50ns за GaN HEMTs
   }
-  
+
   const dead_time_s = typical_dead_time_ns * 1e-9;
-  
+
   // По време на dead-time, токът протича през body diode или reverse conduction
   // P_deadtime = Vf * Id * deadtime * fsw * 2 (за горен и долен транзистор)
   let forward_voltage; // Forward voltage на body diode
@@ -2081,29 +3534,29 @@ function calculateAdvancedSwitchingLosses(vds, id, fsw_khz, temp, technology) {
   } else if (technology === 'GaN') {
     forward_voltage = 0.0; // GaN няма body diode - reverse conduction
   }
-  
+
   const P_deadtime = forward_voltage * id * dead_time_s * fsw * 2;
-  
+
   // Total switching losses включват всички ефекти за пълна научна точност
   const P_switching = (E_on + E_off + E_coss + E_miller + E_gate) * fsw * temp_factor + P_deadtime;
-  
+
   return isNaN(P_switching) ? 0 : P_switching;
 }
 
 // Научно точна функция за изчисление на conduction losses
 function calculateAdvancedConductionLosses(id, rds_on_25c, duty, temp, technology) {
   if (!id || !rds_on_25c || !duty || !temp || !technology) return 0;
-  
+
   const constants = PHYSICS_CONSTANTS[technology];
   if (!constants) return 0;
-  
+
   // Temperature derating на RDS(on) според физическата теория
   const temp_factor = 1 + constants.temp_coeff_rds * (temp - 25);
   const rds_on_temp = rds_on_25c * temp_factor;
-  
+
   // Conduction losses с temperature effects
   const P_conduction = id * id * rds_on_temp * duty;
-  
+
   return isNaN(P_conduction) ? 0 : P_conduction;
 }
 
@@ -2111,42 +3564,42 @@ function calculateAdvancedConductionLosses(id, rds_on_25c, duty, temp, technolog
 function generateEfficiencyChart() {
   // Update the Analysis tab transistor display first
   updateAnalysisTransistorDisplay();
-  
+
   // Use selected transistor or fallback to a default one
   let transistor = selectedTransistor;
   let usingFallback = false;
-  
+
   if (!transistor) {
     // Use a default transistor for analysis
     transistor = TRANSISTOR_DB.Si["IRFP260N"];
     usingFallback = true;
-    
+
     // Show notification about using fallback
     const message = currentLang === 'bg' ? 
       'Използва се fallback транзистор IRFP260N. За точен анализ изберете транзистор от Calculator.' : 
       'Using fallback transistor IRFP260N. For accurate analysis, select transistor from Calculator.';
-    
+
     const efficiencyInsights = document.getElementById('efficiencyInsights');
     if (efficiencyInsights) {
       efficiencyInsights.innerHTML = `<div class="fallback-warning">⚠️ ${message}</div>`;
       efficiencyInsights.style.display = 'block';
     }
   }
-  
+
   const freqMin = parseFloat(document.getElementById('freqMin').value) || 1;
   const freqMax = parseFloat(document.getElementById('freqMax').value) || 1000;
-  
+
   // Try to get values from Calculator tab inputs, or use defaults
   const vdcElement = document.getElementById('vdc');
   const iLoadElement = document.getElementById('iLoad');
   const tempElement = document.getElementById('temp');
   const dutyElement = document.getElementById('duty');
-  
+
   const vdc = vdcElement ? parseFloat(vdcElement.value) || 200 : 200;
   const iLoad = iLoadElement ? parseFloat(iLoadElement.value) || 10 : 10;
   const temp = tempElement ? parseFloat(tempElement.value) || 100 : 100;
   const duty = dutyElement ? parseFloat(dutyElement.value) || 0.5 : 0.5;
-  
+
   // Determine technology
   let techType;
   if (transistor.name.includes('Si') && !transistor.name.includes('SiC')) {
@@ -2156,17 +3609,17 @@ function generateEfficiencyChart() {
   } else if (transistor.name.includes('GaN')) {
     techType = 'GaN';
   }
-  
+
   // Generate frequency points (logarithmic scale)
   const frequencies = [];
   const efficiencies = [];
   const stepCount = 50;
-  
+
   for (let i = 0; i <= stepCount; i++) {
     const logFreq = Math.log10(freqMin) + (Math.log10(freqMax) - Math.log10(freqMin)) * i / stepCount;
     const freq = Math.pow(10, logFreq);
     frequencies.push(freq);
-    
+
     // Calculate losses at this frequency
     const rds_on_ohms = transistor.rds_mohm / 1000; // Convert milliohm to ohm
     const pCond = calculateAdvancedConductionLosses(iLoad, rds_on_ohms, duty, temp, techType);
@@ -2174,28 +3627,28 @@ function generateEfficiencyChart() {
     const pTotal = pCond + pSw;
     const pOut = vdc * iLoad * duty; // Output power
     const efficiency = (pOut / (pOut + pTotal)) * 100;
-    
+
     efficiencies.push(Math.max(0, Math.min(100, efficiency)));
   }
-  
+
   // Create chart
   const efficiencyChartElement = document.getElementById('efficiencyChart');
   if (!efficiencyChartElement) {
     console.warn('Efficiency chart canvas not found');
     return;
   }
-  
+
   const ctx = efficiencyChartElement.getContext('2d');
   if (!ctx) {
     console.warn('Cannot get 2D context for efficiency chart');
     return;
   }
-  
+
   // Destroy existing chart if any
   if (window.efficiencyChartInstance) {
     window.efficiencyChartInstance.destroy();
   }
-  
+
   window.efficiencyChartInstance = new Chart(ctx, {
     type: 'line',
     data: {
@@ -2240,10 +3693,10 @@ function generateEfficiencyChart() {
       }
     }
   });
-  
+
   document.getElementById('efficiencyChart').style.display = 'block';
   document.getElementById('copyEfficiencyChart').style.display = 'inline-flex';
-  
+
   // Show insights
   showEfficiencyInsights(frequencies, efficiencies, techType);
 }
@@ -2263,9 +3716,9 @@ function showEfficiencyInsights(frequencies, efficiencies, techType) {
   const maxEffIndex = efficiencies.indexOf(Math.max(...efficiencies));
   const optimalFreq = frequencies[maxEffIndex];
   const maxEff = efficiencies[maxEffIndex];
-  
+
   const langData = LANGUAGES[currentLang] || LANGUAGES['bg'];
-  
+
   let insights = '';
   if (currentLang === 'bg') {
     insights = `
@@ -2275,12 +3728,12 @@ function showEfficiencyInsights(frequencies, efficiencies, techType) {
           <strong>📊 Оптимална честота:</strong> ${optimalFreq.toFixed(1)} kHz (${maxEff.toFixed(2)}% КПД)<br>
           <em>Физично обяснение:</em> При тази честота switching и conduction загубите са в оптимално съотношение.
         </div>
-        
+
         <div class="insight-item">
           <strong>⚡ ${techType} характеристики:</strong><br>
           ${getTechnologyPhysicsExplanation(techType)}
         </div>
-        
+
         <div class="insight-item">
           <strong>🧮 Използвани научни модели:</strong><br>
           • <span class="clickable-term" data-term="coss">Output capacitance (Coss)</span>: ${(PHYSICS_CONSTANTS[techType].typical_Coss * 1e12).toFixed(1)} pF<br>
@@ -2298,12 +3751,12 @@ function showEfficiencyInsights(frequencies, efficiencies, techType) {
           <strong>📊 Optimal frequency:</strong> ${optimalFreq.toFixed(1)} kHz (${maxEff.toFixed(2)}% efficiency)<br>
           <em>Physical explanation:</em> At this frequency switching and conduction losses are optimally balanced.
         </div>
-        
+
         <div class="insight-item">
           <strong>⚡ ${techType} characteristics:</strong><br>
           ${getTechnologyPhysicsExplanationEn(techType)}
         </div>
-        
+
         <div class="insight-item">
           <strong>🧮 Scientific models used:</strong><br>
           • <span class="clickable-term" data-term="coss">Output capacitance (Coss)</span>: ${(PHYSICS_CONSTANTS[techType].typical_Coss * 1e12).toFixed(1)} pF<br>
@@ -2314,10 +3767,10 @@ function showEfficiencyInsights(frequencies, efficiencies, techType) {
       </div>
     `;
   }
-  
+
   document.getElementById('efficiencyInsights').innerHTML = insights;
   document.getElementById('efficiencyInsights').style.display = 'block';
-  
+
   // Добавяме event listeners за интерактивните термини
   addTermClickListeners();
 }
@@ -2348,14 +3801,14 @@ function showTermExplanation(termKey) {
         content: `
           <p><strong>Какво е Coss?</strong></p>
           <p>Output capacitance (Coss) е паразитният капацитет между drain и source на MOSFET транзистора.</p>
-          
+
           <p><strong>Защо е важен?</strong></p>
           <ul>
             <li>Определя switching загубите при превключване</li>
             <li>По-малък Coss → по-бързо превключване → по-малки загуби</li>
             <li>Влияе на dv/dt стойностите</li>
           </ul>
-          
+
           <p><strong>Типични стойности:</strong></p>
           <ul>
             <li>Si MOSFETs: 800-2000 pF</li>
@@ -2369,14 +3822,14 @@ function showTermExplanation(termKey) {
         content: `
           <p><strong>What is Coss?</strong></p>
           <p>Output capacitance (Coss) is the parasitic capacitance between drain and source of a MOSFET transistor.</p>
-          
+
           <p><strong>Why is it important?</strong></p>
           <ul>
             <li>Determines switching losses during transitions</li>
             <li>Lower Coss → faster switching → lower losses</li>
             <li>Affects dv/dt values</li>
           </ul>
-          
+
           <p><strong>Typical values:</strong></p>
           <ul>
             <li>Si MOSFETs: 800-2000 pF</li>
@@ -2392,17 +3845,17 @@ function showTermExplanation(termKey) {
         content: `
           <p><strong>Какво показва?</strong></p>
           <p>Показва как се променя съпротивлението RDS(on) с температурата.</p>
-          
+
           <p><strong>Формула:</strong></p>
           <p>RDS(on)(T) = RDS(on)(25°C) × [1 + α × (T - 25°C)]</p>
-          
+
           <p><strong>Типични стойности на α:</strong></p>
           <ul>
             <li>Si: 0.6%/°C (по-голямо влияние на температурата)</li>
             <li>SiC: 0.8%/°C (средно влияние)</li>
             <li>GaN: 1.2%/°C (най-голямо влияние)</li>
           </ul>
-          
+
           <p><strong>Практично значение:</strong></p>
           <p>При 100°C работа, RDS(on) се увеличава с 45-90% спрямо стойността при 25°C!</p>
         `
@@ -2412,17 +3865,17 @@ function showTermExplanation(termKey) {
         content: `
           <p><strong>What does it show?</strong></p>
           <p>Shows how RDS(on) resistance changes with temperature.</p>
-          
+
           <p><strong>Formula:</strong></p>
           <p>RDS(on)(T) = RDS(on)(25°C) × [1 + α × (T - 25°C)]</p>
-          
+
           <p><strong>Typical α values:</strong></p>
           <ul>
             <li>Si: 0.6%/°C (higher temperature impact)</li>
             <li>SiC: 0.8%/°C (medium impact)</li>
             <li>GaN: 1.2%/°C (highest impact)</li>
           </ul>
-          
+
           <p><strong>Practical meaning:</strong></p>
           <p>At 100°C operation, RDS(on) increases by 45-90% compared to 25°C value!</p>
         `
@@ -2434,21 +3887,21 @@ function showTermExplanation(termKey) {
         content: `
           <p><strong>Какво е Bandgap?</strong></p>
           <p>Energийната разлика между валентната зона и проводимостната зона в полупроводника.</p>
-          
+
           <p><strong>Влияние върху параметрите:</strong></p>
           <ul>
             <li><strong>Максимална температура:</strong> По-голям bandgap → по-висока Tmax</li>
             <li><strong>Switching скорост:</strong> Влияе на подвижността на носителите</li>
             <li><strong>Ефективност:</strong> По-голям bandgap → по-малки загуби</li>
           </ul>
-          
+
           <p><strong>Сравнение на технологиите:</strong></p>
           <ul>
             <li><strong>Si:</strong> 1.12 eV → Tmax ~150°C</li>
             <li><strong>SiC:</strong> 3.3 eV → Tmax ~200°C</li>
             <li><strong>GaN:</strong> 3.4 eV → Tmax ~200°C+</li>
           </ul>
-          
+
           <p><strong>Защо е важно?</strong></p>
           <p>По-широкият bandgap позволява работа при по-високи напрежения, температури и честоти!</p>
         `
@@ -2458,21 +3911,21 @@ function showTermExplanation(termKey) {
         content: `
           <p><strong>What is Bandgap?</strong></p>
           <p>The energy difference between valence band and conduction band in semiconductor.</p>
-          
+
           <p><strong>Impact on parameters:</strong></p>
           <ul>
             <li><strong>Maximum temperature:</strong> Larger bandgap → higher Tmax</li>
             <li><strong>Switching speed:</strong> Affects carrier mobility</li>
             <li><strong>Efficiency:</strong> Larger bandgap → lower losses</li>
           </ul>
-          
+
           <p><strong>Technology comparison:</strong></p>
           <ul>
             <li><strong>Si:</strong> 1.12 eV → Tmax ~150°C</li>
             <li><strong>SiC:</strong> 3.3 eV → Tmax ~200°C</li>
             <li><strong>GaN:</strong> 3.4 eV → Tmax ~200°C+</li>
           </ul>
-          
+
           <p><strong>Why important?</strong></p>
           <p>Wider bandgap enables operation at higher voltages, temperatures and frequencies!</p>
         `
@@ -2487,7 +3940,7 @@ function showTermExplanation(termKey) {
     return;
   }
   const explanation = termData[lang];
-  
+
   if (explanation) {
     document.getElementById('termTitle').textContent = explanation.title;
     document.getElementById('termContent').innerHTML = explanation.content;
@@ -2506,12 +3959,12 @@ function closeTermExplanation() {
 document.addEventListener('DOMContentLoaded', function() {
   // Load selectedTransistor from localStorage
   loadSelectedTransistorFromStorage();
-  
+
   const overlay = document.getElementById('overlay');
   if (overlay) {
     overlay.addEventListener('click', closeTermExplanation);
   }
-  
+
   // Инициализираме първия таб с теория след малка забавка
   setTimeout(() => {
     if (document.getElementById('theoryContent')) {
@@ -2526,10 +3979,10 @@ function showTheoryTab(tabName) {
   document.querySelectorAll('.theory-tab').forEach(tab => {
     tab.classList.remove('active');
   });
-  
+
   // Добавяме активния клас на кликнатия таб
   document.querySelector(`[onclick="showTheoryTab('${tabName}')"]`).classList.add('active');
-  
+
   // Показваме съответното съдържание
   const content = getTheoryContent(tabName);
   document.getElementById('theoryContent').innerHTML = content;
@@ -2538,17 +3991,17 @@ function showTheoryTab(tabName) {
 // Функция за генериране на съдържанието за различните табове
 function getTheoryContent(tabName) {
   const lang = currentLang === 'bg' ? 'bg' : 'en';
-  
+
   const content = {
     'conduction': {
       'bg': `
         <h3>🔌 Проводими загуби (Conduction Losses)</h3>
-        
+
         <div class="theory-formula">
           <h4>Основна формула:</h4>
           <strong>P<sub>cond</sub> = I<sup>2</sup> × R<sub>DS(on)</sub> × D</strong>
         </div>
-        
+
         <div class="theory-explanation">
           <p><strong>Обяснение:</strong></p>
           <ul>
@@ -2558,7 +4011,7 @@ function getTheoryContent(tabName) {
             <li><strong>D</strong> - Duty cycle (работен цикъл, 0-1)</li>
           </ul>
         </div>
-        
+
         <div class="theory-formula">
           <h4>Температурна корекция:</h4>
           <strong>R<sub>DS(on)</sub>(T) = R<sub>DS(on)</sub>(25°C) × [1 + α × (T - 25°C)]</strong>
@@ -2570,7 +4023,7 @@ function getTheoryContent(tabName) {
             <li>GaN: 1.2%/°C</li>
           </ul>
         </div>
-        
+
         <div class="theory-explanation">
           <p><strong>Физическо обяснение:</strong></p>
           <p>Проводимите загуби възникват когато транзисторът е в проводящо състояние. Въпреки че MOSFET-ът е "включен", той все още има малко съпротивление R<sub>DS(on)</sub>. Токът, протичащ през това съпротивление, генерира топлина според закона на Джул: P = I²R.</p>
@@ -2579,12 +4032,12 @@ function getTheoryContent(tabName) {
       `,
       'en': `
         <h3>🔌 Conduction Losses</h3>
-        
+
         <div class="theory-formula">
           <h4>Basic formula:</h4>
           <strong>P<sub>cond</sub> = I<sup>2</sup> × R<sub>DS(on)</sub> × D</strong>
         </div>
-        
+
         <div class="theory-explanation">
           <p><strong>Where:</strong></p>
           <ul>
@@ -2594,7 +4047,7 @@ function getTheoryContent(tabName) {
             <li><strong>D</strong> - Duty cycle (0-1)</li>
           </ul>
         </div>
-        
+
         <div class="theory-formula">
           <h4>Temperature correction:</h4>
           <strong>R<sub>DS(on)</sub>(T) = R<sub>DS(on)</sub>(25°C) × [1 + α × (T - 25°C)]</strong>
@@ -2606,7 +4059,7 @@ function getTheoryContent(tabName) {
             <li>GaN: 1.2%/°C</li>
           </ul>
         </div>
-        
+
         <div class="theory-explanation">
           <p><strong>Physical explanation:</strong></p>
           <p>Conduction losses occur when the transistor is in the conducting state. Although the MOSFET is "on", it still has small resistance R<sub>DS(on)</sub>. Current flowing through this resistance generates heat according to Joule's law: P = I²R.</p>
@@ -2617,12 +4070,12 @@ function getTheoryContent(tabName) {
     'switching': {
       'bg': `
         <h3>⚡ Превключващи загуби (Switching Losses)</h3>
-        
+
         <div class="theory-formula">
           <h4>Основна формула:</h4>
           <strong>P<sub>sw</sub> = (E<sub>on</sub> + E<sub>off</sub> + E<sub>coss</sub>) × f<sub>sw</sub></strong>
         </div>
-        
+
         <div class="theory-explanation">
           <p><strong>Компоненти:</strong></p>
           <ul>
@@ -2632,14 +4085,14 @@ function getTheoryContent(tabName) {
             <li><strong>f<sub>sw</sub></strong> - Честота на превключване (Hz)</li>
           </ul>
         </div>
-        
+
         <div class="theory-formula">
           <h4>Детайлни изчисления:</h4>
           <strong>E<sub>on</sub> = 0.5 × V<sub>DS</sub> × I<sub>D</sub> × t<sub>rise</sub></strong><br>
           <strong>E<sub>off</sub> = 0.5 × V<sub>DS</sub> × I<sub>D</sub> × t<sub>fall</sub></strong><br>
           <strong>E<sub>coss</sub> = 0.5 × C<sub>oss</sub> × V<sub>DS</sub><sup>2</sup></strong>
         </div>
-        
+
         <div class="theory-comparison">
           <div class="tech-card si">
             <h4>Si MOSFET</h4>
@@ -2660,7 +4113,7 @@ function getTheoryContent(tabName) {
             <div class="tech-value">t<sub>fall</sub>: 4 ns</div>
           </div>
         </div>
-        
+
         <div class="theory-explanation">
           <p><strong>Физическо обяснение:</strong></p>
           <p>Превключващите загуби възникват по време на прехода между включено и изключено състояние. По време на този преход и напрежението, и токът имат ненулеви стойности, което причинява мощностни загуби.</p>
@@ -2669,12 +4122,12 @@ function getTheoryContent(tabName) {
       `,
       'en': `
         <h3>⚡ Switching Losses</h3>
-        
+
         <div class="theory-formula">
           <h4>Basic formula:</h4>
           <strong>P<sub>sw</sub> = (E<sub>on</sub> + E<sub>off</sub> + E<sub>coss</sub>) × f<sub>sw</sub></strong>
         </div>
-        
+
         <div class="theory-explanation">
           <p><strong>Components:</strong></p>
           <ul>
@@ -2684,14 +4137,14 @@ function getTheoryContent(tabName) {
             <li><strong>f<sub>sw</sub></strong> - Switching frequency (Hz)</li>
           </ul>
         </div>
-        
+
         <div class="theory-formula">
           <h4>Detailed calculations:</h4>
           <strong>E<sub>on</sub> = 0.5 × V<sub>DS</sub> × I<sub>D</sub> × t<sub>rise</sub></strong><br>
           <strong>E<sub>off</sub> = 0.5 × V<sub>DS</sub> × I<sub>D</sub> × t<sub>fall</sub></strong><br>
           <strong>E<sub>coss</sub> = 0.5 × C<sub>oss</sub> × V<sub>DS</sub><sup>2</sup></strong>
         </div>
-        
+
         <div class="theory-comparison">
           <div class="tech-card si">
             <h4>Si MOSFET</h4>
@@ -2712,7 +4165,7 @@ function getTheoryContent(tabName) {
             <div class="tech-value">t<sub>fall</sub>: 4 ns</div>
           </div>
         </div>
-        
+
         <div class="theory-explanation">
           <p><strong>Physical explanation:</strong></p>
           <p>Switching losses occur during the transition between on and off states. During this transition, both voltage and current have non-zero values, causing power losses.</p>
@@ -2723,12 +4176,12 @@ function getTheoryContent(tabName) {
     'thermal': {
       'bg': `
         <h3>🌡️ Термична теория</h3>
-        
+
         <div class="theory-formula">
           <h4>Основна термична формула:</h4>
           <strong>T<sub>j</sub> = T<sub>a</sub> + P<sub>total</sub> × (R<sub>θJC</sub> + R<sub>θCA</sub>)</strong>
         </div>
-        
+
         <div class="theory-explanation">
           <p><strong>Термини:</strong></p>
           <ul>
@@ -2739,12 +4192,12 @@ function getTheoryContent(tabName) {
             <li><strong>R<sub>θCA</sub></strong> - Термично съпротивление case-ambient (°C/W)</li>
           </ul>
         </div>
-        
+
         <div class="theory-formula">
           <h4>Case температура:</h4>
           <strong>T<sub>c</sub> = T<sub>a</sub> + P<sub>total</sub> × R<sub>θCA</sub></strong>
         </div>
-        
+
         <div class="theory-comparison">
           <div class="tech-card si">
             <h4>Естествено охлаждане</h4>
@@ -2762,7 +4215,7 @@ function getTheoryContent(tabName) {
             <p>>200 cm² (Fischer SK53)</p>
           </div>
         </div>
-        
+
         <div class="theory-explanation">
           <p><strong>Максимални работни температури:</strong></p>
           <ul>
@@ -2771,7 +4224,7 @@ function getTheoryContent(tabName) {
             <li><strong>GaN HEMT:</strong> 150-200°C</li>
           </ul>
         </div>
-        
+
         <div class="theory-explanation">
           <p><strong>Термичен марж:</strong></p>
           <p>Препоръчва се junction температурата да не надвишава 80-90% от максималната стойност за надеждна работа. Това осигурява марж за безопасност и удължава живота на компонента.</p>
@@ -2779,12 +4232,12 @@ function getTheoryContent(tabName) {
       `,
       'en': `
         <h3>🌡️ Thermal Theory</h3>
-        
+
         <div class="theory-formula">
           <h4>Basic thermal formula:</h4>
           <strong>T<sub>j</sub> = T<sub>a</sub> + P<sub>total</sub> × (R<sub>θJC</sub> + R<sub>θCA</sub>)</strong>
         </div>
-        
+
         <div class="theory-explanation">
           <p><strong>Terms:</strong></p>
           <ul>
@@ -2795,12 +4248,12 @@ function getTheoryContent(tabName) {
             <li><strong>R<sub>θCA</sub></strong> - Thermal resistance case-ambient (°C/W)</li>
           </ul>
         </div>
-        
+
         <div class="theory-formula">
           <h4>Case temperature:</h4>
           <strong>T<sub>c</sub> = T<sub>a</sub> + P<sub>total</sub> × R<sub>θCA</sub></strong>
         </div>
-        
+
         <div class="theory-comparison">
           <div class="tech-card si">
             <h4>Natural cooling</h4>
@@ -2818,7 +4271,7 @@ function getTheoryContent(tabName) {
             <p>>200 cm² (Fischer SK53)</p>
           </div>
         </div>
-        
+
         <div class="theory-explanation">
           <p><strong>Maximum operating temperatures:</strong></p>
           <ul>
@@ -2827,7 +4280,7 @@ function getTheoryContent(tabName) {
             <li><strong>GaN HEMT:</strong> 150-200°C</li>
           </ul>
         </div>
-        
+
         <div class="theory-explanation">
           <p><strong>Thermal margin:</strong></p>
           <p>It's recommended that junction temperature doesn't exceed 80-90% of maximum value for reliable operation. This ensures safety margin and extends component lifetime.</p>
@@ -2837,7 +4290,7 @@ function getTheoryContent(tabName) {
     'comparison': {
       'bg': `
         <h3>⚖️ Сравнение на технологиите</h3>
-        
+
         <div class="theory-comparison">
           <div class="tech-card si">
             <h4>🟤 Силиций (Si)</h4>
@@ -2861,10 +4314,10 @@ function getTheoryContent(tabName) {
             <div class="tech-value">Цена: €€€€€</div>
           </div>
         </div>
-        
+
         <div class="theory-explanation">
           <p><strong>Предимства и недостатъци:</strong></p>
-          
+
           <h4>Si (Силиций):</h4>
           <ul>
             <li>✅ Ниска цена и широка достъпност</li>
@@ -2873,7 +4326,7 @@ function getTheoryContent(tabName) {
             <li>❌ Ограничена честота (до 100 kHz)</li>
             <li>❌ По-високи загуби при висока честота</li>
           </ul>
-          
+
           <h4>SiC (Силициев карбид):</h4>
           <ul>
             <li>✅ Висока ефективност при средни честоти</li>
@@ -2882,7 +4335,7 @@ function getTheoryContent(tabName) {
             <li>❌ По-висока цена от Si</li>
             <li>❌ Ограничени производители</li>
           </ul>
-          
+
           <h4>GaN (Галиев нитрид):</h4>
           <ul>
             <li>✅ Най-високата ефективност</li>
@@ -2895,7 +4348,7 @@ function getTheoryContent(tabName) {
       `,
       'en': `
         <h3>⚖️ Technology Comparison</h3>
-        
+
         <div class="theory-comparison">
           <div class="tech-card si">
             <h4>🟤 Silicon (Si)</h4>
@@ -2919,10 +4372,10 @@ function getTheoryContent(tabName) {
             <div class="tech-value">Price: €€€€€</div>
           </div>
         </div>
-        
+
         <div class="theory-explanation">
           <p><strong>Advantages and Disadvantages:</strong></p>
-          
+
           <h4>Si (Silicon):</h4>
           <ul>
             <li>✅ Low cost and wide availability</li>
@@ -2931,7 +4384,7 @@ function getTheoryContent(tabName) {
             <li>❌ Limited frequency (up to 100 kHz)</li>
             <li>❌ Higher losses at high frequency</li>
           </ul>
-          
+
           <h4>SiC (Silicon Carbide):</h4>
           <ul>
             <li>✅ High efficiency at medium frequencies</li>
@@ -2940,7 +4393,7 @@ function getTheoryContent(tabName) {
             <li>❌ Higher cost than Si</li>
             <li>❌ Limited suppliers</li>
           </ul>
-          
+
           <h4>GaN (Gallium Nitride):</h4>
           <ul>
             <li>✅ Highest efficiency</li>
@@ -2953,7 +4406,7 @@ function getTheoryContent(tabName) {
       `
     }
   };
-  
+
   return content[tabName][lang];
 }
 
@@ -2972,21 +4425,21 @@ async function copyChartToClipboard(chartId) {
 
     // Генерираме base64 изображение от графиката със засилено качество
     const base64Image = chartInstance.toBase64Image('image/png', 1.0);
-    
+
     // Конвертираме base64 в blob
     const response = await fetch(base64Image);
     const blob = await response.blob();
-    
+
     // Създаваме ClipboardItem и копираме в clipboard
     const clipboardItem = new ClipboardItem({ 'image/png': blob });
     await navigator.clipboard.write([clipboardItem]);
-    
+
     // Показваме успешно съобщение
     const button = document.getElementById(chartId === 'lossChart' ? 'copyLossChart' : 'copyEfficiencyChart');
     const originalText = button.textContent;
     button.textContent = currentLang === 'bg' ? '✅ Копирано!' : '✅ Copied!';
     button.disabled = true;
-    
+
     // Toast съобщение с инструкции
     if (typeof showTemporaryMessage === 'function') {
       showTemporaryMessage(
@@ -2996,26 +4449,26 @@ async function copyChartToClipboard(chartId) {
         'success'
       );
     }
-    
+
     setTimeout(() => {
       button.textContent = originalText;
       button.disabled = false;
     }, 2000);
-    
+
   } catch (error) {
     console.error('Error copying chart:', error);
-    
+
     // Показваме грешка
     const button = document.getElementById(chartId === 'lossChart' ? 'copyLossChart' : 'copyEfficiencyChart');
     const originalText = button.textContent;
     button.textContent = currentLang === 'bg' ? '❌ Грешка' : '❌ Error';
     button.disabled = true;
-    
+
     setTimeout(() => {
       button.textContent = originalText;
       button.disabled = false;
     }, 2000);
-    
+
     // Fallback - показваме URL в нов прозорец ако clipboard API не работи
     if (chartId === 'lossChart' && chart) {
       const newWindow = window.open();
@@ -3094,30 +4547,30 @@ function getTechnologyPhysicsExplanationEn(techType) {
 function calculateThermal() {
   // Force reload selectedTransistor from storage first
   loadSelectedTransistorFromStorage();
-  
+
   // Update the Analysis tab transistor display first
   updateAnalysisTransistorDisplay();
-  
+
   // Get all DOM elements at the beginning with null protection
   const thermalStatusDiv = document.getElementById('thermalStatus');
   const thermalResultsDiv = document.getElementById('thermalResults');
   const thermalExplanation = document.getElementById('thermalExplanation');
-  
+
   let transistor = selectedTransistor || window.selectedTransistor;
   let usingFallback = false;
-  
+
   console.log('calculateThermal - selectedTransistor:', selectedTransistor);
   console.log('calculateThermal - window.selectedTransistor:', window.selectedTransistor);
-  
+
   if (!transistor) {
     // Use fallback transistor for thermal analysis
     transistor = TRANSISTOR_DB.Si["IRFP260N"];
     usingFallback = true;
-    
+
     const message = currentLang === 'bg' ? 
       'Използва се fallback транзистор IRFP260N за термичен анализ. За точни резултати изберете транзистор от Calculator.' : 
       'Using fallback transistor IRFP260N for thermal analysis. For accurate results, select transistor from Calculator.';
-    
+
     // Show warning in thermal results
     const thermalResults = document.getElementById('thermalResults');
     if (thermalResults) {
@@ -3130,32 +4583,32 @@ function calculateThermal() {
       }
     }
   }
-  
+
   // Get elements with null protection to prevent console errors
   const ambientTempEl = document.getElementById('ambientTemp');
   const coolingTypeEl = document.getElementById('coolingType');
-  
+
   if (!ambientTempEl || !coolingTypeEl) {
     console.warn('Thermal calculation elements not found - advanced tab may not be loaded');
     return;
   }
-  
+
   const ambientTemp = parseFloat(ambientTempEl.value);
   const coolingType = coolingTypeEl.value;
-  
+
   // Get current losses - use fallback values if Calculator elements don't exist
   const vdcEl = document.getElementById('vdc');
   const iLoadEl = document.getElementById('iLoad');
   const fswEl = document.getElementById('fsw');
   const tempEl = document.getElementById('temp');
   const dutyEl = document.getElementById('duty');
-  
+
   const vdc = vdcEl ? parseFloat(vdcEl.value) || 200 : 200;
   const iLoad = iLoadEl ? parseFloat(iLoadEl.value) || 10 : 10;
   const fsw = fswEl ? parseFloat(fswEl.value) || 50 : 50;
   const temp = tempEl ? parseFloat(tempEl.value) || 100 : 100;
   const duty = dutyEl ? parseFloat(dutyEl.value) || 0.5 : 0.5;
-  
+
   // Determine technology
   let techType;
   if (transistor.name.includes('Si') && !transistor.name.includes('SiC')) {
@@ -3167,13 +4620,13 @@ function calculateThermal() {
   } else {
     techType = 'Si'; // fallback
   }
-  
+
   // Calculate losses with current parameters
   const rds_on_ohms = transistor.rds_mohm / 1000; // Convert milliohm to ohm
   const pCond = calculateAdvancedConductionLosses(iLoad, rds_on_ohms, duty, temp, techType);
   const pSw = calculateAdvancedSwitchingLosses(vdc, iLoad, fsw, temp, techType);
   const totalLosses = pCond + pSw;
-  
+
   // Thermal resistances - точни datasheet стойности според корпуса
   let rth_jc; // Junction-to-case (точни стойности от производители)
   if (transistor.package.includes('TO-220')) {
@@ -3193,14 +4646,16 @@ function calculateThermal() {
   } else {
     rth_jc = 1.5; // Консервативна стойност за неизвестни корпуси
   }
-  
-  const rth_ca = THERMAL_RESISTANCES[coolingType]; // Case-to-ambient
+
+  const rth_ca = THERMAL_RESISTANCES[coolingType] || THERMAL_RESISTANCES.natural; // Case-to-ambient with fallback
   const rth_ja = rth_jc + rth_ca; // Total junction-to-ambient
   
+  console.log('Thermal calc debug:', {coolingType, rth_ca, rth_jc, rth_ja, totalLosses, pCond, pSw});
+
   // Temperature calculations
   const caseTemp = ambientTemp + totalLosses * rth_ca;
   const junctionTemp = ambientTemp + totalLosses * rth_ja;
-  
+
   // Thermal margin calculation - различни максимални температури според технологията
   let maxJunctionTemp;
   if (techType === 'Si') {
@@ -3212,31 +4667,31 @@ function calculateThermal() {
   } else {
     maxJunctionTemp = 150; // По подразбиране
   }
-  
+
   const thermalMargin = maxJunctionTemp - junctionTemp;
-  
+
   // Display results with null protection to prevent console errors
   const langData = LANGUAGES[currentLang] || LANGUAGES['bg'];
-  
+
   const junctionTempEl = document.getElementById('junctionTemp');
   const caseTempEl = document.getElementById('caseTemp');
   const thermalResistanceEl = document.getElementById('thermalResistance');
   const thermalMarginEl = document.getElementById('thermalMargin');
-  
+
   if (junctionTempEl) junctionTempEl.textContent = `${junctionTemp.toFixed(1)}°C`;
   if (caseTempEl) caseTempEl.textContent = `${caseTemp.toFixed(1)}°C`;
   if (thermalResistanceEl) thermalResistanceEl.textContent = `${rth_ja.toFixed(2)} K/W`;
   if (thermalMarginEl) thermalMarginEl.textContent = `${thermalMargin.toFixed(1)}°C`;
-  
+
   // Цветово кодиране според термичния марж - with null safety
   // Премахни всички съществуващи класове with null safety
   if (thermalResultsDiv) {
     thermalResultsDiv.classList.remove('thermal-good', 'thermal-warning', 'thermal-danger');
   }
-  
+
   let statusText = '';
   let explanationText = '';
-  
+
   if (thermalMargin > 50) {
     // Отлично охлаждане
     if (thermalResultsDiv) {
@@ -3265,42 +4720,42 @@ function calculateThermal() {
       `Термичният марж от ${thermalMargin.toFixed(1)}°C е твърде малък! Транзисторът рискува от прегряване. Задължително използвайте по-добро охлаждане.` :
       `Thermal margin of ${thermalMargin.toFixed(1)}°C is too small! The transistor risks overheating. Better cooling is mandatory.`;
   }
-  
+
   if (thermalStatusDiv) {
     thermalStatusDiv.textContent = statusText;
     thermalStatusDiv.style.display = 'block';
   }
-  
+
   // Добави научно обяснение с точни источници
   const transistorModel = usingFallback ? 'IRFP260N (fallback)' : transistor.name;
   const scientificInfo = currentLang === 'bg' ? 
     `\n\nТочни изчисления (datasheet стойности):\n• Транзистор: ${transistorModel}\n• Общи загуби: ${totalLosses.toFixed(3)}W\n• Загуби от проводимост: ${pCond.toFixed(3)}W (P = I²×RDS(on)×D)\n• Загуби от превключване: ${pSw.toFixed(3)}W (физични формули за gate charge)\n• Rth(j-c): ${rth_jc.toFixed(2)}K/W (${transistor.package} - производител datasheet)\n• Rth(c-a): ${rth_ca.toFixed(2)}K/W (проверени измервания)\n• Tj,max ${techType}: ${maxJunctionTemp}°C (semiconductor physics)\n\nТочна формула: Tj = Ta + P×Rth(j-a)\n${junctionTemp.toFixed(1)}°C = ${ambientTemp}°C + ${totalLosses.toFixed(2)}W × ${rth_ja.toFixed(2)}K/W` :
     `\n\nExact calculations (datasheet values):\n• Transistor: ${transistorModel}\n• Total losses: ${totalLosses.toFixed(3)}W\n• Conduction losses: ${pCond.toFixed(3)}W (P = I²×RDS(on)×D)\n• Switching losses: ${pSw.toFixed(3)}W (physics-based gate charge formulas)\n• Rth(j-c): ${rth_jc.toFixed(2)}K/W (${transistor.package} - manufacturer datasheet)\n• Rth(c-a): ${rth_ca.toFixed(2)}K/W (verified measurements)\n• Tj,max ${techType}: ${maxJunctionTemp}°C (semiconductor physics)\n\nExact formula: Tj = Ta + P×Rth(j-a)\n${junctionTemp.toFixed(1)}°C = ${ambientTemp}°C + ${totalLosses.toFixed(2)}W × ${rth_ja.toFixed(2)}K/W`;
-  
+
   if (thermalExplanation) {
     thermalExplanation.textContent = explanationText + scientificInfo;
   }
-  
+
   // Create thermal chart
   const thermalChartCanvas = document.getElementById('thermalChart');
   if (thermalChartCanvas) {
     const ctx = thermalChartCanvas.getContext('2d');
-    
+
     if (window.thermalChart && typeof window.thermalChart.destroy === 'function') {
       window.thermalChart.destroy();
     }
-    
+
     // Generate thermal curve data
     const powers = [];
     const junctionTemps = [];
     const maxTemp = 150;
-    
+
     for (let p = 0; p <= 100; p += 5) {
       powers.push(p);
       const tj = ambientTemp + (p * rth_ja);
       junctionTemps.push(tj);
     }
-    
+
     window.thermalChart = new Chart(ctx, {
       type: 'line',
       data: {
@@ -3342,17 +4797,17 @@ function calculateThermal() {
       }
     });
   }
-  
+
   // thermalResultsDiv already declared above, just use it with null safety
   if (thermalResultsDiv) {
     thermalResultsDiv.style.display = 'block';
   }
-  
+
   // Show additional warnings if necessary
   // Show additional warnings if necessary - with null safety
   const warningsDiv = document.getElementById('thermalWarnings');
   let warnings = '';
-  
+
   if (junctionTemp > 125) {
     warnings += currentLang === 'bg' ? 
       `⚠️ Температурата на съединението е над 125°C - това е близо до максималната граница!<br>` :
@@ -3363,7 +4818,7 @@ function calculateThermal() {
       `🔥 КРИТИЧНА ТЕМПЕРАТУРА! Транзисторът може да се повреди!<br>` :
       `🔥 CRITICAL TEMPERATURE! The transistor may be damaged!<br>`;
   }
-  
+
   if (warningsDiv) {
     if (warnings) {
       warningsDiv.innerHTML = warnings;
@@ -3399,7 +4854,7 @@ function showTemporaryMessage(message, type = 'info', duration = 4000) {
     `;
     document.body.appendChild(toast);
   }
-  
+
   // Задаваме цвета според типа
   const colors = {
     success: '#4CAF50',
@@ -3407,16 +4862,16 @@ function showTemporaryMessage(message, type = 'info', duration = 4000) {
     warning: '#FF9800',
     info: '#2196F3'
   };
-  
+
   toast.style.backgroundColor = colors[type] || colors.info;
   toast.textContent = message;
-  
+
   // Показваме съобщението
   requestAnimationFrame(() => {
     toast.style.opacity = '1';
     toast.style.transform = 'translateX(0)';
   });
-  
+
   // Скриваме след време
   setTimeout(() => {
     toast.style.opacity = '0';
@@ -3479,16 +4934,16 @@ function updateAnalysisTransistorDisplay() {
   // Get the new Advanced tab display elements
   const analysisDisplay = document.getElementById('analysisTransistorDisplay');
   const noTransistorWarning = document.getElementById('noTransistorWarning');
-  
+
   // Also support legacy elements if they exist
   const analysisTransistorAlert = document.getElementById('analysisTransistorAlert');
   const analysisTransistorData = document.getElementById('analysisTransistorData');
-  
+
   if (selectedTransistor) {
     // Show transistor data in Advanced tab
     if (analysisDisplay) {
       analysisDisplay.style.display = 'block';
-      
+
       // Update Advanced tab transistor info
       const analysisModelName = document.getElementById('analysisModelName');
       const analysisManufacturer = document.getElementById('analysisManufacturer');
@@ -3496,7 +4951,7 @@ function updateAnalysisTransistorDisplay() {
       const analysisVdsMax = document.getElementById('analysisVdsMax');
       const analysisIdMax = document.getElementById('analysisIdMax');
       const analysisRdsOn = document.getElementById('analysisRdsOn');
-      
+
       if (analysisModelName) analysisModelName.textContent = selectedTransistor.name || '-';
       if (analysisManufacturer) analysisManufacturer.textContent = selectedTransistor.manufacturer || '-';
       if (analysisPackage) analysisPackage.textContent = selectedTransistor.package || '-';
@@ -3504,34 +4959,34 @@ function updateAnalysisTransistorDisplay() {
       if (analysisIdMax) analysisIdMax.textContent = (selectedTransistor.id_max || '-') + ' A';
       if (analysisRdsOn) analysisRdsOn.textContent = (selectedTransistor.rds_mohm || '-') + ' mΩ';
     }
-    
+
     if (noTransistorWarning) {
       noTransistorWarning.style.display = 'none';
     }
-    
+
     // Legacy support for old Analysis tab
     if (analysisTransistorAlert && analysisTransistorData) {
       analysisTransistorAlert.style.display = 'none';
       analysisTransistorData.style.display = 'block';
     }
-    
+
   } else {
     // Show no transistor warning in Advanced tab
     if (analysisDisplay) {
       analysisDisplay.style.display = 'none';
     }
-    
+
     if (noTransistorWarning) {
       noTransistorWarning.style.display = 'block';
     }
-    
+
     // Legacy support for old Analysis tab
     if (analysisTransistorAlert && analysisTransistorData) {
       analysisTransistorAlert.style.display = 'block';
       analysisTransistorData.style.display = 'none';
     }
   }
-  
+
   // Notify Advanced tab functions that transistor has changed
   if (window.updateAdvancedTabFromSelectedTransistor) {
     window.updateAdvancedTabFromSelectedTransistor(selectedTransistor);
@@ -3571,7 +5026,7 @@ function initializeAnalysisTabSupport() {
       updateAnalysisTransistorDisplay();
     }
   });
-  
+
   // Observe the main content area for visibility changes
   const mainContent = document.querySelector('.main-content') || document.body;
   observer.observe(mainContent, {
@@ -3580,12 +5035,12 @@ function initializeAnalysisTabSupport() {
     attributes: true,
     attributeFilter: ['style', 'class']
   });
-  
+
   // Also update immediately if Analysis tab is already visible
   setTimeout(() => {
     updateAnalysisTransistorDisplay();
   }, 500);
-  
+
   // Listen for tab clicks that might switch to Analysis
   document.addEventListener('click', function(e) {
     const target = e.target;
@@ -3596,7 +5051,7 @@ function initializeAnalysisTabSupport() {
       }, 100);
     }
   });
-  
+
   // Also update when page visibility changes
   document.addEventListener('visibilitychange', function() {
     if (!document.hidden) {
@@ -3662,14 +5117,14 @@ if (resetBtn) {
     const temp = document.getElementById('temp');
     const duty = document.getElementById('duty');
     const transistorSelect = document.getElementById('transistorSelect');
-    
+
     if (techSelect) techSelect.value="SiC";
     if (vdc) vdc.value=100;
     if (iLoad) iLoad.value=15;
     if (fsw) fsw.value=100;
     if (temp) temp.value=25;
     if (duty) duty.value=0.5;
-    
+
     populateTransistors();
     if (transistorSelect) transistorSelect.value = '';
     showTransistorInfo('');
@@ -3680,38 +5135,38 @@ if (resetBtn) {
 document.addEventListener('DOMContentLoaded', function() {
   // Load selectedTransistor from localStorage
   loadSelectedTransistorFromStorage();
-  
+
   // Инициализираме само ако имаме основните елементи за калкулатора
   const techSelect = document.getElementById('techSelect');
-  
+
   if (techSelect) {
     // Калкулатор страница - инициализираме всичко
     populateTransistors();
-    
+
     // Първоначално disable на suggest бутона
     const suggestBtn = document.getElementById('suggestBtn');
     if (suggestBtn) {
       suggestBtn.disabled = true;
     }
   }
-  
+
   // Event listeners за език (ако има такива бутони)
   const langBG = document.getElementById('langBG');
   const langEN = document.getElementById('langEN');
-  
+
   if (langBG) {
     langBG.addEventListener('click', () => switchLanguage('bg'));
   }
-  
+
   if (langEN) {
     langEN.addEventListener('click', () => switchLanguage('en'));
   }
-  
+
   // Задаваме първоначален език (само ако има language бутони)
   if (langBG || langEN) {
     switchLanguage('bg');
   }
-  
+
   // Инициализация на Database tab functionality
   initializeDatabaseTab();
 });
@@ -3730,7 +5185,7 @@ let comparisonList = [];
 const databaseLanguages = {
   bg: {
     databaseTitle: '📚 База данни с транзистори',
-    databaseDescription: 'Търсете и филтрирайте от над 150 транзистори с реални параметри от datasheet-ове',
+    databaseDescription: 'Търсете и филтрирайте от над 230 транзистори с реални параметри от datasheet-ове',
     searchPlaceholder: 'Търсене по модел, производител или приложение...',
     clearSearch: 'Изчисти търсенето',
     advancedFilters: '🔍 Разширени филтри:',
@@ -3791,7 +5246,7 @@ const databaseLanguages = {
   },
   en: {
     databaseTitle: '📚 Transistor Database',
-    databaseDescription: 'Search and filter from 150+ transistors with real datasheet parameters',
+    databaseDescription: 'Search and filter from 230+ transistors with real datasheet parameters',
     searchPlaceholder: 'Search by model, manufacturer or application...',
     clearSearch: 'Clear search',
     advancedFilters: '🔍 Advanced Filters:',
@@ -3857,19 +5312,19 @@ function initializeDatabaseTab() {
   // Check if we're on the database page
   const databaseContent = document.querySelector('.database-content');
   if (!databaseContent) return;
-  
+
   // Load all transistor data
   loadTransistorDatabase();
-  
+
   // Set up event listeners
   setupDatabaseEventListeners();
-  
+
   // Initialize filters
   initializeFilters();
-  
+
   // Populate the table
   populateDatabaseTable();
-  
+
   // Update language elements
   updateDatabaseLanguage();
 }
@@ -3877,7 +5332,7 @@ function initializeDatabaseTab() {
 // Load all transistor data from TRANSISTOR_DB
 function loadTransistorDatabase() {
   currentDatabaseData = [];
-  
+
   // Flatten all transistors from all technologies
   Object.keys(TRANSISTOR_DB).forEach(tech => {
     Object.keys(TRANSISTOR_DB[tech]).forEach(key => {
@@ -3902,7 +5357,7 @@ function loadTransistorDatabase() {
       });
     });
   });
-  
+
   filteredDatabaseData = [...currentDatabaseData];
   console.log(`Loaded ${currentDatabaseData.length} transistors from database`);
 }
@@ -3956,27 +5411,27 @@ function setupDatabaseEventListeners() {
   if (textSearch) {
     textSearch.addEventListener('input', debounce(handleTextSearch, 300));
   }
-  
+
   // Clear search
   const clearSearch = document.getElementById('clearSearch');
   if (clearSearch) {
     clearSearch.addEventListener('click', clearTextSearch);
   }
-  
+
   // Filters
   const filterElements = [
     'techFilter', 'manufacturerFilter', 'packageFilter',
     'voltageMin', 'voltageMax', 'currentMin', 'currentMax',
     'resistanceMin', 'resistanceMax'
   ];
-  
+
   filterElements.forEach(id => {
     const element = document.getElementById(id);
     if (element) {
       element.addEventListener('change', applyFilters);
     }
   });
-  
+
   // Range sliders
   const ranges = ['voltageRange', 'currentRange', 'resistanceRange'];
   ranges.forEach(id => {
@@ -3985,46 +5440,46 @@ function setupDatabaseEventListeners() {
       element.addEventListener('input', updateRangeDisplay);
     }
   });
-  
+
   // Filter buttons
   const applyBtn = document.getElementById('applyFilters');
   if (applyBtn) {
     applyBtn.addEventListener('click', applyFilters);
   }
-  
+
   const resetBtn = document.getElementById('resetFilters');
   if (resetBtn) {
     resetBtn.addEventListener('click', resetFilters);
   }
-  
+
   // Export buttons
   const exportCSV = document.getElementById('exportCSV');
   if (exportCSV) {
     exportCSV.addEventListener('click', () => exportData('csv'));
   }
-  
+
   const exportPDF = document.getElementById('exportPDF');
   if (exportPDF) {
     exportPDF.addEventListener('click', () => exportData('pdf'));
   }
-  
+
   const exportExcel = document.getElementById('exportExcel');
   if (exportExcel) {
     exportExcel.addEventListener('click', () => exportData('excel'));
   }
-  
+
   // View controls
   const viewBtns = document.querySelectorAll('.view-btn');
   viewBtns.forEach(btn => {
     btn.addEventListener('click', handleViewChange);
   });
-  
+
   // Page size control
   const pageSize = document.getElementById('pageSize');
   if (pageSize) {
     pageSize.addEventListener('change', handlePageSizeChange);
   }
-  
+
   // Pagination buttons
   const paginationBtns = ['firstPage', 'prevPage', 'nextPage', 'lastPage'];
   paginationBtns.forEach(id => {
@@ -4033,13 +5488,13 @@ function setupDatabaseEventListeners() {
       btn.addEventListener('click', () => handlePagination(id));
     }
   });
-  
+
   // Modal close buttons
   const closeModalBtns = document.querySelectorAll('.close-btn, #closeModalBtn, #closeComparisonBtn');
   closeModalBtns.forEach(btn => {
     btn.addEventListener('click', closeModals);
   });
-  
+
   // Modal background click
   const modals = document.querySelectorAll('.modal');
   modals.forEach(modal => {
@@ -4088,7 +5543,7 @@ function initializeFilters() {
     const firstOption = manufacturerFilter.firstElementChild;
     manufacturerFilter.innerHTML = '';
     manufacturerFilter.appendChild(firstOption);
-    
+
     manufacturers.forEach(manufacturer => {
       const option = document.createElement('option');
       option.value = manufacturer;
@@ -4096,7 +5551,7 @@ function initializeFilters() {
       manufacturerFilter.appendChild(option);
     });
   }
-  
+
   // Get unique packages
   const packages = [...new Set(currentDatabaseData.map(t => t.package))].sort();
   const packageFilter = document.getElementById('packageFilter');
@@ -4105,7 +5560,7 @@ function initializeFilters() {
     const firstOption = packageFilter.firstElementChild;
     packageFilter.innerHTML = '';
     packageFilter.appendChild(firstOption);
-    
+
     packages.forEach(pkg => {
       const option = document.createElement('option');
       option.value = pkg;
@@ -4113,12 +5568,12 @@ function initializeFilters() {
       packageFilter.appendChild(option);
     });
   }
-  
+
   // Set range limits
   const voltages = currentDatabaseData.map(t => t.vds_max);
   const currents = currentDatabaseData.map(t => t.id_max);
   const resistances = currentDatabaseData.map(t => t.rds_mohm);
-  
+
   updateRangeInputs('voltage', Math.min(...voltages), Math.max(...voltages));
   updateRangeInputs('current', Math.min(...currents), Math.max(...currents));
   updateRangeInputs('resistance', Math.min(...resistances), Math.max(...resistances));
@@ -4129,25 +5584,25 @@ function updateRangeInputs(type, min, max) {
   const minInput = document.getElementById(`${type}Min`);
   const maxInput = document.getElementById(`${type}Max`);
   const rangeInput = document.getElementById(`${type}Range`);
-  
+
   if (minInput) {
     minInput.min = min;
     minInput.max = max;
     minInput.value = min;
   }
-  
+
   if (maxInput) {
     maxInput.min = min;
     maxInput.max = max;
     maxInput.value = max;
   }
-  
+
   if (rangeInput) {
     rangeInput.min = min;
     rangeInput.max = max;
     rangeInput.value = max;
   }
-  
+
   updateRangeDisplay({ target: rangeInput });
 }
 
@@ -4158,7 +5613,7 @@ function updateRangeDisplay(event) {
   const display = document.getElementById(`${type}Display`);
   const minInput = document.getElementById(`${type}Min`);
   const maxInput = document.getElementById(`${type}Max`);
-  
+
   if (display && minInput && maxInput) {
     const unit = type === 'voltage' ? 'V' : type === 'current' ? 'A' : 'mΩ';
     display.textContent = `${minInput.value}${unit} - ${range.value}${unit}`;
@@ -4172,14 +5627,14 @@ function applyFilters() {
   const techFilter = document.getElementById('techFilter')?.value || 'all';
   const manufacturerFilter = document.getElementById('manufacturerFilter')?.value || 'all';
   const packageFilter = document.getElementById('packageFilter')?.value || 'all';
-  
+
   const voltageMin = parseInt(document.getElementById('voltageMin')?.value || 0);
   const voltageMax = parseInt(document.getElementById('voltageMax')?.value || 9999);
   const currentMin = parseInt(document.getElementById('currentMin')?.value || 0);
   const currentMax = parseInt(document.getElementById('currentMax')?.value || 9999);
   const resistanceMin = parseInt(document.getElementById('resistanceMin')?.value || 0);
   const resistanceMax = parseInt(document.getElementById('resistanceMax')?.value || 9999);
-  
+
   filteredDatabaseData = currentDatabaseData.filter(transistor => {
     // Text search
     if (textSearch && !transistor.model.toLowerCase().includes(textSearch) &&
@@ -4187,41 +5642,41 @@ function applyFilters() {
         !transistor.application.toLowerCase().includes(textSearch)) {
       return false;
     }
-    
+
     // Technology filter
     if (techFilter !== 'all' && transistor.technology !== techFilter) {
       return false;
     }
-    
+
     // Manufacturer filter
     if (manufacturerFilter !== 'all' && transistor.manufacturer !== manufacturerFilter) {
       return false;
     }
-    
+
     // Package filter
     if (packageFilter !== 'all' && transistor.package !== packageFilter) {
       return false;
     }
-    
+
     // Range filters
     if (transistor.vds_max < voltageMin || transistor.vds_max > voltageMax) {
       return false;
     }
-    
+
     if (transistor.id_max < currentMin || transistor.id_max > currentMax) {
       return false;
     }
-    
+
     if (transistor.rds_mohm < resistanceMin || transistor.rds_mohm > resistanceMax) {
       return false;
     }
-    
+
     return true;
   });
-  
+
   // Reset to first page
   currentPage = 1;
-  
+
   // Update table
   populateDatabaseTable();
   updateResultsInfo();
@@ -4232,21 +5687,21 @@ function resetFilters() {
   // Clear text search
   const textSearch = document.getElementById('textSearch');
   if (textSearch) textSearch.value = '';
-  
+
   // Reset dropdowns
   const dropdowns = ['techFilter', 'manufacturerFilter', 'packageFilter'];
   dropdowns.forEach(id => {
     const element = document.getElementById(id);
     if (element) element.selectedIndex = 0;
   });
-  
+
   // Reset ranges
   const types = ['voltage', 'current', 'resistance'];
   types.forEach(type => {
     const minInput = document.getElementById(`${type}Min`);
     const maxInput = document.getElementById(`${type}Max`);
     const rangeInput = document.getElementById(`${type}Range`);
-    
+
     if (minInput && maxInput && rangeInput) {
       minInput.value = minInput.min;
       maxInput.value = maxInput.max;
@@ -4254,7 +5709,7 @@ function resetFilters() {
       updateRangeDisplay({ target: rangeInput });
     }
   });
-  
+
   // Apply filters (which will show all data)
   applyFilters();
 }
@@ -4264,14 +5719,14 @@ function populateDatabaseTable() {
   const tableBody = document.getElementById('transistorTableBody');
   const loadingIndicator = document.getElementById('loadingIndicator');
   const noResults = document.getElementById('noResults');
-  
+
   if (!tableBody) return;
-  
+
   // Show loading
   showElement(loadingIndicator);
   hideElement(noResults);
   tableBody.innerHTML = '';
-  
+
   setTimeout(() => {
     // Apply sorting
     let sortedData = [...filteredDatabaseData];
@@ -4279,38 +5734,38 @@ function populateDatabaseTable() {
       sortedData.sort((a, b) => {
         let aVal = a[currentSort.column];
         let bVal = b[currentSort.column];
-        
+
         // Handle string sorting
         if (typeof aVal === 'string') {
           aVal = aVal.toLowerCase();
           bVal = bVal.toLowerCase();
         }
-        
+
         if (aVal < bVal) return currentSort.direction === 'asc' ? -1 : 1;
         if (aVal > bVal) return currentSort.direction === 'asc' ? 1 : -1;
         return 0;
       });
     }
-    
+
     // Apply pagination
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = itemsPerPage === 'all' ? sortedData.length : startIndex + itemsPerPage;
     const pageData = sortedData.slice(startIndex, endIndex);
-    
+
     // Hide loading
     hideElement(loadingIndicator);
-    
+
     if (pageData.length === 0) {
       showElement(noResults);
       return;
     }
-    
+
     // Populate table rows
     pageData.forEach(transistor => {
       const row = createTableRow(transistor);
       tableBody.appendChild(row);
     });
-    
+
     updatePagination(sortedData.length);
   }, 300); // Small delay to show loading
 }
@@ -4318,7 +5773,7 @@ function populateDatabaseTable() {
 // Create table row
 function createTableRow(transistor) {
   const row = document.createElement('tr');
-  
+
   row.innerHTML = `
     <td>
       <strong>${transistor.model}</strong>
@@ -4346,7 +5801,7 @@ function createTableRow(transistor) {
       </button>
     </td>
   `;
-  
+
   return row;
 }
 
@@ -4358,10 +5813,10 @@ function handleTableSort(column) {
     currentSort.column = column;
     currentSort.direction = 'asc';
   }
-  
+
   // Update sort indicators
   updateSortIndicators();
-  
+
   // Repopulate table
   populateDatabaseTable();
 }
@@ -4381,7 +5836,7 @@ function updateSortIndicators() {
 document.addEventListener('DOMContentLoaded', () => {
   // Load selectedTransistor from localStorage
   loadSelectedTransistorFromStorage();
-  
+
   const sortableHeaders = document.querySelectorAll('.sortable');
   sortableHeaders.forEach(header => {
     header.addEventListener('click', () => {
@@ -4394,11 +5849,11 @@ document.addEventListener('DOMContentLoaded', () => {
 function updateResultsInfo() {
   const resultsCount = document.getElementById('resultsCount');
   const totalCount = document.getElementById('totalCount');
-  
+
   if (resultsCount) {
     resultsCount.textContent = filteredDatabaseData.length;
   }
-  
+
   if (totalCount) {
     totalCount.textContent = currentDatabaseData.length + '+';
   }
@@ -4408,10 +5863,10 @@ function updateResultsInfo() {
 function showTransistorModal(key, technology) {
   const transistor = TRANSISTOR_DB[technology][key];
   if (!transistor) return;
-  
+
   const modal = document.getElementById('transistorModal');
   if (!modal) return;
-  
+
   // Populate modal with transistor data
   document.getElementById('detailModel').textContent = transistor.name;
   document.getElementById('detailTechnology').textContent = technology;
@@ -4424,27 +5879,27 @@ function showTransistorModal(key, technology) {
   document.getElementById('detailTr').textContent = (transistor.tr_ns || 'N/A') + ' ns';
   document.getElementById('detailTf').textContent = (transistor.tf_ns || 'N/A') + ' ns';
   document.getElementById('detailApplications').textContent = transistor.application;
-  
+
   // Calculate and show performance metrics
   document.getElementById('powerDensity').textContent = calculatePowerDensity(transistor);
   document.getElementById('figureMerit').textContent = calculateFigureMerit(transistor);
-  
+
   const switchingScore = calculateSwitchingScore(transistor);
   const scoreElement = document.getElementById('switchingScore');
   const scoreBar = scoreElement.querySelector('.score-fill');
   const scoreText = scoreElement.querySelector('.score-text');
-  
+
   if (scoreBar && scoreText) {
     scoreBar.style.width = switchingScore + '%';
     scoreText.textContent = switchingScore + '%';
   }
-  
+
   // Set up modal buttons
   const addToComparisonBtn = document.getElementById('addToComparison');
   if (addToComparisonBtn) {
     addToComparisonBtn.onclick = () => addToComparison(key, technology);
   }
-  
+
   const calculateBtn = document.getElementById('calculateWithThis');
   if (calculateBtn) {
     calculateBtn.onclick = () => {
@@ -4452,7 +5907,7 @@ function showTransistorModal(key, technology) {
       window.location.href = `/calculator?transistor=${key}&tech=${technology}`;
     };
   }
-  
+
   // Show modal
   modal.classList.remove('hidden');
   modal.classList.add('show');
@@ -4462,24 +5917,24 @@ function showTransistorModal(key, technology) {
 function addToComparison(key, technology) {
   const transistor = TRANSISTOR_DB[technology][key];
   if (!transistor) return;
-  
+
   // Check if already in comparison
   const exists = comparisonList.find(t => t.key === key && t.technology === technology);
   if (exists) {
     alert('Този транзистор вече е добавен в сравнението');
     return;
   }
-  
+
   // Add to comparison list
   comparisonList.push({
     key: key,
     technology: technology,
     data: transistor
   });
-  
+
   // Update comparison UI
   updateComparisonDisplay();
-  
+
   alert(`${transistor.name} е добавен в сравнението (${comparisonList.length} транзистора)`);
 }
 
@@ -4498,7 +5953,7 @@ function updateComparisonDisplay() {
 function exportData(format) {
   const data = filteredDatabaseData;
   const filename = `transistor_database_${new Date().toISOString().split('T')[0]}`;
-  
+
   switch (format) {
     case 'csv':
       exportToCSV(data, filename);
@@ -4515,9 +5970,9 @@ function exportData(format) {
 // Export to CSV
 function exportToCSV(data, filename) {
   const headers = ['Model', 'Technology', 'VDS(max) [V]', 'ID(max) [A]', 'RDS(on) [mΩ]', 'Package', 'Manufacturer', 'Applications'];
-  
+
   let csvContent = headers.join(',') + '\n';
-  
+
   data.forEach(transistor => {
     const row = [
       `"${transistor.model}"`,
@@ -4531,7 +5986,7 @@ function exportToCSV(data, filename) {
     ];
     csvContent += row.join(',') + '\n';
   });
-  
+
   downloadFile(csvContent, filename + '.csv', 'text/csv');
 }
 
@@ -4553,7 +6008,7 @@ function handleViewChange(event) {
   const viewBtns = document.querySelectorAll('.view-btn');
   viewBtns.forEach(btn => btn.classList.remove('active'));
   event.target.classList.add('active');
-  
+
   // Implement different view modes if needed
   const viewType = event.target.id;
   switch (viewType) {
@@ -4571,10 +6026,10 @@ function handleViewChange(event) {
 function showComparisonModal() {
   const modal = document.getElementById('comparisonModal');
   if (!modal || comparisonList.length === 0) return;
-  
+
   const comparisonTable = document.getElementById('comparisonTable');
   if (!comparisonTable) return;
-  
+
   // Build comparison table
   let tableHTML = '<table class="comparison-table"><thead><tr>';
   tableHTML += '<th>Parameter</th>';
@@ -4582,7 +6037,7 @@ function showComparisonModal() {
     tableHTML += `<th>${item.data.name}</th>`;
   });
   tableHTML += '</tr></thead><tbody>';
-  
+
   // Add parameter rows
   const parameters = [
     { key: 'technology', label: 'Technology' },
@@ -4595,7 +6050,7 @@ function showComparisonModal() {
     { key: 'tf_ns', label: 'tf [ns]' },
     { key: 'application', label: 'Applications' }
   ];
-  
+
   parameters.forEach(param => {
     tableHTML += `<tr><td><strong>${param.label}</strong></td>`;
     comparisonList.forEach(item => {
@@ -4605,10 +6060,10 @@ function showComparisonModal() {
     });
     tableHTML += '</tr>';
   });
-  
+
   tableHTML += '</tbody></table>';
   comparisonTable.innerHTML = tableHTML;
-  
+
   // Show modal
   modal.classList.remove('hidden');
   modal.classList.add('show');
@@ -4617,7 +6072,7 @@ function showComparisonModal() {
 // Handle pagination
 function handlePagination(action) {
   const totalPages = Math.ceil(filteredDatabaseData.length / itemsPerPage);
-  
+
   switch (action) {
     case 'firstPage':
       currentPage = 1;
@@ -4632,7 +6087,7 @@ function handlePagination(action) {
       currentPage = totalPages;
       break;
   }
-  
+
   populateDatabaseTable();
 }
 
@@ -4647,32 +6102,32 @@ function handlePageSizeChange(event) {
 // Update pagination
 function updatePagination(totalItems) {
   const totalPages = itemsPerPage === 'all' ? 1 : Math.ceil(totalItems / itemsPerPage);
-  
+
   // Update info
   const startResult = document.getElementById('startResult');
   const endResult = document.getElementById('endResult');
   const totalResults = document.getElementById('totalResults');
-  
+
   if (startResult && endResult && totalResults) {
     const start = itemsPerPage === 'all' ? 1 : (currentPage - 1) * itemsPerPage + 1;
     const end = itemsPerPage === 'all' ? totalItems : Math.min(currentPage * itemsPerPage, totalItems);
-    
+
     startResult.textContent = start;
     endResult.textContent = end;
     totalResults.textContent = totalItems;
   }
-  
+
   // Update buttons
   const firstBtn = document.getElementById('firstPage');
   const prevBtn = document.getElementById('prevPage');
   const nextBtn = document.getElementById('nextPage');
   const lastBtn = document.getElementById('lastPage');
-  
+
   if (firstBtn) firstBtn.disabled = currentPage === 1;
   if (prevBtn) prevBtn.disabled = currentPage === 1;
   if (nextBtn) nextBtn.disabled = currentPage === totalPages;
   if (lastBtn) lastBtn.disabled = currentPage === totalPages;
-  
+
   // Update page numbers
   updatePageNumbers(totalPages);
 }
@@ -4681,17 +6136,17 @@ function updatePagination(totalItems) {
 function updatePageNumbers(totalPages) {
   const pageNumbers = document.getElementById('pageNumbers');
   if (!pageNumbers) return;
-  
+
   pageNumbers.innerHTML = '';
-  
+
   // Show max 5 page numbers
   let startPage = Math.max(1, currentPage - 2);
   let endPage = Math.min(totalPages, startPage + 4);
-  
+
   if (endPage - startPage < 4) {
     startPage = Math.max(1, endPage - 4);
   }
-  
+
   for (let i = startPage; i <= endPage; i++) {
     const pageBtn = document.createElement('button');
     pageBtn.className = `page-number ${i === currentPage ? 'active' : ''}`;
@@ -4716,7 +6171,7 @@ function closeModals() {
 // Update database language
 function updateDatabaseLanguage() {
   const langData = databaseLanguages[currentLang] || databaseLanguages['bg'];
-  
+
   // Update all elements with data-lang attributes
   Object.keys(langData).forEach(key => {
     const elements = document.querySelectorAll(`[data-lang="${key}"]`);
@@ -4730,7 +6185,7 @@ function updateDatabaseLanguage() {
       }
     });
   });
-  
+
   // Update placeholders
   const textSearch = document.getElementById('textSearch');
   if (textSearch) {
@@ -4765,44 +6220,44 @@ switchLanguage = function(lang, button) {
 // Miller Capacitance Analysis Function
 function calculateMillerEffect() {
   console.log('🔧 calculateMillerEffect called');
-  
+
   // Force reload selectedTransistor from storage first
   loadSelectedTransistorFromStorage();
-  
+
   let transistor = selectedTransistor || window.selectedTransistor;
   let usingFallback = false;
-  
+
   console.log('Miller - using transistor:', transistor ? transistor.name : 'null');
-  
+
   if (!transistor) {
     // Use fallback transistor for Miller analysis
     transistor = TRANSISTOR_DB.Si["IRFP260N"];
     usingFallback = true;
-    
+
     const message = currentLang === 'bg' ? 
       'Използва се fallback транзистор IRFP260N за Miller анализ. За точни резултати изберете транзистор от Calculator.' : 
       'Using fallback transistor IRFP260N for Miller analysis. For accurate results, select transistor from Calculator.';
-    
+
     showTemporaryMessage(message, 'warning', 6000);
   }
-  
+
   // Get input values with fallbacks
   const cgdEl = document.getElementById('cgd');
   const cgsEl = document.getElementById('cgs');
   const cdsEl = document.getElementById('cds');
   const vdrEl = document.getElementById('vdr');
-  
+
   const cgd = cgdEl ? parseFloat(cgdEl.value) || 200 : 200; // pF
   const cgs = cgsEl ? parseFloat(cgsEl.value) || 800 : 800; // pF
   const cds = cdsEl ? parseFloat(cdsEl.value) || 150 : 150; // pF
   const vdr = vdrEl ? parseFloat(vdrEl.value) || 5 : 5; // V/ns slew rate
-  
+
   // Miller capacitance calculations - точни формули от semiconductor physics
   const avVoltageGain = 100; // Типичен voltage gain за MOSFET
   const millerMultiplier = 1 + avVoltageGain; // Miller theorem
   const effectiveCapacitance = cgd * millerMultiplier; // Miller effect
   const millerCurrent = cgd * 1e-12 * vdr * 1e9; // I = C * dV/dt
-  
+
   // Update results
   const millerResultsDiv = document.getElementById('millerResults');
   if (millerResultsDiv) {
@@ -4825,17 +6280,17 @@ function calculateMillerEffect() {
     `;
     millerResultsDiv.style.display = 'block';
   }
-  
+
   // Create Miller chart
   const millerChartCanvas = document.getElementById('millerChart');
   if (millerChartCanvas) {
     const ctx = millerChartCanvas.getContext('2d');
-    
+
     // Destroy existing chart if it exists
     if (window.millerChart && typeof window.millerChart.destroy === 'function') {
       window.millerChart.destroy();
     }
-    
+
     // Generate frequency response data
     const frequencies = [];
     const impedances = [];
@@ -4845,7 +6300,7 @@ function calculateMillerEffect() {
       const impedance = 1 / (omega * effectiveCapacitance * 1e-12); // |Z| = 1/(ωC)
       impedances.push(impedance);
     }
-    
+
     // Create chart
     window.millerChart = new Chart(ctx, {
       type: 'line',
@@ -4885,57 +6340,57 @@ function calculateMillerEffect() {
   const message = currentLang === 'bg' ? 
     `✅ Miller анализ завършен! Ефективен капацитет: ${effectiveCapacitance.toFixed(0)} pF` : 
     `✅ Miller analysis completed! Effective capacitance: ${effectiveCapacitance.toFixed(0)} pF`;
-  
+
   showTemporaryMessage(message, 'success');
 }
 
 // Dead-time Analysis Function  
 function calculateDeadTime() {
   console.log('🔧 calculateDeadTime called');
-  
+
   // Force reload selectedTransistor from storage first
   loadSelectedTransistorFromStorage();
-  
+
   let transistor = selectedTransistor || window.selectedTransistor;
   let usingFallback = false;
-  
+
   console.log('DeadTime - using transistor:', transistor ? transistor.name : 'null');
-  
+
   if (!transistor) {
     // Use fallback transistor for dead-time analysis
     transistor = TRANSISTOR_DB.Si["IRFP260N"];
     usingFallback = true;
-    
+
     const message = currentLang === 'bg' ? 
       'Използва се fallback транзистор IRFP260N за Dead-time анализ. За точни резултати изберете транзистор от Calculator.' : 
       'Using fallback transistor IRFP260N for Dead-time analysis. For accurate results, select transistor from Calculator.';
-    
+
     showTemporaryMessage(message, 'warning', 6000);
   }
-  
+
   // Get input values with fallbacks
   const deadTimeEl = document.getElementById('deadTime');
   const outputCurrentEl = document.getElementById('outputCurrent');
   const bodyDiodeVfEl = document.getElementById('bodyDiodeVf');
   const switchingFreqEl = document.getElementById('switchingFreq');
-  
+
   const deadTime = deadTimeEl ? parseFloat(deadTimeEl.value) || 200 : 200; // ns
   const outputCurrent = outputCurrentEl ? parseFloat(outputCurrentEl.value) || 10 : 10; // A
   const bodyDiodeVf = bodyDiodeVfEl ? parseFloat(bodyDiodeVfEl.value) || 1.2 : 1.2; // V
   const switchingFreq = switchingFreqEl ? parseFloat(switchingFreqEl.value) || 100 : 100; // kHz
-  
+
   // Dead-time loss calculations - точни формули
   const deadTimeSeconds = deadTime * 1e-9; // Convert ns to seconds
   const switchingFreqHz = switchingFreq * 1000; // Convert kHz to Hz
-  
+
   // Body diode conduction losses during dead-time
   const bodyDiodeLosses = bodyDiodeVf * outputCurrent * deadTimeSeconds * switchingFreqHz * 2; // 2 for both transitions
-  
+
   // Additional dead-time losses (reverse recovery, etc.)
   const deadTimeLosses = bodyDiodeLosses * 1.3; // 30% overhead for reverse recovery
-  
+
   const totalDeadTimeLoss = deadTimeLosses + bodyDiodeLosses;
-  
+
   // Update results
   const deadTimeResultsDiv = document.getElementById('deadTimeResults');
   if (deadTimeResultsDiv) {
@@ -4964,17 +6419,17 @@ function calculateDeadTime() {
     `;
     deadTimeResultsDiv.style.display = 'block';
   }
-  
+
   // Create Dead-time chart
   const deadTimeChartCanvas = document.getElementById('deadTimeChart');
   if (deadTimeChartCanvas) {
     const ctx = deadTimeChartCanvas.getContext('2d');
-    
+
     // Destroy existing chart if it exists
     if (window.deadTimeChart && typeof window.deadTimeChart.destroy === 'function') {
       window.deadTimeChart.destroy();
     }
-    
+
     // Create pie chart showing loss distribution
     window.deadTimeChart = new Chart(ctx, {
       type: 'doughnut',
@@ -5006,74 +6461,74 @@ function calculateDeadTime() {
   const message = currentLang === 'bg' ? 
     `✅ Dead-time анализ завършен! Общи загуби: ${totalDeadTimeLoss.toFixed(3)} W` : 
     `✅ Dead-time analysis completed! Total losses: ${totalDeadTimeLoss.toFixed(3)} W`;
-  
+
   showTemporaryMessage(message, 'success');
 }
 
 // SOA (Safe Operating Area) Analysis Function
 function calculateSOA() {
   console.log('🔧 calculateSOA called');
-  
+
   // Force reload selectedTransistor from storage first
   loadSelectedTransistorFromStorage();
-  
+
   let transistor = selectedTransistor || window.selectedTransistor;
   let usingFallback = false;
-  
+
   console.log('SOA - using transistor:', transistor ? transistor.name : 'null');
-  
+
   if (!transistor) {
     // Use fallback transistor for SOA analysis
     transistor = TRANSISTOR_DB.Si["IRFP260N"];
     usingFallback = true;
-    
+
     const message = currentLang === 'bg' ? 
       'Използва се fallback транзистор IRFP260N за SOA анализ. За точни резултати изберете транзистор от Calculator.' : 
       'Using fallback transistor IRFP260N for SOA analysis. For accurate results, select transistor from Calculator.';
-    
+
     showTemporaryMessage(message, 'warning', 6000);
   }
-  
+
   // Get input values with fallbacks
   const loadInductanceEl = document.getElementById('loadInductance');
   const gateResistanceEl = document.getElementById('gateResistance');
   const busVoltageEl = document.getElementById('busVoltage');
   const switchingCurrentEl = document.getElementById('switchingCurrent');
-  
+
   const loadInductance = loadInductanceEl ? parseFloat(loadInductanceEl.value) || 100 : 100; // μH
   const gateResistance = gateResistanceEl ? parseFloat(gateResistanceEl.value) || 10 : 10; // Ω
   const busVoltage = busVoltageEl ? parseFloat(busVoltageEl.value) || 400 : 400; // V
   const switchingCurrent = switchingCurrentEl ? parseFloat(switchingCurrentEl.value) || 20 : 20; // A
-  
+
   // SOA calculations - точни semiconductor physics
   const di_dt = busVoltage / (loadInductance * 1e-6); // A/s current slew rate
   const switchingTime = (transistor.tr_ns + transistor.tf_ns) * 1e-9; // Total switching time
   const maxSwitchingCurrent = switchingCurrent + (di_dt * switchingTime); // Peak current during switching
-  
+
   // Power dissipation calculation during switching
   const avgVoltageDuringSwitch = busVoltage / 2; // Average voltage during linear region
   const avgCurrentDuringSwitch = (switchingCurrent + maxSwitchingCurrent) / 2;
   const switchingPower = avgVoltageDuringSwitch * avgCurrentDuringSwitch; // Instantaneous power
-  
+
   // Thermal considerations
   const maxJunctionTemp = 150; // °C for Si
   const ambientTemp = 25; // °C
   const rth_ja = 2.0; // °C/W typical for TO-220 with medium heatsink
   const maxAllowablePower = (maxJunctionTemp - ambientTemp) / rth_ja; // W
-  
+
   // SOA limits check
   const voltageMargin = (transistor.vds_max - busVoltage) / transistor.vds_max * 100;
   const currentMargin = (transistor.id_max - maxSwitchingCurrent) / transistor.id_max * 100;
   const powerMargin = (maxAllowablePower - switchingPower) / maxAllowablePower * 100;
-  
+
   // Initialize safety status variables (moved outside if block for scope)
   let safetyStatus = '';
   let statusClass = '';
-  
+
   // Update results
   const soaResultsDiv = document.getElementById('soaResults');
   if (soaResultsDiv) {
-    
+
     if (voltageMargin > 20 && currentMargin > 20 && powerMargin > 20) {
       safetyStatus = '✅ SOA: SAFE - Всички параметри в безопасни граници';
       statusClass = 'soa-safe';
@@ -5084,7 +6539,7 @@ function calculateSOA() {
       safetyStatus = '🔥 SOA: DANGER - Надвишаване на SOA границите!';
       statusClass = 'soa-danger';
     }
-    
+
     soaResultsDiv.innerHTML = `
       <h4>🎯 SOA Analysis Results:</h4>
       <div class="soa-status ${statusClass}">${safetyStatus}</div>
@@ -5112,25 +6567,25 @@ function calculateSOA() {
     `;
     soaResultsDiv.style.display = 'block';
   }
-  
+
   // Show success message
   const statusMsg = safetyStatus.includes('SAFE') ? (currentLang === 'bg' ? 'Безопасно' : 'Safe') : 
                    safetyStatus.includes('CAUTION') ? (currentLang === 'bg' ? 'Внимание' : 'Caution') : 
                    (currentLang === 'bg' ? 'Опасно' : 'Danger');
-  
+
   // Create SOA chart
   const soaChartCanvas = document.getElementById('soaChart');
   if (soaChartCanvas) {
     const ctx = soaChartCanvas.getContext('2d');
-    
+
     if (window.soaChart && typeof window.soaChart.destroy === 'function') {
       window.soaChart.destroy();
     }
-    
+
     const maxVolts = transistor.vds_max;
     const maxCurrent = transistor.id_max;
     const thermalPower = 50;
-    
+
     const soaBoundary = [
       {x: 0, y: maxCurrent},
       {x: 12, y: Math.min(maxCurrent, thermalPower / 12)},
@@ -5139,9 +6594,9 @@ function calculateSOA() {
       {x: maxVolts, y: 0},
       {x: 0, y: 0}
     ];
-    
+
     const operatingPoint = {x: busVoltage, y: maxSwitchingCurrent};
-    
+
     window.soaChart = new Chart(ctx, {
       type: 'scatter',
       data: {
@@ -5186,29 +6641,29 @@ function calculateSOA() {
   const message = currentLang === 'bg' ? 
     `✅ SOA анализ завършен! Статус: ${statusMsg}` : 
     `✅ SOA analysis completed! Status: ${statusMsg}`;
-  
+
   showTemporaryMessage(message, safetyStatus.includes('SAFE') ? 'success' : safetyStatus.includes('CAUTION') ? 'warning' : 'error');
 }
 
 // Parasitic Effects Analysis Function
 function calculateParasitics() {
   console.log('🔧 calculateParasitics called');
-  
+
   let transistor = selectedTransistor;
   let usingFallback = false;
-  
+
   if (!transistor) {
     // Use fallback transistor for parasitic analysis
     transistor = TRANSISTOR_DB.Si["IRFP260N"];
     usingFallback = true;
-    
+
     const message = currentLang === 'bg' ? 
       'Използва се fallback транзистор IRFP260N за Parasitic анализ. За точни резултати изберете транзистор от Calculator.' : 
       'Using fallback transistor IRFP260N for Parasitic analysis. For accurate results, select transistor from Calculator.';
-    
+
     showTemporaryMessage(message, 'warning', 6000);
   }
-  
+
   // Get input values with fallbacks
   const packageESREl = document.getElementById('packageESRValue');
   const packageESLEl = document.getElementById('packageESLValue');
@@ -5216,52 +6671,52 @@ function calculateParasitics() {
   const traceESLEl = document.getElementById('traceESLValue');
   const mutualInductanceEl = document.getElementById('mutualInductanceValue');
   const couplingFactorEl = document.getElementById('couplingFactorValue');
-  
+
   const packageESR = packageESREl ? parseFloat(packageESREl.value) || 2 : 2; // mΩ
   const packageESL = packageESLEl ? parseFloat(packageESLEl.value) || 5 : 5; // nH
   const traceESR = traceESREl ? parseFloat(traceESREl.value) || 1 : 1; // mΩ
   const traceESL = traceESLEl ? parseFloat(traceESLEl.value) || 3 : 3; // nH
   const mutualInductance = mutualInductanceEl ? parseFloat(mutualInductanceEl.value) || 2 : 2; // nH
   const couplingFactor = couplingFactorEl ? parseFloat(couplingFactorEl.value) || 0.3 : 0.3; // k-factor
-  
+
   // Get switching parameters
   const vdcEl = document.getElementById('vdc');
   const iLoadEl = document.getElementById('iLoad');
   const fswEl = document.getElementById('fsw');
-  
+
   const vdc = vdcEl ? parseFloat(vdcEl.value) || 400 : 400; // V
   const iLoad = iLoadEl ? parseFloat(iLoadEl.value) || 20 : 20; // A
   const fsw = fswEl ? parseFloat(fswEl.value) || 100 : 100; // kHz
-  
+
   // Parasitic calculations - точни electromagnetic формули
   const totalESR = packageESR + traceESR; // mΩ
   const totalESL = packageESL + traceESL; // nH
-  
+
   // Voltage spike calculation: V = L × di/dt
   const di_dt = iLoad / (transistor.tr_ns * 1e-9); // A/s current slew rate
   const voltageSpike = (totalESL * 1e-9) * di_dt; // V
   const maxVoltageSpike = vdc + voltageSpike; // Total voltage stress
-  
+
   // Ringing frequency: f = 1 / (2π × √(L×C))
   // Estimate parasitic capacitance from technology
   let parasiticCapacitance = 100e-12; // 100pF typical
   if (transistor.name.includes('SiC')) parasiticCapacitance = 50e-12;
   if (transistor.name.includes('GaN')) parasiticCapacitance = 20e-12;
-  
+
   const ringingFreq = 1 / (2 * Math.PI * Math.sqrt((totalESL * 1e-9) * parasiticCapacitance)); // Hz
-  
+
   // Power losses due to ESR
   const resistiveLosses = (iLoad * iLoad) * (totalESR * 1e-3); // W
-  
+
   // Coupling effects
   const coupledVoltage = couplingFactor * voltageSpike; // Cross-coupling voltage
   const coupledNoise = mutualInductance * di_dt * 1e-9; // Noise voltage
-  
+
   // Update results
   const parasiticResultsDiv = document.getElementById('parasiticResults');
   if (parasiticResultsDiv) {
     let warningsArray = [];
-    
+
     if (maxVoltageSpike > transistor.vds_max * 0.8) {
       warningsArray.push('🔥 Voltage spike надвишава 80% от VDS_max!');
     }
@@ -5274,11 +6729,11 @@ function calculateParasitics() {
     if (coupledNoise > 1) {
       warningsArray.push('⚠️ Високо coupling - възможни EMI проблеми!');
     }
-    
+
     const warningsHtml = warningsArray.length > 0 ? 
       `<div class="warnings"><h5>⚠️ Предупреждения:</h5>${warningsArray.map(w => `<p>${w}</p>`).join('')}</div>` : 
       '<div class="warnings success">✅ Паразитните ефекти са в приемливи граници</div>';
-    
+
     // Попълни таблицата със стойности
     const totalESREl = document.getElementById('totalESR');
     const totalESLEl = document.getElementById('totalESL');
@@ -5288,10 +6743,10 @@ function calculateParasitics() {
     const eslImpactEl = document.getElementById('eslImpact');
     const spikeImpactEl = document.getElementById('spikeImpact');
     const freqImpactEl = document.getElementById('freqImpact');
-    
+
     console.log('Element найден:', {totalESREl, totalESLEl, maxVoltageSpikeEl, ringingFreqEl});
     console.log('Стойности за попълване:', {totalESR, totalESL, maxVoltageSpike, ringingFreq});
-    
+
     if (totalESREl) {
       totalESREl.textContent = `${totalESR.toFixed(1)}`;
       console.log('Попълних totalESR:', totalESR.toFixed(1));
@@ -5308,13 +6763,13 @@ function calculateParasitics() {
       ringingFreqEl.textContent = `${(ringingFreq/1000000).toFixed(1)}`;
       console.log('Попълних ringingFreq:', (ringingFreq/1000000).toFixed(1));
     }
-    
+
     // Попълни въздействието
     if (esrImpactEl) esrImpactEl.textContent = `${resistiveLosses.toFixed(3)} W загуби`;
     if (eslImpactEl) eslImpactEl.textContent = `${voltageSpike.toFixed(1)} V скок`;
     if (spikeImpactEl) spikeImpactEl.textContent = maxVoltageSpike > transistor.vds_max * 0.8 ? '🔥 Опасност' : '✅ Нормално';
     if (freqImpactEl) freqImpactEl.textContent = ringingFreq < fsw * 1000 * 10 ? '⚠️ Близо до Fsw' : '✅ Добро разделение';
-    
+
     // Покажи предупреждения ако има
     const parasiticWarnings = document.getElementById('parasiticWarnings');
     const warningsList = document.getElementById('warningsList');
@@ -5326,16 +6781,16 @@ function calculateParasitics() {
     }
     parasiticResultsDiv.style.display = 'block';
   }
-  
+
   // Create voltage spikes chart
   const voltageSpikesChartCanvas = document.getElementById('voltageSpikesChart');
   if (voltageSpikesChartCanvas) {
     const ctx1 = voltageSpikesChartCanvas.getContext('2d');
-    
+
     if (window.voltageSpikesChart && typeof window.voltageSpikesChart.destroy === 'function') {
       window.voltageSpikesChart.destroy();
     }
-    
+
     const timePoints = [];
     const voltagePoints = [];
     for (let t = 0; t <= 100; t += 1) {
@@ -5343,7 +6798,7 @@ function calculateParasitics() {
       const voltage = voltageSpike * Math.exp(-t/20) * Math.sin(2*Math.PI*ringingFreq*t*1e-9*1e6);
       voltagePoints.push(voltage);
     }
-    
+
     window.voltageSpikesChart = new Chart(ctx1, {
       type: 'line',
       data: {
@@ -5377,11 +6832,11 @@ function calculateParasitics() {
   const ringingChartCanvas = document.getElementById('ringingChart');
   if (ringingChartCanvas) {
     const ctx2 = ringingChartCanvas.getContext('2d');
-    
+
     if (window.ringingChart && typeof window.ringingChart.destroy === 'function') {
       window.ringingChart.destroy();
     }
-    
+
     const frequencies = [];
     const impedances = [];
     for (let f = 0.1; f <= 100; f += 1) {
@@ -5390,7 +6845,7 @@ function calculateParasitics() {
       const impedance = Math.sqrt(Math.pow(totalESR*1e-3, 2) + Math.pow(omega * totalESL*1e-9, 2));
       impedances.push(impedance * 1000);
     }
-    
+
     window.ringingChart = new Chart(ctx2, {
       type: 'line',
       data: {
@@ -5419,12 +6874,12 @@ function calculateParasitics() {
       }
     });
   }
-  
+
   // Show success message
   const message = currentLang === 'bg' ? 
     `✅ Parasitic анализ завършен! Voltage spike: ${voltageSpike.toFixed(1)}V, Ringing: ${(ringingFreq/1000000).toFixed(1)}MHz` : 
     `✅ Parasitic analysis completed! Voltage spike: ${voltageSpike.toFixed(1)}V, Ringing: ${(ringingFreq/1000000).toFixed(1)}MHz`;
-  
+
   showTemporaryMessage(message, 'success');
 }
 
@@ -5439,7 +6894,7 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     });
   }
-  
+
   // Parasitic Effects button
   const calculateParasiticsBtn = document.getElementById('calculateParasiticsBtn');
   if (calculateParasiticsBtn) {
@@ -5449,11 +6904,11 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     });
   }
-  
+
   // Transistor selection improvements - Clear button functionality
   const transistorSelect = document.getElementById('transistorSelect');
   const clearTransistorBtn = document.getElementById('clearTransistor');
-  
+
   if (transistorSelect && clearTransistorBtn) {
     // Show/hide clear button based on input content
     function toggleClearButton() {
@@ -5465,7 +6920,7 @@ document.addEventListener('DOMContentLoaded', function() {
         transistorSelect.classList.remove('has-selection');
       }
     }
-    
+
     // Clear transistor selection
     clearTransistorBtn.addEventListener('click', function() {
       transistorSelect.value = '';
@@ -5473,19 +6928,19 @@ document.addEventListener('DOMContentLoaded', function() {
       clearTransistorBtn.classList.remove('visible');
       transistorSelect.classList.remove('has-selection');
       transistorSelect.focus();
-      
+
       // Update all tabs to show no transistor selected
       updateSelectedTransistorInfo(null);
-      
+
       // Clear stored transistor
       localStorage.removeItem('selectedTransistor');
       console.log('Transistor selection cleared');
     });
-    
+
     // Monitor input changes
     transistorSelect.addEventListener('input', toggleClearButton);
     transistorSelect.addEventListener('change', toggleClearButton);
-    
+
     // Initial check
     toggleClearButton();
   }
