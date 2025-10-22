@@ -1232,13 +1232,15 @@ const TRANSISTOR_DB = {
       name: "IRF540N (Si MOSFET)",
       vds_max: 100, id_max: 33, rds_mohm: 44, tr_ns: 23, tf_ns: 17,
       alpha: 0.0065, package: "TO-220", manufacturer: "Infineon",
-      application: "Общо предназначение, DC-DC конвертори"
+      application: "Общо предназначение, DC-DC конвертори",
+      qg_nc: 72, qgs_nc: 23, qgd_nc: 28, ciss: 1800, coss: 390, crss: 150
     },
     "IRFZ44N": {
       name: "IRFZ44N (Si MOSFET)",
       vds_max: 55, id_max: 49, rds_mohm: 17.5, tr_ns: 23, tf_ns: 16,
       alpha: 0.0065, package: "TO-220", manufacturer: "Infineon",
-      application: "Ниско напрежение, високо ефективност"
+      application: "Ниско напрежение, високо ефективност",
+      qg_nc: 63, qgs_nc: 21, qgd_nc: 28, ciss: 1680, coss: 460, crss: 180
     },
     "STB80NF55": {
       name: "STB80NF55 (Si MOSFET)",
@@ -1250,7 +1252,8 @@ const TRANSISTOR_DB = {
       name: "IRF3205 (Si MOSFET)",
       vds_max: 55, id_max: 110, rds_mohm: 8, tr_ns: 12, tf_ns: 50,
       alpha: 0.0065, package: "TO-220", manufacturer: "Infineon",
-      application: "Високо ток приложения, синхронни rectifiers"
+      application: "Високо ток приложения, синхронни rectifiers",
+      qg_nc: 180, qgs_nc: 37, qgd_nc: 90, ciss: 3900, coss: 760, crss: 390
     },
     "IRLB4132": {
       name: "IRLB4132 (Si MOSFET)",
@@ -1892,7 +1895,8 @@ const TRANSISTOR_DB = {
       name: "C3M0065090D (SiC MOSFET)",
       vds_max: 900, id_max: 36, rds_mohm: 65, tr_ns: 12, tf_ns: 24,
       alpha: 0.002, package: "TO-247-4", manufacturer: "Wolfspeed",
-      application: "Електрически превозни средства"
+      application: "Електрически превозни средства",
+      qg_nc: 27, qgs_nc: 13, qgd_nc: 12, ciss: 1700, coss: 220, crss: 2.4
     },
     "UF3C065030K4S": {
       name: "UF3C065030K4S (SiC MOSFET)",
@@ -1918,7 +1922,8 @@ const TRANSISTOR_DB = {
       name: "SCT2080KE (SiC MOSFET)",
       vds_max: 1200, id_max: 37, rds_mohm: 80, tr_ns: 20, tf_ns: 16,
       alpha: 0.0022, package: "TO-247", manufacturer: "ROHM",
-      application: "Високотемпературни приложения"
+      application: "Високотемпературни приложения",
+      qg_nc: 57, qgs_nc: 19, qgd_nc: 20, ciss: 1800, coss: 130, crss: 3
     },
 
     // 1700V SiC MOSFETs
@@ -2091,7 +2096,8 @@ const TRANSISTOR_DB = {
       name: "GS66516T (GaN HEMT)",
       vds_max: 650, id_max: 30, rds_mohm: 16, tr_ns: 8.5, tf_ns: 2.7,
       alpha: 0.003, package: "GaN PX", manufacturer: "GaN Systems",
-      application: "Фотоволтаични инвертори"
+      application: "Фотоволтаични инвертори",
+      qg_nc: 7, qgs_nc: 4, qgd_nc: 2.3, ciss: 530, coss: 160, crss: 0.8
     },
     "TPH3212PS": {
       name: "TPH3212PS (GaN HEMT)",
@@ -2439,7 +2445,8 @@ const TRANSISTOR_DB = {
       name: "GS66516T (GaN HEMT)",
       vds_max: 650, id_max: 30, rds_mohm: 16, tr_ns: 8.5, tf_ns: 2.7,
       alpha: 0.003, package: "GaN PX", manufacturer: "GaN Systems",
-      application: "Фотоволтаични инвертори"
+      application: "Фотоволтаични инвертори",
+      qg_nc: 7, qgs_nc: 4, qgd_nc: 2.3, ciss: 530, coss: 160, crss: 0.8
     },
     "TPH3212PS": {
       name: "TPH3212PS (GaN HEMT)",
