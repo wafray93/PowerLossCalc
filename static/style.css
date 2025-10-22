@@ -1033,7 +1033,7 @@ button:hover::before {
   right: 8px;
   top: 50%;
   transform: translateY(-50%);
-  background: #dc3545;
+  background: #6c757d;
   color: white;
   border: none;
   border-radius: 50%;
@@ -1048,7 +1048,7 @@ button:hover::before {
 }
 
 .clear-transistor-btn:hover {
-  background: #c82333;
+  background: #dc3545;
   transform: translateY(-50%) scale(1.1);
 }
 

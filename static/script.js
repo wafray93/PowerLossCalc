@@ -528,7 +528,8 @@ const TRANSISTOR_DB = {
         name: "STB80NF55 (Si MOSFET)",
         vds_max: 55, id_max: 80, rds_mohm: 6.5, tr_ns: 27, tf_ns: 19,
         alpha: 0.006, package: "D2PAK", manufacturer: "STMicroelectronics",
-        application: "Автомобилни приложения, синхронни конвертори"
+        application: "Автомобилни приложения, синхронни конвертори",
+        qg_nc: 85, qgs_nc: 28, qgd_nc: 35, ciss: 2200, coss: 520, crss: 210
       },
       "IRF3205": {
         name: "IRF3205 (Si MOSFET)",
@@ -541,7 +542,8 @@ const TRANSISTOR_DB = {
         name: "IRLB4132 (Si MOSFET)",
         vds_max: 100, id_max: 30, rds_mohm: 10, tr_ns: 24, tf_ns: 12,
         alpha: 0.0060, package: "TO-220AB", manufacturer: "Infineon",
-        application: "Logic level gate drive, DC-DC"
+        application: "Logic level gate drive, DC-DC",
+        qg_nc: 42, qgs_nc: 15, qgd_nc: 18, ciss: 1250, coss: 310, crss: 125
       },
 
       // Средно напрежение Si MOSFETs (200V-600V)
@@ -549,19 +551,22 @@ const TRANSISTOR_DB = {
         name: "IRF840 (Si MOSFET)",
         vds_max: 500, id_max: 8, rds_mohm: 850, tr_ns: 90, tf_ns: 170,
         alpha: 0.007, package: "TO-220", manufacturer: "Infineon",
-        application: "Switching режими, инвертори"
+        application: "Switching режими, инвертори",
+        qg_nc: 63, qgs_nc: 22, qgd_nc: 28, ciss: 1400, coss: 360, crss: 140
       },
       "IXFH26N50P": {
         name: "IXFH26N50P (Si MOSFET)", 
         vds_max: 500, id_max: 26, rds_mohm: 140, tr_ns: 65, tf_ns: 85,
         alpha: 0.007, package: "TO-247", manufacturer: "IXYS",
-        application: "Среден power, индустриални приложения"
+        application: "Среден power, индустриални приложения",
+        qg_nc: 110, qgs_nc: 38, qgd_nc: 48, ciss: 2400, coss: 420, crss: 180
       },
       "STW57N65M5": {
         name: "STW57N65M5 (Si MOSFET)",
         vds_max: 650, id_max: 57, rds_mohm: 65, tr_ns: 120, tf_ns: 95,
         alpha: 0.0075, package: "TO-247", manufacturer: "STMicroelectronics",
-        application: "PFC, резонансни конвертори"
+        application: "PFC, резонансни конвертори",
+        qg_nc: 195, qgs_nc: 62, qgd_nc: 88, ciss: 4200, coss: 680, crss: 295
       },
       "IPW60R070C6": {
         name: "IPW60R070C6 (Si MOSFET)",
