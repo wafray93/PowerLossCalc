@@ -384,6 +384,39 @@ body.nav-open {
   padding: 3px 8px;
   border-radius: 12px;
   display: inline-block;
+  margin-bottom: 8px;
+}
+
+.visitor-counter {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: 11px;
+  color: var(--text-secondary);
+  padding: 6px 10px;
+  background: linear-gradient(135deg, rgba(46, 204, 113, 0.1), rgba(52, 152, 219, 0.1));
+  border-radius: 8px;
+  margin-top: 8px;
+}
+
+.counter-icon {
+  font-size: 14px;
+}
+
+.counter-label {
+  font-size: 10px;
+}
+
+.counter-value {
+  font-weight: 700;
+  color: var(--primary-blue);
+  font-family: 'Courier New', monospace;
+  min-width: 45px;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.5);
+  padding: 2px 8px;
+  border-radius: 4px;
 }
 
 /* ====== MAIN CONTENT AREA ====== */

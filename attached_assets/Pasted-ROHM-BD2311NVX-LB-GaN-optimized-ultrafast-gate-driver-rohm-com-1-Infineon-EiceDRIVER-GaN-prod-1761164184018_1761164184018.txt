@@ -1,0 +1,70 @@
+ROHM BD2311NVX-LB (GaN-optimized ultrafast gate driver). 
+rohm.com
++1
+
+Infineon EiceDRIVER™ GaN product family (GaN-targeted драйвери). 
+infineon.com
++1
+
+TI — high-speed non-isolated drivers used with GaN (напр. UCC27531 и други high-speed families, използвани за GaN референции). 
+Texas Instruments
++1
+
+EPC (Efficient Power Conversion) — eGaN FETs (EPC20xx / EPC21xx family) + evaluation boards (те препоръчват подходящи драйвери/EVB). 
+Infineon Community
++1
+
+GaN Systems — устройства GSM-series (GSM-065, GSM-120 и т.н.) + референтни платки и препоръки за драйвери. 
+Texas Instruments
+
+ROHM ultra-high-speed driver семействo (други PN в BD23xx серия). 
+rohm.com
+
+Infineon 1ED family variants configured for GaN (EiceDRIVER variants with dV/dt control). 
+infineon.com
+
+TI references for GaN — приложения и examples (TI application notes pairing UCC drivers + GaN). 
+Texas Instruments
+
+Analog Devices high-speed isolated drivers suitable for GaN front-end (ADuM series used in GaN reference designs). 
+rohm.com
+
+Microchip/Microsemi high-speed drivers used in GaN power stages (EVB references). 
+onsemi
+
+EPC EPC2034 / EPC2051 / EPC2036 (eGaN FET part numbers — device families used with dedicated drivers). 
+infineon.com
+
+GaN Systems GSMxxx series (специфични PN в продукти за 650 V/600 V клас). 
+Texas Instruments
+
+Onsemi recommendations for GaN pairing in some applications (application notes). 
+onsemi
+
+Infineon GaN evaluation boards (EiceDRIVER + GaN combo EVBs). 
+RS Components
+
+ROHM GaN gate drivers (броят на PN в сайт-каталога). 
+rohm.com
+
+TI LMG family (интегрирани power stages / някои LMG части са GaN-focused в референции) — (проверка в TI app notes). 
+Texas Instruments
+
+EPC evaluation boards (EPC-evaluation family with driver recommendations). 
+infineon.com
+
+Various discrete high-speed gate drivers (серии от TI/ROHM/Infineon) които се използват като GaN драйвери. 
+rohm.com
++1
+
+ON / ST / Renesas application notes pairing GaN transistors + drivers. 
+onsemi
++1
+
+GaN Systems evaluation kits (contain recommended gate drivers or driver recommendations). 
+Texas Instruments
+
+EPC EPC2100 / EPC2101 (части в EPC20xx/21xx фамилията). 
+infineon.com
+
+ROHM BDxxxx ultrafast families (допълнителни PN от ROHM GaN-специфична линия).

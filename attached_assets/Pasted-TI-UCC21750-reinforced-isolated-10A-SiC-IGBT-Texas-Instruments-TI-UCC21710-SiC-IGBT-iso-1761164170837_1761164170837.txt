@@ -1,0 +1,74 @@
+TI UCC21750 (reinforced isolated, ±10A) — за SiC/IGBT. 
+Texas Instruments
+
+TI UCC21710 (SiC/IGBT isolated family). 
+Texas Instruments
++1
+
+TI UCC23511 (изолиран — също посочен за SiC). 
+Texas Instruments
+
+TI UCC21520 (изолиран, 4A/6A, споменат за SiC до 5MHz). 
+Texas Instruments
+
+onsemi NCP51705 (специално описание: designed to primarily drive SiC MOSFETs). 
+onsemi
+
+Infineon EiceDRIVER™ (SiC-optimized частите — напр. 1EDN/1ED-SiC варианти). 
+infineon.com
+
+Infineon 1ED3491 / 1ED3890 (примери за advanced gate options при SiC). 
+infineon.com
+
+ROHM SiC-targeted drivers / evaluation boards (ROHM SiC gate driver recommendations). 
+rohm.com
++1
+
+ADI isolated drivers used in SiC systems (ADuM family references). 
+rohm.com
+
+STMicroelectronics SiC driver recommendations / families (публични application notes). 
+infineon.com
+
+onsemi NCD57000 (IGBT/SiC ecosystem / EVB pairing). 
+onsemi
+
+Infineon EiceDRIVER™ Power 2EP1xxR (used in high-voltage applications incl. SiC). 
+infineon.com
+
+TI isolated families UCC21xxx variants (множество PN в серията, някои оптимизирани за SiC). 
+Texas Instruments
++1
+
+ROHM evaluation kits for SiC + gate drivers (multiple PN on ROHM site). 
+rohm.com
+
+Microchip/Microsemi reinforced isolated drivers (промишлени/SiC употреби). 
+onsemi
+
+Renesas gate driver ICs used in SiC inverters (семейства за EV/инвертори). 
+infineon.com
+
+Infineon 1EDS-SRC family (high voltage isolated drivers with DESAT / protections — ползва се и при SiC IGBT стайкинг). 
+Mouser Electronics
+
+TI UCC217xx family (още вариации). 
+Texas Instruments
+
+onsemi NV9x / NCP family variants used for SiC (examples in onsemi docs). 
+onsemi
+
+ST high side drivers with high CMTI targeted to SiC use cases. 
+infineon.com
+
+ROHM BM6xx isolated series (вариации за SiC). 
+rohm.com
+
+Infineon 1ED-X3 digital family (configurable for SiC gating strategies). 
+infineon.com
+
+ADI + TI reference designs pairing ADuM / UCC drivers with SiC MOSFETs. 
+rohm.com
++1
+
+onsemi evaluation boards NCP51705SMDGEVB (EVB for SiC driver).

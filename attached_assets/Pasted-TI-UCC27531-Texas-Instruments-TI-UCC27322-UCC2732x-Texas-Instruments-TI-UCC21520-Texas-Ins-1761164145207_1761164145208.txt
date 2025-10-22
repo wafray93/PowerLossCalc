@@ -1,0 +1,88 @@
+TI UCC27531. 
+Texas Instruments
+
+TI UCC27322 / UCC2732x. 
+Texas Instruments
+
+TI UCC21520. 
+Texas Instruments
+
+TI UCC21222. 
+Texas Instruments
+
+TI UCC23511. 
+Texas Instruments
+
+TI UCC21750 (изолиран, високо-токов). 
+Texas Instruments
+
+Infineon 1EDS20I12SV (EiceDRIVER™ 1EDS family). 
+DigiKey
+
+Infineon 1EDI2004AS (EiceDRIVER™ automotive / SIL). 
+infineon.com
+
+Infineon 1EDN / 1ED family (примери от EiceDRIVER™ портфолиото: 1EDNxxxx). 
+infineon.com
++1
+
+Infineon 1ED38x0 (1ED-X3 digital family). 
+infineon.com
+
+onsemi FOD8334 (примери в екосистемата на onsemi). 
+onsemi
+
+onsemi NCV57000 / NCD5700 (IGBT / general purpose families). 
+onsemi
++1
+
+ROHM BD2311NVX-LB (високоскоростен драйвер, оптимизиран за GaN/Silicon) — ROHM новина/продукт. 
+rohm.com
++1
+
+ROHM BM61x серия (примери за изолирани/микро-driver решения). 
+rohm.com
++1
+
+Analog Devices ADuM4135 (isolated gate driver family). 
+rohm.com
+
+Analog Devices ADuM4136 (вариация/изолиран драйвер). 
+rohm.com
+
+STMicroelectronics — серия ST (напр. STDRIVE / изолирани решения — общи продуктови семейства). 
+infineon.com
++1
+
+Microchip (Microsemi) серия драйвери — напр. изолирани драйвери за IGBT/MOSFET. 
+onsemi
+
+Renesas — високонадеждни gate driver IC семейства (индустриални/авто). 
+infineon.com
+
+Vishay Si / IGBT gate-driver modules (примери в продуктовото портфолио). 
+Texas Instruments
+
+Infineon 2EP1xxR family (EiceDRIVER™ Power). 
+infineon.com
+
+onsemi NCP51705 (използван и за Si приложения в някои вариации). 
+onsemi
+
+Fairchild / ROHM / ON др. стандартни FOD / gate driver документи (наименование FODxxxx при legacy части). 
+onsemi
+
+Various half-bridge non-isolated drivers (семейства от TI/Infineon/ST — напр. single/dual high-current parts). 
+Texas Instruments
++1
+
+TI UCC272xx (high-current low-side drivers) — серия. 
+Texas Instruments
+
+Infineon 2EDn (двуканални EiceDRIVER семейства). 
+infineon.com
+
+ROHM high/low side bootstrap driver parts (серии за automotive/industry). 
+rohm.com
+
+ADI isolated families + reference eval boards (ADuM + gate drive reference).

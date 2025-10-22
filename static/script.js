@@ -239,7 +239,10 @@ const LANGUAGES = {
     feature3: 'Термичен анализ и разширени параметри',
     feature4: 'Научни формули базирани на IEEE стандарти',
     feature5: 'Мултиезична поддръжка (Български/English)',
-    responseTime: '⏱️ Обикновено отговаряме в рамките на 24-48 часа'
+    responseTime: '⏱️ Обикновено отговаряме в рамките на 24-48 часа',
+    
+    // Visitor counter
+    visitors: 'Посещения:'
   },
   en: {
     mainTitle: 'Calculator: Si / SiC / GaN Transistors',
@@ -468,9 +471,56 @@ const LANGUAGES = {
     feature3: 'Thermal analysis and advanced parameters',
     feature4: 'Scientific formulas based on IEEE standards',
     feature5: 'Multilingual support (Bulgarian/English)',
-    responseTime: '⏱️ We usually respond within 24-48 hours'
+    responseTime: '⏱️ We usually respond within 24-48 hours',
+    
+    // Visitor counter
+    visitors: 'Visitors:'
   }
 };
+
+// ========================
+// VISITOR COUNTER
+// ========================
+
+function initVisitorCounter() {
+  const counterElement = document.getElementById('visitorCount');
+  if (!counterElement) return;
+  
+  // Get or initialize visitor count
+  let visitorCount = parseInt(localStorage.getItem('siteVisitorCount') || '0');
+  const lastVisit = localStorage.getItem('lastVisitTimestamp');
+  const now = Date.now();
+  
+  // Check if this is a new unique visit (24 hours cooldown)
+  const oneDayMs = 24 * 60 * 60 * 1000;
+  const isNewVisit = !lastVisit || (now - parseInt(lastVisit)) > oneDayMs;
+  
+  if (isNewVisit) {
+    visitorCount++;
+    localStorage.setItem('siteVisitorCount', visitorCount.toString());
+    localStorage.setItem('lastVisitTimestamp', now.toString());
+  }
+  
+  // Display the count with animation
+  animateCounter(counterElement, visitorCount);
+}
+
+function animateCounter(element, targetValue) {
+  let currentValue = 0;
+  const duration = 1500; // 1.5 seconds
+  const steps = 60;
+  const increment = targetValue / steps;
+  const stepDuration = duration / steps;
+  
+  const interval = setInterval(() => {
+    currentValue += increment;
+    if (currentValue >= targetValue) {
+      currentValue = targetValue;
+      clearInterval(interval);
+    }
+    element.textContent = Math.floor(currentValue).toString().padStart(4, '0');
+  }, stepDuration);
+}
 
 let currentLang = 'bg';
 
@@ -7303,6 +7353,9 @@ function calculateParasitics() {
 
 // Add missing event listeners for SOA and Parasitic functions
 document.addEventListener('DOMContentLoaded', function() {
+  // Initialize visitor counter
+  initVisitorCounter();
+  
   // SOA Analysis button
   const calculateSOABtn = document.getElementById('calculateSOABtn');
   if (calculateSOABtn) {
