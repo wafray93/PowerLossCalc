@@ -1669,151 +1669,176 @@ const TRANSISTOR_DB = {
         name: "C3M0025065K (SiC MOSFET)",
         vds_max: 650, id_max: 76, rds_mohm: 25, tr_ns: 9, tf_ns: 14,
         alpha: 0.0014, package: "TO-247-4", manufacturer: "Wolfspeed",
-        application: "Solar inverters"
+        application: "Solar inverters",
+        qg_nc: 85, qgs_nc: 29, qgd_nc: 38, ciss: 4400, coss: 285, crss: 7.5
       },
       "C3M0030065K": {
         name: "C3M0030065K (SiC MOSFET)",
         vds_max: 650, id_max: 63, rds_mohm: 30, tr_ns: 11, tf_ns: 16,
         alpha: 0.0015, package: "TO-247-4", manufacturer: "Wolfspeed",
-        application: "Industrial drives"
+        application: "Industrial drives",
+        qg_nc: 71, qgs_nc: 24, qgd_nc: 31, ciss: 3700, coss: 240, crss: 6.3
       },
       "C3M0075120K": {
         name: "C3M0075120K (SiC MOSFET)",
         vds_max: 1200, id_max: 30, rds_mohm: 75, tr_ns: 13, tf_ns: 19,
         alpha: 0.0018, package: "TO-247-4", manufacturer: "Wolfspeed",
-        application: "High frequency switching"
+        application: "High frequency switching",
+        qg_nc: 45, qgs_nc: 16, qgd_nc: 18, ciss: 1780, coss: 125, crss: 2.9
       },
       "C3M0120090J": {
         name: "C3M0120090J (SiC MOSFET)",
         vds_max: 900, id_max: 23, rds_mohm: 120, tr_ns: 14, tf_ns: 20,
         alpha: 0.0020, package: "TO-263-7", manufacturer: "Wolfspeed",
-        application: "Compact power modules"
+        application: "Compact power modules",
+        qg_nc: 38, qgs_nc: 14, qgd_nc: 16, ciss: 1500, coss: 105, crss: 2.5
       },
       "IMW120R027M1H": {
         name: "IMW120R027M1H (SiC MOSFET)",
         vds_max: 1200, id_max: 80, rds_mohm: 27, tr_ns: 15, tf_ns: 22,
         alpha: 0.0016, package: "TO-247", manufacturer: "Infineon",
-        application: "EV traction inverters"
+        application: "EV traction inverters",
+        qg_nc: 92, qgs_nc: 31, qgd_nc: 40, ciss: 4700, coss: 305, crss: 8.2
       },
       "IMW120R040M1H": {
         name: "IMW120R040M1H (SiC MOSFET)",
         vds_max: 1200, id_max: 56, rds_mohm: 40, tr_ns: 16, tf_ns: 24,
         alpha: 0.0017, package: "TO-247", manufacturer: "Infineon",
-        application: "Solar central inverters"
+        application: "Solar central inverters",
+        qg_nc: 70, qgs_nc: 24, qgd_nc: 29, ciss: 3550, coss: 230, crss: 6.0
       },
       "IMW120R060M1H": {
         name: "IMW120R060M1H (SiC MOSFET)",
         vds_max: 1200, id_max: 37, rds_mohm: 60, tr_ns: 17, tf_ns: 25,
         alpha: 0.0018, package: "TO-247", manufacturer: "Infineon",
-        application: "UPS systems"
+        application: "UPS systems",
+        qg_nc: 52, qgs_nc: 18, qgd_nc: 21, ciss: 2100, coss: 145, crss: 3.8
       },
       "IMW120R090M1H": {
         name: "IMW120R090M1H (SiC MOSFET)",
         vds_max: 1200, id_max: 26, rds_mohm: 90, tr_ns: 18, tf_ns: 26,
         alpha: 0.0020, package: "TO-247", manufacturer: "Infineon",
-        application: "Industrial welders"
+        application: "Industrial welders",
+        qg_nc: 40, qgs_nc: 15, qgd_nc: 17, ciss: 1600, coss: 115, crss: 2.7
       },
       "IMW120R220M1H": {
         name: "IMW120R220M1H (SiC MOSFET)",
         vds_max: 1200, id_max: 13, rds_mohm: 220, tr_ns: 19, tf_ns: 28,
         alpha: 0.0022, package: "TO-247", manufacturer: "Infineon",
-        application: "Medical equipment"
+        application: "Medical equipment",
+        qg_nc: 26, qgs_nc: 10, qgd_nc: 11, ciss: 1050, coss: 72, crss: 1.6
       },
       "IMZA65R027M1H": {
         name: "IMZA65R027M1H (SiC MOSFET)",
         vds_max: 650, id_max: 63, rds_mohm: 27, tr_ns: 10, tf_ns: 15,
         alpha: 0.0015, package: "TO-247-4", manufacturer: "Infineon",
-        application: "Server PSU"
+        application: "Server PSU",
+        qg_nc: 58, qgs_nc: 20, qgd_nc: 23, ciss: 2950, coss: 195, crss: 5.1
       },
       "IMZA65R048M1H": {
         name: "IMZA65R048M1H (SiC MOSFET)",
         vds_max: 650, id_max: 39, rds_mohm: 48, tr_ns: 11, tf_ns: 16,
         alpha: 0.0016, package: "TO-247-4", manufacturer: "Infineon",
-        application: "Telecom rectifiers"
+        application: "Telecom rectifiers",
+        qg_nc: 43, qgs_nc: 16, qgd_nc: 18, ciss: 1750, coss: 128, crss: 3.0
       },
       "IMZA65R072M1H": {
         name: "IMZA65R072M1H (SiC MOSFET)",
         vds_max: 650, id_max: 26, rds_mohm: 72, tr_ns: 12, tf_ns: 18,
         alpha: 0.0017, package: "TO-247-4", manufacturer: "Infineon",
-        application: "EV chargers"
+        application: "EV chargers",
+        qg_nc: 32, qgs_nc: 13, qgd_nc: 14, ciss: 1280, coss: 92, crss: 2.0
       },
       "IMZA65R107M1H": {
         name: "IMZA65R107M1H (SiC MOSFET)",
         vds_max: 650, id_max: 18, rds_mohm: 107, tr_ns: 13, tf_ns: 19,
         alpha: 0.0018, package: "TO-247-4", manufacturer: "Infineon",
-        application: "Solar microinverters"
+        application: "Solar microinverters",
+        qg_nc: 24, qgs_nc: 9, qgd_nc: 10, ciss: 950, coss: 68, crss: 1.5
       },
       "IMZA120R027M1H": {
         name: "IMZA120R027M1H (SiC MOSFET)",
         vds_max: 1200, id_max: 75, rds_mohm: 27, tr_ns: 14, tf_ns: 20,
         alpha: 0.0016, package: "TO-247-4", manufacturer: "Infineon",
-        application: "Traction systems"
+        application: "Traction systems",
+        qg_nc: 89, qgs_nc: 30, qgd_nc: 39, ciss: 4550, coss: 295, crss: 7.9
       },
       "IMZA120R040M1H": {
         name: "IMZA120R040M1H (SiC MOSFET)",
         vds_max: 1200, id_max: 52, rds_mohm: 40, tr_ns: 15, tf_ns: 22,
         alpha: 0.0017, package: "TO-247-4", manufacturer: "Infineon",
-        application: "Wind turbine converters"
+        application: "Wind turbine converters",
+        qg_nc: 68, qgs_nc: 23, qgd_nc: 28, ciss: 3450, coss: 225, crss: 5.9
       },
       "IMZA120R060M1H": {
         name: "IMZA120R060M1H (SiC MOSFET)",
         vds_max: 1200, id_max: 36, rds_mohm: 60, tr_ns: 16, tf_ns: 24,
         alpha: 0.0018, package: "TO-247-4", manufacturer: "Infineon",
-        application: "Grid-tied inverters"
+        application: "Grid-tied inverters",
+        qg_nc: 51, qgs_nc: 18, qgd_nc: 20, ciss: 2050, coss: 142, crss: 3.7
       },
       "IMZA120R090M1H": {
         name: "IMZA120R090M1H (SiC MOSFET)",
         vds_max: 1200, id_max: 25, rds_mohm: 90, tr_ns: 17, tf_ns: 25,
         alpha: 0.0020, package: "TO-247-4", manufacturer: "Infineon",
-        application: "Industrial automation"
+        application: "Industrial automation",
+        qg_nc: 39, qgs_nc: 14, qgd_nc: 16, ciss: 1570, coss: 112, crss: 2.6
       },
       "SCTW90N65G2V": {
         name: "SCTW90N65G2V (SiC MOSFET)",
         vds_max: 650, id_max: 119, rds_mohm: 18, tr_ns: 20, tf_ns: 30,
         alpha: 0.0015, package: "TO-247", manufacturer: "STMicroelectronics",
-        application: "EV fast charging stations"
+        application: "EV fast charging stations",
+        qg_nc: 132, qgs_nc: 45, qgd_nc: 58, ciss: 6900, coss: 445, crss: 11.8
       },
       "SCTW100N120G2AG": {
         name: "SCTW100N120G2AG (SiC MOSFET)",
         vds_max: 1200, id_max: 75, rds_mohm: 30, tr_ns: 22, tf_ns: 32,
         alpha: 0.0017, package: "TO-247", manufacturer: "STMicroelectronics",
-        application: "Automotive traction inverters"
+        application: "Automotive traction inverters",
+        qg_nc: 88, qgs_nc: 30, qgd_nc: 38, ciss: 4500, coss: 290, crss: 7.7
       },
       "SCTW35N65G2VAG": {
         name: "SCTW35N65G2VAG (SiC MOSFET)",
         vds_max: 650, id_max: 45, rds_mohm: 52, tr_ns: 18, tf_ns: 28,
         alpha: 0.0018, package: "TO-247", manufacturer: "STMicroelectronics",
-        application: "Solar inverters"
+        application: "Solar inverters",
+        qg_nc: 47, qgs_nc: 17, qgd_nc: 19, ciss: 1890, coss: 138, crss: 3.3
       },
       "SCTWA50N120": {
         name: "SCTWA50N120 (SiC MOSFET)",
         vds_max: 1200, id_max: 65, rds_mohm: 52, tr_ns: 24, tf_ns: 34,
         alpha: 0.0019, package: "HiP247", manufacturer: "STMicroelectronics",
-        application: "Industrial motor drives"
+        application: "Industrial motor drives",
+        qg_nc: 74, qgs_nc: 25, qgd_nc: 31, ciss: 3750, coss: 245, crss: 6.5
       },
       "SCTWA90N65G2V-4": {
         name: "SCTWA90N65G2V-4 (SiC MOSFET)",
         vds_max: 650, id_max: 119, rds_mohm: 18, tr_ns: 20, tf_ns: 30,
         alpha: 0.0015, package: "HiP247-4", manufacturer: "STMicroelectronics",
-        application: "High power density applications"
+        application: "High power density applications",
+        qg_nc: 130, qgs_nc: 44, qgd_nc: 57, ciss: 6800, coss: 438, crss: 11.6
       },
       "SCTH90N65G2V-7": {
         name: "SCTH90N65G2V-7 (SiC MOSFET)",
         vds_max: 650, id_max: 116, rds_mohm: 18, tr_ns: 21, tf_ns: 31,
         alpha: 0.0015, package: "H2PAK-7", manufacturer: "STMicroelectronics",
-        application: "Server power supplies"
+        application: "Server power supplies",
+        qg_nc: 128, qgs_nc: 43, qgd_nc: 56, ciss: 6700, coss: 432, crss: 11.4
       },
       "SCTH100N120G2AG": {
         name: "SCTH100N120G2AG (SiC MOSFET)",
         vds_max: 1200, id_max: 56, rds_mohm: 45, tr_ns: 23, tf_ns: 33,
         alpha: 0.0018, package: "H2PAK-2", manufacturer: "STMicroelectronics",
-        application: "Automotive OBC"
+        application: "Automotive OBC",
+        qg_nc: 67, qgs_nc: 23, qgd_nc: 27, ciss: 3400, coss: 222, crss: 5.8
       },
       "SCTH35N65G2V-7AG": {
         name: "SCTH35N65G2V-7AG (SiC MOSFET)",
         vds_max: 650, id_max: 45, rds_mohm: 52, tr_ns: 19, tf_ns: 29,
         alpha: 0.0018, package: "H2PAK-7", manufacturer: "STMicroelectronics",
-        application: "Telecom power"
+        application: "Telecom power",
+        qg_nc: 48, qgs_nc: 17, qgd_nc: 19, ciss: 1920, coss: 140, crss: 3.4
       },
       "SCT3060AL": {
         name: "SCT3060AL (SiC MOSFET)",
@@ -1826,85 +1851,99 @@ const TRANSISTOR_DB = {
         name: "SCT3080AL (SiC MOSFET)",
         vds_max: 650, id_max: 30, rds_mohm: 80, tr_ns: 17, tf_ns: 24,
         alpha: 0.0020, package: "TO-247N", manufacturer: "ROHM",
-        application: "Industrial equipment"
+        application: "Industrial equipment",
+        qg_nc: 31, qgs_nc: 12, qgd_nc: 13, ciss: 1230, coss: 88, crss: 1.9
       },
       "SCT3105KL": {
         name: "SCT3105KL (SiC MOSFET)",
         vds_max: 1200, id_max: 24, rds_mohm: 105, tr_ns: 18, tf_ns: 25,
         alpha: 0.0021, package: "TO-247N", manufacturer: "ROHM",
-        application: "EV charging stations"
+        application: "EV charging stations",
+        qg_nc: 37, qgs_nc: 14, qgd_nc: 15, ciss: 1480, coss: 105, crss: 2.4
       },
       "SCT3160KL": {
         name: "SCT3160KL (SiC MOSFET)",
         vds_max: 1200, id_max: 17, rds_mohm: 160, tr_ns: 19, tf_ns: 26,
         alpha: 0.0022, package: "TO-247N", manufacturer: "ROHM",
-        application: "Solar power conditioners"
+        application: "Solar power conditioners",
+        qg_nc: 27, qgs_nc: 10, qgd_nc: 11, ciss: 1070, coss: 76, crss: 1.7
       },
       "SCT4013DR": {
         name: "SCT4013DR (SiC MOSFET)",
         vds_max: 750, id_max: 42, rds_mohm: 13, tr_ns: 14, tf_ns: 20,
         alpha: 0.0016, package: "TO-247-4D", manufacturer: "ROHM",
-        application: "Data center power supplies"
+        application: "Data center power supplies",
+        qg_nc: 52, qgs_nc: 18, qgd_nc: 21, ciss: 2080, coss: 148, crss: 3.9
       },
       "SCT4026DR": {
         name: "SCT4026DR (SiC MOSFET)",
         vds_max: 750, id_max: 30, rds_mohm: 26, tr_ns: 15, tf_ns: 22,
         alpha: 0.0017, package: "TO-247-4D", manufacturer: "ROHM",
-        application: "Medical power supplies"
+        application: "Medical power supplies",
+        qg_nc: 41, qgs_nc: 15, qgd_nc: 17, ciss: 1640, coss: 118, crss: 2.8
       },
       "SCT4036DR": {
         name: "SCT4036DR (SiC MOSFET)",
         vds_max: 750, id_max: 24, rds_mohm: 36, tr_ns: 16, tf_ns: 23,
         alpha: 0.0018, package: "TO-247-4D", manufacturer: "ROHM",
-        application: "Industrial inverters"
+        application: "Industrial inverters",
+        qg_nc: 34, qgs_nc: 13, qgd_nc: 14, ciss: 1350, coss: 97, crss: 2.2
       },
       "SCT4045DR": {
         name: "SCT4045DR (SiC MOSFET)",
         vds_max: 750, id_max: 20, rds_mohm: 45, tr_ns: 17, tf_ns: 24,
         alpha: 0.0019, package: "TO-247-4D", manufacturer: "ROHM",
-        application: "Renewable energy"
+        application: "Renewable energy",
+        qg_nc: 29, qgs_nc: 11, qgd_nc: 12, ciss: 1150, coss: 82, crss: 1.9
       },
       "UF3C065080K4S": {
         name: "UF3C065080K4S (SiC MOSFET)",
         vds_max: 650, id_max: 31, rds_mohm: 80, tr_ns: 12, tf_ns: 18,
         alpha: 0.0018, package: "TO-247-4", manufacturer: "UnitedSiC",
-        application: "High frequency converters"
+        application: "High frequency converters",
+        qg_nc: 28, qgs_nc: 11, qgd_nc: 12, ciss: 1120, coss: 80, crss: 1.8
       },
       "UF3C120080K4S": {
         name: "UF3C120080K4S (SiC MOSFET)",
         vds_max: 1200, id_max: 33, rds_mohm: 80, tr_ns: 13, tf_ns: 19,
         alpha: 0.0020, package: "TO-247-4", manufacturer: "UnitedSiC",
-        application: "Solar inverters"
+        application: "Solar inverters",
+        qg_nc: 46, qgs_nc: 17, qgd_nc: 18, ciss: 1850, coss: 132, crss: 3.1
       },
       "UF3C120150K4S": {
         name: "UF3C120150K4S (SiC MOSFET)",
         vds_max: 1200, id_max: 18, rds_mohm: 150, tr_ns: 14, tf_ns: 20,
         alpha: 0.0022, package: "TO-247-4", manufacturer: "UnitedSiC",
-        application: "EV chargers"
+        application: "EV chargers",
+        qg_nc: 30, qgs_nc: 12, qgd_nc: 13, ciss: 1200, coss: 86, crss: 1.9
       },
       "UF3SC065007K4S": {
         name: "UF3SC065007K4S (SiC MOSFET)",
         vds_max: 650, id_max: 285, rds_mohm: 7, tr_ns: 15, tf_ns: 22,
         alpha: 0.0012, package: "TO-247-4", manufacturer: "UnitedSiC",
-        application: "High power applications"
+        application: "High power applications",
+        qg_nc: 215, qgs_nc: 73, qgd_nc: 95, ciss: 11200, coss: 725, crss: 19.2
       },
       "UF3SC120009K4S": {
         name: "UF3SC120009K4S (SiC MOSFET)",
         vds_max: 1200, id_max: 215, rds_mohm: 9, tr_ns: 16, tf_ns: 24,
         alpha: 0.0014, package: "TO-247-4", manufacturer: "UnitedSiC",
-        application: "Traction inverters"
+        application: "Traction inverters",
+        qg_nc: 195, qgs_nc: 66, qgd_nc: 86, ciss: 10200, coss: 660, crss: 17.5
       },
       "UF3SC120016K4S": {
         name: "UF3SC120016K4S (SiC MOSFET)",
         vds_max: 1200, id_max: 120, rds_mohm: 16, tr_ns: 17, tf_ns: 25,
         alpha: 0.0016, package: "TO-247-4", manufacturer: "UnitedSiC",
-        application: "Wind power converters"
+        application: "Wind power converters",
+        qg_nc: 135, qgs_nc: 46, qgd_nc: 60, ciss: 7050, coss: 455, crss: 12.1
       },
       "UF3SC120040K4S": {
         name: "UF3SC120040K4S (SiC MOSFET)",
         vds_max: 1200, id_max: 53, rds_mohm: 40, tr_ns: 18, tf_ns: 26,
         alpha: 0.0018, package: "TO-247-4", manufacturer: "UnitedSiC",
-        application: "Grid storage systems"
+        application: "Grid storage systems",
+        qg_nc: 64, qgs_nc: 22, qgd_nc: 26, ciss: 3250, coss: 212, crss: 5.6
     },
     // 650V SiC MOSFETs
     "C2M0160120D": {
@@ -2210,61 +2249,71 @@ const TRANSISTOR_DB = {
       name: "EPC2050 (GaN HEMT)",
       vds_max: 350, id_max: 6.3, rds_mohm: 80, tr_ns: 2.0, tf_ns: 1.7,
       alpha: 0.0032, package: "LGA", manufacturer: "EPC",
-      application: "High voltage POL converters"
+      application: "High voltage POL converters",
+      qg_nc: 2.8, qgs_nc: 1.6, qgd_nc: 0.8, ciss: 280, coss: 72, crss: 0.35
     },
     "EPC2065": {
       name: "EPC2065 (GaN HEMT)",
       vds_max: 80, id_max: 60, rds_mohm: 3.6, tr_ns: 1.2, tf_ns: 1.0,
       alpha: 0.0025, package: "LGA", manufacturer: "EPC",
-      application: "Buck converters, motor drives"
+      application: "Buck converters, motor drives",
+      qg_nc: 9.5, qgs_nc: 5.8, qgd_nc: 2.8, ciss: 950, coss: 245, crss: 1.2
     },
     "EPC2066": {
       name: "EPC2066 (GaN HEMT)",
       vds_max: 40, id_max: 94, rds_mohm: 1.8, tr_ns: 1.0, tf_ns: 0.8,
       alpha: 0.0022, package: "LGA", manufacturer: "EPC",
-      application: "Low voltage high current"
+      application: "Low voltage high current",
+      qg_nc: 14.2, qgs_nc: 8.7, qgd_nc: 4.2, ciss: 1420, coss: 365, crss: 1.8
     },
     "EPC2204": {
       name: "EPC2204 (GaN HEMT)",
       vds_max: 80, id_max: 125, rds_mohm: 6, tr_ns: 1.7, tf_ns: 1.4,
       alpha: 0.0027, package: "LGA", manufacturer: "EPC",
-      application: "Synchronous buck converters"
+      application: "Synchronous buck converters",
+      qg_nc: 18.5, qgs_nc: 11.3, qgd_nc: 5.5, ciss: 1850, coss: 475, crss: 2.3
     },
     "EPC2212": {
       name: "EPC2212 (GaN HEMT)",
       vds_max: 100, id_max: 75, rds_mohm: 13, tr_ns: 1.9, tf_ns: 1.6,
       alpha: 0.0030, package: "LGA", manufacturer: "EPC",
-      application: "Wireless charging"
+      application: "Wireless charging",
+      qg_nc: 11.8, qgs_nc: 7.2, qgd_nc: 3.5, ciss: 1180, coss: 305, crss: 1.5
     },
     "EPC2215": {
       name: "EPC2215 (GaN HEMT)",
       vds_max: 200, id_max: 32, rds_mohm: 58, tr_ns: 2.2, tf_ns: 1.8,
       alpha: 0.0033, package: "LGA", manufacturer: "EPC",
-      application: "48V systems"
+      application: "48V systems",
+      qg_nc: 5.2, qgs_nc: 3.2, qgd_nc: 1.5, ciss: 520, coss: 135, crss: 0.65
     },
     "GS-010-120-1-P": {
       name: "GS-010-120-1-P (GaN HEMT)",
       vds_max: 100, id_max: 120, rds_mohm: 5, tr_ns: 2.5, tf_ns: 2.0,
       alpha: 0.0028, package: "GaNPX", manufacturer: "GaN Systems",
-      application: "High density power supplies"
+      application: "High density power supplies",
+      qg_nc: 22.5, qgs_nc: 13.8, qgd_nc: 6.7, ciss: 2250, coss: 580, crss: 2.8
     },
     "GS-065-011-1-L": {
       name: "GS-065-011-1-L (GaN HEMT)",
       vds_max: 650, id_max: 11, rds_mohm: 150, tr_ns: 3.0, tf_ns: 2.5,
       alpha: 0.0030, package: "PDFN", manufacturer: "GaN Systems",
-      application: "Adapters, chargers"
+      application: "Adapters, chargers",
+      qg_nc: 3.8, qgs_nc: 2.3, qgd_nc: 1.1, ciss: 380, coss: 98, crss: 0.48
     },
     "GS-065-018-1-L": {
       name: "GS-065-018-1-L (GaN HEMT)",
       vds_max: 650, id_max: 18, rds_mohm: 90, tr_ns: 3.5, tf_ns: 3.0,
       alpha: 0.0028, package: "PDFN", manufacturer: "GaN Systems",
-      application: "Consumer electronics"
+      application: "Consumer electronics",
+      qg_nc: 5.5, qgs_nc: 3.4, qgd_nc: 1.6, ciss: 550, coss: 142, crss: 0.7
     },
     "GS-065-030-1-L": {
       name: "GS-065-030-1-L (GaN HEMT)",
       vds_max: 650, id_max: 30, rds_mohm: 50, tr_ns: 4.0, tf_ns: 3.5,
       alpha: 0.0026, package: "PDFN", manufacturer: "GaN Systems",
-      application: "Solar microinverters"
+      application: "Solar microinverters",
+      qg_nc: 8.8, qgs_nc: 5.4, qgd_nc: 2.6, ciss: 880, coss: 227, crss: 1.1
     },
     "GS-065-060-1-L": {
       name: "GS-065-060-1-L (GaN HEMT)",
