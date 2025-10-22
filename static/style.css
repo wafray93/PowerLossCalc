@@ -2321,18 +2321,18 @@ footer {
 }
 
 .parameter-table thead {
-  background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%);
+  background: linear-gradient(135deg, #2d3436 0%, #636e72 100%);
 }
 
 .parameter-table th {
   padding: 14px 16px;
   text-align: left;
-  font-weight: 600;
+  font-weight: 700;
   font-size: 14px;
   color: #ffffff;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
-  border-bottom: 3px solid #1e40af;
+  letter-spacing: 0.8px;
+  border-bottom: 3px solid #4caf50;
 }
 
 .parameter-table tbody tr {
