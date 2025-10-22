@@ -486,43 +486,14 @@ function initVisitorCounter() {
   const counterElement = document.getElementById('visitorCount');
   if (!counterElement) return;
   
-  // Get or initialize visitor count
+  // Get or initialize visitor count - increment on EVERY page load
   let visitorCount = parseInt(localStorage.getItem('siteVisitorCount') || '0');
-  const lastVisit = localStorage.getItem('lastVisitTimestamp');
-  const now = Date.now();
+  visitorCount++; // Increment on every visit
+  localStorage.setItem('siteVisitorCount', visitorCount.toString());
   
-  // Check if this is a new unique visit (24 hours cooldown)
-  const oneDayMs = 24 * 60 * 60 * 1000;
-  const isNewVisit = !lastVisit || (now - parseInt(lastVisit)) > oneDayMs;
-  
-  if (isNewVisit) {
-    visitorCount++;
-    localStorage.setItem('siteVisitorCount', visitorCount.toString());
-    localStorage.setItem('lastVisitTimestamp', now.toString());
-  }
-  
-  // Display the count with animation
-  animateCounter(counterElement, visitorCount);
-}
-
-function animateCounter(element, targetValue) {
-  let currentValue = 0;
-  const duration = 1500; // 1.5 seconds
-  const steps = 60;
-  const increment = targetValue / steps;
-  const stepDuration = duration / steps;
-  
-  // Dynamic formatting - determine number of digits needed
-  const numDigits = Math.max(4, targetValue.toString().length);
-  
-  const interval = setInterval(() => {
-    currentValue += increment;
-    if (currentValue >= targetValue) {
-      currentValue = targetValue;
-      clearInterval(interval);
-    }
-    element.textContent = Math.floor(currentValue).toString().padStart(numDigits, '0');
-  }, stepDuration);
+  // Display the count directly without animation to avoid showing 0
+  const numDigits = Math.max(4, visitorCount.toString().length);
+  counterElement.textContent = visitorCount.toString().padStart(numDigits, '0');
 }
 
 let currentLang = 'bg';
@@ -3811,6 +3782,23 @@ const DRIVER_DB = {
       application: "SiC/Si high current switching",
       vgs_out: 18,
       qg_drive: 320
+    },
+    // Infineon EiceDRIVER Enhanced series
+    "2EDF7275F": {
+      name: "2EDF7275F",
+      manufacturer: "Infineon",
+      technology: ["SiC", "IGBT"],
+      vdd_min: 15, vdd_max: 20,
+      i_source_max: 7.5, i_sink_max: 7.5,
+      t_rise: 12, t_fall: 10,
+      t_delay: 22,
+      iq: 3.5,
+      channels: "single",
+      package: "PG-DSO-16",
+      features: "Galvanic isolation, Miller clamp, DESAT protection, soft turn-off",
+      application: "SiC MOSFET/IGBT high-power industrial drives",
+      vgs_out: 20,
+      qg_drive: 250
     }
   },
   
@@ -8082,6 +8070,67 @@ function downloadFile(content, filename, mimeType) {
   a.click();
   document.body.removeChild(a);
   window.URL.revokeObjectURL(url);
+}
+
+// Export drivers to CSV
+function exportDriversToCSV() {
+  const filename = `gate_drivers_database_${new Date().toISOString().split('T')[0]}.csv`;
+  
+  // Headers
+  const headers = ['Model', 'Manufacturer', 'Technology', 'Vdd_min[V]', 'Vdd_max[V]', 'I_source_max[A]', 'I_sink_max[A]', 't_rise[ns]', 't_fall[ns]', 't_delay[ns]', 'Iq[mA]', 'Channels', 'Package', 'Vgs_out[V]', 'Qg_drive[nC]', 'Features', 'Application'];
+  
+  let csvContent = headers.join(',') + '\n';
+  
+  // Collect all drivers from all technologies
+  const allDrivers = [];
+  
+  if (DRIVER_DB.Si) {
+    Object.values(DRIVER_DB.Si).forEach(driver => {
+      allDrivers.push({...driver, tech_group: 'Si'});
+    });
+  }
+  
+  if (DRIVER_DB.SiC) {
+    Object.values(DRIVER_DB.SiC).forEach(driver => {
+      allDrivers.push({...driver, tech_group: 'SiC'});
+    });
+  }
+  
+  if (DRIVER_DB.GaN) {
+    Object.values(DRIVER_DB.GaN).forEach(driver => {
+      allDrivers.push({...driver, tech_group: 'GaN'});
+    });
+  }
+  
+  // Add each driver as a row
+  allDrivers.forEach(driver => {
+    const techString = Array.isArray(driver.technology) ? driver.technology.join('/') : driver.technology;
+    const row = [
+      `"${driver.name}"`,
+      `"${driver.manufacturer}"`,
+      techString,
+      driver.vdd_min,
+      driver.vdd_max,
+      driver.i_source_max,
+      driver.i_sink_max,
+      driver.t_rise,
+      driver.t_fall,
+      driver.t_delay,
+      driver.iq,
+      driver.channels,
+      `"${driver.package}"`,
+      driver.vgs_out,
+      driver.qg_drive,
+      `"${driver.features}"`,
+      `"${driver.application}"`
+    ];
+    csvContent += row.join(',') + '\n';
+  });
+  
+  downloadFile(csvContent, filename, 'text/csv');
+  
+  // Show success message
+  alert(`✅ Драйверите са експортирани успешно!\n\nОбщо драйвери: ${allDrivers.length}\nФайл: ${filename}`);
 }
 
 // Handle view changes

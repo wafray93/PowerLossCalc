@@ -83,7 +83,10 @@
 
 <!-- Driver Information Section -->
 <section class="results">
-  <h2 data-lang="driverInfo">Информация за драйвера</h2>
+  <div class="results-header">
+    <h2 data-lang="driverInfo">Информация за драйвера</h2>
+    <button id="exportDriversCSV" class="btn-export" onclick="exportDriversToCSV()">📊 Свали драйвери CSV</button>
+  </div>
   <div id="driverInfo" class="transistor-info" style="display: none;">
     <table>
       <tr><td><strong>Модел</strong></td><td id="driverModelName">—</td></tr>
