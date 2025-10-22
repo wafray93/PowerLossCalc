@@ -1025,9 +1025,37 @@ button:hover::before {
 #transistorSelect {
   min-width: 250px;
   flex: 1;
+  padding-right: 30px;
 }
 
-/* Clear button removed - no longer needed */
+/* Clear button - simple X without background */
+.clear-transistor-btn {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  color: #666;
+  border: none;
+  width: 20px;
+  height: 20px;
+  font-size: 16px;
+  cursor: pointer;
+  display: none;
+  z-index: 10;
+  transition: color 0.2s ease;
+  margin: 0;
+  padding: 0;
+  line-height: 1;
+}
+
+.clear-transistor-btn:hover {
+  color: #333;
+}
+
+.clear-transistor-btn.visible {
+  display: block;
+}
 
 /* Improve datalist dropdown visibility */
 #transistorSelect:focus {
