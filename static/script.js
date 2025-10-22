@@ -2418,6 +2418,348 @@ const TRANSISTOR_DB = {
   }
 };
 
+// GATE DRIVER DATABASE - Real datasheet parameters from top manufacturers
+// Texas Instruments, Infineon, ON Semiconductor
+const DRIVER_DB = {
+  Si: {
+    // Texas Instruments Si/Low-voltage drivers
+    "UCC27531": {
+      name: "UCC27531",
+      manufacturer: "Texas Instruments",
+      technology: ["Si"],
+      vdd_min: 4.5, vdd_max: 18,
+      i_source_max: 3, i_sink_max: 3,
+      t_rise: 8, t_fall: 7,
+      t_delay: 17,
+      iq: 0.18,
+      channels: "single",
+      package: "SOT-23-5",
+      features: "Enable, UVLO",
+      application: "General purpose Si MOSFET driver",
+      vgs_out: 18,
+      qg_drive: 120
+    },
+    "UCC27211": {
+      name: "UCC27211",
+      manufacturer: "Texas Instruments",
+      technology: ["Si"],
+      vdd_min: 4.5, vdd_max: 18,
+      i_source_max: 2, i_sink_max: 2,
+      t_rise: 13, t_fall: 11,
+      t_delay: 25,
+      iq: 0.085,
+      channels: "dual",
+      package: "SOIC-8",
+      features: "Independent inputs",
+      application: "Synchronous Buck, Half-bridge Si drivers",
+      vgs_out: 18,
+      qg_drive: 80
+    },
+    "UCC27282": {
+      name: "UCC27282",
+      manufacturer: "Texas Instruments",
+      technology: ["Si"],
+      vdd_min: 4, vdd_max: 18,
+      i_source_max: 9, i_sink_max: 9,
+      t_rise: 6, t_fall: 5,
+      t_delay: 13,
+      iq: 2.3,
+      channels: "single",
+      package: "SOIC-8",
+      features: "High current, 5A peak",
+      application: "High-speed Si switching, DC-DC converters",
+      vgs_out: 18,
+      qg_drive: 350
+    },
+    // Infineon Si drivers
+    "1EDN8550B": {
+      name: "1EDN8550B",
+      manufacturer: "Infineon",
+      technology: ["Si"],
+      vdd_min: 10, vdd_max: 20,
+      i_source_max: 4.5, i_sink_max: 9,
+      t_rise: 10, t_fall: 8,
+      t_delay: 18,
+      iq: 0.42,
+      channels: "single",
+      package: "PG-DSO-8",
+      features: "Protection, galvanic isolation ready",
+      application: "Industrial motor drives, Si MOSFETs",
+      vgs_out: 18,
+      qg_drive: 200
+    },
+    "2ED2182S01F": {
+      name: "2ED2182S01F",
+      manufacturer: "Infineon",
+      technology: ["Si"],
+      vdd_min: 10, vdd_max: 20,
+      i_source_max: 2.5, i_sink_max: 2.5,
+      t_rise: 15, t_fall: 13,
+      t_delay: 22,
+      iq: 0.2,
+      channels: "single",
+      package: "SOT-23-6",
+      features: "Integrated bootstrap diode",
+      application: "Consumer electronics, Si switching",
+      vgs_out: 15,
+      qg_drive: 100
+    },
+    // ON Semiconductor Si drivers
+    "FAN7387": {
+      name: "FAN7387",
+      manufacturer: "ON Semiconductor",
+      technology: ["Si"],
+      vdd_min: 10, vdd_max: 20,
+      i_source_max: 3.8, i_sink_max: 4.0,
+      t_rise: 18, t_fall: 16,
+      t_delay: 30,
+      iq: 0.35,
+      channels: "single",
+      package: "SOIC-8",
+      features: "High-side and low-side driver",
+      application: "Half-bridge Si MOSFET applications",
+      vgs_out: 15,
+      qg_drive: 150
+    },
+    "NCV51411": {
+      name: "NCV51411",
+      manufacturer: "ON Semiconductor",
+      technology: ["Si"],
+      vdd_min: 4.75, vdd_max: 18,
+      i_source_max: 1.5, i_sink_max: 1.5,
+      t_rise: 25, t_fall: 20,
+      t_delay: 35,
+      iq: 0.05,
+      channels: "single",
+      package: "SOT-23-5",
+      features: "Automotive qualified, ultra-low Iq",
+      application: "Automotive Si MOSFETs, battery management",
+      vgs_out: 18,
+      qg_drive: 60
+    }
+  },
+  
+  SiC: {
+    // Texas Instruments SiC drivers
+    "UCC21520": {
+      name: "UCC21520",
+      manufacturer: "Texas Instruments",
+      technology: ["SiC"],
+      vdd_min: 3, vdd_max: 18,
+      i_source_max: 5, i_sink_max: 5,
+      t_rise: 4, t_fall: 4,
+      t_delay: 10,
+      iq: 3.5,
+      channels: "single",
+      package: "SOIC-8",
+      features: "Isolated 5kV, SiC optimized",
+      application: "SiC MOSFET gate driver with isolation",
+      vgs_out: 18,
+      qg_drive: 180
+    },
+    "UCC5870": {
+      name: "UCC5870",
+      manufacturer: "Texas Instruments",
+      technology: ["SiC"],
+      vdd_min: 4.5, vdd_max: 18,
+      i_source_max: 10, i_sink_max: 10,
+      t_rise: 3.5, t_fall: 3,
+      t_delay: 8,
+      iq: 8.5,
+      channels: "single",
+      package: "SOIC-16W",
+      features: "Reinforced isolation, Miller clamp, SiC/GaN optimized",
+      application: "High-performance SiC/GaN switching up to 200kHz",
+      vgs_out: 18,
+      qg_drive: 400
+    },
+    "UCC27714": {
+      name: "UCC27714",
+      manufacturer: "Texas Instruments",
+      technology: ["SiC", "Si"],
+      vdd_min: 4, vdd_max: 18,
+      i_source_max: 8, i_sink_max: 8,
+      t_rise: 5, t_fall: 4.5,
+      t_delay: 11,
+      iq: 2.8,
+      channels: "dual",
+      package: "SOIC-14",
+      features: "120V half-bridge, deadtime control",
+      application: "SiC MOSFETs in half-bridge topologies",
+      vgs_out: 18,
+      qg_drive: 300
+    },
+    // Infineon SiC drivers
+    "1ED3491MC12H": {
+      name: "1ED3491MC12H",
+      manufacturer: "Infineon",
+      technology: ["SiC"],
+      vdd_min: 15, vdd_max: 20,
+      i_source_max: 12, i_sink_max: 18,
+      t_rise: 3, t_fall: 2.5,
+      t_delay: 9,
+      iq: 5.2,
+      channels: "single",
+      package: "PG-DSO-12",
+      features: "Galvanic isolation 4kV, SiC optimized, Miller clamp",
+      application: "High-power SiC MOSFET switching",
+      vgs_out: 20,
+      qg_drive: 500
+    },
+    "EiceDRIVER 2EDL": {
+      name: "2EDL8024G",
+      manufacturer: "Infineon",
+      technology: ["SiC", "Si"],
+      vdd_min: 10, vdd_max: 18,
+      i_source_max: 8, i_sink_max: 8,
+      t_rise: 6, t_fall: 5,
+      t_delay: 12,
+      iq: 2.5,
+      channels: "dual",
+      package: "PG-DSO-14",
+      features: "Integrated deadtime, shoot-through protection",
+      application: "SiC half-bridge converters",
+      vgs_out: 18,
+      qg_drive: 280
+    },
+    // ON Semiconductor SiC drivers
+    "FAN73933": {
+      name: "FAN73933",
+      manufacturer: "ON Semiconductor",
+      technology: ["SiC"],
+      vdd_min: 10, vdd_max: 20,
+      i_source_max: 4.0, i_sink_max: 4.5,
+      t_rise: 8, t_fall: 7,
+      t_delay: 15,
+      iq: 1.8,
+      channels: "single",
+      package: "SOIC-8",
+      features: "Fast switching, negative gate capability",
+      application: "SiC MOSFET drivers up to 1200V",
+      vgs_out: 18,
+      qg_drive: 200
+    }
+  },
+  
+  GaN: {
+    // Texas Instruments GaN drivers
+    "LMG1020": {
+      name: "LMG1020",
+      manufacturer: "Texas Instruments",
+      technology: ["GaN"],
+      vdd_min: 4, vdd_max: 5.5,
+      i_source_max: 3, i_sink_max: 5,
+      t_rise: 2, t_fall: 1.5,
+      t_delay: 5,
+      iq: 0.8,
+      channels: "single",
+      package: "VQFN-8",
+      features: "GaN-optimized, integrated bootstrap, very fast",
+      application: "GaN FET high-frequency switching >1MHz",
+      vgs_out: 6,
+      qg_drive: 25
+    },
+    "LM5113": {
+      name: "LM5113",
+      manufacturer: "Texas Instruments",
+      technology: ["GaN"],
+      vdd_min: 4.5, vdd_max: 5.5,
+      i_source_max: 1.5, i_sink_max: 1.5,
+      t_rise: 3.5, t_fall: 2.8,
+      t_delay: 7,
+      iq: 0.4,
+      channels: "single",
+      package: "VSON-8",
+      features: "Ultrafast GaN driver",
+      application: "GaN transistors up to 2MHz switching",
+      vgs_out: 5.5,
+      qg_drive: 15
+    },
+    "UCC27614": {
+      name: "UCC27614",
+      manufacturer: "Texas Instruments",
+      technology: ["GaN", "SiC"],
+      vdd_min: 4, vdd_max: 18,
+      i_source_max: 4, i_sink_max: 4,
+      t_rise: 5, t_fall: 4.5,
+      t_delay: 13,
+      iq: 0.3,
+      channels: "dual",
+      package: "SOIC-8",
+      features: "Wide VDD range, GaN/SiC compatible",
+      application: "GaN FETs and SiC MOSFETs in half-bridge",
+      vgs_out: 18,
+      qg_drive: 150
+    },
+    // Infineon GaN drivers
+    "EPC9205": {
+      name: "EPC9205",
+      manufacturer: "EPC (Infineon partner)",
+      technology: ["GaN"],
+      vdd_min: 3.3, vdd_max: 5.5,
+      i_source_max: 2.5, i_sink_max: 3,
+      t_rise: 1.8, t_fall: 1.5,
+      t_delay: 4,
+      iq: 0.5,
+      channels: "single",
+      package: "QFN-16",
+      features: "Ultra-low propagation delay, GaN optimized",
+      application: "EPC GaN FETs MHz switching",
+      vgs_out: 5,
+      qg_drive: 12
+    },
+    "1ED38x0M": {
+      name: "1ED3810MC12M",
+      manufacturer: "Infineon",
+      technology: ["GaN"],
+      vdd_min: 15, vdd_max: 20,
+      i_source_max: 10, i_sink_max: 10,
+      t_rise: 2.5, t_fall: 2,
+      t_delay: 6,
+      iq: 4.5,
+      channels: "single",
+      package: "PG-DSO-12",
+      features: "Galvanic isolation, GaN/SiC compatible, Miller clamp",
+      application: "High-frequency GaN switching with isolation",
+      vgs_out: 6,
+      qg_drive: 80
+    },
+    // ON Semiconductor/GaN Systems drivers
+    "FAN3268": {
+      name: "FAN3268",
+      manufacturer: "ON Semiconductor",
+      technology: ["GaN"],
+      vdd_min: 4, vdd_max: 5.5,
+      i_source_max: 2.5, i_sink_max: 3.5,
+      t_rise: 2.5, t_fall: 2,
+      t_delay: 6.5,
+      iq: 0.6,
+      channels: "single",
+      package: "WLCSP-9",
+      features: "Compact GaN driver, bootstrap integrated",
+      application: "GaN FETs in compact power supplies",
+      vgs_out: 5.5,
+      qg_drive: 20
+    },
+    "SI827x": {
+      name: "SI8271GB-IS",
+      manufacturer: "Skyworks (ON Semi partner)",
+      technology: ["GaN", "SiC"],
+      vdd_min: 3, vdd_max: 5.5,
+      i_source_max: 4, i_sink_max: 4,
+      t_rise: 3, t_fall: 2.5,
+      t_delay: 7,
+      iq: 1.2,
+      channels: "single",
+      package: "SOIC-8",
+      features: "Isolated GaN/SiC driver 2.5kV",
+      application: "Isolated GaN switching applications",
+      vgs_out: 5,
+      qg_drive: 35
+    }
+  }
+};
+
 // Only initialize chart if canvas exists on the page
 let ctx = null;
 let chart = null;
