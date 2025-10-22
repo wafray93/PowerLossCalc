@@ -9243,13 +9243,29 @@ function updateTransistorCardOnDriverPage() {
 // WORKING PARAMETERS MANAGEMENT
 // ========================
 
-// Get current working parameters from inputs
+// Get current working parameters from Calculator (localStorage)
 function getWorkingParameters() {
+  try {
+    const calcParams = localStorage.getItem('calculatorParams');
+    if (calcParams) {
+      const params = JSON.parse(calcParams);
+      return {
+        vdc: params.vdc || 400,
+        current: params.current || 30,
+        freq: (params.freq / 1000) || 100, // Convert Hz to kHz
+        temp: params.temp || 75
+      };
+    }
+  } catch (e) {
+    console.warn('Could not load calculator params:', e);
+  }
+  
+  // Default values if no calculator data
   return {
-    vdc: parseFloat(document.getElementById('workingVdc')?.value || 400),
-    current: parseFloat(document.getElementById('workingCurrent')?.value || 30),
-    freq: parseFloat(document.getElementById('workingFreq')?.value || 100),
-    temp: parseFloat(document.getElementById('workingTemp')?.value || 75)
+    vdc: 400,
+    current: 30,
+    freq: 100,
+    temp: 75
   };
 }
 
@@ -9461,7 +9477,7 @@ function calculateDriverScore(driver, iSourceNeeded, iSinkNeeded, tr_ns, tf_ns) 
   return Math.max(0, score);
 }
 
-// Display recommended drivers with new visual system
+// Display recommended drivers - SIMPLIFIED VERSION
 function displayRecommendedDrivers(evaluatedDrivers, workingParams) {
   const section = document.getElementById('recommendedSection');
   const container = document.getElementById('recommendedDrivers');
@@ -9469,85 +9485,72 @@ function displayRecommendedDrivers(evaluatedDrivers, workingParams) {
   if (!section || !container) return;
   
   if (evaluatedDrivers.length === 0) {
-    container.innerHTML = `<p class="no-results">Няма намерени драйвери.</p>`;
+    container.innerHTML = `<p class="no-results">Няма намерени драйвери. Първо направете изчисление в Calculator.</p>`;
     section.style.display = 'block';
     return;
   }
   
-  // Count by status
+  // Show only TOP 3 suitable drivers
   const suitable = evaluatedDrivers.filter(d => d.evaluation.status === 'suitable');
   const borderline = evaluatedDrivers.filter(d => d.evaluation.status === 'borderline');
-  const unsuitable = evaluatedDrivers.filter(d => d.evaluation.status === 'unsuitable');
-  const unknown = evaluatedDrivers.filter(d => d.evaluation.status === 'unknown');
   
-  // Show summary
-  let summaryHTML = '<div class="driver-summary">';
-  summaryHTML += `<h3>📊 Резултати от анализа</h3>`;
-  summaryHTML += `<div class="summary-stats">`;
-  if (suitable.length > 0) summaryHTML += `<span class="stat-badge badge-suitable">✅ ${suitable.length} подходящи</span>`;
-  if (borderline.length > 0) summaryHTML += `<span class="stat-badge badge-borderline">⚠️ ${borderline.length} гранични</span>`;
-  if (unsuitable.length > 0) summaryHTML += `<span class="stat-badge badge-unsuitable">❌ ${unsuitable.length} неподходящи</span>`;
-  if (unknown.length > 0) summaryHTML += `<span class="stat-badge badge-unknown">❓ ${unknown.length} без оценка</span>`;
-  summaryHTML += `</div></div>`;
+  // If less than 3 suitable, add borderline to reach 3-5 total
+  const topDrivers = suitable.slice(0, 3);
+  if (topDrivers.length < 3) {
+    topDrivers.push(...borderline.slice(0, 5 - topDrivers.length));
+  }
   
-  // Show top 12 drivers (suitable first, then borderline, hide unsuitable unless few results)
-  const displayLimit = suitable.length + borderline.length >= 6 ? 12 : 18;
-  const driversToShow = evaluatedDrivers.slice(0, displayLimit);
+  if (topDrivers.length === 0) {
+    container.innerHTML = `
+      <div class="no-suitable-drivers">
+        <h3>⚠️ Няма подходящи драйвери</h3>
+        <p>За избрания транзистор и параметри не са намерени подходящи драйвери.</p>
+        <p>Опитайте с други параметри в Calculator.</p>
+      </div>
+    `;
+    section.style.display = 'block';
+    return;
+  }
   
-  const driversHTML = driversToShow.map((item, index) => {
+  // Show simple header
+  let html = '<div class="simple-header">';
+  html += `<h3>🎯 Препоръчани драйвери за вас</h3>`;
+  html += `<p class="params-used">Използвани параметри: ${workingParams.vdc}V, ${workingParams.current}A, ${workingParams.freq}kHz, ${workingParams.temp}°C</p>`;
+  html += `</div>`;
+  
+  // Show simple cards
+  html += topDrivers.map((item, index) => {
     const driver = item.driver;
     const eval = item.evaluation;
-    const rankEmoji = index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : '';
+    const rankEmoji = index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : '⭐';
     
-    // Calculate losses preview
-    const fsw_Hz = workingParams.freq * 1000;
-    const vdd = 15; // Typical
-    const pDynamic = (driver.qg_drive * 1e-9) * vdd * fsw_Hz;
-    const pStatic = (driver.iq * 1e-3) * vdd;
-    const pDriver = pDynamic + pStatic;
+    // Get main reason (first one)
+    const mainReason = eval.reasons[0] || 'Подходящ драйвер';
     
     return `
-      <div class="driver-card ${eval.badgeClass}" onclick="selectRecommendedDriver('${driver.name}')">
-        <div class="driver-card-header">
-          ${rankEmoji ? `<span class="rank-badge">${rankEmoji}</span>` : ''}
-          <span class="status-badge ${eval.badgeClass}">${eval.badge} ${eval.status.toUpperCase()}</span>
+      <div class="simple-driver-card ${eval.badgeClass}" onclick="selectRecommendedDriver('${driver.name}')">
+        <div class="card-rank">${rankEmoji}</div>
+        <div class="card-main">
           <h4>${driver.name}</h4>
-          <p class="manufacturer">${driver.manufacturer}</p>
-        </div>
-        <div class="driver-card-body">
-          <div class="driver-stats">
-            <div class="stat-item">
-              <span class="stat-label">I<sub>source/sink</sub></span>
-              <span class="stat-value">${driver.i_source_max}A / ${driver.i_sink_max}A</span>
-            </div>
-            <div class="stat-item">
-              <span class="stat-label">Delay</span>
-              <span class="stat-value">${driver.t_delay}ns</span>
-            </div>
-            <div class="stat-item">
-              <span class="stat-label">Загуби драйвер</span>
-              <span class="stat-value">${pDriver.toFixed(2)}W</span>
-            </div>
-            <div class="stat-item">
-              <span class="stat-label">Iq</span>
-              <span class="stat-value">${driver.iq}mA</span>
-            </div>
+          <p class="manufacturer-small">${driver.manufacturer}</p>
+          <div class="status-row">
+            <span class="status-badge-big ${eval.badgeClass}">${eval.badge} ${eval.status === 'suitable' ? 'ПОДХОДЯЩ' : eval.status === 'borderline' ? 'ГРАНИЧЕН' : 'НЕПОДХОДЯЩ'}</span>
           </div>
-          <div class="evaluation-reasons">
-            ${eval.reasons.map(r => `<p class="reason">${r}</p>`).join('')}
-          </div>
-          <div class="driver-features">
-            <small><strong>Характеристики:</strong> ${driver.features}</small>
+          <p class="main-reason">${mainReason}</p>
+          <div class="quick-specs">
+            <span>💪 ${driver.i_source_max}A source</span>
+            <span>⚡ ${driver.t_delay}ns delay</span>
+            <span>📦 ${driver.channels}</span>
           </div>
         </div>
-        <button class="select-driver-btn" onclick="event.stopPropagation(); selectRecommendedDriver('${driver.name}')">
-          📌 Избери драйвер
+        <button class="select-btn-simple" onclick="event.stopPropagation(); selectRecommendedDriver('${driver.name}')">
+          Избери
         </button>
       </div>
     `;
   }).join('');
   
-  container.innerHTML = summaryHTML + driversHTML;
+  container.innerHTML = html;
   section.style.display = 'block';
   
   // Scroll to results
