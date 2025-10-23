@@ -486,20 +486,10 @@ function initVisitorCounter() {
   const counterElement = document.getElementById('visitorCount');
   if (!counterElement) return;
   
-  // Check if this session already counted (use sessionStorage - clears on browser close)
-  const sessionCounted = sessionStorage.getItem('visitorCountedThisSession');
-  
-  // Get current visitor count
-  let visitorCount = parseInt(localStorage.getItem('siteVisitorCount') || '0');
-  
-  // Increment ONLY if this is a new session (not counted yet)
-  if (!sessionCounted) {
-    visitorCount++; // Increment once per session
-    localStorage.setItem('siteVisitorCount', visitorCount.toString());
-    sessionStorage.setItem('visitorCountedThisSession', 'true'); // Mark session as counted
-  }
-  
-  // Display the count - minimum 7 digits for scalability
+  // The visitor count is now provided by the server from PostgreSQL database
+  // Each page load increments the counter server-side
+  // Just format it to have minimum 7 digits for scalability
+  const visitorCount = parseInt(counterElement.textContent) || 0;
   const numDigits = Math.max(7, visitorCount.toString().length);
   counterElement.textContent = visitorCount.toString().padStart(numDigits, '0');
 }
