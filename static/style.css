@@ -4214,3 +4214,147 @@ footer {
     padding: 10px 16px;
   }
 }
+/* ===== CLEAN RESPONSIVE FIX ===== */
+  @media (max-width: 768px) {
+
+    /* Основно оформление */
+    html, body {
+      width: 100%;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }
+
+    /* Скрий страничната лента и покажи мобилното меню */
+    .sidebar-nav {
+      display: none;
+    }
+
+    .mobile-nav-toggle {
+      display: block;
+      position: fixed;
+      top: 15px;
+      left: 15px;
+      z-index: 2000;
+    }
+
+    .mobile-top-nav {
+      display: flex;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      background: var(--bg-light);
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1500;
+    }
+
+    .mobile-nav-tabs {
+      display: flex;
+      flex-wrap: nowrap;
+    }
+
+    .mobile-tab {
+      flex: 0 0 auto;
+      font-size: 14px;
+      padding: 10px 14px;
+      white-space: nowrap;
+    }
+
+    /* Центрирай основното съдържание */
+    .main-content, .content-wrapper, .page-content {
+      margin: 0 auto;
+      width: 100%;
+      max-width: 95%;
+      box-sizing: border-box;
+      padding: 15px;
+    }
+
+    /* Полетата (input, select, textarea) да се виждат */
+    input, select, textarea {
+      width: 100%;
+      max-width: 100%;
+      display: block;
+      margin: 8px 0;
+    }
+
+    /* Бутони */
+    button {
+      width: 100%;
+      padding: 12px;
+      font-size: 15px;
+    }
+
+    /* Заглавие и хедър */
+    .app-header {
+      flex-wrap: wrap;
+      text-align: center;
+      justify-content: center;
+      padding: 10px;
+    }
+
+    .app-title h1 {
+      font-size: 18px;
+    }
+
+    .subtitle {
+      display: none;
+    }
+
+    /* Таблици */
+    table {
+      width: 100%;
+      display: block;
+      overflow-x: auto;
+    }
+  }
+  /* ===== MOBILE FORM FIX ===== */
+  @media (max-width: 768px) {
+
+    /* Никакъв хоризонтален скрол */
+    html, body {
+      width: 100%;
+      max-width: 100%;
+      overflow-x: hidden;
+    }
+
+    /* Всички контейнери – ограничени до ширината на екрана */
+    .page-content, .content-wrapper, .controls, form, .form-section {
+      width: 100% !important;
+      max-width: 100% !important;
+      box-sizing: border-box;
+      margin: 0 auto !important;
+      padding: 10px !important;
+      overflow-x: hidden;
+    }
+
+    /* Полетата (input, select, textarea) */
+    input, select, textarea {
+      width: 100% !important;
+      max-width: 100% !important;
+      display: block;
+      margin: 8px 0;
+      box-sizing: border-box;
+    }
+
+    /* Етикети и въпросителни (?) подредени вертикално */
+    .label-row, .form-row, .input-group {
+      display: block !important;
+      width: 100% !important;
+    }
+
+    .help-icon, .tooltip-icon {
+      position: relative !important;
+      right: auto !important;
+      top: auto !important;
+      margin-left: 5px;
+    }
+
+    /* Бутоните */
+    button {
+      width: 100% !important;
+      max-width: 100% !important;
+      padding: 12px;
+      font-size: 16px;
+    }
+  }
