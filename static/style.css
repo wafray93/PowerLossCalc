@@ -421,12 +421,9 @@ body.nav-open {
 
 /* ====== MAIN CONTENT AREA ====== */
 .main-content {
-  margin-left: var(--sidebar-width);
-  min-height: calc(100vh - var(--header-height));
-  background: var(--bg-light);
-  transition: all 0.3s ease;
-  width: calc(100% - var(--sidebar-width));
-  box-sizing: border-box;
+  margin: 0 auto;
+  max-width: var(--content-max-width);
+  padding: 30px;
 }
 
 .content-wrapper {
