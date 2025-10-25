@@ -4358,3 +4358,27 @@ footer {
       font-size: 16px;
     }
   }
+/* ===== FIX: Dropdowns / Modals blocked on mobile ===== */
+select, .dropdown, .modal, .dialog, .popup, .select2-container, .autocomplete {
+  position: relative !important;
+  z-index: 99999 !important;
+}
+
+/* Освобождава overlay, който стои отгоре */
+.mobile-nav-overlay,
+.mobile-top-nav,
+.sidebar-nav {
+  z-index: 10 !important;
+}
+
+/* Ако имаш backdrop/overlay със opacity (сив фон) */
+.backdrop, .overlay {
+  z-index: 20 !important;
+  pointer-events: none !important;
+}
+
+/* Основно съдържание и popups над всичко */
+.main-content, .content-wrapper, form, .page-content {
+  position: relative;
+  z-index: 50;
+}
