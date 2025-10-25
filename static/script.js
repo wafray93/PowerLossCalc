@@ -1615,6 +1615,7 @@ const TRANSISTOR_DB = {
         alpha: 0.0018, package: "TO-247", manufacturer: "Rohm",
         application: "AC servo drives",
         qg_nc: 46, qgs_nc: 17, qgd_nc: 18, ciss: 1820, coss: 135, crss: 3.2
+        
       },
       "IMW120R045M1H": {
         name: "IMW120R045M1H (SiC MOSFET)",
@@ -1629,6 +1630,13 @@ const TRANSISTOR_DB = {
         alpha: 0.0025, package: "TO-220", manufacturer: "Rohm",
         application: "SMPS applications",
         qg_nc: 28, qgs_nc: 11, qgd_nc: 12, ciss: 1100, coss: 75, crss: 1.8
+      },
+    "SCT2280KE": {
+  name: "SCT2280KE (SiC MOSFET)",
+  vds_max: 1200, id_max: 40, rds_mohm: 80, tr_ns: 30, tf_ns: 45,
+  alpha: 0.0025, package: "TO-247-4L Kelvin Source", manufacturer: "ROHM",
+  application: "EV инвертори, PV инвертори, PFC етапи",
+  qg_nc: 150, qgs_nc: 35, qgd_nc: 40, ciss: 3200, coss: 120, crss: 35
       },
       "C3M0032120K": {
         name: "C3M0032120K (SiC MOSFET)",
