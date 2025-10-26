@@ -43868,9 +43868,6 @@ const TRANSISTOR_DB = {
   },
 };
 
-
-// GATE DRIVER DATABASE - Real datasheet parameters from top manufacturers
-// Texas Instruments, Infineon, ON Semiconductor
 const DRIVER_DB = {
   Si: {
     "2QG010DDC11N": {
@@ -48059,8 +48056,6 @@ const DRIVER_DB = {
     },
   },
 };
-
-
 // Only initialize chart if canvas exists on the page
 let ctx = null;
 let chart = null;
