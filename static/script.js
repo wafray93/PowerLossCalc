@@ -51618,6 +51618,17 @@ function exportData(format) {
 }
 
 // Export to CSV
+// Helper function to properly escape CSV values
+function escapeCSVValue(value) {
+  if (value === null || value === undefined) return '';
+  const stringValue = String(value);
+  // If value contains comma, quote, or newline, wrap in quotes and escape internal quotes
+  if (stringValue.includes(',') || stringValue.includes('"') || stringValue.includes('\n')) {
+    return '"' + stringValue.replace(/"/g, '""') + '"';
+  }
+  return stringValue;
+}
+
 function exportToCSV(data, filename) {
   const headers = ['Model', 'Technology', 'VDS(max) [V]', 'ID(max) [A]', 'RDS(on) [mΩ]', 'Package', 'Manufacturer', 'Applications'];
 
@@ -51625,14 +51636,14 @@ function exportToCSV(data, filename) {
 
   data.forEach(transistor => {
     const row = [
-      `"${transistor.model}"`,
-      transistor.technology,
+      escapeCSVValue(transistor.model),
+      escapeCSVValue(transistor.technology),
       transistor.vds_max,
       transistor.id_max,
       transistor.rds_mohm,
-      transistor.package,
-      `"${transistor.manufacturer}"`,
-      `"${transistor.application}"`
+      escapeCSVValue(transistor.package),
+      escapeCSVValue(transistor.manufacturer),
+      escapeCSVValue(transistor.application)
     ];
     csvContent += row.join(',') + '\n';
   });
@@ -51687,9 +51698,9 @@ function exportDriversToCSV() {
   allDrivers.forEach(driver => {
     const techString = Array.isArray(driver.technology) ? driver.technology.join('/') : driver.technology;
     const row = [
-      `"${driver.name}"`,
-      `"${driver.manufacturer}"`,
-      techString,
+      escapeCSVValue(driver.name),
+      escapeCSVValue(driver.manufacturer),
+      escapeCSVValue(techString),
       driver.vdd_min,
       driver.vdd_max,
       driver.i_source_max,
@@ -51699,11 +51710,11 @@ function exportDriversToCSV() {
       driver.t_delay,
       driver.iq,
       driver.channels,
-      `"${driver.package}"`,
+      escapeCSVValue(driver.package),
       driver.vgs_out,
       driver.qg_drive,
-      `"${driver.features}"`,
-      `"${driver.application}"`
+      escapeCSVValue(driver.features),
+      escapeCSVValue(driver.application)
     ];
     csvContent += row.join(',') + '\n';
   });
