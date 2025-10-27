@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, redirect, url_for
+from flask import Flask, render_template, redirect, url_for, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import DeclarativeBase
 from werkzeug.middleware.proxy_fix import ProxyFix
@@ -10,6 +10,7 @@ class Base(DeclarativeBase):
 
 
 db = SQLAlchemy(model_class=Base)
+
 # create the app
 app = Flask(__name__)
 app.secret_key = os.environ.get("SESSION_SECRET")
@@ -21,13 +22,14 @@ app.config["SQLALCHEMY_ENGINE_OPTIONS"] = {
     "pool_recycle": 300,
     "pool_pre_ping": True,
 }
+
 # initialize the app with the extension
 db.init_app(app)
 
 with app.app_context():
     import models
     db.create_all()
-    
+
     # Initialize counter if not exists
     if models.VisitorCounter.query.first() is None:
         counter = models.VisitorCounter()
@@ -52,6 +54,22 @@ def inject_visitor_count():
     counter = models.VisitorCounter.query.first()
     return dict(visitor_count=counter.count if counter else 0)
 
+
+# -------------------------------
+# ✅ SEO FILES (robots.txt & sitemap.xml)
+# -------------------------------
+
+@app.route('/robots.txt')
+def robots():
+    return send_from_directory('static', 'robots.txt')
+
+@app.route('/sitemap.xml')
+def sitemap():
+    return send_from_directory('static', 'sitemap.xml')
+
+# -------------------------------
+# ✅ MAIN ROUTES
+# -------------------------------
 
 @app.route('/')
 def index():
@@ -88,6 +106,7 @@ def drivers():
 @app.route('/contact')
 def contact():
     return render_template('contact.html')
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
