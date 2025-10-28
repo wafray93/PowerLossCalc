@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block title %}Блог{% endblock %}
+
+{% block page_title %}<span data-lang="blogPageTitle">Блог – Новини и статии</span>{% endblock %}
+
+{% block page_description %}<span data-lang="blogPageDescription">Последни новини и статии за Si/SiC/GaN технологии, power electronics и инженерни анализи.</span>{% endblock %}
+
+{% block content %}
+<section class="blog-header">
+  <div class="blog-intro">
+    <h2><span data-lang="blogTitle">Научни статии и инженерни анализи</span></h2>
+    <p data-lang="blogIntro">Следете последните новини, tutorials и научни публикации за Si/SiC/GaN транзистори, gate драйвери и power electronics дизайн.</p>
+    <a href="{{ blog_url }}" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+      <span data-lang="visitWordPress">Посети пълния блог в WordPress →</span>
+    </a>
+  </div>
+</section>
+
+<section class="blog-posts">
+  {% if posts %}
+    <div class="posts-grid">
+      {% for post in posts %}
+      <article class="post-card">
+        {% if post.image %}
+        <div class="post-image">
+          <a href="{{ post.link }}" target="_blank" rel="noopener noreferrer">
+            <img src="{{ post.image }}" alt="{{ post.title }}" loading="lazy">
+          </a>
+        </div>
+        {% endif %}
+        
+        <div class="post-content">
+          {% if post.date_formatted %}
+          <div class="post-meta">
+            <span class="post-date">{{ post.date_formatted }}</span>
+          </div>
+          {% endif %}
+          
+          <h3 class="post-title">
+            <a href="{{ post.link }}" target="_blank" rel="noopener noreferrer">{{ post.title }}</a>
+          </h3>
+          
+          {% if post.description %}
+          <div class="post-excerpt">
+            {{ post.description[:200] }}{% if post.description|length > 200 %}...{% endif %}
+          </div>
+          {% endif %}
+          
+          <div class="post-footer">
+            <a href="{{ post.link }}" target="_blank" rel="noopener noreferrer" class="read-more">
+              <span data-lang="readMore">Прочети повече →</span>
+            </a>
+          </div>
+        </div>
+      </article>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="blog-empty">
+      <h3 data-lang="noPosts">Няма налични статии</h3>
+      <p data-lang="noPostsDesc">Моля, проверете <a href="{{ blog_url }}" target="_blank">WordPress блога</a> директно.</p>
+    </div>
+  {% endif %}
+</section>
+
+<section class="blog-footer-info">
+  <div class="info-card">
+    <h3><span data-lang="aboutBlog">За блога</span></h3>
+    <p data-lang="aboutBlogDesc">Блогът съдържа научни статии, практически примери и инженерни анализи за power electronics приложения. Всички статии са базирани на актуални изследвания и реални datasheet параметри.</p>
+  </div>
+  
+  <div class="info-card">
+    <h3><span data-lang="stayUpdated">Бъдете информирани</span></h3>
+    <p data-lang="stayUpdatedDesc">Посетете <a href="{{ blog_url }}" target="_blank">PowerLossCalc WordPress</a> за да се абонирате за email известия при нови публикации.</p>
+  </div>
+</section>
+{% endblock %}
