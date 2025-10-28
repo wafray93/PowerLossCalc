@@ -4988,3 +4988,6 @@ footer {
     border: 1px solid #ccc;
   }
 }
+.menu-item {
+    margin-bottom: 10px;
+}
