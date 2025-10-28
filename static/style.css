@@ -422,8 +422,15 @@ body.nav-open {
 /* ====== MAIN CONTENT AREA ====== */
 .main-content {
   margin: 0 auto;
-  max-width: var(--content-max-width);
+  min-height: calc(100vh - var(--header-height));
+  background: var(--bg-light);
+  transition: all 0.3s ease;
+  width: 100%;
+  max-width: var(--content-max-width, 1200px);
+  box-sizing: border-box;
   padding: 30px;
+}
+
 }
 
 .content-wrapper {
@@ -4213,8 +4220,7 @@ footer {
     font-size: 0.95em;
     padding: 10px 16px;
   }
-}
-/* ===== CLEAN RESPONSIVE FIX ===== */
+  /* ===== CLEAN RESPONSIVE FIX ===== */
   @media (max-width: 768px) {
 
     /* Основно оформление */
@@ -4358,27 +4364,627 @@ footer {
       font-size: 16px;
     }
   }
-/* ===== FIX: Dropdowns / Modals blocked on mobile ===== */
-select, .dropdown, .modal, .dialog, .popup, .select2-container, .autocomplete {
-  position: relative !important;
-  z-index: 99999 !important;
+  /* === Compact mobile tabs (по-малки икони и шрифт) === */
+  @media (max-width: 768px) {
+    .mobile-tab {
+      font-size: 12px !important;
+      padding: 8px 10px !important;
+    }
+
+    .mobile-tab-icon {
+      font-size: 14px !important;
+      margin-right: 3px !important;
+    }
+
+    .mobile-tab-text {
+      font-size: 12px !important;
+    }
+
+    /* малък отстъп между табовете */
+    .mobile-nav-tabs {
+      gap: 4px !important;
+    }
+  }
+  /* === Compact mobile tabs (по-малки икони и шрифт) === */
+  @media (max-width: 768px) {
+    .mobile-tab {
+      font-size: 11.5px !important;
+      padding: 6px 8px !important;
+    }
+
+    .mobile-tab-icon {
+      font-size: 13px !important;
+      margin-right: 3px !important;
+    }
+
+    .mobile-tab-text {
+      font-size: 11.5px !important;
+    }
+
+    .mobile-nav-tabs {
+      gap: 3px !important;
+    }
+  }
+  /* === UNIVERSAL MOBILE TAB SCROLL FIX (2025 финален) === */
+  @media (max-width: 900px) {
+    .mobile-top-nav {
+      display: block !important;
+      width: 100% !important;
+      overflow-x: auto !important;
+      overflow-y: hidden;
+      -webkit-overflow-scrolling: touch;
+      scroll-behavior: smooth;
+      white-space: nowrap;
+      background: var(--bg-light, #fff);
+      border-bottom: 1px solid #ddd;
+    }
+
+    .mobile-nav-tabs {
+      display: inline-flex !important;
+      flex-wrap: nowrap !important;
+      width: max-content !important;
+      min-width: 100% !important;
+      padding: 6px 10px;
+      gap: 6px;
+    }
+
+    .mobile-tab {
+      flex: 0 0 auto !important;
+      white-space: nowrap !important;
+      font-size: 13px !important;
+      padding: 8px 10px !important;
+      border-radius: 8px;
+      background: #f8f8f8;
+      color: #333;
+    }
+
+    .mobile-tab.active {
+      background: #2563eb;
+      color: #fff;
+      font-weight: 600;
+    }
+
+    /* Осигурява място вдясно — иначе последните два таба се режат */
+    .mobile-nav-tabs::after {
+      content: "";
+      display: inline-block;
+      width: 70px;
+      flex-shrink: 0;
+    }
+
+    /* Скрива скрол бара */
+    .mobile-top-nav::-webkit-scrollbar {
+      display: none;
+    }
+  }
+  /* ===== MOBILE TAB VISIBILITY FIX (2025) ===== */
+  @media (max-width: 900px) {
+    .mobile-top-nav {
+      display: block;
+      width: 100%;
+      overflow-x: auto;
+      overflow-y: hidden;
+      white-space: nowrap;
+      background: var(--bg-light);
+      -webkit-overflow-scrolling: touch; /* за плавно скролиране на iPhone */
+    }
+
+    .mobile-nav-tabs {
+      display: inline-flex;
+      flex-wrap: nowrap;
+      width: max-content;
+      min-width: 100%;
+      padding: 5px 10px;
+    }
+
+    .mobile-tab {
+      flex: 0 0 auto;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 14px;
+      font-size: 14px;
+      white-space: nowrap;
+    }
+
+    .mobile-tab-icon {
+      margin-right: 6px;
+    }
+  }
+  /* ===== HARD MOBILE TAB FIX (FOR IPHONE) ===== */
+  .mobile-top-nav {
+    display: block !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    white-space: nowrap !important;
+    width: 100% !important;
+    background: var(--bg-light);
+    -webkit-overflow-scrolling: touch;
+    position: relative !important;
+    z-index: 1500 !important;
+  }
+
+  .mobile-nav-tabs {
+    display: inline-flex !important;
+    flex-wrap: nowrap !important;
+    min-width: 100% !important;
+    width: max-content !important;
+    padding: 6px 12px !important;
+  }
+
+  .mobile-tab {
+    flex: 0 0 auto !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 10px 14px !important;
+    font-size: 14px !important;
+    white-space: nowrap !important;
+  }
+
+  .mobile-tab-icon {
+    margin-right: 6px !important;
+  }
+  /* ===== FINAL FIX: MAKE ALL MOBILE TABS VISIBLE ===== */
+  @media (max-width: 900px) {
+    .mobile-top-nav {
+      display: block !important;
+      overflow-x: scroll !important;
+      overflow-y: hidden !important;
+      width: 100% !important;
+      white-space: nowrap !important;
+      background: var(--bg-light);
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(0,0,0,0.2) transparent;
+    }
+
+    .mobile-nav-tabs {
+      display: inline-flex !important;
+      flex-wrap: nowrap !important;
+      width: max-content !important;
+      min-width: 100%;
+      padding: 8px 10px !important;
+    }
+
+    .mobile-tab {
+      flex: 0 0 auto !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      padding: 8px 10px !important;
+      font-size: 13px !important;
+      white-space: nowrap !important;
+    }
+
+    .mobile-tab-icon {
+      font-size: 14px;
+      margin-right: 4px !important;
+    }
+  }
+  /* ===== FIX: Dropdowns / Modals blocked on mobile ===== */
+  select, .dropdown, .modal, .dialog, .popup, .select2-container, .autocomplete {
+    position: relative !important;
+    z-index: 99999 !important;
+  }
+
+  /* Освобождава overlay, който стои отгоре */
+  .mobile-nav-overlay,
+  .mobile-top-nav,
+  .sidebar-nav {
+    z-index: 10 !important;
+  }
+
+  /* Ако имаш backdrop/overlay със opacity (сив фон) */
+  .backdrop, .overlay {
+    z-index: 20 !important;
+    pointer-events: none !important;
+  }
+
+  /* Основно съдържание и popups над всичко */
+  .main-content, .content-wrapper, form, .page-content {
+    position: relative;
+    z-index: 50;
+  }
+  /* ===== UNIVERSAL SELECT DROPDOWN ARROW FIX ===== */
+  select {
+    appearance: none !important;
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    padding: 10px 35px 10px 10px; /* дясно място за стрелката */
+    font-size: 15px;
+    color: #000;
+    width: 100%;
+    background-image: url("data:image/svg+xml;utf8,<svg fill='%23666' height='16' viewBox='0 0 24 24' width='16' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 16px;
+    cursor: pointer;
+  }
+
+  /* За тъмна тема или цветен фон (по избор) */
+  select:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 2px rgba(37,99,235,0.25);
+  }
+
+/* ====== BLOG STYLES ====== */
+
+/* Blog Preview Section on Homepage */
+.blog-preview {
+  margin-top: 50px;
+  padding: 40px;
+  background: linear-gradient(135deg, #f5f7fa 0%, #e3e9f3 100%);
+  border-radius: 16px;
+  box-shadow: var(--shadow-medium);
+  border: 1px solid var(--border-color);
 }
 
-/* Освобождава overlay, който стои отгоре */
-.mobile-nav-overlay,
-.mobile-top-nav,
-.sidebar-nav {
-  z-index: 10 !important;
+.blog-preview-header {
+  text-align: center;
+  margin-bottom: 30px;
 }
 
-/* Ако имаш backdrop/overlay със opacity (сив фон) */
-.backdrop, .overlay {
-  z-index: 20 !important;
-  pointer-events: none !important;
+.blog-preview-header h2 {
+  font-size: 28px;
+  color: var(--text-primary);
+  margin-bottom: 10px;
 }
 
-/* Основно съдържание и popups над всичко */
-.main-content, .content-wrapper, form, .page-content {
-  position: relative;
-  z-index: 50;
+.blog-preview-header p {
+  font-size: 16px;
+  color: var(--text-secondary);
+}
+
+.blog-preview-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  padding: 30px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: var(--shadow-light);
+}
+
+.blog-preview-icon {
+  flex-shrink: 0;
+  color: var(--accent-color);
+  opacity: 0.8;
+}
+
+.blog-preview-text {
+  flex: 1;
+  max-width: 600px;
+}
+
+.blog-preview-text h3 {
+  font-size: 22px;
+  color: var(--text-primary);
+  margin-bottom: 15px;
+}
+
+.blog-preview-text p {
+  font-size: 15px;
+  color: var(--text-secondary);
+  margin-bottom: 20px;
+  line-height: 1.6;
+}
+
+.btn-blog {
+  display: inline-block;
+  padding: 12px 30px;
+  background: linear-gradient(135deg, var(--accent-color) 0%, #764ba2 100%);
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: var(--shadow-light);
+}
+
+.btn-blog:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-medium);
+}
+
+/* Blog Page Styles */
+.blog-header {
+  margin-bottom: 40px;
+}
+
+.blog-intro {
+  text-align: center;
+  padding: 40px 20px;
+  background: linear-gradient(135deg, #f5f7fa 0%, #e3e9f3 100%);
+  border-radius: 12px;
+  box-shadow: var(--shadow-light);
+}
+
+.blog-intro h2 {
+  font-size: 32px;
+  color: var(--text-primary);
+  margin-bottom: 15px;
+}
+
+.blog-intro p {
+  font-size: 16px;
+  color: var(--text-secondary);
+  margin-bottom: 25px;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.6;
+}
+
+.btn-primary {
+  display: inline-block;
+  padding: 12px 30px;
+  background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
+  color: white;
+  text-decoration: none;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: var(--shadow-light);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-medium);
+}
+
+/* Blog Posts Grid */
+.blog-posts {
+  margin-bottom: 50px;
+}
+
+.posts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 30px;
+  margin-top: 30px;
+}
+
+.post-card {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: var(--shadow-light);
+  transition: all 0.3s ease;
+  border: 1px solid var(--border-color);
+  display: flex;
+  flex-direction: column;
+}
+
+.post-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-medium);
+}
+
+.post-image {
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+  background: linear-gradient(135deg, #f5f7fa 0%, #e3e9f3 100%);
+}
+
+.post-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.post-card:hover .post-image img {
+  transform: scale(1.05);
+}
+
+.post-image-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, var(--accent-color) 0%, #764ba2 100%);
+}
+
+.placeholder-icon {
+  font-size: 48px;
+  opacity: 0.7;
+}
+
+.post-content {
+  padding: 25px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.post-meta {
+  margin-bottom: 12px;
+}
+
+.post-date {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.post-title {
+  font-size: 20px;
+  margin-bottom: 15px;
+  line-height: 1.4;
+}
+
+.post-title a {
+  color: var(--text-primary);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.post-title a:hover {
+  color: var(--accent-color);
+}
+
+.post-excerpt {
+  font-size: 14px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 20px;
+  flex: 1;
+}
+
+.post-footer {
+  margin-top: auto;
+}
+
+.read-more {
+  display: inline-block;
+  color: var(--accent-color);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.read-more:hover {
+  color: var(--primary-blue);
+  transform: translateX(5px);
+}
+
+/* Blog Empty State */
+.blog-empty {
+  text-align: center;
+  padding: 80px 20px;
+  background: linear-gradient(135deg, #f5f7fa 0%, #e3e9f3 100%);
+  border-radius: 12px;
+  border: 1px dashed var(--border-color);
+}
+
+.empty-icon {
+  font-size: 64px;
+  margin-bottom: 20px;
+  opacity: 0.5;
+}
+
+.blog-empty h3 {
+  font-size: 24px;
+  color: var(--text-primary);
+  margin-bottom: 10px;
+}
+
+.blog-empty p {
+  font-size: 16px;
+  color: var(--text-secondary);
+}
+
+.blog-empty a {
+  color: var(--accent-color);
+  text-decoration: underline;
+}
+
+/* Blog Footer Info Cards */
+.blog-footer-info {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  margin-top: 50px;
+}
+
+.info-card {
+  padding: 30px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: var(--shadow-light);
+  border: 1px solid var(--border-color);
+}
+
+.info-card h3 {
+  font-size: 20px;
+  color: var(--text-primary);
+  margin-bottom: 15px;
+}
+
+.info-card p {
+  font-size: 15px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.info-card a {
+  color: var(--accent-color);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.info-card a:hover {
+  text-decoration: underline;
+}
+
+/* Mobile Responsive Blog Styles */
+@media (max-width: 768px) {
+  .blog-preview {
+    padding: 25px 20px;
+    margin-top: 30px;
+  }
+
+  .blog-preview-content {
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+  }
+
+  .blog-preview-icon {
+    margin-bottom: 10px;
+  }
+
+  .blog-preview-icon svg {
+    width: 48px;
+    height: 48px;
+  }
+
+  .blog-preview-text {
+    text-align: center;
+  }
+
+  .blog-preview-header h2 {
+    font-size: 22px;
+  }
+
+  .blog-intro {
+    padding: 30px 15px;
+  }
+
+  .blog-intro h2 {
+    font-size: 24px;
+  }
+
+  .posts-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+
+  .blog-footer-info {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+}
+
+/* Print Styles for Blog */
+@media print {
+  .blog-preview,
+  .btn-blog,
+  .btn-primary,
+  .read-more {
+    display: none !important;
+  }
+
+  .post-card {
+    break-inside: avoid;
+    box-shadow: none;
+    border: 1px solid #ccc;
+  }
 }
