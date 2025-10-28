@@ -3,12 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Basic SEO Meta Tags -->
     <title>{% block title %}{% endblock %} - Si/SiC/GaN Транзистори</title>
+    <meta name="description" content="PowerLossCalc – калкулатор и анализатор за Si/SiC/GaN транзистори. Научна база данни с 2409 транзистора и 220 драйвера от водещи производители.">
+    <meta name="keywords" content="Si, SiC, GaN, транзистори, калкулатор, драйвери, мощност, загуби, електроника, power electronics, MOSFET, IGBT, gate driver">
+    <meta name="author" content="PowerLossCalc Engineering">
+    <link rel="canonical" href="https://powerlosscalc.onrender.com/">
+    <meta name="robots" content="index, follow">
+    <meta http-equiv="content-language" content="bg">
+    <meta name="google-site-verification" content="ZAzIF44ej7E-K_XKja6A8qiSNj6mejWUfO4rSDaNOqk">
+    
+    <!-- Open Graph Meta Tags (Facebook, LinkedIn, WhatsApp) -->
+    <meta property="og:title" content="PowerLossCalc – Si/SiC/GaN инженерни анализи">
+    <meta property="og:description" content="Научен калкулатор за Si/SiC/GaN транзистори с интегриран блог и инженерни анализи. 2409 транзистора, 220 драйвера, всички с datasheet параметри.">
+    <meta property="og:image" content="{{ url_for('static', filename='images/og-image.png', _external=True) }}">
+    <meta property="og:url" content="https://powerlosscalc.onrender.com/">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="PowerLossCalc">
+    <meta property="og:locale" content="bg_BG">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="PowerLossCalc – Si/SiC/GaN Calculator">
+    <meta name="twitter:description" content="Професионален инженерен калкулатор за анализ на Si/SiC/GaN транзистори с 2409 реални модела от производители.">
+    <meta name="twitter:image" content="{{ url_for('static', filename='images/og-image.png', _external=True) }}">
+    
+    <!-- Theme Color for Mobile Browsers -->
+    <meta name="theme-color" content="#667eea">
+    
+    <!-- Apple iOS Meta Tags -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="PowerLossCalc">
+    
+    <!-- Structured Data (Schema.org JSON-LD) -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "PowerLossCalc - Si/SiC/GaN Transistor Calculator",
+      "description": "Професионален инженерен калкулатор за анализ на Si/SiC/GaN транзистори с научна база данни",
+      "url": "https://powerlosscalc.onrender.com/",
+      "applicationCategory": "EngineeringApplication",
+      "operatingSystem": "Any",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      },
+      "author": {
+        "@type": "Organization",
+        "name": "PowerLossCalc Engineering",
+        "url": "https://powerlosscalc.wordpress.com"
+      }
+    }
+    </script>
+    
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     {% block extra_head %}{% endblock %}
-    <meta name="description" content="Професионален калкулатор за Si/SiC/GaN транзистори с научни анализи">
-    <meta name="keywords" content="транзистор, калкулатор, SiC, GaN, силиций, ефективност">
-    <meta name="google-site-verification" content="ZAzIF44ej7E-K_XKja6A8qiSNj6mejWUfO4rSDaNOqk">
 </head>
 <body class="scientific-app">
     <!-- Mobile Navigation Toggle -->
@@ -117,6 +170,14 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a href="{{ url_for('blog') }}" class="nav-link {% if request.endpoint == 'blog' %}active{% endif %}"
+                       data-tooltip="Блог статии за Si/SiC/GaN технологии" role="menuitem">
+                        <span class="nav-icon">📝</span>
+                        <span class="nav-text">Блог</span>
+                        <div class="nav-tooltip">Блог статии за Si/SiC/GaN технологии</div>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a href="{{ url_for('contact') }}" class="nav-link {% if request.endpoint == 'contact' %}active{% endif %}"
                        data-tooltip="Свържете се с нас за въпроси и консултации" role="menuitem">
                         <span class="nav-icon">📧</span>
@@ -173,6 +234,10 @@
             <a href="{{ url_for('tools') }}" class="mobile-tab {% if request.endpoint == 'tools' %}active{% endif %}">
                 <span class="mobile-tab-icon">⚙️</span>
                 <span class="mobile-tab-text">Инструменти</span>
+            </a>
+            <a href="{{ url_for('blog') }}" class="mobile-tab {% if request.endpoint == 'blog' %}active{% endif %}">
+                <span class="mobile-tab-icon">📝</span>
+                <span class="mobile-tab-text">Блог</span>
             </a>
             <a href="{{ url_for('contact') }}" class="mobile-tab {% if request.endpoint == 'contact' %}active{% endif %}">
                 <span class="mobile-tab-icon">📧</span>
