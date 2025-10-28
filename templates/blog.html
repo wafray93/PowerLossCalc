@@ -1,21 +1,32 @@
 {% extends "base.html" %}
 
-{% block title %}Блог{% endblock %}
+{% block title %}Блог – PowerLossCalc{% endblock %}
 
-{% block page_title %}<span data-lang="blogPageTitle">Блог – Новини и статии</span>{% endblock %}
+{% block page_title %}
+<span data-lang="blogPageTitle">Блог – Научни статии и инженерни анализи</span>
+{% endblock %}
 
-{% block page_description %}<span data-lang="blogPageDescription">Последни новини и статии за Si/SiC/GaN технологии, power electronics и инженерни анализи.</span>{% endblock %}
+{% block page_description %}
+<span data-lang="blogPageDescription">
+Актуални публикации за Si/SiC/GaN технологии, power electronics и инженерни решения.
+</span>
+{% endblock %}
 
 {% block content %}
 <section class="blog-header">
   <div class="blog-intro">
     <h2><span data-lang="blogTitle">Научни статии и инженерни анализи</span></h2>
-    <p data-lang="blogIntro">Следете последните новини, tutorials и научни публикации за Si/SiC/GaN транзистори, gate драйвери и power electronics дизайн.</p>
+    <p data-lang="blogIntro">
+      Изследвания, сравнения и практически материали по теми за Si, SiC и GaN транзистори,
+      драйвери и power electronics дизайн. Всички статии са базирани на реални експерименти и datasheet данни.
+    </p>
     <a href="{{ blog_url }}" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
-      <span data-lang="visitWordPress">Посети пълния блог в WordPress →</span>
+      <span data-lang="visitWordPress">🔗 Посети пълния блог в WordPress</span>
     </a>
   </div>
 </section>
+
+<hr class="section-divider">
 
 <section class="blog-posts">
   {% if posts %}
@@ -33,7 +44,7 @@
         <div class="post-content">
           {% if post.date_formatted %}
           <div class="post-meta">
-            <span class="post-date">{{ post.date_formatted }}</span>
+            <span class="post-date">🗓 {{ post.date_formatted }}</span>
           </div>
           {% endif %}
           
@@ -42,37 +53,44 @@
           </h3>
           
           {% if post.description %}
-          <div class="post-excerpt">
-            {{ post.description[:200] }}{% if post.description|length > 200 %}...{% endif %}
-          </div>
+          <p class="post-excerpt">
+            {{ post.description[:220] }}{% if post.description|length > 220 %}...{% endif %}
+          </p>
           {% endif %}
           
-          <div class="post-footer">
-            <a href="{{ post.link }}" target="_blank" rel="noopener noreferrer" class="read-more">
-              <span data-lang="readMore">Прочети повече →</span>
-            </a>
-          </div>
+          <a href="{{ post.link }}" target="_blank" rel="noopener noreferrer" class="read-more">
+            <span data-lang="readMore">➡ Прочети повече</span>
+          </a>
         </div>
       </article>
       {% endfor %}
     </div>
   {% else %}
     <div class="blog-empty">
-      <h3 data-lang="noPosts">Няма налични статии</h3>
-      <p data-lang="noPostsDesc">Моля, проверете <a href="{{ blog_url }}" target="_blank">WordPress блога</a> директно.</p>
+      <h3 data-lang="noPosts">Няма публикувани статии</h3>
+      <p data-lang="noPostsDesc">
+        Проверете директно <a href="{{ blog_url }}" target="_blank">PowerLossCalc WordPress блога</a> за нови публикации.
+      </p>
     </div>
   {% endif %}
 </section>
 
+<hr class="section-divider">
+
 <section class="blog-footer-info">
   <div class="info-card">
     <h3><span data-lang="aboutBlog">За блога</span></h3>
-    <p data-lang="aboutBlogDesc">Блогът съдържа научни статии, практически примери и инженерни анализи за power electronics приложения. Всички статии са базирани на актуални изследвания и реални datasheet параметри.</p>
+    <p data-lang="aboutBlogDesc">
+      PowerLossCalc Blog комбинира научни статии и инженерни анализи по теми като SiC, GaN, MOSFET и драйверни системи.
+      Целта е да предостави на специалисти и студенти реални сравнения, аналитични методи и примери за симулации.
+    </p>
   </div>
   
   <div class="info-card">
-    <h3><span data-lang="stayUpdated">Бъдете информирани</span></h3>
-    <p data-lang="stayUpdatedDesc">Посетете <a href="{{ blog_url }}" target="_blank">PowerLossCalc WordPress</a> за да се абонирате за email известия при нови публикации.</p>
+    <h3><span data-lang="stayUpdated">Абонирайте се</span></h3>
+    <p data-lang="stayUpdatedDesc">
+      Следете <a href="{{ blog_url }}" target="_blank">PowerLossCalc WordPress</a> за нови публикации и инженерни материали.
+    </p>
   </div>
 </section>
 {% endblock %}
