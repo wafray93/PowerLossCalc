@@ -362,10 +362,7 @@ body.nav-open {
 
 /* Navigation Footer */
 .nav-footer {
-  position: absolute;
-  bottom: 20px;
-  left: 0;
-  right: 0;
+  margin-top: 40px;
   padding: 15px 20px;
   border-top: 1px solid var(--border-color);
   text-align: center;
