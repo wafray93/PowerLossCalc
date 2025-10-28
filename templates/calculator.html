@@ -31,7 +31,7 @@
       <span class="tooltip-icon">?</span>
       <div class="tooltip">
         <strong>📊 Източник на данни:</strong><br>
-        Всички параметри идват от официални manufacturer datasheets. В базата данни има над +3000 реални транзистора от водещи производители (Infineon, STMicroelectronics, Wolfspeed, GaN Systems и др.).<br><br>
+        Всички параметри идват от официални manufacturer datasheets. В базата данни има над 2400 реални транзистора от водещи производители (Infineon, STMicroelectronics, Wolfspeed, GaN Systems, Rohm, Vishay и др.).<br><br>
         <strong>🔧 Как да използвам:</strong><br>
         • Въведете точния модел от datasheet (напр. "C3M0075120K")<br>
         • Или изберете от предложените опции<br>
@@ -148,4 +148,27 @@
   <h3 id="termTitle"></h3>
   <div id="termContent"></div>
 </div>
+
+<!-- Blog Preview Section -->
+<section class="blog-preview">
+  <div class="blog-preview-header">
+    <h2><span data-lang="latestArticles">Последни статии от блога</span></h2>
+    <p data-lang="blogPreviewDesc">Следете новостите в Si/SiC/GaN технологията, tutorials и инженерни анализи</p>
+  </div>
+  <div class="blog-preview-content">
+    <div class="blog-preview-icon">
+      <svg viewBox="0 0 24 24" width="64" height="64" fill="currentColor">
+        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
+      </svg>
+    </div>
+    <div class="blog-preview-text">
+      <h3 data-lang="exploreBlog">Научни статии, практически примери и актуални изследвания</h3>
+      <p data-lang="exploreBlogDesc">Прочетете задълбочени анализи за power electronics, дизайн на преобразуватели и оптимизация на ефективността.</p>
+      <a href="{{ url_for('blog') }}" class="btn btn-blog">
+        <span data-lang="visitBlog">Към блога →</span>
+      </a>
+    </div>
+  </div>
+</section>
+
 {% endblock %}
