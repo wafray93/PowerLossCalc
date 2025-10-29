@@ -105,7 +105,7 @@ def contact():
 # WordPress Blog RSS Feed Integration
 RSS_FEED_URL = 'https://powerlosscalc.wordpress.com/feed/'
 blog_cache = {'posts': [], 'timestamp': None}
-CACHE_DURATION = timedelta(hours=1)  # Cache for 1 hour
+CACHE_DURATION = timedelta(minutes=10)  # Cache for 10 minutes
 
 
 def fetch_wordpress_posts(limit=10):
