@@ -4,24 +4,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}{% endblock %} - Si/SiC/GaN Транзистори</title>
+
+    <!-- ✅ Основен CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
     {% block extra_head %}{% endblock %}
+
+    <!-- ✅ SEO и описание -->
     <meta name="description" content="Професионален калкулатор за Si/SiC/GaN транзистори с научни анализи">
     <meta name="keywords" content="транзистор, калкулатор, SiC, GaN, силиций, ефективност">
     <meta name="google-site-verification" content="ZAzIF44ej7E-K_XKja6A8qiSNj6mejWUfO4rSDaNOqk">
-    <!-- ✅ Ново: RSS и Sitemap -->
+
+    <!-- ✅ RSS и Sitemap -->
     <link rel="alternate" type="application/rss+xml" title="PowerLossCalc Blog" href="https://powerlosscalc.wordpress.com/feed/">
     <link rel="sitemap" type="application/xml" title="Sitemap" href="https://powerlosscalc.onrender.com/sitemap.xml">
-    <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-309BT9LM4P"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
 
-  gtag('config', 'G-309BT9LM4P');
-</script>
+    <!-- ✅ Google Analytics (GA4) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-309BT9LM4P"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-309BT9LM4P');
+    </script>
+
+    <!-- ✅ Google AdSense (потвърждение на собствеността) -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-780296407797328"
+            crossorigin="anonymous"></script>
 </head>
+
 <body class="scientific-app">
     <!-- Mobile Navigation Toggle -->
     <div class="mobile-nav-toggle" onclick="toggleMobileNav()" aria-label="Отваряне на навигация" role="button" tabindex="0">
@@ -46,7 +57,7 @@
                     <span class="subtitle">Научно инженерно приложение</span>
                 </div>
             </div>
-            
+
             <!-- Language Switcher -->
             <div class="language-switcher">
                 <button id="langBG" class="lang-btn active" onclick="switchLanguage('bg', this)" aria-label="Български език">БГ</button>
@@ -96,6 +107,7 @@
         </div>
     </nav>
 
+    <!-- Main Content -->
     <main class="main-content">
         <div class="content-wrapper">
             <div class="page-header">
@@ -106,6 +118,7 @@
         </div>
     </main>
 
+    <!-- Footer -->
     <footer class="app-footer">
         <div class="footer-content">
             <div class="footer-section">
