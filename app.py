@@ -3,7 +3,7 @@ import xml.etree.ElementTree as ET
 from datetime import datetime, timedelta
 from urllib.request import urlopen
 from urllib.error import URLError
-from flask import Flask, render_template, redirect, url_for
+from flask import Flask, render_template, redirect, url_for, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import DeclarativeBase
 from werkzeug.middleware.proxy_fix import ProxyFix
@@ -102,6 +102,12 @@ def contact():
     return render_template('contact.html')
 
 
+# ✅ Добавено: AdSense ads.txt маршрут
+@app.route('/ads.txt')
+def serve_ads_txt():
+    return send_from_directory('static', 'ads.txt')
+
+
 # WordPress Blog RSS Feed Integration
 RSS_FEED_URL = 'https://powerlosscalc.wordpress.com/feed/'
 blog_cache = {'posts': [], 'timestamp': None}
@@ -111,38 +117,37 @@ CACHE_DURATION = timedelta(minutes=10)  # Cache for 10 minutes
 def fetch_wordpress_posts(limit=10):
     """Fetch latest posts from WordPress RSS feed with caching"""
     global blog_cache
-    
+
     # Check cache
     if blog_cache['timestamp'] and datetime.now() - blog_cache['timestamp'] < CACHE_DURATION:
         return blog_cache['posts']
-    
+
     posts = []
     try:
         # Fetch RSS feed
         with urlopen(RSS_FEED_URL, timeout=10) as response:
             content = response.read()
-        
+
         # Parse XML
         root = ET.fromstring(content)
-        
+
         # Find all items (posts)
         for item in root.findall('.//item')[:limit]:
             post = {}
-            
+
             # Extract basic fields
             title_elem = item.find('title')
             link_elem = item.find('link')
             desc_elem = item.find('description')
             pub_date_elem = item.find('pubDate')
-            
+
             post['title'] = title_elem.text if title_elem is not None else 'Без заглавие'
             post['link'] = link_elem.text if link_elem is not None else '#'
             post['description'] = desc_elem.text if desc_elem is not None else ''
-            
+
             # Parse date
             if pub_date_elem is not None and pub_date_elem.text:
                 try:
-                    # WordPress RSS date format: "Wed, 27 Oct 2025 10:30:00 +0000"
                     date_str = pub_date_elem.text
                     post['date'] = datetime.strptime(date_str, '%a, %d %b %Y %H:%M:%S %z')
                     post['date_formatted'] = post['date'].strftime('%d.%m.%Y')
@@ -152,36 +157,29 @@ def fetch_wordpress_posts(limit=10):
             else:
                 post['date'] = None
                 post['date_formatted'] = ''
-            
-            # Try to extract image from content:encoded or media:thumbnail
+
+            # Try to extract image
             image_url = None
-            
-            # Check for media:thumbnail
             for child in item:
                 if 'thumbnail' in child.tag:
                     image_url = child.attrib.get('url', None)
                     break
-            
-            # Check for content:encoded with <img> tag
+
             if not image_url:
                 content_elem = item.find('.//{http://purl.org/rss/1.0/modules/content/}encoded')
                 if content_elem is not None and content_elem.text:
-                    # Simple regex to find first image
                     import re
                     img_match = re.search(r'<img[^>]+src=["\']([^"\']+)["\']', content_elem.text)
                     if img_match:
                         image_url = img_match.group(1)
-            
+
             post['image'] = image_url if image_url else None
-            
             posts.append(post)
-        
-        # Update cache
+
         blog_cache['posts'] = posts
         blog_cache['timestamp'] = datetime.now()
-        
-    except URLError as e:
-        # Network error - return cached data if available
+
+    except URLError:
         if blog_cache['posts']:
             return blog_cache['posts']
         posts = [{
@@ -192,7 +190,6 @@ def fetch_wordpress_posts(limit=10):
             'image': None
         }]
     except Exception as e:
-        # XML parsing error or other error
         if blog_cache['posts']:
             return blog_cache['posts']
         posts = [{
@@ -202,7 +199,7 @@ def fetch_wordpress_posts(limit=10):
             'date_formatted': '',
             'image': None
         }]
-    
+
     return posts
 
 
