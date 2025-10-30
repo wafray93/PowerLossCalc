@@ -107,6 +107,11 @@ def contact():
 def serve_ads_txt():
     return send_from_directory('static', 'ads.txt')
 
+# ✅ Добавено: robots.txt маршрут
+@app.route('/robots.txt')
+def serve_robots_txt():
+    return send_from_directory('static', 'robots.txt')
+
 
 # WordPress Blog RSS Feed Integration
 RSS_FEED_URL = 'https://powerlosscalc.wordpress.com/feed/'
