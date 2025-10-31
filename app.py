@@ -30,7 +30,7 @@ app.config["SQLALCHEMY_ENGINE_OPTIONS"] = {
 
 db.init_app(app)
 
-# ✅ Create DB tables and visitor counter
+# ✅ Create DB tables and visitor counter (first run bootstrap)
 with app.app_context():
     import models
     db.create_all()
@@ -46,7 +46,9 @@ with app.app_context():
 @app.before_request
 def increment_visitor_counter():
     from flask import request
-    if request.endpoint and request.endpoint != 'static':
+    # не броим заявки за статични файлове, sitemap, robots, ads.txt
+    skip_endpoints = {'static', 'serve_sitemap', 'serve_ads_txt', 'serve_robots_txt'}
+    if request.endpoint and request.endpoint not in skip_endpoints:
         counter = models.VisitorCounter.query.first()
         if counter:
             counter.count += 1
@@ -66,7 +68,7 @@ def index():
     return redirect(url_for('calculator'))
 
 
-# ✅ Page routes
+# ✅ Main app pages
 @app.route('/calculator')
 def calculator():
     return render_template('calculator.html')
@@ -107,7 +109,7 @@ def contact():
     return render_template('contact.html')
 
 
-# ✅ Serve static verification files
+# ✅ Serve static verification / SEO files
 @app.route('/ads.txt')
 def serve_ads_txt():
     return send_from_directory('static', 'ads.txt')
@@ -133,6 +135,7 @@ def fetch_wordpress_posts(limit=10):
     """Fetch latest posts from WordPress RSS feed with caching"""
     global blog_cache
 
+    # cache hit?
     if blog_cache['timestamp'] and datetime.now() - blog_cache['timestamp'] < CACHE_DURATION:
         return blog_cache['posts']
 
@@ -154,18 +157,20 @@ def fetch_wordpress_posts(limit=10):
             post['link'] = link_elem.text if link_elem is not None else '#'
             post['description'] = desc_elem.text if desc_elem is not None else ''
 
+            # дата
             if pub_date_elem is not None and pub_date_elem.text:
                 try:
                     date_str = pub_date_elem.text
                     post['date'] = datetime.strptime(date_str, '%a, %d %b %Y %H:%M:%S %z')
                     post['date_formatted'] = post['date'].strftime('%d.%m.%Y')
-                except:
+                except Exception:
                     post['date'] = None
                     post['date_formatted'] = ''
             else:
                 post['date'] = None
                 post['date_formatted'] = ''
 
+            # опитай да намериш картинка
             image_url = None
             for child in item:
                 if 'thumbnail' in child.tag:
@@ -187,6 +192,7 @@ def fetch_wordpress_posts(limit=10):
         blog_cache['timestamp'] = datetime.now()
 
     except URLError:
+        # fallback към кеша ако има
         if blog_cache['posts']:
             return blog_cache['posts']
         posts = [{
@@ -222,13 +228,47 @@ def not_found(error):
     return render_template('404.html'), 404
 
 
-# ✅ Security Header: HSTS
+# ✅ Security Headers (improves HSTS / CSP / etc.)
 @app.after_request
 def add_security_headers(response: Response):
+    # Force HTTPS for 1 year + subdomains
     response.headers['Strict-Transport-Security'] = 'max-age=31536000; includeSubDomains; preload'
+
+    # Prevent clickjacking
+    response.headers['X-Frame-Options'] = 'SAMEORIGIN'
+
+    # Block MIME sniffing
+    response.headers['X-Content-Type-Options'] = 'nosniff'
+
+    # Control how much referrer info is leaked
+    response.headers['Referrer-Policy'] = 'strict-origin-when-cross-origin'
+
+    # Lock down dangerous browser features (camera, mic, etc.)
+    response.headers['Permissions-Policy'] = (
+        "geolocation=(), microphone=(), camera=(), payment=()"
+    )
+
+    # Content Security Policy
+    # Разрешаваме:
+    #  - нашия собствен домейн ('self')
+    #  - Google Tag Manager / Analytics (gtag)
+    #  - AdSense (pagead2.googlesyndication.com)
+    #  - стилове от self (и inline стилистика 'unsafe-inline' защото имаш inline <style>)
+    #  - изображения от self, data:, google, ads
+    response.headers['Content-Security-Policy'] = (
+        "default-src 'self'; "
+        "script-src 'self' https://www.googletagmanager.com https://pagead2.googlesyndication.com; "
+        "img-src 'self' data: https://www.google.com https://pagead2.googlesyndication.com; "
+        "style-src 'self' 'unsafe-inline'; "
+        "frame-src https://www.youtube.com https://pagead2.googlesyndication.com; "
+        "connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com;"
+    )
+
     return response
 
 
 # ✅ Run app
 if __name__ == '__main__':
+    # debug=True е окей за разработка.
+    # когато го пуснеш в production (Render), той така или иначе стартира с gunicorn.
     app.run(host='0.0.0.0', port=5000, debug=True)
