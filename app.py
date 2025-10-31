@@ -107,6 +107,12 @@ def contact():
 def serve_ads_txt():
     return send_from_directory('static', 'ads.txt')
 
+# ✅ Sitemap XML (за Google Search Console)
+@app.route('/sitemap.xml')
+def serve_sitemap():
+    return send_from_directory('static', 'sitemap.xml')
+
+
 # ✅ Добавено: robots.txt маршрут
 @app.route('/robots.txt')
 def serve_robots_txt():
