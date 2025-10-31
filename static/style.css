@@ -3463,7 +3463,7 @@ footer {
 /* Recommended Drivers Grid */
 .recommended-drivers-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(420px, 1fr));
   gap: 20px;
   margin-top: 20px;
 }
@@ -3476,7 +3476,7 @@ footer {
   cursor: pointer;
   transition: all 0.3s ease;
   position: relative;
-  overflow: hidden;
+  overflow: visible;
 }
 
 .driver-card::before {
