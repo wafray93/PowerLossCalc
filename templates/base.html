@@ -37,6 +37,9 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="PowerLossCalc">
     
+    <!-- Content Security Policy -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://www.googletagmanager.com https://pagead2.googlesyndication.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' data:; connect-src 'self';">
+    
     <!-- Structured Data (Schema.org JSON-LD) -->
     <script type="application/ld+json">
     {
@@ -340,10 +343,5 @@
     </script>
 
     {% block extra_scripts %}{% endblock %}
-        <!-- ✅ Global JavaScript logic -->
-   <script src="{{ url_for('static', filename='script.js') }}"></script>
-  </body>
-</html>
-
 </body>
 </html>
