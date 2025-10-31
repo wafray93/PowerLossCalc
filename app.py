@@ -3,36 +3,38 @@ import xml.etree.ElementTree as ET
 from datetime import datetime, timedelta
 from urllib.request import urlopen
 from urllib.error import URLError
-from flask import Flask, render_template, redirect, url_for, send_from_directory
+from flask import Flask, render_template, redirect, url_for, send_from_directory, Response
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import DeclarativeBase
 from werkzeug.middleware.proxy_fix import ProxyFix
 
 
+# ✅ Database Base Model
 class Base(DeclarativeBase):
     pass
 
 
 db = SQLAlchemy(model_class=Base)
-# create the app
+
+# ✅ Flask App Config
 app = Flask(__name__)
 app.secret_key = os.environ.get("SESSION_SECRET")
 app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_host=1)
 
-# configure the database
+# ✅ Database configuration
 app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DATABASE_URL")
 app.config["SQLALCHEMY_ENGINE_OPTIONS"] = {
     "pool_recycle": 300,
     "pool_pre_ping": True,
 }
-# initialize the app with the extension
+
 db.init_app(app)
 
+# ✅ Create DB tables and visitor counter
 with app.app_context():
     import models
     db.create_all()
 
-    # Initialize counter if not exists
     if models.VisitorCounter.query.first() is None:
         counter = models.VisitorCounter()
         counter.count = 0
@@ -40,10 +42,10 @@ with app.app_context():
         db.session.commit()
 
 
+# ✅ Count visitors (excluding static assets)
 @app.before_request
 def increment_visitor_counter():
     from flask import request
-    # Don't count static file requests
     if request.endpoint and request.endpoint != 'static':
         counter = models.VisitorCounter.query.first()
         if counter:
@@ -51,17 +53,20 @@ def increment_visitor_counter():
             db.session.commit()
 
 
+# ✅ Inject visitor count for templates
 @app.context_processor
 def inject_visitor_count():
     counter = models.VisitorCounter.query.first()
     return dict(visitor_count=counter.count if counter else 0)
 
 
+# ✅ Homepage redirect
 @app.route('/')
 def index():
     return redirect(url_for('calculator'))
 
 
+# ✅ Page routes
 @app.route('/calculator')
 def calculator():
     return render_template('calculator.html')
@@ -102,51 +107,44 @@ def contact():
     return render_template('contact.html')
 
 
-# ✅ Добавено: AdSense ads.txt маршрут
+# ✅ Serve static verification files
 @app.route('/ads.txt')
 def serve_ads_txt():
     return send_from_directory('static', 'ads.txt')
 
-# ✅ Sitemap XML (за Google Search Console)
+
 @app.route('/sitemap.xml')
 def serve_sitemap():
     return send_from_directory('static', 'sitemap.xml')
 
 
-# ✅ Добавено: robots.txt маршрут
 @app.route('/robots.txt')
 def serve_robots_txt():
     return send_from_directory('static', 'robots.txt')
 
 
-# WordPress Blog RSS Feed Integration
+# ✅ WordPress Blog RSS Feed Integration
 RSS_FEED_URL = 'https://powerlosscalc.wordpress.com/feed/'
 blog_cache = {'posts': [], 'timestamp': None}
-CACHE_DURATION = timedelta(minutes=10)  # Cache for 10 minutes
+CACHE_DURATION = timedelta(minutes=10)
 
 
 def fetch_wordpress_posts(limit=10):
     """Fetch latest posts from WordPress RSS feed with caching"""
     global blog_cache
 
-    # Check cache
     if blog_cache['timestamp'] and datetime.now() - blog_cache['timestamp'] < CACHE_DURATION:
         return blog_cache['posts']
 
     posts = []
     try:
-        # Fetch RSS feed
         with urlopen(RSS_FEED_URL, timeout=10) as response:
             content = response.read()
 
-        # Parse XML
         root = ET.fromstring(content)
 
-        # Find all items (posts)
         for item in root.findall('.//item')[:limit]:
             post = {}
-
-            # Extract basic fields
             title_elem = item.find('title')
             link_elem = item.find('link')
             desc_elem = item.find('description')
@@ -156,7 +154,6 @@ def fetch_wordpress_posts(limit=10):
             post['link'] = link_elem.text if link_elem is not None else '#'
             post['description'] = desc_elem.text if desc_elem is not None else ''
 
-            # Parse date
             if pub_date_elem is not None and pub_date_elem.text:
                 try:
                     date_str = pub_date_elem.text
@@ -169,7 +166,6 @@ def fetch_wordpress_posts(limit=10):
                 post['date'] = None
                 post['date_formatted'] = ''
 
-            # Try to extract image
             image_url = None
             for child in item:
                 if 'thumbnail' in child.tag:
@@ -216,10 +212,23 @@ def fetch_wordpress_posts(limit=10):
 
 @app.route('/blog')
 def blog():
-    """Blog page showing WordPress posts"""
     posts = fetch_wordpress_posts(limit=10)
     return render_template('blog.html', posts=posts, blog_url='https://powerlosscalc.wordpress.com')
 
 
+# ✅ Custom 404 Error Page
+@app.errorhandler(404)
+def not_found(error):
+    return render_template('404.html'), 404
+
+
+# ✅ Security Header: HSTS
+@app.after_request
+def add_security_headers(response: Response):
+    response.headers['Strict-Transport-Security'] = 'max-age=31536000; includeSubDomains; preload'
+    return response
+
+
+# ✅ Run app
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000, debug=True)
