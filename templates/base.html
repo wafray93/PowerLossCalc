@@ -1,145 +1,172 @@
 <!DOCTYPE html>
 <html lang="bg">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}{% endblock %} - Si/SiC/GaN Транзистори</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}{% endblock %} - Si/SiC/GaN Транзистори</title>
 
-    <!-- ✅ Основен CSS -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <!-- ✅ Основен CSS -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 
-    {% block extra_head %}{% endblock %}
+  {% block extra_head %}{% endblock %}
 
-    <!-- ✅ SEO и описание -->
-    <meta name="description" content="Професионален калкулатор за Si/SiC/GaN транзистори с научни анализи">
-    <meta name="keywords" content="транзистор, калкулатор, SiC, GaN, силиций, ефективност">
-    <meta name="google-site-verification" content="ZAzIF44ej7E-K_XKja6A8qiSNj6mejWUfO4rSDaNOqk">
+  <!-- ✅ SEO и описание -->
+  <meta name="description" content="Професионален калкулатор за Si/SiC/GaN транзистори с научни анализи">
+  <meta name="keywords" content="транзистор, калкулатор, SiC, GaN, силиций, ефективност">
+  <meta name="google-site-verification" content="ZAzIF44ej7E-K_XKja6A8qiSNj6mejWUfO4rSDaNOqk">
 
-    <!-- ✅ RSS и Sitemap -->
-    <link rel="alternate" type="application/rss+xml" title="PowerLossCalc Blog" href="https://powerlosscalc.wordpress.com/feed/">
-    <link rel="sitemap" type="application/xml" title="Sitemap" href="https://powerlosscalc.onrender.com/sitemap.xml">
+  <!-- ✅ Open Graph / Social Media -->
+  <meta property="og:title" content="PowerLossCalc – Калкулатор за Si/SiC/GaN транзистори">
+  <meta property="og:description" content="Професионален калкулатор с научни анализи за Si, SiC и GaN транзистори.">
+  <meta property="og:image" content="https://powerlosscalc.onrender.com/static/preview.png">
+  <meta property="og:url" content="https://powerlosscalc.onrender.com">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
 
-    <!-- ✅ Google Analytics (GA4) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-309BT9LM4P"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-309BT9LM4P');
-    </script>
+  <!-- ✅ Favicon -->
+  <link rel="icon" href="/static/favicon.ico" type="image/x-icon">
 
-    <!-- ✅ Google AdSense (потвърждение на собствеността) -->
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-780296407797328"
-            crossorigin="anonymous"></script>
-    <!-- Canonical URL -->
-{% block canonical %}{% endblock %}
+  <!-- ✅ RSS и Sitemap -->
+  <link rel="alternate" type="application/rss+xml" title="PowerLossCalc Blog" href="https://powerlosscalc.wordpress.com/feed/">
+  <link rel="sitemap" type="application/xml" title="Sitemap" href="https://powerlosscalc.onrender.com/sitemap.xml">
 
+  <!-- ✅ Google Analytics (с defer за по-бързо зареждане) -->
+  <script src="https://www.googletagmanager.com/gtag/js?id=G-309BT9LM4P" defer></script>
+  <script defer>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-309BT9LM4P');
+  </script>
+
+  <!-- ✅ Google AdSense -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-780296407797328" crossorigin="anonymous"></script>
+
+  <!-- ✅ Canonical URL -->
+  {% block canonical %}{% endblock %}
+
+  <!-- ✅ Structured Data (JSON-LD) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Power Loss Calculator",
+    "url": "https://powerlosscalc.onrender.com",
+    "description": "Професионален калкулатор за Si, SiC и GaN транзистори с научни анализи и инструменти.",
+    "publisher": {
+      "@type": "Organization",
+      "name": "PowerLossCalc",
+      "url": "https://powerlosscalc.onrender.com"
+    }
+  }
+  </script>
 </head>
 
 <body class="scientific-app">
-    <!-- Mobile Navigation Toggle -->
-    <div class="mobile-nav-toggle" onclick="toggleMobileNav()" aria-label="Отваряне на навигация" role="button" tabindex="0">
-        <div class="hamburger-icon">
-            <span></span>
-            <span></span>
-            <span></span>
+  <!-- Mobile Navigation Toggle -->
+  <div class="mobile-nav-toggle" onclick="toggleMobileNav()" aria-label="Отваряне на навигация" role="button" tabindex="0">
+    <div class="hamburger-icon">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header class="app-header">
+    <div class="header-content">
+      <div class="app-title">
+        <div class="app-logo">
+          <svg viewBox="0 0 24 24" width="32" height="32" fill="currentColor">
+            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+          </svg>
         </div>
+        <div class="title-text">
+          <h1>Si/SiC/GaN Calculator</h1>
+          <span class="subtitle">Научно инженерно приложение</span>
+        </div>
+      </div>
+
+      <!-- Language Switcher -->
+      <div class="language-switcher">
+        <button id="langBG" class="lang-btn active" onclick="switchLanguage('bg', this)" aria-label="Български език">БГ</button>
+        <button id="langEN" class="lang-btn" onclick="switchLanguage('en', this)" aria-label="English language">EN</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Sidebar Navigation -->
+  <nav class="sidebar-nav" id="sidebarNav" role="navigation" aria-label="Основна навигация">
+    <div class="nav-section">
+      <h3 class="nav-section-title">Основни инструменти</h3>
+      <ul class="nav-menu">
+        <li class="nav-item"><a href="{{ url_for('calculator') }}" class="nav-link {% if request.endpoint == 'calculator' %}active{% endif %}"><span class="nav-icon">📊</span><span class="nav-text">Калкулатор</span></a></li>
+        <li class="nav-item"><a href="{{ url_for('analysis') }}" class="nav-link {% if request.endpoint == 'analysis' %}active{% endif %}"><span class="nav-icon">📈</span><span class="nav-text">Анализ</span></a></li>
+      </ul>
     </div>
 
-    <!-- Header -->
-    <header class="app-header">
-        <div class="header-content">
-            <div class="app-title">
-                <div class="app-logo">
-                    <svg viewBox="0 0 24 24" width="32" height="32" fill="currentColor">
-                        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-                    </svg>
-                </div>
-                <div class="title-text">
-                    <h1>Si/SiC/GaN Calculator</h1>
-                    <span class="subtitle">Научно инженерно приложение</span>
-                </div>
-            </div>
+    <div class="nav-section">
+      <h3 class="nav-section-title">Разширени инструменти</h3>
+      <ul class="nav-menu">
+        <li class="nav-item"><a href="{{ url_for('advanced') }}" class="nav-link {% if request.endpoint == 'advanced' %}active{% endif %}"><span class="nav-icon">🔬</span><span class="nav-text">Разширен</span></a></li>
+        <li class="nav-item"><a href="{{ url_for('database') }}" class="nav-link {% if request.endpoint == 'database' %}active{% endif %}"><span class="nav-icon">📚</span><span class="nav-text">База данни</span></a></li>
+        <li class="nav-item"><a href="{{ url_for('drivers') }}" class="nav-link {% if request.endpoint == 'drivers' %}active{% endif %}"><span class="nav-icon">🔌</span><span class="nav-text">Драйвери</span></a></li>
+      </ul>
+    </div>
 
-            <!-- Language Switcher -->
-            <div class="language-switcher">
-                <button id="langBG" class="lang-btn active" onclick="switchLanguage('bg', this)" aria-label="Български език">БГ</button>
-                <button id="langEN" class="lang-btn" onclick="switchLanguage('en', this)" aria-label="English language">EN</button>
-            </div>
-        </div>
-    </header>
+    <div class="nav-section">
+      <h3 class="nav-section-title">Научни ресурси</h3>
+      <ul class="nav-menu">
+        <li class="nav-item"><a href="{{ url_for('theory') }}" class="nav-link {% if request.endpoint == 'theory' %}active{% endif %}"><span class="nav-icon">📖</span><span class="nav-text">Теория</span></a></li>
+        <li class="nav-item"><a href="{{ url_for('tools') }}" class="nav-link {% if request.endpoint == 'tools' %}active{% endif %}"><span class="nav-icon">⚙️</span><span class="nav-text">Инструменти</span></a></li>
+        <li class="nav-item"><a href="{{ url_for('blog') }}" class="nav-link {% if request.endpoint == 'blog' %}active{% endif %}"><span class="nav-icon">📝</span><span class="nav-text">Блог</span></a></li>
+        <li class="nav-item"><a href="{{ url_for('contact') }}" class="nav-link {% if request.endpoint == 'contact' %}active{% endif %}"><span class="nav-icon">📧</span><span class="nav-text">Контакти</span></a></li>
+      </ul>
+    </div>
 
-    <!-- Sidebar Navigation -->
-    <nav class="sidebar-nav" id="sidebarNav" role="navigation" aria-label="Основна навигация">
-        <div class="nav-section">
-            <h3 class="nav-section-title">Основни инструменти</h3>
-            <ul class="nav-menu">
-                <li class="nav-item"><a href="{{ url_for('calculator') }}" class="nav-link {% if request.endpoint == 'calculator' %}active{% endif %}"><span class="nav-icon">📊</span><span class="nav-text">Калкулатор</span></a></li>
-                <li class="nav-item"><a href="{{ url_for('analysis') }}" class="nav-link {% if request.endpoint == 'analysis' %}active{% endif %}"><span class="nav-icon">📈</span><span class="nav-text">Анализ</span></a></li>
-            </ul>
-        </div>
+    <div class="nav-footer">
+      <div class="app-version">v2.1</div>
+      <div class="scientific-badge">Scientific Edition</div>
+      <div class="visitor-counter">
+        <span class="counter-icon">👥</span>
+        <span class="counter-label lang-bg">Посещения:</span>
+        <span class="counter-label lang-en" style="display: none;">Visits:</span>
+        <span class="counter-value" id="visitorCount">{{ visitor_count }}</span>
+      </div>
+    </div>
+  </nav>
 
-        <div class="nav-section">
-            <h3 class="nav-section-title">Разширени инструменти</h3>
-            <ul class="nav-menu">
-                <li class="nav-item"><a href="{{ url_for('advanced') }}" class="nav-link {% if request.endpoint == 'advanced' %}active{% endif %}"><span class="nav-icon">🔬</span><span class="nav-text">Разширен</span></a></li>
-                <li class="nav-item"><a href="{{ url_for('database') }}" class="nav-link {% if request.endpoint == 'database' %}active{% endif %}"><span class="nav-icon">📚</span><span class="nav-text">База данни</span></a></li>
-                <li class="nav-item"><a href="{{ url_for('drivers') }}" class="nav-link {% if request.endpoint == 'drivers' %}active{% endif %}"><span class="nav-icon">🔌</span><span class="nav-text">Драйвери</span></a></li>
-            </ul>
-        </div>
+  <!-- Main Content -->
+  <main class="main-content">
+    <div class="content-wrapper">
+      <div class="page-header">
+        <h1 class="page-title">{% block page_title %}{% endblock %}</h1>
+        <p class="page-description">{% block page_description %}{% endblock %}</p>
+      </div>
+      <div class="page-content">{% block content %}{% endblock %}</div>
+    </div>
+  </main>
 
-        <div class="nav-section">
-            <h3 class="nav-section-title">Научни ресурси</h3>
-            <ul class="nav-menu">
-                <li class="nav-item"><a href="{{ url_for('theory') }}" class="nav-link {% if request.endpoint == 'theory' %}active{% endif %}"><span class="nav-icon">📖</span><span class="nav-text">Теория</span></a></li>
-                <li class="nav-item"><a href="{{ url_for('tools') }}" class="nav-link {% if request.endpoint == 'tools' %}active{% endif %}"><span class="nav-icon">⚙️</span><span class="nav-text">Инструменти</span></a></li>
-                <li class="nav-item"><a href="{{ url_for('blog') }}" class="nav-link {% if request.endpoint == 'blog' %}active{% endif %}"><span class="nav-icon">📝</span><span class="nav-text">Блог</span></a></li>
-                <li class="nav-item"><a href="{{ url_for('contact') }}" class="nav-link {% if request.endpoint == 'contact' %}active{% endif %}"><span class="nav-icon">📧</span><span class="nav-text">Контакти</span></a></li>
-            </ul>
-        </div>
+  <!-- Footer -->
+  <footer class="app-footer">
+    <div class="footer-content">
+      <div class="footer-section">
+        <h4>За приложението</h4>
+        <p>Професионален инженерен калкулатор за анализ на Si/SiC/GaN транзистори</p>
+      </div>
+      <div class="footer-section">
+        <h4>Научни референции</h4>
+        <p>Базирано на актуални научни изследвания и производителски данни</p>
+      </div>
+      <div class="footer-section">
+        <h4>Версия</h4>
+        <p>v2.1 - Научна Версия (2025)</p>
+        <p class="copyright">© 2025 Scientific Calculator App</p>
+      </div>
+    </div>
+  </footer>
 
-        <div class="nav-footer">
-            <div class="app-version">v2.1</div>
-            <div class="scientific-badge">Scientific Edition</div>
-            <div class="visitor-counter">
-                <span class="counter-icon">👥</span>
-                <span class="counter-label lang-bg">Посещения:</span>
-                <span class="counter-label lang-en" style="display: none;">Visits:</span>
-                <span class="counter-value" id="visitorCount">{{ visitor_count }}</span>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Main Content -->
-    <main class="main-content">
-        <div class="content-wrapper">
-            <div class="page-header">
-                <h1 class="page-title">{% block page_title %}{% endblock %}</h1>
-                <p class="page-description">{% block page_description %}{% endblock %}</p>
-            </div>
-            <div class="page-content">{% block content %}{% endblock %}</div>
-        </div>
-    </main>
-
-    <!-- Footer -->
-    <footer class="app-footer">
-        <div class="footer-content">
-            <div class="footer-section">
-                <h4>За приложението</h4>
-                <p>Професионален инженерен калкулатор за анализ на Si/SiC/GaN транзистори</p>
-            </div>
-            <div class="footer-section">
-                <h4>Научни референции</h4>
-                <p>Базирано на актуални научни изследвания и производителски данни</p>
-            </div>
-            <div class="footer-section">
-                <h4>Версия</h4>
-                <p>v2.1 - Научна Версия (2025)</p>
-                <p class="copyright">© 2025 Scientific Calculator App</p>
-            </div>
-        </div>
-    </footer>
-
-    <script src="{{ url_for('static', filename='script.js') }}"></script>
+  <!-- ✅ Основен JS (с defer за по-добра скорост) -->
+  <script src="{{ url_for('static', filename='script.js') }}" defer></script>
 </body>
 </html>
