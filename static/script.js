@@ -241,6 +241,20 @@ const LANGUAGES = {
     feature5: 'Мултиезична поддръжка (Български/English)',
     responseTime: '⏱️ Обикновено отговаряме в рамките на 24-48 часа',
     
+    
+    // Blog page translations
+    blogPageTitle: 'Блог – Научни статии и инженерни анализи',
+    blogPageDescription: 'Актуални публикации за Si/SiC/GaN технологии, power electronics и инженерни решения.',
+    blogTitle: 'Научни статии и инженерни анализи',
+    blogIntro: 'Изследвания, сравнения и практически материали по теми за Si, SiC и GaN транзистори, драйвери и power electronics дизайн. Всички статии са базирани на реални експерименти и datasheet данни.',
+    visitWordPress: '🔗 Посети пълния блог в WordPress',
+    readMore: '➡ Прочети повече',
+    noPosts: 'Няма публикувани статии',
+    noPostsDesc: 'Проверете директно PowerLossCalc WordPress блога за нови публикации.',
+    aboutBlog: 'За блога',
+    aboutBlogDesc: 'PowerLossCalc Blog комбинира научни статии и инженерни анализи по теми като SiC, GaN, MOSFET и драйверни системи. Целта е да предостави на специалисти и студенти реални сравнения, аналитични методи и примери за симулации.',
+    stayUpdated: 'Абонирайте се',
+    stayUpdatedDesc: 'Следете PowerLossCalc WordPress за нови публикации и инженерни материали.',
     // Visitor counter
     visitors: 'Посещения:'
   },
@@ -472,6 +486,20 @@ const LANGUAGES = {
     feature4: 'Scientific formulas based on IEEE standards',
     feature5: 'Multilingual support (Bulgarian/English)',
     responseTime: '⏱️ We usually respond within 24-48 hours',
+    
+    // Blog page translations
+    blogPageTitle: 'Blog – Scientific Articles and Engineering Analysis',
+    blogPageDescription: 'Latest publications on Si/SiC/GaN technologies, power electronics and engineering solutions.',
+    blogTitle: 'Scientific Articles and Engineering Analysis',
+    blogIntro: 'Research, comparisons and practical materials on Si, SiC and GaN transistors, drivers and power electronics design. All articles are based on real experiments and datasheet data.',
+    visitWordPress: '🔗 Visit full blog on WordPress',
+    readMore: '➡ Read more',
+    noPosts: 'No published articles',
+    noPostsDesc: 'Check PowerLossCalc WordPress blog directly for new publications.',
+    aboutBlog: 'About the blog',
+    aboutBlogDesc: 'PowerLossCalc Blog combines scientific articles and engineering analysis on topics like SiC, GaN, MOSFET and driver systems. The goal is to provide professionals and students with real comparisons, analytical methods and simulation examples.',
+    stayUpdated: 'Subscribe',
+    stayUpdatedDesc: 'Follow PowerLossCalc WordPress for new publications and engineering materials.',
     
     // Visitor counter
     visitors: 'Visitors:'
