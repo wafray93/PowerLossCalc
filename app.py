@@ -253,12 +253,14 @@ def add_security_headers(response: Response):
     #  - нашия собствен домейн ('self')
     #  - Google Tag Manager / Analytics (gtag)
     #  - AdSense (pagead2.googlesyndication.com)
+    #  - Chart.js от cdn.jsdelivr.net
+    #  - inline scripts ('unsafe-inline' за script.js inline код)
     #  - стилове от self (и inline стилистика 'unsafe-inline' защото имаш inline <style>)
     #  - изображения от self, data:, google, ads
     response.headers['Content-Security-Policy'] = (
         "default-src 'self'; "
-        "script-src 'self' https://www.googletagmanager.com https://pagead2.googlesyndication.com; "
-        "img-src 'self' data: https://www.google.com https://pagead2.googlesyndication.com; "
+        "script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://www.googletagmanager.com https://pagead2.googlesyndication.com; "
+        "img-src 'self' data: https: http:; "
         "style-src 'self' 'unsafe-inline'; "
         "frame-src https://www.youtube.com https://pagead2.googlesyndication.com; "
         "connect-src 'self' https://www.google-analytics.com https://region1.google-analytics.com;"
