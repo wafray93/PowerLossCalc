@@ -1,84 +1,39 @@
 {% extends "base.html" %}
 
-{% block title %}Калкулатор за Si/SiC/GaN транзистори{% endblock %}
+{% block title %}Калкулатор{% endblock %}
+
 {% block canonical %}
 <link rel="canonical" href="https://powerlosscalc.onrender.com/calculator">
 {% endblock %}
 
-{% block page_title %}<span data-lang="calculatorPageTitle">Основни изчисления и избор на транзистор</span>{% endblock %}
+{% block page_title %}
+<span data-lang="calculatorPageTitle">Основни изчисления и избор на транзистор</span>
+{% endblock %}
 
-{% block page_description %}<span data-lang="calculatorPageDescription">Изчислете загуби, ефективност и изберете подходящ Si/SiC/GaN транзистор за вашето приложение.</span>{% endblock %}
+{% block page_description %}
+<span data-lang="calculatorPageDescription">
+Изчислете загуби, ефективност и изберете подходящ Si/SiC/GaN транзистор за вашето приложение.
+</span>
+{% endblock %}
 
 {% block extra_head %}
-
-<!-- ✅ SEO мета тагове -->
-<meta name="description" content="Професионален калкулатор за Si, SiC и GaN транзистори – изчислете загуби, ефективност и оптимални параметри за вашия дизайн.">
-<meta name="keywords" content="SiC, GaN, транзистори, калкулатор, power electronics, MOSFET, ефективност, загуби">
-
-<!-- ✅ Open Graph (Facebook, LinkedIn) -->
-<meta property="og:title" content="PowerLossCalc – Калкулатор за Si/SiC/GaN транзистори">
-<meta property="og:description" content="Изчислете загубите, ефективността и оптималния избор на транзистор с PowerLossCalc.">
-<meta property="og:image" content="https://powerlosscalc.onrender.com/static/preview.png">
-<meta property="og:url" content="https://powerlosscalc.onrender.com/calculator">
-<meta property="og:type" content="website">
-
-<!-- ✅ Twitter Card -->
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="PowerLossCalc – Калкулатор за Si/SiC/GaN транзистори">
-<meta name="twitter:description" content="Научен калкулатор за анализ на загуби и ефективност на Si, SiC и GaN устройства.">
-<meta name="twitter:image" content="https://powerlosscalc.onrender.com/static/preview.png">
-
-<!-- ✅ Structured Data (JSON-LD) -->
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "WebPage",
-  "name": "PowerLossCalc – Калкулатор за Si/SiC/GaN транзистори",
-  "url": "https://powerlosscalc.onrender.com/calculator",
-  "description": "Професионален калкулатор за анализ на загуби, ефективност и параметри на Si, SiC и GaN транзистори с научни анализи и инженерни инструменти.",
-  "publisher": {
-    "@type": "Organization",
-    "name": "PowerLossCalc",
-    "url": "https://powerlosscalc.onrender.com",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "https://powerlosscalc.onrender.com/static/preview.png",
-      "width": 512,
-      "height": 512
-    }
-  },
-  "creator": {
-    "@type": "Person",
-    "name": "PowerLossCalc Engineering"
-  },
-  "inLanguage": "bg",
-  "mainEntity": {
-    "@type": "SoftwareApplication",
-    "name": "Power Loss Calculator",
-    "applicationCategory": "EngineeringApplication",
-    "operatingSystem": "All",
-    "offers": {
-      "@type": "Offer",
-      "price": "0",
-      "priceCurrency": "USD"
-    }
-  }
-}
-</script>
-
-<!-- ✅ Chart.js за графики -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
-
+<!-- Chart.js за графики -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 {% endblock %}
 
 {% block content %}
 <section class="controls">
   <h2 data-lang="inputParams">Въведи параметри</h2>
+
   <div class="row">
     <label class="input-group">
       <span data-lang="technology">Технология</span>
       <span class="tooltip-icon">?</span>
-      <div class="tooltip">Изберете тип полупроводник: Si (силиций), SiC (силициев карбид), GaN (галиев нитрид).</div>
+      <div class="tooltip">
+        Изберете тип полупроводник: Si (силиций) за стандартни приложения,
+        SiC (силициев карбид) за висока ефективност и температура,
+        GaN (галиев нитрид) за високочестотни приложения.
+      </div>
       <select id="techSelect">
         <option value="Si">Si MOSFET / IGBT</option>
         <option value="SiC" selected>SiC MOSFET</option>
@@ -90,13 +45,25 @@
       <span data-lang="concreteModel">Конкретен модел</span>
       <span class="tooltip-icon">?</span>
       <div class="tooltip">
-        <strong>📊 Източник:</strong> Данни от manufacturer datasheets.<br>
-        <strong>🔧 Как да използвам:</strong> Въведете модел (например "C3M0075120K") или изберете от списъка.
+        <strong>📊 Източник на данни:</strong><br>
+        Всички параметри идват от официални manufacturer datasheets.
+        В базата данни има над 2400 реални транзистора от водещи производители
+        (Infineon, STMicroelectronics, Wolfspeed, GaN Systems, Rohm, Vishay и др.).<br><br>
+        <strong>🔧 Как да използвам:</strong><br>
+        • Въведете точния модел от datasheet (напр. "C3M0075120K")<br>
+        • Или изберете от предложените опции<br>
+        • За неразпознати модели се използват типични параметри за технологията
       </div>
+
       <div class="transistor-selection-container">
-        <input id="transistorSelect" type="text" list="transistorList" placeholder="Въведете или изберете модел..." autocomplete="off" data-lang-placeholder="selectTransistor">
-        <button type="button" id="clearTransistor" class="clear-transistor-btn" title="Изчисти избора">✕</button>
-        <datalist id="transistorList"></datalist>
+        <input id="transistorSelect" type="text" list="transistorList"
+               placeholder="Въведете или изберете модел..." autocomplete="off"
+               data-lang-placeholder="selectTransistor">
+        <button type="button" id="clearTransistor" class="clear-transistor-btn"
+                title="Изчисти избора">✕</button>
+        <datalist id="transistorList">
+          <!-- Опциите ще се попълнят динамично -->
+        </datalist>
       </div>
     </label>
   </div>
@@ -105,14 +72,20 @@
     <label class="input-group">
       <span>V<sub>DC</sub> напрежение (V)</span>
       <span class="tooltip-icon">?</span>
-      <div class="tooltip">DC напрежение на шината (Bus voltage). Трябва да е < VDS_max.</div>
+      <div class="tooltip">
+        DC напрежение на шината (Bus voltage). Това е напрежението, което транзисторът превключва.
+        Трябва да е по-малко от VDS_max на избрания транзистор.
+      </div>
       <input id="vdc" type="number" value="400">
     </label>
 
     <label class="input-group">
       <span>I<sub>load</sub> ток (A)</span>
       <span class="tooltip-icon">?</span>
-      <div class="tooltip">RMS ток през товара (ефективна стойност).</div>
+      <div class="tooltip">
+        RMS ток през товара. Това е ефективната стойност на тока, който преминава
+        през транзистора по време на проводимост.
+      </div>
       <input id="iLoad" type="number" value="30">
     </label>
   </div>
@@ -121,14 +94,22 @@
     <label class="input-group">
       <span>f<sub>sw</sub> честота (kHz)</span>
       <span class="tooltip-icon">?</span>
-      <div class="tooltip">Честота на превключване. По-високата честота увеличава загубите.</div>
+      <div class="tooltip">
+        Честота на превключване. По-високата честота намалява размера на компонентите,
+        но увеличава загубите от превключване. Типични стойности:
+        Si (10-50kHz), SiC (50-200kHz), GaN (100kHz-1MHz).
+      </div>
       <input id="fsw" type="number" value="100">
     </label>
 
     <label class="input-group">
       <span>T<sub>j</sub> температура (°C)</span>
       <span class="tooltip-icon">?</span>
-      <div class="tooltip">Температура на p-n съединението. Типично: 25–150°C.</div>
+      <div class="tooltip">
+        Температура на p-n съединението (Junction temperature).
+        Влияе на съпротивлението RDS(on). Типични стойности:
+        25°C (стайна), 100°C (работна), 150°C (максимална).
+      </div>
       <input id="temp" type="number" value="25">
     </label>
   </div>
@@ -137,7 +118,10 @@
     <label class="input-group">
       <span>Duty коефициент запълване</span>
       <span class="tooltip-icon">?</span>
-      <div class="tooltip">Отношение между времето ON и периода (0–1).</div>
+      <div class="tooltip">
+        Коефициент на запълване (Duty cycle) - отношението между времето ON и периода.
+        0.5 означава 50% от времето транзисторът е включен. Влияе на загубите от проводимост.
+      </div>
       <input id="duty" type="number" value="0.5" step="0.01" min="0.01" max="0.99">
     </label>
   </div>
@@ -161,9 +145,26 @@
       <tr><td>R<sub>DS(on)</sub></td><td id="rdsOn">—</td></tr>
       <tr><td data-lang="applications">Приложения</td><td id="application">—</td></tr>
     </table>
+    <div id="parameterSuggestions"></div>
+  </div>
+
+  <div class="educational-info">
+    <h3 data-lang="howToChoose">Как да избера подходящ транзистор?</h3>
+    <p><strong>1. Напрежение:</strong> Изберете VDS_max поне 1.5-2x по-голямо от работното напрежение за марж за безопасност.</p>
+    <p><strong>2. Ток:</strong> ID_max трябва да е по-голям от RMS тока с отчитане на термичните ограничения.</p>
+    <p><strong>3. Честота:</strong> За високи честоти избирайте SiC/GaN с малки времена за превключване.</p>
+    <p><strong>4. Ефективност:</strong> За висока ефективност търсете ниско RDS(on) и бързо превключване.</p>
   </div>
 
   <h2 data-lang="results">Резултати</h2>
+
+  <div class="data-source-info">
+    <h4>📚 <span data-lang="dataSourceTitle">Източник на формули и данни</span></h4>
+    <p><strong>🧮 Формули:</strong> Базирани на IEEE стандарти и научна литература (Mohan, Undeland & Robbins "Power Electronics")</p>
+    <p><strong>📊 Транзисторни данни:</strong> Официални manufacturer datasheets с реални параметри</p>
+    <p><strong>🌡️ Температурни модели:</strong> Стандартни модели от полупроводниковата физика</p>
+  </div>
+
   <table>
     <tr><td data-lang="conductionLosses">Conduction losses</td><td id="pCond">—</td></tr>
     <tr><td data-lang="switchingLosses">Switching losses</td><td id="pSw">—</td></tr>
@@ -173,20 +174,42 @@
 
   <canvas id="lossChart"></canvas>
   <button id="copyLossChart" class="copy-chart-btn" data-lang="copyChart">📋 Копирай графика</button>
+
+  <div class="explanation">
+    <h2 data-lang="formulasTitle">Формули и обяснение</h2>
+    <div id="explainText"></div>
+  </div>
 </section>
 
+<!-- Overlay и modal за обяснения -->
+<div class="overlay" id="overlay"></div>
+<div class="term-explanation" id="termExplanation">
+  <button class="close-btn" onclick="closeTermExplanation()">×</button>
+  <h3 id="termTitle"></h3>
+  <div id="termContent"></div>
+</div>
+
+<!-- Blog Preview Section -->
 <section class="blog-preview">
   <div class="blog-preview-header">
     <h2><span data-lang="latestArticles">Последни статии от блога</span></h2>
+    <p data-lang="blogPreviewDesc">
+      Следете новостите в Si/SiC/GaN технологията, tutorials и инженерни анализи
+    </p>
   </div>
+
   <div class="blog-preview-content">
     <div class="blog-preview-icon">
       <svg viewBox="0 0 24 24" width="64" height="64" fill="currentColor">
         <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/>
       </svg>
     </div>
+
     <div class="blog-preview-text">
-      <h3 data-lang="exploreBlog">Научни статии и практически примери</h3>
+      <h3 data-lang="exploreBlog">Научни статии, практически примери и актуални изследвания</h3>
+      <p data-lang="exploreBlogDesc">
+        Прочетете задълбочени анализи за power electronics, дизайн на преобразуватели и оптимизация на ефективността.
+      </p>
       <a href="{{ url_for('blog') }}" class="btn btn-blog">
         <span data-lang="visitBlog">Към блога →</span>
       </a>
