@@ -551,6 +551,8 @@ body.nav-open {
   padding: 40px 0 20px;
   margin-left: var(--sidebar-width);
   transition: margin-left 0.3s ease;
+  position: relative;
+  z-index: 900;
 }
 
 .footer-content {
@@ -612,6 +614,14 @@ body.nav-open {
   transform: translateY(-3px) scale(1.08);
   box-shadow: 0 5px 20px rgba(74, 144, 226, 0.4);
   background: #8a2be2;
+}
+
+.social-icon svg {
+  fill: white;
+}
+
+.social-icon svg path {
+  fill: white;
 }
 
 /* Centering adjustments for larger screens */
