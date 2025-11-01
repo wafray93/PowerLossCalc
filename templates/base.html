@@ -6,10 +6,10 @@
     
     <!-- Basic SEO Meta Tags -->
     <title>{% block title %}{% endblock %} - Si/SiC/GaN Транзистори</title>
-    <meta name="description" content="PowerLossCalc – калкулатор и анализатор за Si/SiC/GaN транзистори. Научна база данни с 2409 транзистора и 220 драйвера от водещи производители.">
+    <meta name="description" content="PowerLossCalc: анализ на Si/SiC/GaN транзистори с 2409 модела. Изчисляване на загуби и ефективност, термичен анализ, подбор на драйвери. Научна база данни за инженерни приложения.">
     <meta name="keywords" content="Si, SiC, GaN, транзистори, калкулатор, драйвери, мощност, загуби, електроника, power electronics, MOSFET, IGBT, gate driver">
     <meta name="author" content="PowerLossCalc Engineering">
-    <link rel="canonical" href="https://powerlosscalc.onrender.com/">
+    <link rel="canonical" href="https://powerlosscalc.onrender.com{{ request.path }}">
     <meta name="robots" content="index, follow">
     <meta http-equiv="content-language" content="bg">
     <meta name="google-site-verification" content="ZAzIF44ej7E-K_XKja6A8qiSNj6mejWUfO4rSDaNOqk">
@@ -29,6 +29,10 @@
     <meta name="twitter:description" content="Професионален инженерен калкулатор за анализ на Si/SiC/GaN транзистори с 2409 реални модела от производители.">
     <meta name="twitter:image" content="{{ url_for('static', filename='images/og-image.png', _external=True) }}">
     
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='favicon.ico') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='apple-touch-icon.png') }}">
+    
     <!-- Theme Color for Mobile Browsers -->
     <meta name="theme-color" content="#667eea">
     
@@ -46,24 +50,41 @@
       "@context": "https://schema.org",
       "@type": "WebApplication",
       "name": "PowerLossCalc - Si/SiC/GaN Transistor Calculator",
-      "description": "Професионален инженерен калкулатор за анализ на Si/SiC/GaN транзистори с научна база данни",
+      "alternateName": "Power Loss Calculator for Silicon Carbide and Gallium Nitride",
+      "description": "Професионален инженерен калкулатор за анализ на Si/SiC/GaN транзистори с научна база данни от 2409 транзистора и 220 драйвера с datasheet параметри. Изчисляване на загуби, ефективност и термичен анализ.",
       "url": "https://powerlosscalc.onrender.com/",
       "applicationCategory": "EngineeringApplication",
+      "applicationSubCategory": "Power Electronics",
       "operatingSystem": "Any",
+      "browserRequirements": "Requires JavaScript. Compatible with modern browsers.",
       "offers": {
         "@type": "Offer",
         "price": "0",
         "priceCurrency": "USD"
       },
+      "featureList": [
+        "2409 transistor models from official datasheets",
+        "220 gate driver database",
+        "Power loss calculation",
+        "Efficiency analysis",
+        "Thermal modeling",
+        "Driver recommendation system",
+        "Si/SiC/GaN technology comparison"
+      ],
       "author": {
         "@type": "Organization",
         "name": "PowerLossCalc Engineering",
         "url": "https://powerlosscalc.wordpress.com"
-      }
+      },
+      "keywords": "Si, SiC, GaN, transistor calculator, power electronics, MOSFET, gate driver, power loss, efficiency analysis, thermal analysis"
     }
     </script>
     
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    
+    <!-- Analytics and AdSense scripts loaded ONLY after cookie consent via JavaScript -->
+    <!-- See loadAnalytics() function at bottom of page -->
+    
     {% block extra_head %}{% endblock %}
 </head>
 <body class="scientific-app">
@@ -275,6 +296,11 @@
             <div class="footer-section">
                 <h4>Научни референции</h4>
                 <p>Базирано на актуални научни изследвания и производителски данни</p>
+            </div>
+            <div class="footer-section">
+                <h4>Правна информация</h4>
+                <p><a href="{{ url_for('privacy') }}" style="color: #4a90e2; text-decoration: none;">Privacy Policy</a></p>
+                <p><a href="{{ url_for('terms') }}" style="color: #4a90e2; text-decoration: none;">Terms of Service</a></p>
             </div>
             <div class="footer-section">
                 <h4>Версия</h4>
