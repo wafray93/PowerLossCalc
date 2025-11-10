@@ -122,7 +122,7 @@ def terms():
 # ✅ Serve static verification / SEO files
 @app.route('/ads.txt')
 def serve_ads_txt():
-    return send_from_directory('static', 'ads.txt')
+    return send_from_directory('.', 'ads.txt', mimetype='text/plain')
 
 
 @app.route('/sitemap.xml')
