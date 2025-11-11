@@ -1,14 +1,17 @@
 {% extends "base.html" %}
 
-{% block title %}Калкулатор{% endblock %}
+{% block title %}
+Калкулатор за загуби, ефективност и анализ на транзистори
+{% endblock %}
 
-{% block page_title %}<span data-lang="calculatorPageTitle">Основни изчисления и избор на транзистор</span>{% endblock %}
+{% block page_title %}
+<h1><span data-lang="calculatorPageTitle">Анализ, загуби и ефективност на транзистори</span></h1>
+{% endblock %}
 
-{% block page_description %}<span data-lang="calculatorPageDescription">Изчислете загуби, ефективност и изберете подходящ Si/SiC/GaN транзистор за вашето приложение.</span>{% endblock %}
-
-{% block extra_head %}
-<!-- Chart.js за графики -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% block page_description %}
+<span data-lang="calculatorPageDescription">
+Изчислете загуби, ефективност и изберете подходящ Si/SiC/GaN транзистор за вашето приложение.
+</span>
 {% endblock %}
 
 {% block content %}
