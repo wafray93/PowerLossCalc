@@ -41,7 +41,20 @@
     <meta name="apple-mobile-web-app-title" content="PowerLossCalc">
     
     <!-- Content Security Policy (fixed for GA4) -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https://www.googletagmanager.com; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://www.googletagmanager.com https://pagead2.googlesyndication.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https: https://www.google-analytics.com; font-src 'self' data:; connect-src 'self' https://www.google-analytics.com https://www.googletagmanager.com;">
+    <meta http-equiv="Content-Security-Policy" content="
+    default-src 'self' https://www.googletagmanager.com;
+    script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://www.googletagmanager.com https://pagead2.googlesyndication.com;
+    style-src 'self' 'unsafe-inline';
+    img-src 'self' data: https: https://www.google-analytics.com;
+    font-src 'self' data:;
+    connect-src 'self'
+        https://www.google-analytics.com
+        https://www.googletagmanager.com
+        https://region1.google-analytics.com
+        https://region2.google-analytics.com
+        https://region3.google-analytics.com
+        https://region4.google-analytics.com;
+">
     <!-- Structured Data (Schema.org JSON-LD) -->
     <script type="application/ld+json">
     {
