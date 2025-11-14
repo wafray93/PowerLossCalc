@@ -86,6 +86,16 @@
     <!-- Analytics and AdSense scripts loaded ONLY after cookie consent via JavaScript -->
     <!-- See loadAnalytics() function at bottom of page -->
     
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-NJBQPGWEVT"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-NJBQPGWEVT');
+</script>
+<!-- ★★ КРАЙ ★★ -->
+    
     {% block extra_head %}{% endblock %}
 </head>
 <body class="scientific-app">
