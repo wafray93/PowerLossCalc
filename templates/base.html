@@ -32,8 +32,6 @@
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
 
-
-    
     <!-- Theme Color for Mobile Browsers -->
     <meta name="theme-color" content="#667eea">
     
@@ -42,8 +40,8 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="PowerLossCalc">
     
-    <!-- Content Security Policy -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://www.googletagmanager.com https://pagead2.googlesyndication.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:https://www.google-analytics.com; font-src 'self' data:; connect-src 'self' https://www.google-analytics.com;;">
+    <!-- Content Security Policy (fixed for GA4) -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://www.googletagmanager.com https://pagead2.googlesyndication.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https: https://www.google-analytics.com; font-src 'self' data:; connect-src 'self' https://www.google-analytics.com;">
     
     <!-- Structured Data (Schema.org JSON-LD) -->
     <script type="application/ld+json">
@@ -83,18 +81,14 @@
     
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     
-    <!-- Analytics and AdSense scripts loaded ONLY after cookie consent via JavaScript -->
-    <!-- See loadAnalytics() function at bottom of page -->
-    
-    <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-NJBQPGWEVT"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-NJBQPGWEVT');
-</script>
-<!-- ★★ КРАЙ ★★ -->
+    <!-- Google tag (gtag.js) – GA4 always active -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-NJBQPGWEVT"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-NJBQPGWEVT');
+    </script>
     
     {% block extra_head %}{% endblock %}
 </head>
@@ -240,7 +234,7 @@
     <div class="mobile-nav-overlay" id="mobileNavOverlay" onclick="toggleMobileNav()"></div>
 
     <!-- Mobile Top Navigation -->
-   <nav class="mobile-top-nav" id="mobileTopNav">
+    <nav class="mobile-top-nav" id="mobileTopNav">
         <div class="mobile-nav-tabs">
             <a href="{{ url_for('calculator') }}" class="mobile-tab {% if request.endpoint == 'calculator' %}active{% endif %}">
                 <span class="mobile-tab-icon">📊</span>
@@ -378,7 +372,6 @@
                 body.classList.add('nav-open');
             }
         }
-
 
         // Keyboard navigation for accessibility
         document.addEventListener('keydown', function(e) {
