@@ -2,6 +2,10 @@
 <html lang="bg">
 <head>
     <meta charset="UTF-8">
+
+    <!-- Chart.js (добавено за да работи графиката) -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <!-- Basic SEO Meta Tags -->
@@ -104,6 +108,7 @@
     
     {% block extra_head %}{% endblock %}
 </head>
+
 <body class="scientific-app">
     <!-- Mobile Navigation Toggle -->
     <div class="mobile-nav-toggle" onclick="toggleMobileNav()" aria-label="Отваряне на навигация" role="button" tabindex="0">
@@ -286,7 +291,6 @@
             </a>
         </div>
     </nav>
-
     <!-- Main Content Area -->
     <main class="main-content" role="main">
         <div class="content-wrapper">
